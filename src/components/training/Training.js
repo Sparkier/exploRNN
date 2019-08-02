@@ -66,9 +66,9 @@ class Training extends React.Component {
 }
 
 Training.propTypes = {
-  prediction: PropTypes.number,
-  training: PropTypes.bool,
-  iterations: PropTypes.number
+  prediction: PropTypes.number.isRequired,
+  training: PropTypes.bool.isRequired,
+  iterations: PropTypes.number.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

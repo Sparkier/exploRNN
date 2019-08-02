@@ -16,11 +16,9 @@ class Main extends React.Component {
     return (
       <Grid container direction='row' className='mainGrid'>
         <Grid item xs className='full'>
-            <Grid item xs className='full'>
-              <Paper className='full'>
-                <Training/>
-              </Paper>
-            </Grid>
+            <Paper className='full'>
+              <Training/>
+            </Paper>
         </Grid>
         <AlertSnack />
       </Grid>
