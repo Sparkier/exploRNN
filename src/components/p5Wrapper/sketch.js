@@ -1,8 +1,16 @@
 export default function (s) {
     s.props = {}
+    
+    let mem;
 
+    s.update = function() {
+        mem.push(s.props.prediction)
+    }
+    
     s.setup = function() {
         s.createCanvas(500, 500)
+        mem = []
+        mem.push(0)
     }
 
     s.draw = function() {
@@ -17,6 +25,10 @@ export default function (s) {
             s.fill(diff * 150 + 50, (1-diff) * 150 + 50,50);
         }
         s.noStroke()
-        s.rect(200,200,100,100)
+        let size = mem.length
+        let w = s.width / size;
+        for(let i = 0; i < size; i++) {
+            s.rect(i * w, s.height - 20 * mem[i],w,20 * mem[i]);
+        }
     }
 }
