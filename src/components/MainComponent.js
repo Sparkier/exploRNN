@@ -7,6 +7,7 @@ import * as actions from '../actions'
 import { Grid, Paper } from '@material-ui/core';
 import AlertSnack from './AlertSnack';
 import Training from './training/Training';
+import Visual from './Visuals/Visual';
 
 // Main component of the Application that displays all content dependant on the Controls State
 class Main extends React.Component {
@@ -18,6 +19,7 @@ class Main extends React.Component {
         <Grid item xs className='full'>
             <Paper className='full'>
               <Training/>
+              <Visual align='center'/>
             </Paper>
         </Grid>
         <AlertSnack />
