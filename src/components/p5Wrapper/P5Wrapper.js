@@ -6,7 +6,7 @@ import sketch from "./sketch.js";
 
 import * as actions from '../../actions';
 
-class Visual extends React.Component {
+class P5Wrapper extends React.Component {
 
     componentDidMount() {
         this.sketch = new window.p5(sketch, 'p5sketch')
@@ -29,7 +29,7 @@ class Visual extends React.Component {
   }
 }
 
-Visual.propTypes = {
+P5Wrapper.propTypes = {
   prediction: PropTypes.number.isRequired,
 }
 
@@ -44,4 +44,4 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Visual);
+export default connect(mapStateToProps, mapDispatchToProps)(P5Wrapper);
