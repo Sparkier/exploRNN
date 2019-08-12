@@ -34,7 +34,7 @@ export default function (s) {
             } else {
               s.fill(diff * 150 + 50, (1-diff) * 150 + 50,50);
             }
-            s.rect(i * w, s.height - 20 * mem[i],w,20 * mem[i]);
+            s.rect(i * w, s.height - 20 * mem[i], w, 20 * mem[i]);
         }
     }
 }

@@ -17,8 +17,10 @@ class Main extends React.Component {
     return (
       <Grid container direction='row' className='mainGrid'>
         <Grid item xs className='full'>
-            <Paper className='full'>
+            <Paper className='value_paper' align='center'>
               <Training/>
+            </Paper>
+            <Paper className='visual_paper' align='center'>
               <P5Wrapper/>
             </Paper>
         </Grid>
