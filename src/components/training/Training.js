@@ -47,7 +47,7 @@ class Training extends React.Component {
         this.props.actions.updateIteration(this.props.iterations + 1);
         this.model.model.trainOnBatch(this.data.xs, this.data.ys);
       });
-      setTimeout (function() { this_.iterate(); }, 1);
+      setTimeout (function() { this_.iterate(); }, 100);
     }
   }
 
