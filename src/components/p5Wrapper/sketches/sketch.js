@@ -1,16 +1,8 @@
 export default function (s) {
     s.props = {}
     
-    let mem;
-
-    s.update = function() {
-        mem.push(s.props.prediction)
-    }
-    
     s.setup = function() {
         s.createCanvas(500, 500)
-        mem = []
-        mem.push(0)
     }
 
     s.draw = function() {
@@ -18,23 +10,20 @@ export default function (s) {
         s.stroke(54)
         s.noFill();
         s.rect(1,1,498,498)
-        let diff = 9 - s.props.prediction;
-        if(diff > 1) {
-            s.fill(200,50,50);
-        } else {
-            s.fill(diff * 150 + 50, (1-diff) * 150 + 50,50);
+        if(!s.props.prediction.length >0) {
+            return;
         }
-        s.noStroke()
-        let size = mem.length
+        let preds = s.props.prediction[0][3];
+        let size = preds.length
         let w = s.width / size;
         for(let i = 0; i < size; i++) {
-            let diff = 9 - mem[i];
+            let diff = 1 - preds[i];
             if(diff > 1) {
              s.fill(200,50,50);
             } else {
               s.fill(diff * 150 + 50, (1-diff) * 150 + 50,50);
             }
-            s.rect(i * w, s.height - 20 * mem[i], w, 20 * mem[i]);
+            s.rect(i * w, s.height - 20 * preds[i], w, 20 * preds[i]);
         }
     }
 }

@@ -15,7 +15,6 @@ class P5Wrapper extends React.Component {
 
     shouldComponentUpdate(nextProps) {
         this.sketch.props = nextProps
-        this.sketch.update();
         return false
     }
 
