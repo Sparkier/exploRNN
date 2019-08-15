@@ -31,7 +31,7 @@ class Main extends React.Component {
 }
 
 Main.propTypes = {
-  prediction: PropTypes.number
+  prediction: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

@@ -41,25 +41,17 @@ class Training extends React.Component {
   iterate() {
     var this_ = this;
     if (this.props.training) {
-      tf.tidy(() => {
-        
+      tf.tidy(() => async function() {
         this.props.actions.updateIteration(this.props.iterations + 1);
-        this.model.model.fit(this.data.training_input, this.data.training_label, {
-          epochs: 1, batchSize: 1
+        await this.model.model.fit(this.data.training_input, this.data.training_label, {
+          epochs: 100, batchSize: 3
         });
-        const prediction = this.model.model.predict(tf.tensor3d([
-          [
-          [1],
-          [2],
-          [3],
-          [4]
-          ]
-        ]));
+        const prediction = this.model.model.predict(this.data.test_input);
         const preds = prediction.arraySync()[0][3];
         console.log(preds);
-        this.props.actions.updatePrediction(prediction.dataSync()[0]);
+        this.props.actions.updatePrediction(preds);
       });
-      setTimeout (function() { this_.iterate(); }, 100);
+      setTimeout (function() { this_.iterate(); }, 2000);
     }
   }
 
@@ -78,7 +70,7 @@ class Training extends React.Component {
 }
 
 Training.propTypes = {
-  prediction: PropTypes.number.isRequired,
+  prediction: PropTypes.array.isRequired,
   training: PropTypes.bool.isRequired,
   iterations: PropTypes.number.isRequired
 }

@@ -5,7 +5,7 @@ export default {
         open: false,
         message: ''
     },
-    prediction: 0,
+    prediction: [],
     iteration: 0,
     training: false
 }

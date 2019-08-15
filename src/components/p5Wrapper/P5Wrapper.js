@@ -30,7 +30,7 @@ class P5Wrapper extends React.Component {
 }
 
 P5Wrapper.propTypes = {
-  prediction: PropTypes.number.isRequired,
+  prediction: PropTypes.array.isRequired,
 }
 
 function mapStateToProps(state, ownProps) {

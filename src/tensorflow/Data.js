@@ -5,7 +5,7 @@ export class Data {
   constructor() {
     this.xs = [];
     this.ys = [];
-    const examples = 4;
+    const examples = 6;
     const sample_size = 4;
     this.start_buff = 0;
     for(let i = 0; i < examples; i++) {
@@ -29,6 +29,16 @@ export class Data {
     this.training_label = tf.tensor3d(this.ys);
     this.training_input.print();
     this.training_label.print();
+
+    this.test_input = tf.tensor3d([
+      [
+      [1],
+      [2],
+      [3],
+      [4]
+      ]
+    ]);
+    this.test_label = tf.tensor3d([[[0,0,0,0,0,1,0,0,0,0]]]);
   }
 
 }
