@@ -44,25 +44,30 @@ class Training extends React.Component {
     this.props.actions.stopTraining();
   }
 
-  iterate() {
-    var this_ = this;
-    if (this.props.training) {
-      console.log('hello')
-      tf.tidy(async () => {
-        console.log('are')
-        this.props.actions.updateIteration(this.props.iterations + 1);
-        await this.model.model.fit(this.data.training_input, this.data.training_label, {
-          epochs: 10, batchSize: 3
-        });
-          console.log('you')
-        const prediction = this.model.model.predict(this.data.test_input);
-        const preds = prediction.arraySync()[0][3];
-        console.log(preds);
-        this.props.actions.updatePrediction(preds);        
-      });
-      console.log('there')
-      setTimeout (function() { this_.iterate(); }, 300);      
+  async iterate() {
+    const this_ = this;
+    console.log('hello');
+    if(!this.props.training) {
+      return;   
     }
+    await tf.tidy(() => {
+      console.log('are');
+      this.props.actions.updateIteration(this.props.iterations + 1);
+      this.model.model.fit(this.data.training_input, this.data.training_label, {
+        epochs: 5, batchSize: 5, callbacks: {
+          onTrainEnd: async (epoch, logs) => {
+            console.log('really');
+            const prediction = this.model.model.predict(this.data.test_input);
+            const preds = prediction.arraySync()[0][3];
+            console.log(preds);
+            this.props.actions.updatePrediction(preds);
+            console.log('there')
+            setTimeout (function() {this_.iterate()}, 100); 
+          },
+        }
+      });
+      console.log('you');
+    });
   }
 
   render() {
