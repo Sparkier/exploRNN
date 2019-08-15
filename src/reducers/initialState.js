@@ -7,5 +7,6 @@ export default {
     },
     prediction: [],
     iteration: 0,
-    training: false
+    training: false,
+    firstcall: true
 }

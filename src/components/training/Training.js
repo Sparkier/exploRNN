@@ -25,12 +25,18 @@ class Training extends React.Component {
         this.stop();
       }
     }
-    if (this.props.iterations === 0) {
-      this.reset();
-    }
+  }
+
+  reset() {
+    this.model = new Model();
+    this.model.model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
+    this.props.actions.firstcall();
   }
 
   start = () => {
+    if(this.props.firstcall) {
+      this.reset();
+    }
     this.iterate();
   }
 
@@ -41,23 +47,22 @@ class Training extends React.Component {
   iterate() {
     var this_ = this;
     if (this.props.training) {
-      tf.tidy(() => async function() {
+      console.log('hello')
+      tf.tidy(async () => {
+        console.log('are')
         this.props.actions.updateIteration(this.props.iterations + 1);
         await this.model.model.fit(this.data.training_input, this.data.training_label, {
-          epochs: 100, batchSize: 3
+          epochs: 10, batchSize: 3
         });
+          console.log('you')
         const prediction = this.model.model.predict(this.data.test_input);
         const preds = prediction.arraySync()[0][3];
         console.log(preds);
-        this.props.actions.updatePrediction(preds);
+        this.props.actions.updatePrediction(preds);        
       });
-      setTimeout (function() { this_.iterate(); }, 2000);
+      console.log('there')
+      setTimeout (function() { this_.iterate(); }, 300);      
     }
-  }
-
-  reset() {
-    // TODO: This does not reset the network. Needs to be fixed.
-    tf.disposeVariables();
   }
 
   render() {
@@ -72,14 +77,16 @@ class Training extends React.Component {
 Training.propTypes = {
   prediction: PropTypes.array.isRequired,
   training: PropTypes.bool.isRequired,
-  iterations: PropTypes.number.isRequired
+  iterations: PropTypes.number.isRequired,
+  firstcall: PropTypes.bool.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
     prediction: state.prediction,
     training: state.training,
-    iterations: state.iterations
+    iterations: state.iterations,
+    firstcall: state.firstcall
   };
 }
 

@@ -21,9 +21,18 @@ export function resetNetwork() {
     dispatch(updateIteration(0));
     dispatch(updatePrediction(0));
     dispatch(stopTraining());
+    dispatch(resetModel());
   }
 }
 
 export function stopTraining() {
   return {type: types.STOP_TRAINING} 
+}
+
+export function resetModel() {
+  return {type: types.RESET_MODEL} 
+}
+
+export function firstcall() {
+  return {type: types.FIRST_CALL}
 }

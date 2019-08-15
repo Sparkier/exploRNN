@@ -4,8 +4,8 @@ export class Model {
   constructor() {
     this.model = tf.sequential();
     const cells = [];
-    const lstm_layers = 1;
-    const cells_per_layer = 10;
+    const lstm_layers = 2;
+    const cells_per_layer = 2;
     for(let i = 0; i < lstm_layers; i++) {
       cells.push(tf.layers.lstmCell({units: cells_per_layer}));
     }
