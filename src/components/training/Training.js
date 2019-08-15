@@ -44,24 +44,22 @@ class Training extends React.Component {
       tf.tidy(() => {
         
         this.props.actions.updateIteration(this.props.iterations + 1);
-        this.model.model.fit(this.data.xs, this.data.ys, {
-          epochs: 50
-        }).then((loss) => {
-          const prediction = this.model.model.predict(tf.tensor3d([
-            [
-            [0,1,0,0,0,0,0,0,0,0],
-            [0,0,1,0,0,0,0,0,0,0],
-            [0,0,0,1,0,0,0,0,0,0],
-            [0,0,0,0,1,0,0,0,0,0]
-            ]
-          ]));
-          const preds = prediction.arraySync()[0][3];
-          console.log(preds);
-          this.props.actions.updatePrediction(prediction.dataSync()[0]);
-          this_.iterate();
+        this.model.model.fit(this.data.training_input, this.data.training_label, {
+          epochs: 1, batchSize: 1
         });
+        const prediction = this.model.model.predict(tf.tensor3d([
+          [
+          [1],
+          [2],
+          [3],
+          [4]
+          ]
+        ]));
+        const preds = prediction.arraySync()[0][3];
+        console.log(preds);
+        this.props.actions.updatePrediction(prediction.dataSync()[0]);
       });
-      //setTimeout (function() { this_.iterate(); }, 100);
+      setTimeout (function() { this_.iterate(); }, 100);
     }
   }
 

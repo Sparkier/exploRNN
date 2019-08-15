@@ -5,12 +5,12 @@ export class Model {
     this.model = tf.sequential();
     const cells = [];
     const lstm_layers = 1;
-    const cells_per_layer = 1;
+    const cells_per_layer = 10;
     for(let i = 0; i < lstm_layers; i++) {
       cells.push(tf.layers.lstmCell({units: cells_per_layer}));
     }
     const rnn = tf.layers.rnn({
-      cell: cells, returnSequences: true, inputShape: [4,10]
+      cell: cells, returnSequences: true, inputShape: [4,1]
     });
     const output = tf.layers.dense({units: 10, activation: 'softmax'});
     //this.model.add(input);
