@@ -29,8 +29,8 @@ class Training extends React.Component {
 
   reset() {
     this.model.createModel(5,10,10,1,this.props.layerSize)
-    const learningRate = 0.01;
-    const optimizer = tf.train.rmsprop(learningRate);
+    console.log(this.props.learningRate)
+    const optimizer = tf.train.rmsprop(this.props.learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
     this.props.actions.firstcall();
   }
@@ -83,7 +83,8 @@ Training.propTypes = {
   training: PropTypes.bool.isRequired,
   iteration: PropTypes.number.isRequired,
   firstcall: PropTypes.bool.isRequired,
-  layerSize: PropTypes.number.isRequired
+  layerSize: PropTypes.number.isRequired,
+  learningRate: PropTypes.number.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
@@ -92,7 +93,8 @@ function mapStateToProps(state, ownProps) {
     training: state.training,
     iteration: state.iteration,
     firstcall: state.firstcall,
-    layerSize: state.layerSize
+    layerSize: state.layerSize,
+    learningRate: state.learningRate
   };
 }
 

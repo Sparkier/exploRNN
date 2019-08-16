@@ -6,6 +6,7 @@ import prediction from './PredictionReducer';
 import training from './TrainingReducer';
 import firstcall from './FirstcallReducer';
 import layerSize from './LayerSizeReducer';
+import learningRate from './LearningRateReducer'
 
 // Combine all Reducers
 export default combineReducers({
@@ -14,5 +15,6 @@ export default combineReducers({
     prediction,
     training,
     firstcall,
-    layerSize
+    layerSize,
+    learningRate
 })

@@ -2,6 +2,8 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+import Slider from '@material-ui/core/Slider';
+import { Typography } from '@material-ui/core';
 
 import * as actions from '../../actions';
 
@@ -15,8 +17,13 @@ class Input extends React.Component {
         //this.props.actions.updateLayerSize(event.target.value);
     }
 
+    handleSliderChange = (event, value) => {
+        this.props.actions.updateLearningRate(value);
+    }
+
     render() {
         return (
+        <div>
         <form onSubmit={this.handleSubmit}>
             <label>
             Size of hidden layer
@@ -28,23 +35,34 @@ class Input extends React.Component {
             </select>
             </label>
         </form>
+        <Typography>
+            Learning Rate:
+        </Typography>
+        <Slider defaultValue={this.props.learningRate}
+        aria-labelledby="discrete-slider"
+        valueLabelDisplay="auto"
+        step={0.01}
+        marks
+        min={0.01}
+        max={0.5} onChange={this.handleSliderChange}
+      />
+        </div>
+
         );
     }
 }
 
 // Controls state of the Application
 Input.propTypes = {
-    training: PropTypes.bool,
-    iteration: PropTypes.number,
-    layerSize: PropTypes.number
+    layerSize: PropTypes.number,
+    learningRate: PropTypes.number
   };
   
   // Mapping the Controls state to the Props of this Class
   function mapStateToProps(state, ownProps) {
     return {
-      training: state.training,
-      iteration: state.iteration,
-      layerSize: state.layerSize
+      layerSize: state.layerSize,
+      learningRate: state.learningRate
     };
   }
   

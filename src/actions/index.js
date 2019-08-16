@@ -16,6 +16,10 @@ export function updateLayerSize(layerSize) {
   return {type: types.UPDATE_LAYER_SIZE, layerSize}
 }
 
+export function updateLearningRate(learningRate) {
+  return {type: types.UPDATE_LEARNING_RATE, learningRate}
+}
+
 export function toggleTraining() {
   return {type: types.TOGGLE_TRAINING}
 }
@@ -23,7 +27,7 @@ export function toggleTraining() {
 export function resetNetwork() {
   return function(dispatch) {
     dispatch(updateIteration(0));
-    dispatch(updatePrediction(0));
+    dispatch(updatePrediction([]));
     dispatch(stopTraining());
     dispatch(resetModel());
   }

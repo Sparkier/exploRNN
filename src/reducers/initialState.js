@@ -9,5 +9,6 @@ export default {
     iteration: 0,
     layerSize: 1,
     training: false,
-    firstcall: true
+    firstcall: true,
+    learningRate: 0.1
 }
