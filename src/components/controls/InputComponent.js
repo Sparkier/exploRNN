@@ -21,33 +21,38 @@ class Input extends React.Component {
         this.props.actions.updateLearningRate(value);
     }
 
+    simplePaddingStyle = {
+        paddingTop: "20px",
+    };
+
     render() {
         return (
-        <div>
-        <form onSubmit={this.handleSubmit}>
-            <label>
-            Size of hidden layer
-            <select value={this.props.layerSize} onChange={this.handleChange}>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-            </select>
-            </label>
-        </form>
-        <Typography>
-            Learning Rate:
-        </Typography>
-        <Slider defaultValue={this.props.learningRate}
-        aria-labelledby="discrete-slider"
-        valueLabelDisplay="auto"
-        step={0.01}
-        marks
-        min={0.01}
-        max={0.5} onChange={this.handleSliderChange}
-      />
-        </div>
-
+            <div>
+                <form onSubmit={this.handleSubmit}  style={this.simplePaddingStyle}>
+                    <label>
+                    Size of hidden layer
+                    <select value={this.props.layerSize} onChange={this.handleChange}>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                    </select>
+                    </label>
+                </form>
+                <Typography  style={this.simplePaddingStyle}>
+                    Learning Rate:
+                </Typography>
+                <Slider
+                    style={this.simplePaddingStyle}
+                    defaultValue={this.props.learningRate}
+                    aria-labelledby="discrete-slider"
+                    valueLabelDisplay="auto"
+                    step={0.01}
+                    marks
+                    min={0.01}
+                    max={0.5} onChange={this.handleSliderChange}
+                />
+            </div>
         );
     }
 }

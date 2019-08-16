@@ -13,16 +13,24 @@ import Input from '../components/controls/InputComponent'
 // Main component of the Application that displays all content dependant on the Controls State
 class Main extends React.Component {
 
+
+  simplePaddingStyle = {
+    paddingLeft: "50px",
+    paddingRight: "50px",
+  };
+  paddingTopStyle = {
+    paddingTop: "20px",
+  };
   // Render the Main Content and call other Elements
   render() {
     return (
-      <Grid container direction='row' className='mainGrid'>
+      <Grid container direction='row' className='mainGrid' style={this.simplePaddingStyle}>
         <Grid item xs className='full'>
             <Input/>
-            <Paper className='value_paper' align='center'>
+            <Paper className='value_paper' align='center' style={this.paddingTopStyle}>
               <Training/>
             </Paper>
-            <Paper className='visual_paper' align='center'>
+            <Paper className='visual_paper' align='center' style={this.paddingTopStyle}>
               <P5Wrapper/>
             </Paper>
         </Grid>
