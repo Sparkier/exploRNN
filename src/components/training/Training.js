@@ -72,7 +72,7 @@ class Training extends React.Component {
   render() {
     return(
       <Typography align='center'>
-        What comes next in the integer series 1,2,3,4,5,... ?
+        What is the next value in this integer sequence: 1,2,3,4,5,... ?
       </Typography>
     );
   }
