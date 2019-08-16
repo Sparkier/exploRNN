@@ -35,6 +35,9 @@ export default function (s) {
         s.rect(ind * w, s.height - w, w,w)
     }
 
+    /**
+     * Get the index of the highest labelled prediction value
+     */
     s.getMax = function() {
         let preds = new Array(10);
         preds.fill(0.1)

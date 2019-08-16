@@ -28,7 +28,7 @@ class Training extends React.Component {
   }
 
   reset() {
-    this.model.createModel(5,10,10,1,this.props.layerSize)
+    this.model.createComplexModel(5,10,10,1,this.props.layerSize)
     console.log(this.props.learningRate)
     const optimizer = tf.train.rmsprop(this.props.learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
@@ -57,7 +57,7 @@ class Training extends React.Component {
         epochs: 1, 
         batchSize: 10,
         callbacks: {
-          onTrainEnd: async (epoch, logs) => {
+          onTrainEnd: (epoch, logs) => {
             const prediction = this.model.model.predict(this.data.test_input);
             const preds = Array.from(prediction.arraySync());
             console.log('current prediction:', preds)

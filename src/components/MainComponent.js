@@ -14,23 +14,24 @@ import Input from '../components/controls/InputComponent'
 class Main extends React.Component {
 
 
-  simplePaddingStyle = {
+  paddingHorizontalStyle = {
     paddingLeft: "50px",
     paddingRight: "50px",
   };
-  paddingTopStyle = {
+  paddingVerticalStyle = {
     paddingTop: "20px",
+    paddingBottom: "20px",
   };
   // Render the Main Content and call other Elements
   render() {
     return (
-      <Grid container direction='row' className='mainGrid' style={this.simplePaddingStyle}>
+      <Grid container direction='row' className='mainGrid' style={this.paddingHorizontalStyle}>
         <Grid item xs className='full'>
             <Input/>
-            <Paper className='value_paper' align='center' style={this.paddingTopStyle}>
+            <Paper className='value_paper' align='center' style={this.paddingVerticalStyle}>
               <Training/>
             </Paper>
-            <Paper className='visual_paper' align='center' style={this.paddingTopStyle}>
+            <Paper className='visual_paper' align='center' style={this.paddingVerticalStyle}>
               <P5Wrapper/>
             </Paper>
         </Grid>

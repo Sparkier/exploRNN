@@ -7,14 +7,13 @@ import { Typography } from '@material-ui/core';
 
 import * as actions from '../../actions';
 
+/**
+ * The current Component holding all the input elements to change the Network for Training
+ */
 class Input extends React.Component {
 
-    handleChange = (event) => {
+    handleSelectionChange = (event) => {
         this.props.actions.updateLayerSize(Number(event.target.value));
-    }
-
-    handleSubmit = (event) => {
-        //this.props.actions.updateLayerSize(event.target.value);
     }
 
     handleSliderChange = (event, value) => {
@@ -23,6 +22,7 @@ class Input extends React.Component {
 
     simplePaddingStyle = {
         paddingTop: "20px",
+        paddingBottom: "20px",
     };
 
     render() {
@@ -31,7 +31,7 @@ class Input extends React.Component {
                 <form onSubmit={this.handleSubmit}  style={this.simplePaddingStyle}>
                     <label>
                     Size of hidden layer
-                    <select value={this.props.layerSize} onChange={this.handleChange}>
+                    <select  value={this.props.layerSize} onChange={this.handleSelectionChange}>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="5">5</option>
@@ -39,16 +39,14 @@ class Input extends React.Component {
                     </select>
                     </label>
                 </form>
-                <Typography  style={this.simplePaddingStyle}>
+                <Typography variant="body1" style={this.simplePaddingStyle}>
                     Learning Rate:
                 </Typography>
                 <Slider
                     style={this.simplePaddingStyle}
                     defaultValue={this.props.learningRate}
-                    aria-labelledby="discrete-slider"
                     valueLabelDisplay="auto"
                     step={0.01}
-                    marks
                     min={0.01}
                     max={0.5} onChange={this.handleSliderChange}
                 />
