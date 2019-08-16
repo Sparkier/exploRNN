@@ -6,3 +6,4 @@ export const TOGGLE_TRAINING = 'TOGGLE_TRAINING';
 export const STOP_TRAINING = 'STOP_TRAINING';
 export const RESET_MODEL = 'RESET_MODEL';
 export const FIRST_CALL = 'FIRST_CALL';
+export const UPDATE_LAYER_SIZE = 'UPDATE_LAYER_SIZE';

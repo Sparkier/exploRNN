@@ -8,6 +8,7 @@ import { Grid, Paper } from '@material-ui/core';
 import AlertSnack from './AlertSnack';
 import Training from './training/Training';
 import P5Wrapper from './p5Wrapper/P5Wrapper';
+import Input from '../components/controls/InputComponent'
 
 // Main component of the Application that displays all content dependant on the Controls State
 class Main extends React.Component {
@@ -17,6 +18,7 @@ class Main extends React.Component {
     return (
       <Grid container direction='row' className='mainGrid'>
         <Grid item xs className='full'>
+            <Input/>
             <Paper className='value_paper' align='center'>
               <Training/>
             </Paper>

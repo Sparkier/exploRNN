@@ -28,7 +28,7 @@ class Training extends React.Component {
   }
 
   reset() {
-    this.model.createModel(5,10,10,1,5)
+    this.model.createModel(5,10,10,1,this.props.layerSize)
     const learningRate = 0.01;
     const optimizer = tf.train.rmsprop(learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
@@ -46,15 +46,17 @@ class Training extends React.Component {
     this.props.actions.stopTraining();
   }
 
-  async iterate() {
+  iterate() {
     const this_ = this;
     if(!this.props.training) {
       return;   
     }
-    await tf.tidy(() => {
+    tf.tidy(() => {
       this.props.actions.updateIteration(this.props.iteration + 1);
       this.model.model.fit(this.data.training_input, this.data.training_label, {
-        epochs: 1, batchSize: 10, callbacks: {
+        epochs: 1, 
+        batchSize: 10,
+        callbacks: {
           onTrainEnd: async (epoch, logs) => {
             const prediction = this.model.model.predict(this.data.test_input);
             const preds = Array.from(prediction.arraySync());
@@ -80,7 +82,8 @@ Training.propTypes = {
   prediction: PropTypes.array.isRequired,
   training: PropTypes.bool.isRequired,
   iteration: PropTypes.number.isRequired,
-  firstcall: PropTypes.bool.isRequired
+  firstcall: PropTypes.bool.isRequired,
+  layerSize: PropTypes.number.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
@@ -88,7 +91,8 @@ function mapStateToProps(state, ownProps) {
     prediction: state.prediction,
     training: state.training,
     iteration: state.iteration,
-    firstcall: state.firstcall
+    firstcall: state.firstcall,
+    layerSize: state.layerSize
   };
 }
 

@@ -12,6 +12,10 @@ export function updateIteration(iteration) {
   return {type: types.UPDATE_ITERATION, iteration}
 }
 
+export function updateLayerSize(layerSize) {
+  return {type: types.UPDATE_LAYER_SIZE, layerSize}
+}
+
 export function toggleTraining() {
   return {type: types.TOGGLE_TRAINING}
 }
