@@ -5,7 +5,7 @@ export class Data {
   constructor() {
     this.xs = [];
     this.ys = [];
-    const examples = 20;
+    const examples = 100;
     const sample_size = 5;
     this.start_buff = 0;
     this.labels = 10;

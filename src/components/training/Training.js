@@ -13,8 +13,8 @@ class Training extends React.Component {
 
   componentDidMount() {
     this.model = new Model();
-    this.model.model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
     this.data = new Data();
+    this.reset();
   }
 
   componentDidUpdate(prevProps) {
@@ -28,8 +28,7 @@ class Training extends React.Component {
   }
 
   reset() {
-    this.model = new Model();
-    // Compile model to prepare for training.
+    this.model.createModel(5,10,10,1,5)
     const learningRate = 0.01;
     const optimizer = tf.train.rmsprop(learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
@@ -49,33 +48,29 @@ class Training extends React.Component {
 
   async iterate() {
     const this_ = this;
-    console.log('hello');
     if(!this.props.training) {
       return;   
     }
     await tf.tidy(() => {
-      console.log('are');
-      this.props.actions.updateIteration(this.props.iterations + 1);
+      this.props.actions.updateIteration(this.props.iteration + 1);
       this.model.model.fit(this.data.training_input, this.data.training_label, {
-        epochs: 5, batchSize: 5, callbacks: {
+        epochs: 1, batchSize: 10, callbacks: {
           onTrainEnd: async (epoch, logs) => {
-            console.log('really');
             const prediction = this.model.model.predict(this.data.test_input);
             const preds = Array.from(prediction.arraySync());
+            console.log('current prediction:', preds)
             this.props.actions.updatePrediction(preds[0]);
-            console.log('there')
             setTimeout (function() {this_.iterate()}, 50); 
           },
         }
       });
-      console.log('you');
     });
   }
 
   render() {
     return(
       <Typography align='center'>
-        {this.props.prediction}
+        What comes next in the integer series 1,2,3,4,5,... ?
       </Typography>
     );
   }
@@ -84,7 +79,7 @@ class Training extends React.Component {
 Training.propTypes = {
   prediction: PropTypes.array.isRequired,
   training: PropTypes.bool.isRequired,
-  iterations: PropTypes.number.isRequired,
+  iteration: PropTypes.number.isRequired,
   firstcall: PropTypes.bool.isRequired
 }
 
@@ -92,7 +87,7 @@ function mapStateToProps(state, ownProps) {
   return {
     prediction: state.prediction,
     training: state.training,
-    iterations: state.iterations,
+    iteration: state.iteration,
     firstcall: state.firstcall
   };
 }
