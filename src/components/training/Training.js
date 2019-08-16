@@ -29,7 +29,10 @@ class Training extends React.Component {
 
   reset() {
     this.model = new Model();
-    this.model.model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
+    // Compile model to prepare for training.
+    const learningRate = 0.01;
+    const optimizer = tf.train.rmsprop(learningRate);
+    this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
     this.props.actions.firstcall();
   }
 
@@ -58,11 +61,10 @@ class Training extends React.Component {
           onTrainEnd: async (epoch, logs) => {
             console.log('really');
             const prediction = this.model.model.predict(this.data.test_input);
-            const preds = prediction.arraySync()[0][3];
-            console.log(preds);
-            this.props.actions.updatePrediction(preds);
+            const preds = Array.from(prediction.arraySync());
+            this.props.actions.updatePrediction(preds[0]);
             console.log('there')
-            setTimeout (function() {this_.iterate()}, 100); 
+            setTimeout (function() {this_.iterate()}, 50); 
           },
         }
       });

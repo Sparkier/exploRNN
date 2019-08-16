@@ -20,7 +20,7 @@ export default function (s) {
         let diff = 0;
         s.noStroke();
         for(let i = 0; i < size; i++) {
-            diff = i === 5 ? 1 - preds[i] : preds[i];
+            diff = i === 6 ? 1 - preds[i] : preds[i];
             s.fill(diff*150+100,250-150*diff,100);
             s.rect(i * w, s.height - 500 * preds[i], w, 500 * preds[i]);
         }
