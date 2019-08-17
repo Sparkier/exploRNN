@@ -1,5 +1,4 @@
 import * as tf from '@tensorflow/tfjs';
-
 export class Data {
 
   /**
@@ -59,6 +58,39 @@ export class Data {
       ]
     ]);
     this.test_label = tf.tensor2d([[0,0,0,0,0,0,1,0,0,0]]);
+    this.createSinData(4, 0.1, 30);
   }
+
+  createSinData(plotLength, stepSize, setSize) {
+    this.sinInputBuff = [];
+    this.sinOutputBuff = [];
+    this.values = plotLength / stepSize;
+    this.stepSize = stepSize;
+    for(let i = 0; i < setSize; i++) {
+      const currentSequence = [];
+      const startX = Math.random() * 2 * Math.PI;
+      for(let j = 0; j < this.values; j++) {
+        currentSequence.push([Math.sin(startX + j * stepSize)]);
+      }
+      this.sinInputBuff.push(currentSequence);
+      this.sinOutputBuff.push([Math.sin(startX + this.values * stepSize)])
+    }
+
+    this.train_sin_input = tf.tensor3d(this.sinInputBuff);
+    this.train_sin_next = tf.tensor2d(this.sinOutputBuff);
+    this.train_sin_input.print();
+    this.train_sin_next.print();
+    
+  }
+
+  getSampleFromTestData(start) {
+    const test_input_sequences = [];
+    for(let j = 0; j < this.values; j++) {
+      test_input_sequences.push([Math.sin((start + j) * this.stepSize)]);
+    }
+    this.test_sin_input = test_input_sequences;
+    this.current_test_sin = tf.tensor3d([this.test_sin_input]);
+  }
+
 
 }

@@ -28,7 +28,7 @@ class Training extends React.Component {
   }
 
   reset() {
-    this.model.createComplexModel(5,10,10,1,this.props.layerSize)
+    this.model.createComplexModel(40,1,1,1,this.props.layerSize)
     console.log(this.props.learningRate)
     const optimizer = tf.train.rmsprop(this.props.learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
@@ -52,17 +52,20 @@ class Training extends React.Component {
       return;   
     }
     tf.tidy(() => {
-      this.props.actions.updateIteration(this.props.iteration + 1);
-      this.model.model.fit(this.data.training_input, this.data.training_label, {
+      this.model.model.fit(this.data.train_sin_input, this.data.train_sin_next, {
         epochs: 1, 
-        batchSize: 10,
+        batchSize: 1,
         callbacks: {
-          onTrainEnd: (epoch, logs) => {
-            const prediction = this.model.model.predict(this.data.test_input);
+          onBatchEnd: () => {
+            this.props.actions.updateIteration(this.props.iteration + 1);
+            this.data.getSampleFromTestData(this.props.iteration);
+            const prediction = this.model.model.predict(this.data.current_test_sin);
             const preds = Array.from(prediction.arraySync());
             console.log('current prediction:', preds)
             this.props.actions.updatePrediction(preds[0]);
-            setTimeout (function() {this_.iterate()}, 50); 
+          },
+          onTrainEnd: (epoch, logs) => {
+            setTimeout (function() {this_.iterate()}, 100); 
           },
         }
       });
@@ -72,7 +75,7 @@ class Training extends React.Component {
   render() {
     return(
       <Typography align='center'>
-        What is the next value in this integer sequence: 1,2,3,4,5,... ?
+        Watch a Neural Network learn how to draw a sin(x) plot:
       </Typography>
     );
   }

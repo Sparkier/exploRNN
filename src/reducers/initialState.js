@@ -7,8 +7,8 @@ export default {
     },
     prediction: [],
     iteration: 0,
-    layerSize: 1,
+    layerSize: 2,
     training: false,
     firstcall: true,
-    learningRate: 0.1
+    learningRate: 0.15
 }

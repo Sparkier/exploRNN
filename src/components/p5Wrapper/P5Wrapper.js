@@ -2,19 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import sketch from "./sketches/sketch.js";
+import sketch from "./sketches/sinFuncSketch";
 
 import * as actions from '../../actions';
 
 class P5Wrapper extends React.Component {
 
+     updateValues = true;
+
     componentDidMount() {
+        // this.sketch = new window.p5(sketch, 'p5sketch')
         this.sketch = new window.p5(sketch, 'p5sketch')
         this.sketch.props = this.props
     }
 
     shouldComponentUpdate(nextProps) {
         this.sketch.props = nextProps
+        if(this.props.prediction !== nextProps.prediction)
+          this.sketch.updateMemory();
         return false
     }
 
@@ -31,11 +36,13 @@ class P5Wrapper extends React.Component {
 
 P5Wrapper.propTypes = {
   prediction: PropTypes.array.isRequired,
+  iteration: PropTypes.number.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
     prediction: state.prediction,
+    iteration: state.iteration
   };
 }
 

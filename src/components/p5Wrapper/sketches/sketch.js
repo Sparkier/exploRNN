@@ -2,7 +2,8 @@
 export default function (s) {
     s.props = {}
     s.preds = []
-        
+
+   
     s.setup = function() {
         s.createCanvas(500, 500)
     }
@@ -52,4 +53,6 @@ export default function (s) {
         }
         return max_ind;
     }
+
+    
 }
