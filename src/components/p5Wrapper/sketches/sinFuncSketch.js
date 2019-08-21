@@ -6,7 +6,7 @@ export default function (s) {
     s.sin = [];
     s.err = [];
 
-    s.values = 40; // Only temporary, use props instead
+    s.values = 20; // Only temporary, use props instead
     s.marginRight = 100; 
     s.stepWidth = 2;   
     s.waveHeight = 100;

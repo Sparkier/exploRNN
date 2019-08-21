@@ -58,7 +58,7 @@ export class Data {
       ]
     ]);
     this.test_label = tf.tensor2d([[0,0,0,0,0,0,1,0,0,0]]);
-    this.createSinData(4, 0.1, 30);
+    this.createSinData(2, 0.1, 60);
   }
 
   createSinData(plotLength, stepSize, setSize) {

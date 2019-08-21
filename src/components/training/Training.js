@@ -28,7 +28,7 @@ class Training extends React.Component {
   }
 
   reset() {
-    this.model.createComplexModel(40,1,1,1,this.props.layerSize)
+    this.model.createComplexModel(20,1,1,1,this.props.layerSize)
     console.log(this.props.learningRate)
     const optimizer = tf.train.rmsprop(this.props.learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
@@ -54,7 +54,7 @@ class Training extends React.Component {
     tf.tidy(() => {
       this.model.model.fit(this.data.train_sin_input, this.data.train_sin_next, {
         epochs: 1, 
-        batchSize: 1,
+        batchSize: 3,
         callbacks: {
           onBatchEnd: () => {
             this.props.actions.updateIteration(this.props.iteration + 1);
