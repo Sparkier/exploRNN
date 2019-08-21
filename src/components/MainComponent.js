@@ -7,7 +7,7 @@ import * as actions from '../actions'
 import { Grid, Paper } from '@material-ui/core';
 import AlertSnack from './AlertSnack';
 import Training from './training/Training';
-import P5Wrapper from './p5Wrapper/P5Wrapper';
+import MainChart from './charts/MainChart';
 import Input from '../components/controls/InputComponent'
 
 // Main component of the Application that displays all content dependant on the Controls State
@@ -32,7 +32,7 @@ class Main extends React.Component {
               <Training/>
             </Paper>
             <Paper className='visual_paper' align='center' style={this.paddingVerticalStyle}>
-              <P5Wrapper/>
+              <MainChart/>
             </Paper>
         </Grid>
         <AlertSnack />
