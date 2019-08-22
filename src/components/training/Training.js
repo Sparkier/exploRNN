@@ -46,7 +46,7 @@ class Training extends React.Component {
     this.props.actions.stopTraining();
   }
 
-  iterate() {
+  async iterate() {
     const this_ = this;
     if(!this.props.training) {
       return;   

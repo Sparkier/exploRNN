@@ -33,9 +33,10 @@ class Controls extends React.Component {
           <div className='wrapper'>
             <div className='menu'>
               <ToggleButton name="Training" state={this.props.training} action={this.toggleTraining}/>
+              <div className='noselect menuitem' onClick={this.resetButtonPressed}>Reset</div>
             </div>
             <div>
-              <IconButton color='inherit' aria-label='Download' onClick={this.resetButtonPressed}>
+              <IconButton color='inherit' aria-label='Download' >
                 <GetApp/>
               </IconButton>
             </div>

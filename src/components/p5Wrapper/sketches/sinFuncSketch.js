@@ -28,7 +28,7 @@ export default function (s) {
     }
         
     s.setup = function() {
-        s.createCanvas(1000, 500)
+        s.createCanvas(600, 400)
     }
 
     s.draw = function() {
@@ -77,7 +77,7 @@ export default function (s) {
         s.strokeWeight(1);
         s.beginShape();
         for(let i = data.length - 1, j = 0; i >= 0; i--, j++) {
-            s.vertex(s.width - s.marginRight - j++*s.stepWidth, s.height / 2 + s.waveHeight * data[i]);
+            s.vertex(s.width - s.marginRight - j++*s.stepWidth, s.height / 2 - s.waveHeight * data[i]);
             if(j > (s.width - s.marginRight / s.stepWidth)) {
                 break;
             }
@@ -97,6 +97,6 @@ export default function (s) {
                 s.fill(0);
         }
         s.noStroke();
-        s.ellipse(s.width - s.marginRight, s.height / 2 + s.waveHeight * data[data.length - 1],5);
+        s.ellipse(s.width - s.marginRight, s.height / 2 - s.waveHeight * data[data.length - 1],5);
     }
 }
