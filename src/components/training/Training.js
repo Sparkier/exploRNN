@@ -28,9 +28,9 @@ class Training extends React.Component {
   }
 
   reset() {
-    this.model.createComplexModel(20,1,1,1,this.props.layerSize)
-    console.log(this.props.learningRate)
-    const optimizer = tf.train.rmsprop(this.props.learningRate);
+    this.model.createComplexModel(20,1,1,1,this.props.network.layerSize)
+    console.log(this.props.network.learningRate)
+    const optimizer = tf.train.rmsprop(this.props.network.learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
     this.props.actions.firstcall();
   }
@@ -57,12 +57,12 @@ class Training extends React.Component {
         batchSize: 3,
         callbacks: {
           onBatchEnd: () => {
-            this.props.actions.updateIteration(this.props.iteration + 1);
-            this.data.getSampleFromTestData(this.props.iteration);
+            this.props.actions.updateNetwork({...this.props.network, iteration: this.props.network.iteration + 1});
+            this.data.getSampleFromTestData(this.props.network.iteration);
             const prediction = this.model.model.predict(this.data.current_test_sin);
             const preds = Array.from(prediction.arraySync());
             console.log('current prediction:', preds)
-            this.props.actions.updatePrediction(preds[0]);
+            this.props.actions.updateNetwork({...this.props.network, prediction: preds[0]});
           },
           onTrainEnd: (epoch, logs) => {
             setTimeout (function() {this_.iterate()}, 100); 
@@ -82,22 +82,16 @@ class Training extends React.Component {
 }
 
 Training.propTypes = {
-  prediction: PropTypes.array.isRequired,
+  network: PropTypes.object.isRequired,
   training: PropTypes.bool.isRequired,
-  iteration: PropTypes.number.isRequired,
-  firstcall: PropTypes.bool.isRequired,
-  layerSize: PropTypes.number.isRequired,
-  learningRate: PropTypes.number.isRequired
+  firstcall: PropTypes.bool.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    prediction: state.prediction,
+    network: state.network,
     training: state.training,
-    iteration: state.iteration,
-    firstcall: state.firstcall,
-    layerSize: state.layerSize,
-    learningRate: state.learningRate
+    firstcall: state.firstcall
   };
 }
 

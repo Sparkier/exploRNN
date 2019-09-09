@@ -54,12 +54,12 @@ class Main extends React.Component {
 }
 
 Main.propTypes = {
-  prediction: PropTypes.array.isRequired
+  network: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    prediction: state.prediction
+    network: state.network
   };
 }
 

@@ -5,10 +5,12 @@ export default {
         open: false,
         message: ''
     },
-    prediction: [],
-    iteration: 0,
-    layerSize: 2,
+    network: {
+        prediction: [],
+        layerSize: 2,
+        learningRate: 0.15,
+        iteration: 0
+    },
     training: false,
     firstcall: true,
-    learningRate: 0.15
 }

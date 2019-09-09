@@ -32,8 +32,8 @@ class MainChart extends React.Component {
       , width = this.chartWidth - margin.left - margin.right // Use the window's width 
       , height = this.chartHeight - margin.top - margin.bottom; // Use the window's height
 
-      var xmin = -(this.memorySize * 0.1) + ((this.props.iteration + this.timeSteps) * 0.1)
-      var xmax = ((this.props.iteration + this.timeSteps)* 0.1)
+      var xmin = -(this.memorySize * 0.1) + ((this.props.network.iteration + this.timeSteps) * 0.1)
+      var xmax = ((this.props.network.iteration + this.timeSteps)* 0.1)
 
       // 5. X scale will use the index of our data
       var xScale = d3.scaleLinear()
@@ -67,16 +67,16 @@ class MainChart extends React.Component {
 
       
   updateMemory = () => {
-    if(this.props.iteration === 1) {
+    if(this.props.network.iteration === 1) {
       this.mem = [];
       this.err = [];
       this.sin = [];
     }
-    this.xVal = (this.props.iteration + this.timeSteps) * 0.1;
+    this.xVal = (this.props.network.iteration + this.timeSteps) * 0.1;
     this.mem.push(
       {
         "x": this.xVal,
-        "y": this.props.prediction[0] ? this.props.prediction[0] : 0
+        "y": this.props.network.prediction[0] ? this.props.network.prediction[0] : 0
       }
     );
     this.sin.push(
@@ -87,7 +87,7 @@ class MainChart extends React.Component {
     this.err.push( 
       {
         "x": this.xVal,
-        "y": this.props.prediction[0] ? (this.props.prediction[0] - Math.sin(this.xVal)) : 0
+        "y": this.props.network.prediction[0] ? (this.props.network.prediction[0] - Math.sin(this.xVal)) : 0
       }
     );
     if(this.mem.length > this.memorySize) {
@@ -108,8 +108,8 @@ class MainChart extends React.Component {
     , width = this.chartWidth - margin.left - margin.right // Use the window's width 
     , height = this.chartHeight - margin.top - margin.bottom; // Use the window's height
 
-    var xmin = -(this.memorySize * 0.1) + ((this.props.iteration + this.timeSteps) * 0.1)
-    var xmax = ((this.props.iteration + this.timeSteps)* 0.1)
+    var xmin = -(this.memorySize * 0.1) + ((this.props.network.iteration + this.timeSteps) * 0.1)
+    var xmax = ((this.props.network.iteration + this.timeSteps)* 0.1)
 
     // 5. X scale will use the index of our data
     var xScale = d3.scaleLinear()
@@ -184,7 +184,7 @@ class MainChart extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-      if(this.props.prediction !== nextProps.prediction){
+      if(this.props.network.prediction !== nextProps.network.prediction){
         this.updateMemory();
         this.updateChart();
       }
@@ -202,14 +202,12 @@ class MainChart extends React.Component {
 }
 
 MainChart.propTypes = {
-  prediction: PropTypes.array.isRequired,
-  iteration: PropTypes.number.isRequired
+  network: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    prediction: state.prediction,
-    iteration: state.iteration
+    network: state.network
   };
 }
 

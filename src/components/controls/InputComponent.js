@@ -13,11 +13,11 @@ import * as actions from '../../actions';
 class Input extends React.Component {
 
     handleSelectionChange = (event) => {
-        this.props.actions.updateLayerSize(Number(event.target.value));
+        this.props.actions.updateNetwork({...this.props.network, layerSize: Number(event.target.value)});
     }
 
     handleSliderChange = (event, value) => {
-        this.props.actions.updateLearningRate(value);
+        this.props.actions.updateNetwork({...this.props.network, learningRate: value});
     }
 
     simplePaddingStyle = {
@@ -44,7 +44,7 @@ class Input extends React.Component {
                 </Typography>
                 <Slider
                     style={this.simplePaddingStyle}
-                    defaultValue={this.props.learningRate}
+                    defaultValue={this.props.network.learningRate}
                     valueLabelDisplay="auto"
                     step={0.01}
                     min={0.01}
@@ -57,15 +57,13 @@ class Input extends React.Component {
 
 // Controls state of the Application
 Input.propTypes = {
-    layerSize: PropTypes.number,
-    learningRate: PropTypes.number
+    network: PropTypes.object.isRequired
   };
   
   // Mapping the Controls state to the Props of this Class
   function mapStateToProps(state, ownProps) {
     return {
-      layerSize: state.layerSize,
-      learningRate: state.learningRate
+        network: state.network
     };
   }
   

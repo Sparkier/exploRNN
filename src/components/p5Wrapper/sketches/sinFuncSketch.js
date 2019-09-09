@@ -13,9 +13,9 @@ export default function (s) {
 
     
     s.updateMemory = () => {
-        s.mem.push(s.props.prediction[0]);   
-        s.sin.push(Math.sin((s.props.iteration + s.values) * 0.1));
-        s.err.push(s.props.prediction[0] - Math.sin((s.props.iteration + s.values) * 0.1));
+        s.mem.push(s.props.network.prediction[0]);   
+        s.sin.push(Math.sin((s.props.network.iteration + s.values) * 0.1));
+        s.err.push(s.props.network.prediction[0] - Math.sin((s.props.network.iteration + s.values) * 0.1));
         if(s.mem.length > (s.width - s.marginRight / s.stepWidth) + 20) {
             s.mem = s.mem.splice(1);
         }
@@ -49,8 +49,8 @@ export default function (s) {
         s.strokeWeight(1);
         s.line(0,s.height / 2 - s.waveHeight,s.width,s.height / 2 - s.waveHeight);
         s.line(0,s.height / 2 + s.waveHeight,s.width,s.height / 2 + s.waveHeight);
-        if(s.props.prediction.length > 0) {
-            s.preds = s.props.prediction;
+        if(s.props.network.prediction.length > 0) {
+            s.preds = s.props.network.prediction;
         } else {
             s.preds = [0]
         }

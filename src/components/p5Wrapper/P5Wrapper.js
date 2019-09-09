@@ -18,7 +18,7 @@ class P5Wrapper extends React.Component {
 
     shouldComponentUpdate(nextProps) {
         this.sketch.props = nextProps
-        if(this.props.prediction !== nextProps.prediction)
+        if(this.props.network.prediction !== nextProps.network.prediction)
           this.sketch.updateMemory();
         return false
     }
@@ -35,14 +35,12 @@ class P5Wrapper extends React.Component {
 }
 
 P5Wrapper.propTypes = {
-  prediction: PropTypes.array.isRequired,
-  iteration: PropTypes.number.isRequired
+  network: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    prediction: state.prediction,
-    iteration: state.iteration
+    network: state.network
   };
 }
 

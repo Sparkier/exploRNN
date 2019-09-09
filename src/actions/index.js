@@ -44,3 +44,7 @@ export function resetModel() {
 export function firstcall() {
   return {type: types.FIRST_CALL}
 }
+
+export function updateNetwork(network) {
+  return {type: types.UPDATE_NETWORK, network}
+}
