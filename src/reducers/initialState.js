@@ -8,9 +8,15 @@ export default {
     network: {
         prediction: [],
         layerSize: 2,
-        learningRate: 0.15,
+        learningRate: 0.02,
         iteration: 0
     },
-    training: false,
+    training: {
+        running: false,
+        values: 0,
+        predictions: 0,
+        testOffset: 0,
+        stepSize: 0.1
+    },
     firstcall: true,
 }

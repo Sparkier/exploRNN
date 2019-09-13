@@ -4,9 +4,17 @@ import * as types from '../actions/types';
 export default function trainingReducer(state = initialState.training, action) {
   switch (action.type) {
     case types.TOGGLE_TRAINING:
-      return !state;
+      return {
+        ...(action.training),
+        running: !(action.training.running)
+      };
     case types.STOP_TRAINING:
-      return false;
+      return {
+        ...action.training,
+        running: false
+      };
+    case types.UPDATE_TRAINING:
+      return action.training;
     default:
       return state;
   }

@@ -35,12 +35,14 @@ class P5Wrapper extends React.Component {
 }
 
 P5Wrapper.propTypes = {
-  network: PropTypes.object.isRequired
+  network: PropTypes.object.isRequired,
+  training: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    network: state.network
+    network: state.network,
+    training: state.training
   };
 }
 

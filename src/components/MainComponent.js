@@ -7,7 +7,7 @@ import * as actions from '../actions'
 import { Grid, Paper, Typography } from '@material-ui/core';
 import AlertSnack from './AlertSnack';
 import Training from './training/Training';
-import MainChart from './charts/MainChart';
+// import MainChart from './charts/MainChart';
 import P5Wrapper from './p5Wrapper/P5Wrapper';
 import Input from '../components/controls/InputComponent'
 
@@ -37,7 +37,13 @@ class Main extends React.Component {
             <Typography>
               With D3
             </Typography>
-              <MainChart/>
+
+              {
+                /*
+                  <MainChart>
+                */
+              }
+
             </Paper>
             <Paper className='visual_paper' align='center' style={this.paddingVerticalStyle}>
             <Typography>

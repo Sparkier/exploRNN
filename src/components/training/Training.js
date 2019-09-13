@@ -14,12 +14,17 @@ class Training extends React.Component {
   componentDidMount() {
     this.model = new Model();
     this.data = new Data();
+    this.props.actions.updateTraining({
+      ...this.props.training,
+      values: this.data.values,
+      predictions: this.data.predictions
+    })
     this.reset();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.training !== prevProps.training) {
-      if (this.props.training === true) {
+    if (this.props.training.running !== prevProps.training.running) {
+      if (this.props.training.running === true) {
         this.start();
       } else {
         this.stop();
@@ -28,7 +33,7 @@ class Training extends React.Component {
   }
 
   reset() {
-    this.model.createComplexModel(20,1,1,1,this.props.network.layerSize)
+    this.model.createComplexModel(this.data.values,1,this.data.predictions,1,this.props.network.layerSize)
     console.log(this.props.network.learningRate)
     const optimizer = tf.train.rmsprop(this.props.network.learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
@@ -43,33 +48,30 @@ class Training extends React.Component {
   }
 
   stop() {
-    this.props.actions.stopTraining();
+    this.props.actions.stopTraining(this.props.training);
   }
 
   async iterate() {
     const this_ = this;
-    if(!this.props.training) {
+    if(!this.props.training.running) {
       return;   
     }
-    tf.tidy(() => {
-      this.model.model.fit(this.data.train_sin_input, this.data.train_sin_next, {
-        epochs: 1, 
-        batchSize: 3,
-        callbacks: {
-          onBatchEnd: () => {
-            this.props.actions.updateNetwork({...this.props.network, iteration: this.props.network.iteration + 1});
-            this.data.getSampleFromTestData(this.props.network.iteration);
-            const prediction = this.model.model.predict(this.data.current_test_sin);
-            const preds = Array.from(prediction.arraySync());
-            console.log('current prediction:', preds)
-            this.props.actions.updateNetwork({...this.props.network, prediction: preds[0]});
-          },
-          onTrainEnd: (epoch, logs) => {
-            setTimeout (function() {this_.iterate()}, 100); 
-          },
-        }
+    console.log('TEST', this.props.training, this.props.network);
+    this.data.getSinDataFrom(this.props.network.iteration);
+    this.model.model.fit(this.data.train_sin_input, this.data.train_sin_next, {
+      epochs: 1, 
+      batchSize: 1
+    }).then(() =>  {
+      this.props.actions.updateNetwork({...this.props.network, iteration: this.props.network.iteration + 1});
+      tf.tidy(() => {
+        this.data.getSampleFromTestData(this.props.network.iteration + this.props.training.testOffset);
+        const prediction = this.model.model.predict(this.data.current_test_sin);
+        const preds = Array.from(prediction.arraySync());
+        console.log('current prediction:', preds)
+        this.props.actions.updateNetwork({...this.props.network, prediction: preds[0]});
       });
-    });
+      setTimeout (function() {this_.iterate()}, 5); 
+    })
   }
 
   render() {
@@ -83,7 +85,7 @@ class Training extends React.Component {
 
 Training.propTypes = {
   network: PropTypes.object.isRequired,
-  training: PropTypes.bool.isRequired,
+  training: PropTypes.object.isRequired,
   firstcall: PropTypes.bool.isRequired
 }
 

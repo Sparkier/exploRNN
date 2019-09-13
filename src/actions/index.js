@@ -20,21 +20,21 @@ export function updateLearningRate(learningRate) {
   return {type: types.UPDATE_LEARNING_RATE, learningRate}
 }
 
-export function toggleTraining() {
-  return {type: types.TOGGLE_TRAINING}
+export function toggleTraining(training) {
+  return {type: types.TOGGLE_TRAINING, training}
 }
 
-export function resetNetwork() {
+export function resetNetwork(training) {
   return function(dispatch) {
     dispatch(updateIteration(0));
     dispatch(updatePrediction([]));
-    dispatch(stopTraining());
+    dispatch(stopTraining(training));
     dispatch(resetModel());
   }
 }
 
-export function stopTraining() {
-  return {type: types.STOP_TRAINING} 
+export function stopTraining(training) {
+  return {type: types.STOP_TRAINING, training} 
 }
 
 export function resetModel() {
@@ -47,4 +47,8 @@ export function firstcall() {
 
 export function updateNetwork(network) {
   return {type: types.UPDATE_NETWORK, network}
+}
+
+export function updateTraining(training) {
+  return {type: types.UPDATE_TRAINING, training}
 }

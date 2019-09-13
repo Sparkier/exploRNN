@@ -16,11 +16,11 @@ import * as actions from '../../actions';
 class Controls extends React.Component {
 
   resetButtonPressed = () => {
-    this.props.actions.resetNetwork();
+    this.props.actions.resetNetwork(this.props.training);
   }
 
   toggleTraining = () => {
-    this.props.actions.toggleTraining();
+    this.props.actions.toggleTraining(this.props.training);
   }
 
   render() {
@@ -32,7 +32,7 @@ class Controls extends React.Component {
           </Typography>
           <div className='wrapper'>
             <div className='menu'>
-              <ToggleButton name="Training" state={this.props.training} action={this.toggleTraining}/>
+              <ToggleButton name="Training" state={this.props.training.running} action={this.toggleTraining}/>
               <div className='noselect menuitem' onClick={this.resetButtonPressed}>Reset</div>
             </div>
             <div>
@@ -49,15 +49,15 @@ class Controls extends React.Component {
 
 // Controls state of the Application
 Controls.propTypes = {
-  training: PropTypes.bool,
-  iteration: PropTypes.number
+  training: PropTypes.object.isRequired,
+  network: PropTypes.object.isRequired
 };
 
 // Mapping the Controls state to the Props of this Class
 function mapStateToProps(state, ownProps) {
   return {
     training: state.training,
-    iteration: state.iteration
+    network: state.network
   };
 }
 

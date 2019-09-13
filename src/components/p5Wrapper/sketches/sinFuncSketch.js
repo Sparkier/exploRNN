@@ -6,25 +6,28 @@ export default function (s) {
     s.sin = [];
     s.err = [];
 
-    s.values = 20; // Only temporary, use props instead
+    s.values = 63; // Only temporary, use props instead
+    s.predictions = 20; // Only temporary, use props instead
     s.marginRight = 100; 
-    s.stepWidth = 2;   
+    s.stepWidth = 4;   
     s.waveHeight = 100;
 
     
     s.updateMemory = () => {
-        s.mem.push(s.props.network.prediction[0]);   
         s.sin.push(Math.sin((s.props.network.iteration + s.values) * 0.1));
-        s.err.push(s.props.network.prediction[0] - Math.sin((s.props.network.iteration + s.values) * 0.1));
-        if(s.mem.length > (s.width - s.marginRight / s.stepWidth) + 20) {
-            s.mem = s.mem.splice(1);
-        }
         if(s.sin.length > (s.width - s.marginRight / s.stepWidth) + 20) {
             s.sin = s.sin.splice(1);
         }
+        /*
+        s.err.push(s.props.network.prediction[0] - Math.sin((s.props.network.iteration + s.values) * 0.1));
         if(s.err.length > (s.width - s.marginRight / s.stepWidth) + 20) {
             s.err = s.err.splice(1);
         }
+        s.mem.push(s.props.network.prediction[0]);   
+        if(s.mem.length > (s.width - s.marginRight / s.stepWidth) + 20) {
+            s.mem = s.mem.splice(1);
+        }
+        */
     }
         
     s.setup = function() {
@@ -45,7 +48,7 @@ export default function (s) {
         s.stroke(200);
         s.strokeWeight(2);
         s.line(0,s.height/2,s.width,s.height/2);
-        s.line(s.width - s.marginRight,0,s.width - s.marginRight,s.height);
+        s.line(s.props.training.values * s.stepWidth,0,s.props.training.values * s.stepWidth,s.height);
         s.strokeWeight(1);
         s.line(0,s.height / 2 - s.waveHeight,s.width,s.height / 2 - s.waveHeight);
         s.line(0,s.height / 2 + s.waveHeight,s.width,s.height / 2 + s.waveHeight);
@@ -60,43 +63,30 @@ export default function (s) {
     }
 
     s.drawPlot = (data, color) => {
-        switch(color) {
-            case 'mem':
-                s.stroke(50,50,200);
-                break;
-            case 'sin':
-                s.stroke(150);
-                break;
-            case 'err':
-                s.stroke(250,100,100);
-                break;
-            default:
-                s.stroke(0);
-        }
         s.noFill();
         s.strokeWeight(1);
+        s.stroke(50);
         s.beginShape();
-        for(let i = data.length - 1, j = 0; i >= 0; i--, j++) {
-            s.vertex(s.width - s.marginRight - j++*s.stepWidth, s.height / 2 - s.waveHeight * data[i]);
-            if(j > (s.width - s.marginRight / s.stepWidth)) {
-                break;
-            }
+        for(let i = 0; i <= s.props.training.values; i++) {
+            s.vertex(i * s.stepWidth, s.height / 2 - s.waveHeight * Math.sin((s.props.network.iteration + s.props.training.testOffset + i) * 0.1));
         }
         s.endShape();
-        switch(color) {
-            case 'mem':
-                s.fill(10,10,150);
-                break;
-            case 'sin':
-                s.fill(100);
-                break;
-            case 'err':
-                s.fill(150,10,10);
-                break;
-            default:
-                s.fill(0);
+        s.stroke(50,100);
+        s.beginShape();
+        for(let i = 0; i < 2 * s.props.training.predictions; i++) {
+            s.vertex((i + s.props.training.values) * s.stepWidth, s.height / 2 - s.waveHeight * Math.sin((s.props.training.values + s.props.network.iteration + s.props.training.testOffset + i) * 0.1));
         }
+        s.endShape();
+        s.stroke(50,50,200);
+        s.beginShape();
+        for(let i = 0; i < s.props.training.predictions; i++) {
+            s.vertex((i + s.props.training.values) * s.stepWidth, s.height / 2 - s.waveHeight * s.preds[i]);
+        }
+        for(let i = 0; i < s.props.training.predictions; i++) {
+            s.vertex((i + s.props.training.values + s.props.training.predictions) * s.stepWidth, s.height / 2 - s.waveHeight * s.preds[i]);
+        }
+        s.endShape();
         s.noStroke();
-        s.ellipse(s.width - s.marginRight, s.height / 2 - s.waveHeight * data[data.length - 1],5);
+        //s.ellipse(s.width - s.marginRight, s.height / 2 - s.waveHeight * data[data.length - 1],5);
     }
 }

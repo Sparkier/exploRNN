@@ -72,6 +72,7 @@ class MainChart extends React.Component {
       this.err = [];
       this.sin = [];
     }
+    console.log('chart x: ', this.props.network.iteration, this.timeSteps)
     this.xVal = (this.props.network.iteration + this.timeSteps) * 0.1;
     this.mem.push(
       {
