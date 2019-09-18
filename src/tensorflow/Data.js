@@ -28,7 +28,7 @@ export class Data {
   }
 
   getSinDataFrom(start) {
-    this.getSinDataForTime(start, 1.5 * Math.PI, 2 * Math.PI, 0.1, 1);
+    return this.getSinDataForTime(start, 1.5 * Math.PI, 2 * Math.PI, 0.1, 1);
   }
 
   getSinDataForTime(start, plotLength, predictionLength, stepSize, setSize) {
@@ -37,11 +37,16 @@ export class Data {
     this.values = Math.round(plotLength / stepSize);
     this.predictions = Math.round(predictionLength / stepSize);
     this.stepSize = stepSize;
+    this.chartData = [];
     const randomOffset = Math.random() * 2 * Math.PI
     for(let i = 0; i < setSize; i++) {
       const currentInSequence = [];
       for(let j = 0; j < this.values; j++) {
         currentInSequence.push([Math.sin((start + j + randomOffset) * stepSize)]);
+        this.chartData.push({
+          y: Math.sin((start + j + randomOffset) * stepSize),
+          x: (start + j + randomOffset) * stepSize
+        })
       }
       this.sinInputBuff.push(currentInSequence);
       const currentOutSequence = [];
@@ -57,7 +62,7 @@ export class Data {
     this.train_sin_input.print();
     console.log('train output')
     this.train_sin_next.print();
-    
+    return this.chartData;
   }
 
   getSampleFromTestData(start) {

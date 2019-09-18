@@ -7,8 +7,9 @@ import * as actions from '../actions'
 import { Grid, Paper, Typography } from '@material-ui/core';
 import AlertSnack from './AlertSnack';
 import Training from './training/Training';
-// import MainChart from './charts/MainChart';
-import P5Wrapper from './p5Wrapper/P5Wrapper';
+import MainChart from './charts/MainChart';
+import P5Wrapper from './p5Wrappers/P5Wrapper';
+import WrapperNetworkVis from './p5Wrappers/WrapperNetworkVis';
 import Input from '../components/controls/InputComponent'
 
 // Main component of the Application that displays all content dependant on the Controls State
@@ -32,27 +33,22 @@ class Main extends React.Component {
             <Paper className='value_paper' align='center' style={this.paddingVerticalStyle}>
               <Training/>
             </Paper>
-            <Grid container justify="center">
-            <Paper className='visual_paper' align='center' style={this.paddingVerticalStyle}>
-            <Typography>
-              With D3
-            </Typography>
-
-              {
-                /*
-                  <MainChart>
-                */
-              }
-
+            <Paper>
+            <Grid container direction="row" justify="space-between" alignItems="center">
+            <Typography>Input</Typography>
+            <Typography>Training</Typography>
+            <Typography>Output</Typography>
+            </Grid>
             </Paper>
-            <Paper className='visual_paper' align='center' style={this.paddingVerticalStyle}>
-            <Typography>
-              With P5
-            </Typography>
+            
+            <Paper>
+            <Grid container direction="row" justify="space-between" alignItems="center">
+            <MainChart></MainChart>
+            <WrapperNetworkVis/>
             <P5Wrapper/>
+            </Grid>
             </Paper>
             </Grid>
-        </Grid>
         <AlertSnack />
       </Grid>
     );

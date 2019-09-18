@@ -5,13 +5,14 @@ import {bindActionCreators} from 'redux';
 import * as d3 from "d3";
 
 import * as actions from '../../actions';
+import { Data } from '../../tensorflow/Data';
 
 class MainChart extends React.Component {
 
      updateValues = true;
 
-    chartWidth = 600
-    chartHeight = 400
+    chartWidth = window.innerWidth/5
+    chartHeight = window.innerHeight / 2
 
     mem = [];
     sin = [];
@@ -22,6 +23,7 @@ class MainChart extends React.Component {
 
     componentDidMount() {
         this.createChart();
+        this.data = new Data();
     }
 
     
@@ -32,8 +34,8 @@ class MainChart extends React.Component {
       , width = this.chartWidth - margin.left - margin.right // Use the window's width 
       , height = this.chartHeight - margin.top - margin.bottom; // Use the window's height
 
-      var xmin = -(this.memorySize * 0.1) + ((this.props.network.iteration + this.timeSteps) * 0.1)
-      var xmax = ((this.props.network.iteration + this.timeSteps)* 0.1)
+      var xmin = 0
+      var xmax = 7
 
       // 5. X scale will use the index of our data
       var xScale = d3.scaleLinear()
@@ -61,45 +63,8 @@ class MainChart extends React.Component {
       // 4. Call the y axis in a group tag
       this.svg.append("g")
       .attr("class", "y axis")
-      .attr("transform", "translate("+(width) + ", 0)")
+      .attr("transform", "translate(0, 0)")
       .call(d3.axisLeft(yScale)); // Create an axis component with d3.axisLeft
-  }
-
-      
-  updateMemory = () => {
-    if(this.props.network.iteration === 1) {
-      this.mem = [];
-      this.err = [];
-      this.sin = [];
-    }
-    console.log('chart x: ', this.props.network.iteration, this.timeSteps)
-    this.xVal = (this.props.network.iteration + this.timeSteps) * 0.1;
-    this.mem.push(
-      {
-        "x": this.xVal,
-        "y": this.props.network.prediction[0] ? this.props.network.prediction[0] : 0
-      }
-    );
-    this.sin.push(
-      {
-        "x": this.xVal,
-        "y": Math.sin(this.xVal)
-      });
-    this.err.push( 
-      {
-        "x": this.xVal,
-        "y": this.props.network.prediction[0] ? (this.props.network.prediction[0] - Math.sin(this.xVal)) : 0
-      }
-    );
-    if(this.mem.length > this.memorySize) {
-      this.mem = this.mem.splice(1);
-    }
-    if(this.sin.length > this.memorySize) {
-      this.sin = this.sin.splice(1);
-    }
-    if(this.err.length > this.memorySize) {
-      this.err = this.err.splice(1);
-    }
   }
 
   updateChart() {
@@ -109,8 +74,8 @@ class MainChart extends React.Component {
     , width = this.chartWidth - margin.left - margin.right // Use the window's width 
     , height = this.chartHeight - margin.top - margin.bottom; // Use the window's height
 
-    var xmin = -(this.memorySize * 0.1) + ((this.props.network.iteration + this.timeSteps) * 0.1)
-    var xmax = ((this.props.network.iteration + this.timeSteps)* 0.1)
+    var xmin = 0
+    var xmax = 7
 
     // 5. X scale will use the index of our data
     var xScale = d3.scaleLinear()
@@ -123,19 +88,9 @@ class MainChart extends React.Component {
     .range([height, 0]); // output 
 
     // 7. d3's line generator
-    var line_mem = d3.line()
-    .x(function(d, i) { return xScale(d.x); }) // set the x values for the line generator
-    .y(function(d) { return yScale(d.y); }) // set the y values for the line generator 
-    .curve(d3.curveMonotoneX) // apply smoothing to the line
-
-    // 7. d3's line generator
-    var line_err = d3.line()
-    .x(function(d, i) { return xScale(d.x); }) // set the x values for the line generator
-    .y(function(d) { return yScale(d.y); }) // set the y values for the line generator 
-    .curve(d3.curveMonotoneX) // apply smoothing to the line
-
-      // 7. d3's line generator
-    var line_sin = d3.line()
+    this.input = this.data.getSinDataFrom(0);
+    console.log(this.input);
+    var line_input = d3.line()
     .x(function(d, i) { return xScale(d.x); }) // set the x values for the line generator
     .y(function(d) { return yScale(d.y); }) // set the y values for the line generator 
     .curve(d3.curveMonotoneX) // apply smoothing to the line
@@ -151,42 +106,21 @@ class MainChart extends React.Component {
     // 4. Call the y axis in a group tag
     this.svg.append("g")
     .attr("class", "y axis")
-    .attr("transform", "translate("+(width) + ", 0)")
+    .attr("transform", "translate(0, 0)")
     .call(d3.axisLeft(yScale)); // Create an axis component with d3.axisLeft
 
     // 9. Append the path, bind the data, and call the line generator 
     this.svg.append("path")
-    .datum(this.mem) // 10. Binds data to the line 
+    .datum(this.input) // 10. Binds data to the line 
     .attr("class", "line") // Assign a class for styling 
-    .attr("d", line_mem)
+    .attr("d", line_input)
     .attr("fill", "none")
     .attr("stroke-width", "1")
     .attr("stroke", "blue"); // 11. Calls the line generator 
-
-    
-    // 9. Append the path, bind the data, and call the line generator 
-    this.svg.append("path")
-    .datum(this.sin) // 10. Binds data to the line 
-    .attr("class", "line") // Assign a class for styling 
-    .attr("d", line_sin)
-    .attr("fill", "none")
-    .attr("stroke-width", "1")
-    .attr("stroke", "grey"); // 11. Calls the line generator 
-
-    
-    // 9. Append the path, bind the data, and call the line generator 
-    this.svg.append("path")
-    .datum(this.err) // 10. Binds data to the line 
-    .attr("class", "line") // Assign a class for styling 
-    .attr("d", line_err)
-    .attr("fill", "none")
-    .attr("stroke-width", "1")
-    .attr("stroke", "red"); // 11. Calls the line generator 
-  }
+   }
 
   shouldComponentUpdate(nextProps) {
       if(this.props.network.prediction !== nextProps.network.prediction){
-        this.updateMemory();
         this.updateChart();
       }
       return true

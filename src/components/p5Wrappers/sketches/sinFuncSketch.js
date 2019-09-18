@@ -9,7 +9,7 @@ export default function (s) {
     s.values = 63; // Only temporary, use props instead
     s.predictions = 20; // Only temporary, use props instead
     s.marginRight = 100; 
-    s.stepWidth = 4;   
+    s.stepWidth = 2;   
     s.waveHeight = 100;
 
     
@@ -18,20 +18,10 @@ export default function (s) {
         if(s.sin.length > (s.width - s.marginRight / s.stepWidth) + 20) {
             s.sin = s.sin.splice(1);
         }
-        /*
-        s.err.push(s.props.network.prediction[0] - Math.sin((s.props.network.iteration + s.values) * 0.1));
-        if(s.err.length > (s.width - s.marginRight / s.stepWidth) + 20) {
-            s.err = s.err.splice(1);
-        }
-        s.mem.push(s.props.network.prediction[0]);   
-        if(s.mem.length > (s.width - s.marginRight / s.stepWidth) + 20) {
-            s.mem = s.mem.splice(1);
-        }
-        */
     }
         
     s.setup = function() {
-        s.createCanvas(600, 400)
+        s.createCanvas(window.innerWidth / 5, window.innerHeight / 4)
     }
 
     s.draw = function() {
@@ -43,7 +33,7 @@ export default function (s) {
 
         s.noStroke();
         s.fill(100,250,120,100);
-        s.rect(s.width - s.marginRight - s.stepWidth * s.values,s.height / 2 - s.waveHeight,s.stepWidth * s.values,2 * s.waveHeight);
+        // s.rect(s.width - s.marginRight - s.stepWidth * s.values,s.height / 2 - s.waveHeight,s.stepWidth * s.values,2 * s.waveHeight);
         s.noFill();
         s.stroke(200);
         s.strokeWeight(2);
@@ -57,12 +47,12 @@ export default function (s) {
         } else {
             s.preds = [0]
         }
-        s.drawPlot(s.err, 'err');
-        s.drawPlot(s.sin, 'sin');        
-        s.drawPlot(s.mem, 'mem');
+        s.drawPlot();
+        //s.drawPlot(s.sin, 'sin');        
+        //s.drawPlot(s.mem, 'mem');
     }
 
-    s.drawPlot = (data, color) => {
+    s.drawPlot = () => {
         s.noFill();
         s.strokeWeight(1);
         s.stroke(50);
@@ -71,7 +61,7 @@ export default function (s) {
             s.vertex(i * s.stepWidth, s.height / 2 - s.waveHeight * Math.sin((s.props.network.iteration + s.props.training.testOffset + i) * 0.1));
         }
         s.endShape();
-        s.stroke(50,100);
+        s.stroke(50,50);
         s.beginShape();
         for(let i = 0; i < 2 * s.props.training.predictions; i++) {
             s.vertex((i + s.props.training.values) * s.stepWidth, s.height / 2 - s.waveHeight * Math.sin((s.props.training.values + s.props.network.iteration + s.props.training.testOffset + i) * 0.1));
