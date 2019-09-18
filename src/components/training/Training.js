@@ -68,7 +68,8 @@ class Training extends React.Component {
         const prediction = this.model.model.predict(this.data.current_test_sin);
         const preds = Array.from(prediction.arraySync());
         console.log('current prediction:', preds)
-        this.props.actions.updateNetwork({...this.props.network, prediction: preds[0]});
+        this.props.actions.updateNetwork({...this.props.network, prediction: preds[0], input: this.data.chartDataInput, output: this.data.chartDataOutput});
+        console.log(this.props.network)
       });
       setTimeout (function() {this_.iterate()}, 5); 
     })

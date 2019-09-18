@@ -37,21 +37,27 @@ export class Data {
     this.values = Math.round(plotLength / stepSize);
     this.predictions = Math.round(predictionLength / stepSize);
     this.stepSize = stepSize;
-    this.chartData = [];
-    const randomOffset = Math.random() * 2 * Math.PI
+    this.chartDataInput = [];
+    this.chartDataOutput = [];
+    const randomOffset = Math.random() * 20 * Math.PI;
+    const randomAmplitude = Math.random() * 1.5 + 0.5;
     for(let i = 0; i < setSize; i++) {
       const currentInSequence = [];
       for(let j = 0; j < this.values; j++) {
-        currentInSequence.push([Math.sin((start + j + randomOffset) * stepSize)]);
-        this.chartData.push({
-          y: Math.sin((start + j + randomOffset) * stepSize),
-          x: (start + j + randomOffset) * stepSize
+        currentInSequence.push([Math.sin((j + randomOffset) * stepSize) * randomAmplitude]);
+        this.chartDataInput.push({
+          y: Math.sin((j + randomOffset) * stepSize) * randomAmplitude,
+          x: (j) * stepSize
         })
       }
       this.sinInputBuff.push(currentInSequence);
       const currentOutSequence = [];
       for(let j = 0; j < this.predictions; j++) {
-        currentOutSequence.push(Math.sin((start + this.values + randomOffset + j) * stepSize))
+        currentOutSequence.push(Math.sin((this.values + randomOffset + j) * stepSize) * randomAmplitude)
+        this.chartDataOutput.push({
+          y: Math.sin((this.values + j + randomOffset) * stepSize) * randomAmplitude,
+          x: (this.values + j) * stepSize
+        })
       }
       this.sinOutputBuff.push(currentOutSequence);
     }
@@ -62,7 +68,6 @@ export class Data {
     this.train_sin_input.print();
     console.log('train output')
     this.train_sin_next.print();
-    return this.chartData;
   }
 
   getSampleFromTestData(start) {

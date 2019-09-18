@@ -7,8 +7,10 @@ export default {
     },
     network: {
         prediction: [],
+        input: [],
+        output: [],
         layerSize: 2,
-        learningRate: 0.02,
+        learningRate: 0.2,
         iteration: 0
     },
     training: {

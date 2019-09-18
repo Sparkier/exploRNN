@@ -35,7 +35,7 @@ class MainChart extends React.Component {
       , height = this.chartHeight - margin.top - margin.bottom; // Use the window's height
 
       var xmin = 0
-      var xmax = 7
+      var xmax = 12.6
 
       // 5. X scale will use the index of our data
       var xScale = d3.scaleLinear()
@@ -44,7 +44,7 @@ class MainChart extends React.Component {
 
       // 6. Y scale will use the randomly generate number 
       var yScale = d3.scaleLinear()
-      .domain([-1.5,1.5]) // input 
+      .domain([-2.5,2.5]) // input 
       .range([height, 0]); // output 
 
       // 1. Add the SVG to the page and employ #2
@@ -75,7 +75,7 @@ class MainChart extends React.Component {
     , height = this.chartHeight - margin.top - margin.bottom; // Use the window's height
 
     var xmin = 0
-    var xmax = 7
+    var xmax = 12.6
 
     // 5. X scale will use the index of our data
     var xScale = d3.scaleLinear()
@@ -84,16 +84,24 @@ class MainChart extends React.Component {
 
     // 6. Y scale will use the randomly generate number 
     var yScale = d3.scaleLinear()
-    .domain([-1.5,1.5]) // input 
+    .domain([-2.5,2.5]) // input 
     .range([height, 0]); // output 
 
     // 7. d3's line generator
-    this.input = this.data.getSinDataFrom(0);
+    const input = this.props.network.input;
+    const output = this.props.network.output;
     console.log(this.input);
     var line_input = d3.line()
     .x(function(d, i) { return xScale(d.x); }) // set the x values for the line generator
     .y(function(d) { return yScale(d.y); }) // set the y values for the line generator 
     .curve(d3.curveMonotoneX) // apply smoothing to the line
+
+
+    var line_output = d3.line()
+    .x(function(d, i) { return xScale(d.x); }) // set the x values for the line generator
+    .y(function(d) { return yScale(d.y); }) // set the y values for the line generator 
+    .curve(d3.curveMonotoneX) // apply smoothing to the line
+
 
     this.svg.selectAll("*").remove();
 
@@ -111,13 +119,23 @@ class MainChart extends React.Component {
 
     // 9. Append the path, bind the data, and call the line generator 
     this.svg.append("path")
-    .datum(this.input) // 10. Binds data to the line 
+    .datum(input) // 10. Binds data to the line 
     .attr("class", "line") // Assign a class for styling 
     .attr("d", line_input)
     .attr("fill", "none")
     .attr("stroke-width", "1")
     .attr("stroke", "blue"); // 11. Calls the line generator 
-   }
+   
+  
+    // 9. Append the path, bind the data, and call the line generator 
+    this.svg.append("path")
+    .datum(output) // 10. Binds data to the line 
+    .attr("class", "line") // Assign a class for styling 
+    .attr("d", line_output)
+    .attr("fill", "none")
+    .attr("stroke-width", "1")
+    .attr("stroke", "green"); // 11. Calls the line generator 
+  }
 
   shouldComponentUpdate(nextProps) {
       if(this.props.network.prediction !== nextProps.network.prediction){
