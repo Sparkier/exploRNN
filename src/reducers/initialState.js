@@ -11,7 +11,8 @@ export default {
         output: [],
         layerSize: 2,
         learningRate: 0.2,
-        iteration: 0
+        iteration: 0,
+        type: 'LSTM'
     },
     training: {
         running: false,

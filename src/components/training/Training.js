@@ -76,11 +76,7 @@ class Training extends React.Component {
   }
 
   render() {
-    return(
-      <Typography align='center'>
-        Watch a Neural Network learn how to draw a sin(x) plot:
-      </Typography>
-    );
+    return null;
   }
 }
 

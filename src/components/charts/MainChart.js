@@ -9,10 +9,10 @@ import { Data } from '../../tensorflow/Data';
 
 class MainChart extends React.Component {
 
-     updateValues = true;
+    updateValues = true;
 
-    chartWidth = window.innerWidth/5
-    chartHeight = window.innerHeight / 2
+    chartWidth = window.innerWidth / 5
+    chartHeight = this.chartWidth
 
     mem = [];
     sin = [];

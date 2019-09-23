@@ -31,14 +31,16 @@ header {
         display: flex;
         flex-direction: row;
         height: calc(100% - 2px);
-        border-bottom: 2px solid rgba(0,0,0,0);
         padding-left: 12px;
         padding-right: 12px;
+        margin-left: 12px;
+        font-size: large;
+        color: 'white'
     }
 
     .menuitem:hover {
         background-color: #1B80DE;
-        text-decoration: none;
+        text-decoration: complement($color: #000000);
         cursor: pointer;
     }
 
@@ -67,10 +69,10 @@ header {
 }
 
 .content {
-    padding: 70px 0px 0px 0px;
+    padding: 50px 0px 0px 0px;
     height: 100%;
     background-color: #f5f5f5;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 .full {
@@ -80,6 +82,10 @@ header {
 
 .mainGrid {
     height: 100%;
+}
+
+.sideGrid {
+    width: 20%;
 }
 
 // Classes for Styling of individual Elements

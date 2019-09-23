@@ -21,7 +21,7 @@ export default function (s) {
     }
         
     s.setup = function() {
-        s.createCanvas(window.innerWidth / 5, window.innerHeight / 4)
+        s.createCanvas(document.getElementById("outputDiv").offsetWidth, window.innerHeight)
     }
 
     s.draw = function() {

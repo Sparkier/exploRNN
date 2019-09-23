@@ -11,7 +11,8 @@ export default function (s) {
     }
         
     s.setup = function() {
-        s.createCanvas(window.innerWidth/2, window.innerHeight)
+        s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight)
+        //s.createCanvas(600,400)
     }
 
     s.draw = function() {

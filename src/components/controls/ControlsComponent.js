@@ -7,9 +7,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import GetApp from '@material-ui/icons/GetApp';
+import Start from '@material-ui/icons/PlayArrow';
+import Pause from '@material-ui/icons/Pause';
+import Reset from '@material-ui/icons/Replay';
 
-import ToggleButton from './ToggleButton';
 import * as actions from '../../actions';
 
 // Controls at top of the Application
@@ -20,6 +21,7 @@ class Controls extends React.Component {
   }
 
   toggleTraining = () => {
+    console.log('Training should start now')
     this.props.actions.toggleTraining(this.props.training);
   }
 
@@ -28,16 +30,18 @@ class Controls extends React.Component {
       <AppBar position="static" color="primary">
         <Toolbar>
           <Typography variant="h6" color="inherit">
-            RNNVis
+            leaRNN
           </Typography>
           <div className='wrapper'>
             <div className='menu'>
-              <ToggleButton name="Training" state={this.props.training.running} action={this.toggleTraining}/>
-              <div className='noselect menuitem' onClick={this.resetButtonPressed}>Reset</div>
-            </div>
-            <div>
-              <IconButton color='inherit' aria-label='Download' >
-                <GetApp/>
+            <IconButton className='noselect menuitem' aria-label='Reset' onClick={this.toggleTraining}>
+                {this.props.training.running ?
+                <Pause style={{ color: 'white' }}/>
+                :
+                <Start style={{ color: 'white' }}/>}
+            </IconButton>
+              <IconButton className='noselect menuitem' aria-label='Reset' onClick={this.resetButtonPressed}>
+                <Reset style={{ color: 'white' }}/>
               </IconButton>
             </div>
           </div>
