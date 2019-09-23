@@ -5,7 +5,6 @@ import {bindActionCreators} from 'redux';
 import * as tf from '@tensorflow/tfjs';
 
 import * as actions from '../../actions';
-import { Typography } from '@material-ui/core';
 import { Model } from '../../tensorflow/Model';
 import { Data } from '../../tensorflow/Data';
 
@@ -33,7 +32,7 @@ class Training extends React.Component {
   }
 
   reset() {
-    this.model.createComplexModel(this.data.values,1,this.data.predictions,1,this.props.network.layerSize)
+    this.model.createComplexModel(this.data.values,1,this.data.predictions,this.props.network.layers,this.props.network.layerSize)
     console.log(this.props.network.learningRate)
     const optimizer = tf.train.rmsprop(this.props.network.learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});

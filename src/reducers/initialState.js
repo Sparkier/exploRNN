@@ -10,9 +10,11 @@ export default {
         input: [],
         output: [],
         layerSize: 2,
+        layers: 1,
         learningRate: 0.2,
         iteration: 0,
-        type: 'LSTM'
+        type: 'LSTM',
+        activation: 'tanh'
     },
     training: {
         running: false,
