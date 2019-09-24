@@ -27,7 +27,7 @@ class Controls extends React.Component {
 
   render() {
     return(
-      <AppBar position="static" color="primary">
+      <AppBar position="static" color="primary" elevation={5}>
         <Toolbar>
           <Typography variant="h6" color="inherit">
             leaRNN

@@ -6,9 +6,7 @@ export default {
         message: ''
     },
     network: {
-        prediction: [],
-        input: [],
-        output: [],
+        data: Array(5).fill({}),
         layerSize: 2,
         layers: 1,
         learningRate: 0.2,

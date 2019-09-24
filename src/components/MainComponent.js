@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import * as actions from '../actions'
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import AlertSnack from './AlertSnack';
 import Training from './training/Training';
 import P5VisualsWrapper from './p5Wrappers/P5VisualsWrapper'
@@ -20,13 +20,6 @@ class Main extends React.Component {
         <Grid item xs className='full'>
             <Input/>
             <Training/>
-            <Paper square={true}>
-              <Grid container direction="row" justify="space-between" alignItems="center">
-                <Typography>Input</Typography>
-                <Typography>Training</Typography>
-                <Typography>Output</Typography>
-              </Grid>
-            </Paper>
             <P5VisualsWrapper/>
           </Grid>
         <AlertSnack />

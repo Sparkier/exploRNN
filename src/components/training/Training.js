@@ -18,6 +18,7 @@ class Training extends React.Component {
       values: this.data.values,
       predictions: this.data.predictions
     })
+    this.pause = 1000;
     this.reset();
   }
 
@@ -37,6 +38,12 @@ class Training extends React.Component {
     const optimizer = tf.train.rmsprop(this.props.network.learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
     this.props.actions.firstcall();
+    console.log(this.props.network.data);
+    this.data.getSinDataFrom(this.props.network.iteration);
+    this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.train_sin_input, this.data.train_sin_next);
+    this.data.getSinDataFrom(this.props.network.iteration + 1);
+    this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.train_sin_input, this.data.train_sin_next);
+    console.log(this.props.network.data);
   }
 
   start = () => {
@@ -56,21 +63,20 @@ class Training extends React.Component {
       return;   
     }
     console.log('TEST', this.props.training, this.props.network);
-    this.data.getSinDataFrom(this.props.network.iteration);
-    this.model.model.fit(this.data.train_sin_input, this.data.train_sin_next, {
+    this.data.getSinDataFrom(this.props.network.iteration + 2);
+    this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.train_sin_input, this.data.train_sin_next);
+    this.props.actions.updateNetwork({...this.props.network, iteration: this.props.network.iteration + 1});
+    // this.data.getSampleFromTestData(this.props.network.iteration + this.props.training.testOffset);
+    tf.tidy(() => {
+      const prediction = this.model.model.predict(this.props.network.data[2].modelInput);
+      const preds = Array.from(prediction.arraySync());
+      this.props.actions.addPredictionToNetwork(this.props.network, preds[0]);
+    });
+    this.model.model.fit(this.props.network.data[2].modelInput, this.props.network.data[2].modelOutput, {
       epochs: 1, 
       batchSize: 1
     }).then(() =>  {
-      this.props.actions.updateNetwork({...this.props.network, iteration: this.props.network.iteration + 1});
-      tf.tidy(() => {
-        this.data.getSampleFromTestData(this.props.network.iteration + this.props.training.testOffset);
-        const prediction = this.model.model.predict(this.data.current_test_sin);
-        const preds = Array.from(prediction.arraySync());
-        console.log('current prediction:', preds)
-        this.props.actions.updateNetwork({...this.props.network, prediction: preds[0], input: this.data.chartDataInput, output: this.data.chartDataOutput});
-        console.log(this.props.network)
-      });
-      setTimeout (function() {this_.iterate()}, 5); 
+      setTimeout (function() {this_.iterate()}, this.pause); 
     })
   }
 

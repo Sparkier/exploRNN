@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select';
 
 import * as actions from '../../actions';
+import { lightBlue } from '@material-ui/core/colors';
 
 /**
  * The current Component holding all the input elements to change the Network for Training
@@ -48,10 +49,8 @@ class Input extends React.Component {
     };
     
     render() {
-       
-        const background = grey[700];
         return (
-          <div className='wrapper' style={{background: background, color: 'white', padding: '20px'}}>
+          <div className='wrapper' style={{background: grey[800], color: 'white', padding: '20px'}}>
                 <StyledSelect value={this.props.network.type} label="Type" onChange={ this.handleTypeSelection }>
                     <MenuItem value="LSTM">LSTM</MenuItem>
                     <MenuItem value="GRU">GRU</MenuItem>
@@ -69,7 +68,7 @@ class Input extends React.Component {
                 <StyledSelect value={this.props.network.activation} label="Activation" onChange={ this.handleActivationSelection }>
                     <MenuItem value="tanh">tanh</MenuItem>
                 </StyledSelect>
-                <Typography variant="body1" style={{...this.simplePaddingStyle, color: 'lightblue'}}>
+                <Typography variant="body1" style={{...this.simplePaddingStyle, color: lightBlue[400],}}>
                     Learning Rate: {this.props.network.learningRate}
                 </Typography>
                 <Slider
@@ -93,13 +92,10 @@ const styles = {
     },
     select: {
         '&:before': {
-            borderColor: 'white',
-        },
-        '&:hover': {
-            borderColor: 'lightblue',
+            borderColor: grey[400],
         },
         '&:after': {
-            borderColor: 'blue',
+            borderColor: lightBlue[400],
         },
         width: "200px",
         color:'white'
@@ -115,7 +111,7 @@ const styles = {
         <div style={{display: 'inline-block', marginRight: '12px'}}>
         <Typography style= {
             {
-                color: 'lightblue'
+                color: lightBlue[400],
             }
         }>{ label }</Typography>
         <Select variant="outlined" className={classes.select} inputProps={{

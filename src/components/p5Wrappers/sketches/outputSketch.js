@@ -5,13 +5,57 @@ export default function (s) {
     s.mem = [];
     s.sin = [];
     s.err = [];
-
-    s.values = 63; // Only temporary, use props instead
-    s.predictions = 20; // Only temporary, use props instead
     s.marginRight = 100; 
     s.stepWidth = 2;   
     s.waveHeight = 100;
 
+    class Plot {
+        constructor(index, scale) {
+            this.index = index;
+            this.scale = scale;
+            this.cx = s.width / 2;
+            this.cy = (5 - index) * (s.height / 6) + (2 - index) * 30;
+            this.plotWidth = s.width * 0.75;
+            this.plotHeight = s.height * 0.2;
+            if(s.props.training.values + s.props.training.predictions === 0) {
+                this.stepWidth = 2
+            } else {
+                this.stepWidth = this.plotWidth / (s.props.training.values + s.props.training.predictions);
+            }
+        }
+        
+        draw() {
+            if(this.stepWidth === 2 && s.props.training.values + s.props.training.predictions !== 0) {
+                this.stepWidth = this.plotWidth / (s.props.training.values + s.props.training.predictions);
+            }
+            s.push();
+            s.translate(this.cx, this.cy);
+            s.ellipseMode(s.CENTER)
+            s.stroke(255, 255 * this.scale);
+            s.strokeWeight(3 * this.scale)
+            s.line(-this.plotWidth/2 * this.scale, 0, this.plotWidth / 2 * this.scale, 0);
+            s.line(-this.plotWidth/2 * this.scale, -this.plotHeight/2 * this.scale, -this.plotWidth/2* this.scale, this.scale * this.plotHeight/2)
+            if(s.props.network.data && s.props.network.data[this.index].chartInput){
+                s.stroke(50,50,200, 255 * this.scale);
+                s.noFill();
+                s.beginShape();
+                for(let i = 0; i < s.props.training.values; i++) {
+                    s.vertex(this.scale * ((-this.plotWidth / 2) + (i * this.stepWidth)), this.scale * (this.plotHeight / 4 * s.props.network.data[this.index].chartInput[i]));
+                }
+                s.endShape();
+            }
+            if(s.props.network.data && s.props.network.data[this.index].prediction){
+                s.stroke(200,50,100, 255 * this.scale);
+                s.noFill();
+                s.beginShape();
+                for(let i = 0; i < s.props.training.predictions; i++) {
+                    s.vertex(this.scale* ((-this.plotWidth / 2) + ((i + s.props.training.values) * this.stepWidth)), this.scale * (this.plotHeight / 4 * s.props.network.data[this.index].prediction[i]));
+                }
+                s.endShape();
+            }
+            s.pop();
+        }
+    }
     
     s.updateMemory = () => {
         s.sin.push(Math.sin((s.props.network.iteration + s.values) * 0.1));
@@ -21,62 +65,15 @@ export default function (s) {
     }
         
     s.setup = function() {
-        s.createCanvas(document.getElementById("outputDiv").offsetWidth, window.innerHeight)
+        s.createCanvas(document.getElementById("inputDiv").offsetWidth, window.innerHeight)
+        s.plot = [new Plot(0,0.4), new Plot(1,0.75), new Plot(2,1), new Plot(3,0.75), new Plot(4,0.4)]
+        console.log(s.plot);
     }
 
     s.draw = function() {
-        s.background(255)
-        s.stroke(0)
-        s.strokeWeight(1);
-        s.noFill();
-        s.rect(0,0,s.width-1,s.height-1)
-
-        s.noStroke();
-        s.fill(100,250,120,100);
-        // s.rect(s.width - s.marginRight - s.stepWidth * s.values,s.height / 2 - s.waveHeight,s.stepWidth * s.values,2 * s.waveHeight);
-        s.noFill();
-        s.stroke(200);
-        s.strokeWeight(2);
-        s.line(0,s.height/2,s.width,s.height/2);
-        s.line(s.props.training.values * s.stepWidth,0,s.props.training.values * s.stepWidth,s.height);
-        s.strokeWeight(1);
-        s.line(0,s.height / 2 - s.waveHeight,s.width,s.height / 2 - s.waveHeight);
-        s.line(0,s.height / 2 + s.waveHeight,s.width,s.height / 2 + s.waveHeight);
-        if(s.props.network.prediction.length > 0) {
-            s.preds = s.props.network.prediction;
-        } else {
-            s.preds = [0]
+        s.background(25)
+        for (let p of s.plot) {
+            p.draw();
         }
-        s.drawPlot();
-        //s.drawPlot(s.sin, 'sin');        
-        //s.drawPlot(s.mem, 'mem');
-    }
-
-    s.drawPlot = () => {
-        s.noFill();
-        s.strokeWeight(1);
-        s.stroke(50);
-        s.beginShape();
-        for(let i = 0; i <= s.props.training.values; i++) {
-            s.vertex(i * s.stepWidth, s.height / 2 - s.waveHeight * Math.sin((s.props.network.iteration + s.props.training.testOffset + i) * 0.1));
-        }
-        s.endShape();
-        s.stroke(50,50);
-        s.beginShape();
-        for(let i = 0; i < 2 * s.props.training.predictions; i++) {
-            s.vertex((i + s.props.training.values) * s.stepWidth, s.height / 2 - s.waveHeight * Math.sin((s.props.training.values + s.props.network.iteration + s.props.training.testOffset + i) * 0.1));
-        }
-        s.endShape();
-        s.stroke(50,50,200);
-        s.beginShape();
-        for(let i = 0; i < s.props.training.predictions; i++) {
-            s.vertex((i + s.props.training.values) * s.stepWidth, s.height / 2 - s.waveHeight * s.preds[i]);
-        }
-        for(let i = 0; i < s.props.training.predictions; i++) {
-            s.vertex((i + s.props.training.values + s.props.training.predictions) * s.stepWidth, s.height / 2 - s.waveHeight * s.preds[i]);
-        }
-        s.endShape();
-        s.noStroke();
-        //s.ellipse(s.width - s.marginRight, s.height / 2 - s.waveHeight * data[data.length - 1],5);
     }
 }
