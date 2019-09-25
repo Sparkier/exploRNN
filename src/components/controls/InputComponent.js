@@ -42,6 +42,19 @@ class Input extends React.Component {
 
     }
 
+    handleDataSelection = (event) => {
+        this.props.actions.updateTraining({...this.props.training, dataType: String(event.target.value)});
+    }
+
+    handleDataVariantSelection = (event) => {
+        this.props.actions.updateTraining({...this.props.training, dataVariant: String(event.target.value)});
+    }
+
+    handleSpeedChange = (event, value) => {
+        this.props.actions.updateTraining({...this.props.training, speed: value});
+    }
+    
+
     simplePaddingStyle = {
         paddingTop: "20px",
         paddingBottom: "20px",
@@ -68,6 +81,15 @@ class Input extends React.Component {
                 <StyledSelect value={this.props.network.activation} label="Activation" onChange={ this.handleActivationSelection }>
                     <MenuItem value="tanh">tanh</MenuItem>
                 </StyledSelect>
+                <StyledSelect value={this.props.training.dataType} label="Data Type" onChange={ this.handleDataSelection }>
+                    <MenuItem value="sin">sin(x)</MenuItem>
+                    <MenuItem value="cir">Circle</MenuItem>
+                </StyledSelect>
+                <StyledSelect value={this.props.training.dataVariant} label="Input Variation" onChange={ this.handleDataVariantSelection }>
+                    <MenuItem value="basic">None</MenuItem>
+                    <MenuItem value="linear">Linear</MenuItem>
+                    <MenuItem value="random">Random</MenuItem>
+                </StyledSelect>
                 <Typography variant="body1" style={{...this.simplePaddingStyle, color: lightBlue[400],}}>
                     Learning Rate: {this.props.network.learningRate}
                 </Typography>
@@ -79,6 +101,19 @@ class Input extends React.Component {
                     step={0.01}
                     min={0.01}
                     max={0.5} onChange={this.handleSliderChange}
+                />
+                <Typography variant="body1" style={{...this.simplePaddingStyle, color: lightBlue[400],}}>
+                    Speed
+                </Typography>
+                <Slider
+                    style={{...this.simplePaddingStyle, color: 'white'}}
+                    marks
+                    defaultValue={this.props.training.speed}
+                    valueLabelDisplay="off"
+                    step={10}
+                    min={100}
+                    max={1100}
+                    onChange={this.handleSpeedChange}
                 />
             </div>
         );
@@ -135,13 +170,15 @@ const styles = {
 
 // Controls state of the Application
 Input.propTypes = {
-    network: PropTypes.object.isRequired
+    network: PropTypes.object.isRequired,
+    training: PropTypes.object.isRequired
   };
   
   // Mapping the Controls state to the Props of this Class
   function mapStateToProps(state, ownProps) {
     return {
-        network: state.network
+        network: state.network,
+        training: state.training
     };
   }
   

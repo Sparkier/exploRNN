@@ -44,7 +44,7 @@ export class Data {
     for(let i = 0; i < setSize; i++) {
       const currentInSequence = [];
       for(let j = 0; j < this.values; j++) {
-        currentInSequence.push([Math.sin((j + randomOffset) * stepSize) * randomAmplitude]);
+        currentInSequence.push([Math.sin((start + j + randomOffset) * stepSize) * randomAmplitude]);
         this.chartDataInput.push(
           Math.sin((j + randomOffset + start) * stepSize) * randomAmplitude
         )
@@ -52,7 +52,7 @@ export class Data {
       this.sinInputBuff.push(currentInSequence);
       const currentOutSequence = [];
       for(let j = 0; j < this.predictions; j++) {
-        currentOutSequence.push(Math.sin((this.values + randomOffset + j) * stepSize) * randomAmplitude)
+        currentOutSequence.push(Math.sin((this.values + randomOffset + j + start) * stepSize) * randomAmplitude)
         this.chartDataOutput.push(
           Math.sin((this.values + j + randomOffset + start) * stepSize) * randomAmplitude
         )

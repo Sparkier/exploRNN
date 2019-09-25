@@ -64,7 +64,6 @@ export function addDataToNetwork(oldNetwork, chartInput, chartOutput, modelInput
     prediction: [],
   })
   const network = {...oldNetwork, data: data}
-  console.log(network)
   return {type: types.UPDATE_NETWORK, network}
 }
 
@@ -72,7 +71,6 @@ export function addPredictionToNetwork(oldNetwork, prediction) {
   const data = oldNetwork.data;
   data[2].prediction = prediction;
   const network = {...oldNetwork, data: data}
-  console.log(network)
   return {type: types.UPDATE_NETWORK, network}
 
 }

@@ -11,36 +11,40 @@ import * as actions from '../../actions';
 
 class P5VisualsWrapper extends React.Component {
 
-     updateValues = true;
+    updateValues = true;
+
+    constructor(){
+      super()
+      this.inputSketch = new window.p5(inputSketch, 'inputDiv')
+      this.networkSketch = new window.p5(networkSketch, 'networkDiv')
+      this.outputSketch = new window.p5(outputSketch, 'outputDiv')
+      this.inputSketch.props = this.props
+      this.networkSketch.props = this.props
+      this.outputSketch.props = this.props
+    }
 
     componentDidMount() {
         // this.sketch = new window.p5(sketch, 'p5sketch')
-        this.inputSketch = new window.p5(inputSketch, 'inputDiv')
-        this.networkSketch = new window.p5(networkSketch, 'networkDiv')
-        this.outputSketch = new window.p5(outputSketch, 'outputDiv')
-        this.inputSketch.props = this.props
-        this.networkSketch.props = this.props
-        this.outputSketch.props = this.props
+        console.log('WHAT IS HAPPENING', this.inputSketch)
     }
 
     shouldComponentUpdate(nextProps) {
-        this.inputSketch.props = this.props
-        this.networkSketch.props = this.props
-        this.outputSketch.props = this.props
-        if(this.props.network.prediction !== nextProps.network.prediction){
-          this.inputSketch.updateMemory();
-          this.networkSketch.updateMemory();
-          this.outputSketch.updateMemory();
-        }
-        return false
+      this.props = nextProps
+      this.inputSketch.props = nextProps
+      this.networkSketch.props = nextProps
+      this.outputSketch.props = nextProps
+      this.inputSketch.updateMemory();
+      this.networkSketch.updateMemory();
+      this.outputSketch.updateMemory();
+      return false
     }
 
     componentWillUnmount() {
-        this.inputSketch.remove()
-        this.networkSketch.remove()
-        this.outputSketch.remove()
+      this.inputSketch.remove()
+      this.networkSketch.remove()
+      this.outputSketch.remove()
     }
-  
+
   render() {
     return(
         <Grid container spacing ={0} direction="row" justify='space-evenly'>

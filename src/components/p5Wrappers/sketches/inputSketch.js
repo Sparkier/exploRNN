@@ -1,4 +1,3 @@
-
 export default function (s) {
     s.props = {}
     s.preds = []
@@ -10,11 +9,12 @@ export default function (s) {
     s.waveHeight = 100;
 
     class Plot {
-        constructor(index, scale) {
+        constructor(index) {
             this.index = index;
-            this.scale = scale;
+            this.scale = 0.8;
+            this.vis = 255 - Math.abs(2-index) * 110;
             this.cx = s.width / 2;
-            this.cy = (5 - index) * (s.height / 6) + (2 - index) * 30;
+            this.cy = (5 - index - 0.5) * (s.height / 5);
             this.plotWidth = s.width * 0.75;
             this.plotHeight = s.height * 0.2;
             if(s.props.training.values + s.props.training.predictions === 0) {
@@ -31,12 +31,12 @@ export default function (s) {
             s.push();
             s.translate(this.cx, this.cy);
             s.ellipseMode(s.CENTER)
-            s.stroke(255, 255 * this.scale);
-            s.strokeWeight(3 * this.scale)
+            s.stroke(255, this.vis);
+            s.strokeWeight(2 * this.scale)
             s.line(-this.plotWidth/2 * this.scale, 0, this.plotWidth / 2 * this.scale, 0);
             s.line(-this.plotWidth/2 * this.scale, -this.plotHeight/2 * this.scale, -this.plotWidth/2* this.scale, this.scale * this.plotHeight/2)
             if(s.props.network.data && s.props.network.data[this.index].chartInput){
-                s.stroke(50,50,200, 255 * this.scale);
+                s.stroke(50,50,200,this.vis);
                 s.noFill();
                 s.beginShape();
                 for(let i = 0; i < s.props.training.values; i++) {
@@ -45,7 +45,7 @@ export default function (s) {
                 s.endShape();
             }
             if(s.props.network.data && s.props.network.data[this.index].chartOutput){
-                s.stroke(50,200,50, 255 * this.scale);
+                s.stroke(50,200,50,this.vis);
                 s.noFill();
                 s.beginShape();
                 for(let i = 0; i < s.props.training.predictions; i++) {
@@ -64,10 +64,14 @@ export default function (s) {
         }
     }
         
+    s.windowResized = function(){
+        s.resizeCanvas(document.getElementById("inputDiv").offsetWidth, window.innerHeight)
+        s.plot = [new Plot(0), new Plot(1), new Plot(2), new Plot(3), new Plot(4)]
+    }
+
     s.setup = function() {
         s.createCanvas(document.getElementById("inputDiv").offsetWidth, window.innerHeight)
-        s.plot = [new Plot(0,0.4), new Plot(1,0.75), new Plot(2,1), new Plot(3,0.75), new Plot(4,0.4)]
-        console.log(s.plot);
+        s.plot = [new Plot(0), new Plot(1), new Plot(2), new Plot(3), new Plot(4)]
     }
 
     s.draw = function() {

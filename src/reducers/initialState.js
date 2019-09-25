@@ -16,6 +16,9 @@ export default {
     },
     training: {
         running: false,
+        speed: 1000,
+        dataType: 'sin',
+        dataVariant: 'basic',
         values: 0,
         predictions: 0,
         testOffset: 0,

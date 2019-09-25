@@ -25,7 +25,10 @@ class Controls extends React.Component {
     this.props.actions.toggleTraining(this.props.training);
   }
 
+  
+
   render() {
+    
     return(
       <AppBar position="static" color="primary" elevation={5}>
         <Toolbar>
