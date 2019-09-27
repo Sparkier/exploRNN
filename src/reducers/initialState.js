@@ -18,7 +18,7 @@ export default {
         running: false,
         speed: 1000,
         dataType: 'sin',
-        dataVariant: 'basic',
+        dataVariant: 'linear',
         values: 0,
         predictions: 0,
         testOffset: 0,

@@ -6,15 +6,16 @@ export default function (s) {
     s.values = 63; // Only temporary, use props instead
     s.predictions = 20; // Only temporary, use props instead
     s.update = false;
+    s.scaleImage = 5
 
     s.updateMemory = () => {
         if(!s.props.training.running) {
             s.network = [];
-            s.network.push(1);
+            s.network.push({size: 1, type: 'input'});
             for(let i = 0; i < s.props.network.layers; i++) {
-                s.network.push(s.props.network.layerSize);
+                s.network.push({size: s.props.network.layerSize, type: 'hidden'});
             }
-            s.network.push(1);
+            s.network.push({size: 1, type: 'output'});
             s.net = new Network(s);
         }
        s.update = true;
@@ -30,12 +31,22 @@ export default function (s) {
         //s.createCanvas(600,400)
         s.frameRate(10)
         s.net = new Network(s);
+        s.imageMode(s.CENTER)
     }
 
     s.draw = function() {
         s.background(54)
         s.stroke(0)
         s.drawNetwork();
+        //s.image(s.img,0,0)
+    }
+
+    s.preload = function() {
+        s.img_input = s.loadImage('./data/input_basic.png');
+        s.img_lstm = s.loadImage('./data/lstm_basic.png');
+        s.img_output = s.loadImage('./data/output_basic.png', img => {
+            console.log('LODAED')
+        });
     }
 
     s.drawNetwork = function() {
@@ -113,10 +124,10 @@ class Layer {
 
     constructor(s, layers, i, nodes) {
         this.s = s;
-        this.layerwidth = nodes
+        this.layerwidth = nodes.size
         this.nodes = []
         for(let j = 0; j < this.layerwidth; j++) {
-            this.nodes.push(new Node(s, s.width * (i+1)/(layers + 1), s.height * (j + 1)/ (nodes+1), 50))
+            this.nodes.push(new Node(s, s.width * (i+1)/(layers + 1), s.height * (j + 1)/ (nodes.size+1), 50, nodes.type))
         }
     }
 
@@ -140,13 +151,15 @@ class Layer {
 }
 
 class Node {
-    constructor(s, x, y, r) {
+    constructor(s, x, y, r, type) {
         this.s = s;
         this.x = x;
         this.y = y;
         this.r = r;
+        this.type = type
         this.hover = false;
         this.clicked = false;
+        this.label = 'node'
     }
 
     draw() {
@@ -163,7 +176,18 @@ class Node {
             s.fill(250,100,100);
         }
         if(this.clicked) {
-            this.s.ellipse(this.x,this.y, 3 * this.r);
+            switch(this.type) {
+                case 'input':
+                    s.image(s.img_input,this.x,this.y,this.r* s.scaleImage,this.r* s.scaleImage)
+                    break;
+                case 'hidden':
+                    s.image(s.img_lstm,this.x,this.y,this.r* s.scaleImage,this.r* s.scaleImage)
+                    break;
+                case 'output':
+                    s.image(s.img_output,this.x,this.y,this.r* s.scaleImage,this.r* s.scaleImage)
+                    break;
+                default:
+            }
         } else {
             this.s.ellipse(this.x,this.y,this.r);
         }

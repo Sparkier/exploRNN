@@ -41,9 +41,9 @@ class Training extends React.Component {
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
     this.props.actions.firstcall();
     console.log(this.props.network.data);
-    this.data.getSinDataFrom(this.props.network.iteration);
+    this.data.getSinDataFrom(this.props.network.iteration, this.props.training.dataVariant);
     this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.train_sin_input, this.data.train_sin_next);
-    this.data.getSinDataFrom(this.props.network.iteration + 1);
+    this.data.getSinDataFrom(this.props.network.iteration + 1, this.props.training.dataVariant);
     this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.train_sin_input, this.data.train_sin_next);
     console.log(this.props.network.data);
   }
@@ -64,7 +64,7 @@ class Training extends React.Component {
     if(!this.props.training.running) {
       return;   
     }
-    this.data.getSinDataFrom(this.props.network.iteration + 2);
+    this.data.getSinDataFrom(this.props.network.iteration + 2, this.props.training.dataVariant);
     this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.train_sin_input, this.data.train_sin_next);
     this.props.actions.updateNetwork({...this.props.network, iteration: this.props.network.iteration + 1});
     // this.data.getSampleFromTestData(this.props.network.iteration + this.props.training.testOffset);

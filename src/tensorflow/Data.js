@@ -27,11 +27,11 @@ export class Data {
     
   }
 
-  getSinDataFrom(start) {
-    return this.getSinDataForTime(start, 1.5 * Math.PI, 2 * Math.PI, 0.2, 1);
+  getSinDataFrom(start, variant) {
+    return this.getSinDataForTime(start, 1.5 * Math.PI, 2 * Math.PI, 0.2, 1, variant);
   }
 
-  getSinDataForTime(start, plotLength, predictionLength, stepSize, setSize) {
+  getSinDataForTime(start, plotLength, predictionLength, stepSize, setSize, variant) {
     this.sinInputBuff = [];
     this.sinOutputBuff = [];
     this.values = Math.round(plotLength / stepSize);
@@ -39,22 +39,39 @@ export class Data {
     this.stepSize = stepSize;
     this.chartDataInput = [];
     this.chartDataOutput = [];
-    const randomOffset = 0;
-    const randomAmplitude = 1;
+    let randomOffset = Math.random() * 2 * Math.PI;
+    let randomAmplitude = 0.5 + Math.random();
+
+    switch(variant) {
+      case 'basic':
+        start = 0;
+        randomOffset = 0;
+        randomAmplitude = 1;
+        break;
+      case 'linear':
+        randomOffset = 0;
+        randomAmplitude = 1;
+        break;
+      case 'random':
+        start = 0;
+        break;
+      default:
+    }
+
     for(let i = 0; i < setSize; i++) {
       const currentInSequence = [];
       for(let j = 0; j < this.values; j++) {
-        currentInSequence.push([Math.sin((start + j + randomOffset) * stepSize) * randomAmplitude]);
+        currentInSequence.push([Math.sin((start + j) * stepSize + randomOffset) * randomAmplitude]);
         this.chartDataInput.push(
-          Math.sin((j + randomOffset + start) * stepSize) * randomAmplitude
+          Math.sin((j + start) * stepSize + randomOffset) * randomAmplitude
         )
       }
       this.sinInputBuff.push(currentInSequence);
       const currentOutSequence = [];
       for(let j = 0; j < this.predictions; j++) {
-        currentOutSequence.push(Math.sin((this.values + randomOffset + j + start) * stepSize) * randomAmplitude)
+        currentOutSequence.push(Math.sin((this.values + j + start) * stepSize + randomOffset ) * randomAmplitude)
         this.chartDataOutput.push(
-          Math.sin((this.values + j + randomOffset + start) * stepSize) * randomAmplitude
+          Math.sin((this.values + j + start) * stepSize  + randomOffset) * randomAmplitude
         )
       }
       this.sinOutputBuff.push(currentOutSequence);
