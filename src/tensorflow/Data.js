@@ -40,7 +40,7 @@ export class Data {
     this.chartDataInput = [];
     this.chartDataOutput = [];
     let randomOffset = Math.random() * 2 * Math.PI;
-    let randomAmplitude = 0.5 + Math.random();
+    let randomAmplitude = 0.2 + Math.random() * 0.8;
 
     switch(variant) {
       case 'basic':

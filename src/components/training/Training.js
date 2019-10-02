@@ -39,6 +39,7 @@ class Training extends React.Component {
     console.log(this.props.network.learningRate)
     const optimizer = tf.train.rmsprop(this.props.network.learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
+    this.model.model.summary();
     this.props.actions.firstcall();
     console.log(this.props.network.data);
     this.data.getSinDataFrom(this.props.network.iteration, this.props.training.dataVariant);
