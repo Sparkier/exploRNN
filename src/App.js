@@ -40,7 +40,7 @@ const App = () => (
         <header>
           <Controls/>
         </header>
-        <AppRouter />
+        <AppRouter/>
       </div>
     </Provider>
   </MuiThemeProvider>

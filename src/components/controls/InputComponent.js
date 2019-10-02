@@ -8,6 +8,7 @@ import grey from '@material-ui/core/colors/grey';
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select';
+import { Grid } from '@material-ui/core';
 
 import * as actions from '../../actions';
 import { lightBlue } from '@material-ui/core/colors';
@@ -57,64 +58,95 @@ class Input extends React.Component {
 
     simplePaddingStyle = {
         paddingTop: "20px",
+        paddingLeft: "20px",
+        paddingRight: "20px",
         paddingBottom: "20px",
-        width: "40%"
+        color: grey[800]
+    };
+
+    sliderPaddingStyle = {
+        width:"80%",
+        paddingTop: "20px"
     };
     
     render() {
         return (
-          <div className='wrapper' style={{background: grey[800], color: 'white', padding: '20px'}}>
-                <StyledSelect value={this.props.network.type} label="Type" onChange={ this.handleTypeSelection }>
-                    <MenuItem value="LSTM">LSTM</MenuItem>
-                    <MenuItem value="GRU">GRU</MenuItem>
-                </StyledSelect>
-                <StyledSelect value={this.props.network.layers} label="Layers" onChange={ this.handleLayerCountSelection }>
-                    <MenuItem value="1">One</MenuItem>
-                    <MenuItem value="2">Two</MenuItem>
-                    <MenuItem value="3">Three</MenuItem>
-                </StyledSelect>
-                <StyledSelect value={this.props.network.layerSize} label="Layer Width" onChange={ this.handleSelectionChange }>
-                    <MenuItem value="1">One</MenuItem>
-                    <MenuItem value="2">Two</MenuItem>
-                    <MenuItem value="5">Five</MenuItem>
-                </StyledSelect>
-                <StyledSelect value={this.props.network.activation} label="Activation" onChange={ this.handleActivationSelection }>
-                    <MenuItem value="tanh">tanh</MenuItem>
-                </StyledSelect>
-                <StyledSelect value={this.props.training.dataType} label="Data Type" onChange={ this.handleDataSelection }>
-                    <MenuItem value="sin">sin(x)</MenuItem>
-                    <MenuItem value="cir">Circle</MenuItem>
-                </StyledSelect>
-                <StyledSelect value={this.props.training.dataVariant} label="Input Variation" onChange={ this.handleDataVariantSelection }>
-                    <MenuItem value="basic">None</MenuItem>
-                    <MenuItem value="linear">Linear</MenuItem>
-                    <MenuItem value="random">Random</MenuItem>
-                </StyledSelect>
-                <Typography variant="body1" style={{...this.simplePaddingStyle, color: lightBlue[400],}}>
-                    Learning Rate: {this.props.network.learningRate}
-                </Typography>
-                <Slider
-                    style={{...this.simplePaddingStyle, color: 'white'}}
-                    marks
-                    defaultValue={this.props.network.learningRate}
-                    valueLabelDisplay="off"
-                    step={0.01}
-                    min={0.01}
-                    max={0.5} onChange={this.handleSliderChange}
-                />
-                <Typography variant="body1" style={{...this.simplePaddingStyle, color: lightBlue[400],}}>
-                    Speed
-                </Typography>
-                <Slider
-                    style={{...this.simplePaddingStyle, color: 'white'}}
-                    marks
-                    defaultValue={this.props.training.speed}
-                    valueLabelDisplay="off"
-                    step={10}
-                    min={100}
-                    max={1100}
-                    onChange={this.handleSpeedChange}
-                />
+            <div className = 'wrapper' style= {{background: grey[800], padding: '20px'}}>
+                
+                <Grid container spacing={5} direction="column" style={this.simplePaddingStyle}>
+                    <Grid item xs={12} spacing={2} container justify="flex-start">
+                        <Grid item xs={2}>
+                            <StyledSelect value={this.props.network.type} label="Type" onChange={ this.handleTypeSelection }>
+                                <MenuItem value="LSTM">LSTM</MenuItem>
+                                <MenuItem value="GRU">GRU</MenuItem>
+                            </StyledSelect>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <StyledSelect value={this.props.network.layers} label="Layers" onChange={ this.handleLayerCountSelection }>
+                                <MenuItem value="1">One</MenuItem>
+                                <MenuItem value="2">Two</MenuItem>
+                                <MenuItem value="3">Three</MenuItem>
+                            </StyledSelect>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <StyledSelect value={this.props.network.layerSize} label="Layer Width" onChange={ this.handleSelectionChange }>
+                                <MenuItem value="1">One</MenuItem>
+                                <MenuItem value="2">Two</MenuItem>
+                                <MenuItem value="5">Five</MenuItem>
+                            </StyledSelect>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <StyledSelect value={this.props.network.activation} label="Activation" onChange={ this.handleActivationSelection }>
+                                <MenuItem value="tanh">tanh</MenuItem>
+                            </StyledSelect>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <StyledSelect value={this.props.training.dataType} label="Data Type" onChange={ this.handleDataSelection }>
+                                <MenuItem value="sin">sin(x)</MenuItem>
+                                <MenuItem value="cir">Circle</MenuItem>
+                            </StyledSelect>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <StyledSelect value={this.props.training.dataVariant} label="Input Variation" onChange={ this.handleDataVariantSelection }>
+                                <MenuItem value="basic">None</MenuItem>
+                                <MenuItem value="linear">Linear</MenuItem>
+                                <MenuItem value="random">Random</MenuItem>
+                            </StyledSelect>
+                        </Grid>
+                    </Grid>
+                    
+                    <Grid item xs={12} container justify="center">
+                        <Grid item xs={6}>
+                            <Typography variant="body1" style={{...this.sliderPaddingStyle, color: lightBlue[400],}}>
+                                Learning Rate: {this.props.network.learningRate}
+                            </Typography>
+                            <Slider
+                                style={{...this.sliderPaddingStyle, color: 'white'}}
+                                marks
+                                defaultValue={this.props.network.learningRate}
+                                valueLabelDisplay="off"
+                                step={0.01}
+                                min={0.01}
+                                max={0.5} onChange={this.handleSliderChange}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography variant="body1" style={{...this.sliderPaddingStyle, color: lightBlue[400],}}>
+                                Speed
+                            </Typography>
+                            <Slider
+                                style={{...this.sliderPaddingStyle, color: 'white'}}
+                                marks
+                                defaultValue={this.props.training.speed}
+                                valueLabelDisplay="off"
+                                step={10}
+                                min={100}
+                                max={1100}
+                                onChange={this.handleSpeedChange}
+                            />
+                        </Grid>
+                    </Grid>
+                </Grid>
             </div>
         );
     }

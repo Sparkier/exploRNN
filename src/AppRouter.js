@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
+import Toolbar from '@material-ui/core/Toolbar';
 
 import Main from './components/MainComponent';
 
@@ -7,12 +8,15 @@ import Main from './components/MainComponent';
 class AppRouter extends React.Component {
   render() {
     return (
-      <div className='content'>
-        <Router>
-          <div className='full'>
-            <Route exact={true} path="" component={Main} />
-          </div>
-        </Router>
+      <div className='wrap'>
+        <Toolbar/>
+        <div className='content'>
+          <Router>
+            <div className='full'>
+              <Route exact={true} path="" component={Main} />
+            </div>
+          </Router>
+        </div>
       </div>
     );
   }    

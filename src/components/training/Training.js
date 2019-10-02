@@ -11,6 +11,7 @@ import { Data } from '../../tensorflow/Data';
 class Training extends React.Component {
 
   componentDidMount() {
+    tf.setBackend('cpu')
     this.model = new Model();
     this.data = new Data();
     this.props.actions.updateTraining({
