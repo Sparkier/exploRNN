@@ -43,20 +43,13 @@ export default function (s) {
 
     s.preload = function() {
         s.img_input = s.loadImage('./data/input_basic.png');
-        s.img_lstm = s.loadImage('./data/lstm_basic.png');
+        s.img_lstm = s.loadImage('./data/lstm_block.png');
         s.img_output = s.loadImage('./data/output_basic.png', img => {
             console.log('LODAED')
         });
     }
 
     s.drawNetwork = function() {
-        s.stroke(255);
-        s.noFill();
-        let layers = s.network.length
-        s.line(0, s.height/2, s.width/(layers+1), s.height/2)
-        s.stroke(255);
-        s.noFill();
-        s.line(s.width, s.height/2, s.width - s.width/(layers+1), s.height/2)
         s.net.draw();
         if(s.update) {
             s.update = false;
@@ -79,10 +72,14 @@ class Network {
         this.s = s;
         this.layers = []
         let layercount = s.network.length
-        for(let i = 0; i < layercount; i++) {
-            let nodes = s.network[i]
-            this.layers.push(new Layer(s, layercount, i, nodes));
+        let nodes = s.network[0]
+        this.layers.push(new Layer(s, layercount, -1, nodes));
+        for(let i = 1; i < layercount - 1; i++) {
+            nodes = s.network[i]
+            this.layers.push(new Layer(s, layercount, i - 1, nodes));
         }
+        nodes = s.network[layercount-1]
+        this.layers.push(new Layer(s, layercount, -1, nodes));
         console.log('MY NET', this.layers)
     }
 
@@ -124,14 +121,23 @@ class Layer {
 
     constructor(s, layers, i, nodes) {
         this.s = s;
+        this.i = i;
+        this.layers = layers - 1;
         this.layerwidth = nodes.size
         this.nodes = []
+        this.layerType = nodes.type;
         for(let j = 0; j < this.layerwidth; j++) {
-            this.nodes.push(new Node(s, s.width * (i+1)/(layers + 1), s.height * (j + 1)/ (nodes.size+1), 50, nodes.type))
+            this.nodes.push(new Node(s, s.width * (i+1)/(this.layers), s.height * (j + 1)/ (nodes.size+1), 50, nodes.type))
         }
     }
 
     draw() {
+        if(!(this.layerType === 'input' || this.layerType === 'output')) {
+            let s = this.s;
+            s.noFill();
+            s.stroke(255);
+            s.rect(s.width * (this.i+1)/(this.layers) - 40,100,80,s.height - 200);
+        }
         for(let n of this.nodes) {
             n.draw();
         }
@@ -160,6 +166,10 @@ class Node {
         this.hover = false;
         this.clicked = false;
         this.label = 'node'
+        if(type === 'input')
+            this.x = 0
+        if(type === 'output')
+            this.x = s.width
     }
 
     draw() {
@@ -178,18 +188,22 @@ class Node {
         if(this.clicked) {
             switch(this.type) {
                 case 'input':
-                    s.image(s.img_input,this.x,this.y,this.r* s.scaleImage,this.r* s.scaleImage)
                     break;
                 case 'hidden':
                     s.image(s.img_lstm,this.x,this.y,this.r* s.scaleImage,this.r* s.scaleImage)
                     break;
                 case 'output':
-                    s.image(s.img_output,this.x,this.y,this.r* s.scaleImage,this.r* s.scaleImage)
                     break;
                 default:
             }
         } else {
-            this.s.ellipse(this.x,this.y,this.r);
+            switch(this.type) {
+                case 'input':
+                case 'output':
+                    break;
+                default:
+                    this.s.ellipse(this.x,this.y,this.r);
+            }
         }
 
     }

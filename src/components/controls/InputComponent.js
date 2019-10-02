@@ -82,14 +82,14 @@ class Input extends React.Component {
                             </StyledSelect>
                         </Grid>
                         <Grid item xs={2}>
-                            <StyledSelect value={this.props.network.layers} label="Layers" onChange={ this.handleLayerCountSelection }>
+                            <StyledSelect value={this.props.network.layers} label="Block Layers" onChange={ this.handleLayerCountSelection }>
                                 <MenuItem value="1">One</MenuItem>
                                 <MenuItem value="2">Two</MenuItem>
                                 <MenuItem value="3">Three</MenuItem>
                             </StyledSelect>
                         </Grid>
                         <Grid item xs={2}>
-                            <StyledSelect value={this.props.network.layerSize} label="Layer Width" onChange={ this.handleSelectionChange }>
+                            <StyledSelect value={this.props.network.layerSize} label="Cells per Block" onChange={ this.handleSelectionChange }>
                                 <MenuItem value="1">One</MenuItem>
                                 <MenuItem value="2">Two</MenuItem>
                                 <MenuItem value="5">Five</MenuItem>
