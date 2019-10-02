@@ -31,7 +31,7 @@ class Training extends React.Component {
         this.stop();
       }
     }
-    this.pause = 2100 - 2 * this.props.training.speed;
+    this.pause = 2000 - 2 * this.props.training.speed;
     console.log('WATCH ME GO:', this.props.training.speed, this.pause)
   }
 
@@ -51,9 +51,7 @@ class Training extends React.Component {
   }
 
   start = () => {
-    if(this.props.firstcall) {
-      this.reset();
-    }
+    this.reset();
     this.iterate();
   }
 

@@ -75,12 +75,12 @@ export default function (s) {
     }
     
     s.windowResized = function(){
-        s.resizeCanvas(document.getElementById("outputDiv").offsetWidth, window.innerHeight)
+        s.resizeCanvas(document.getElementById("outputDiv").offsetWidth, window.innerHeight - 60)
         s.plot = [new Plot(0), new Plot(1), new Plot(2), new Plot(3), new Plot(4)]
     }
 
     s.setup = function() {
-        s.createCanvas(document.getElementById("outputDiv").offsetWidth, window.innerHeight)
+        s.createCanvas(document.getElementById("outputDiv").offsetWidth, window.innerHeight - 60)
         s.plot = [new Plot(0), new Plot(1), new Plot(2), new Plot(3), new Plot(4)]
     }
 

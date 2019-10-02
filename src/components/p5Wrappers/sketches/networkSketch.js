@@ -23,11 +23,11 @@ export default function (s) {
     }
 
     s.windowResized = function(){
-        s.resizeCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight)
+        s.resizeCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - 60)
     }
         
     s.setup = function() {
-        s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight)
+        s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - 60)
         //s.createCanvas(600,400)
         s.frameRate(10)
         s.net = new Network(s);

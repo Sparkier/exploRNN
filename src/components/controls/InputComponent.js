@@ -58,8 +58,8 @@ class Input extends React.Component {
 
     simplePaddingStyle = {
         paddingTop: "20px",
-        paddingLeft: "20px",
-        paddingRight: "20px",
+        paddingLeft: "40px",
+        paddingRight: "40px",
         paddingBottom: "20px",
         color: grey[800]
     };
@@ -71,10 +71,10 @@ class Input extends React.Component {
     
     render() {
         return (
-            <div className = 'wrapper' style= {{background: grey[800], padding: '20px'}}>
+            <div className = 'wrapper' style= {{background: grey[800]}}>
                 
                 <Grid container spacing={5} direction="column" style={this.simplePaddingStyle}>
-                    <Grid item xs={12} spacing={2} container justify="flex-start">
+                    <Grid item xs={9} container justify="space-evenly">
                         <Grid item xs={2}>
                             <StyledSelect value={this.props.network.type} label="Type" onChange={ this.handleTypeSelection }>
                                 <MenuItem value="LSTM">LSTM</MenuItem>
@@ -141,7 +141,7 @@ class Input extends React.Component {
                                 valueLabelDisplay="off"
                                 step={10}
                                 min={100}
-                                max={1100}
+                                max={1000}
                                 onChange={this.handleSpeedChange}
                             />
                         </Grid>
@@ -164,7 +164,7 @@ const styles = {
         '&:after': {
             borderColor: lightBlue[400],
         },
-        width: "200px",
+        width: "150px",
         color:'white'
     },
     icon: {
