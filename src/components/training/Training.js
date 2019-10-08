@@ -42,12 +42,10 @@ class Training extends React.Component {
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
     this.model.model.summary();
     this.props.actions.firstcall();
-    console.log(this.props.network.data);
     this.data.getSinDataFrom(this.props.network.iteration, this.props.training.dataVariant);
     this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.train_sin_input, this.data.train_sin_next);
     this.data.getSinDataFrom(this.props.network.iteration + 1, this.props.training.dataVariant);
     this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.train_sin_input, this.data.train_sin_next);
-    console.log(this.props.network.data);
   }
 
   start = () => {
@@ -71,9 +69,7 @@ class Training extends React.Component {
     tf.tidy(() => {
       const prediction = this.model.model.predict(this.props.network.data[2].modelInput);
       const preds = Array.from(prediction.arraySync());
-      console.log('HELP ME',Array.from( this.props.network.data[2].modelInput.arraySync()), preds);
       this.props.actions.addPredictionToNetwork(this.props.network, preds[0]);
-      console.log('TEST', this.props.training, this.props.network);
     });
     this.model.model.fit(this.props.network.data[2].modelInput, this.props.network.data[2].modelOutput, {
       epochs: 1, 
