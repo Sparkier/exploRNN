@@ -75,19 +75,20 @@ export default function (s) {
     }
     
     s.windowResized = function(){
-        s.resizeCanvas(document.getElementById("outputDiv").offsetWidth, window.innerHeight - 60)
+        s.resizeCanvas(document.getElementById("outputDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight)
         s.plot = [new Plot(0), new Plot(1), new Plot(2), new Plot(3), new Plot(4)]
     }
 
     s.setup = function() {
-        s.createCanvas(document.getElementById("outputDiv").offsetWidth, window.innerHeight - 60)
+        s.createCanvas(document.getElementById("outputDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight)
         s.plot = [new Plot(0), new Plot(1), new Plot(2), new Plot(3), new Plot(4)]
     }
 
     s.draw = function() {
         s.background(25)
-        for (let p of s.plot) {
+        /*for (let p of s.plot) {
             p.draw();
-        }
+        }*/
+        s.plot[2].draw();
     }
 }

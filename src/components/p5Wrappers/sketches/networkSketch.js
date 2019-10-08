@@ -6,7 +6,12 @@ export default function (s) {
     s.values = 63; // Only temporary, use props instead
     s.predictions = 20; // Only temporary, use props instead
     s.update = false;
-    s.scaleImage = 5
+    s.scaleImage = 5;
+    s.detail = false;
+    s.transition = 0;
+    s.transitionSpeed = 7;
+    s.clickedNode = undefined;
+    s.bgval = 45;
 
     s.updateMemory = () => {
         if(!s.props.training.running) {
@@ -19,26 +24,27 @@ export default function (s) {
             s.net = new Network(s);
         }
        s.update = true;
-       console.log('I WILL DRAW', s.network);
     }
 
     s.windowResized = function(){
-        s.resizeCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - 60)
+        s.resizeCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight)
     }
         
     s.setup = function() {
-        s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - 60)
-        //s.createCanvas(600,400)
-        s.frameRate(10)
+        s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight)
+        s.frameRate(60)
         s.net = new Network(s);
         s.imageMode(s.CENTER)
+        s.rectMode(s.CENTER)
     }
 
     s.draw = function() {
-        s.background(54)
-        s.stroke(0)
-        s.drawNetwork();
-        //s.image(s.img,0,0)
+        s.background(s.bgval)
+        s.drawNetwork(); 
+        s.fill(s.bgval, s.cellAlpha);
+        s.noStroke();
+        s.rect(s.width/2, s.height/2,s.width,s.height);
+        s.drawCell();
     }
 
     s.preload = function() {
@@ -49,11 +55,57 @@ export default function (s) {
         });
     }
 
+    s.drawCell = function() {
+        if(s.detail) {
+            if(s.transition < 100) {
+                s.transition += s.transitionSpeed
+            }
+        } else {
+            if(s.transition > 0) {
+                s.transition -= s.transitionSpeed
+            }
+        }
+        s.push();
+        if(s.clickedNode){
+            let cx = s.clickedNode.x + (s.clickedNode.x - s.width / 2) * (s.transition / 100)
+            let cy = s.clickedNode.y + (s.clickedNode.y - s.height / 2) * (s.transition / 100)
+            s.translate(cx, cy)
+        }
+        s.scale(s.transition / 100);
+        if(s.clickedNode){
+            let cx = s.clickedNode.x + (s.clickedNode.x - s.width / 2) * (s.transition / 100)
+            let cy = s.clickedNode.y + (s.clickedNode.y - s.height / 2) * (s.transition / 100)
+            s.translate(-cx, -cy)
+        }
+        s.translate(s.width/2, s.height/2)
+        // s.scale(s.transition / 100);
+        s.cellAlpha = 255 * s.transition / 100 
+        s.fill(200, s.cellAlpha);
+        s.rect(0,0,200,200);
+        s.pop();
+    }
+
     s.drawNetwork = function() {
+        s.push();
+        s.netScale = (100 +  s.transition) / 100
+        if(s.clickedNode){
+            let cx = s.clickedNode.x + (s.clickedNode.x - s.width / 2) * (s.transition / 100)
+            let cy = s.clickedNode.y + (s.clickedNode.y - s.height / 2) * (s.transition / 100)
+            s.translate(cx, cy)
+        }
+        s.scale(s.netScale);
+        if(s.clickedNode){
+            let cx = s.clickedNode.x + (s.clickedNode.x - s.width / 2) * (s.transition / 100)
+            let cy = s.clickedNode.y + (s.clickedNode.y - s.height / 2) * (s.transition / 100)
+            s.translate(-cx, -cy)
+        } 
+        // s.netAlpha = 255 * (100 - s.transition) / 100
+        s.netAlpha = 255; 
         s.net.draw();
         if(s.update) {
             s.update = false;
         }
+        s.pop();
     }
 
     s.mouseMoved = function() {
@@ -61,7 +113,14 @@ export default function (s) {
     }
 
     s.mouseClicked = function() {
-        s.net.checkClick();
+        if(s.mouseX < 0 || s.mouseY < 0 || s.mouseX > s.width || s.mouseY > s.height)  {
+            return;
+        }
+        if(s.detail) {
+            s.detail = false;
+        } else {
+            s.net.checkClick();
+        }   
     } 
 
 }
@@ -80,15 +139,15 @@ class Network {
         }
         nodes = s.network[layercount-1]
         this.layers.push(new Layer(s, layercount, -1, nodes));
-        console.log('MY NET', this.layers)
     }
 
     draw() {
-        for(let i = 0; i < this.layers.length; i++) {
+        this.s.strokeWeight(2 * this.s.netScale);
+        /*for(let i = 0; i < this.layers.length; i++) {
             for(let j = 0; j < this.layers[i].nodes.length; j++) {
                 let from = this.layers[i].nodes[j]
                 if(i !== this.layers.length - 1) {
-                    this.s.stroke(255);
+                    this.s.stroke(255, this.s.netAlpha);
                     this.s.noFill();
                     let next = this.layers[i+1].nodes.length
                     for(let k = 0; k < next; k++) {
@@ -97,7 +156,10 @@ class Network {
                     }
                 }   
             }
-        }
+        }*/
+        this.s.stroke(255);
+        this.s.noFill();
+        this.s.line(0, this.s.height/2, this.s.width, this.s.height/2);
         for(let l of this.layers) {
             l.draw();
         }
@@ -134,9 +196,9 @@ class Layer {
     draw() {
         if(!(this.layerType === 'input' || this.layerType === 'output')) {
             let s = this.s;
-            s.noFill();
-            s.stroke(255);
-            s.rect(s.width * (this.i+1)/(this.layers) - 40,100,80,s.height - 200);
+            s.fill(255, this.s.netAlpha)
+            s.stroke(0, this.s.netAlpha);
+            s.rect(s.width * (this.i+1)/(this.layers),s.height/2,80,s.height - 200);
         }
         for(let n of this.nodes) {
             n.draw();
@@ -175,22 +237,22 @@ class Node {
     draw() {
         let s = this.s
         if(!s.update){
-            s.stroke(0);
-            s.fill(255);
+            s.stroke(0, s.netAlpha);
+            s.fill(255, s.netAlpha);
         } else {
-            s.stroke(0);
-            s.fill(50,255,150);
+            s.stroke(0, s.netAlpha);
+            s.fill(50,255,150, s.netAlpha);
         }
         if(this.hover) {
-            s.stroke(0);
-            s.fill(250,100,100);
+            s.stroke(0, s.netAlpha);
+            s.fill(250,100,100, s.netAlpha);
         }
         if(this.clicked) {
             switch(this.type) {
                 case 'input':
                     break;
                 case 'hidden':
-                    s.image(s.img_lstm,this.x,this.y,this.r* s.scaleImage,this.r* s.scaleImage)
+                    this.s.ellipse(this.x,this.y,this.r);
                     break;
                 case 'output':
                     break;
@@ -217,6 +279,11 @@ class Node {
     }
 
     checkClick() {
+        if(this.hover && !this.clicked) {
+           this.s.detail = true;
+           this.s.clickedNode = this;
+           this.s.props.actions.stopTraining(this.s.props.training);
+        }
         this.clicked = this.hover
     }
 }
