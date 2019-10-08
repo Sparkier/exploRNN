@@ -76,8 +76,9 @@ export default function (s) {
 
     s.draw = function() {
         s.background(25)
-        for (let p of s.plot) {
+        /*for (let p of s.plot) {
             p.draw();
-        }
+        }*/
+        s.plot[2].draw();
     }
 }

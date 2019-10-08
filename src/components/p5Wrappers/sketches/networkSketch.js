@@ -82,7 +82,7 @@ export default function (s) {
         // s.scale(s.transition / 100);
         s.cellAlpha = 255 * s.transition / 100 
         s.fill(200, s.cellAlpha);
-        s.rect(0,0,20,20);
+        s.rect(0,0,200,200);
         s.pop();
     }
 
@@ -114,6 +114,9 @@ export default function (s) {
     }
 
     s.mouseClicked = function() {
+        if(s.mouseX < 0 || s.mouseY < 0 || s.mouseX > s.width || s.mouseY > s.height)  {
+            return;
+        }
         if(s.detail) {
             s.detail = false;
         } else {
@@ -142,7 +145,7 @@ class Network {
 
     draw() {
         this.s.strokeWeight(2 * this.s.netScale);
-        for(let i = 0; i < this.layers.length; i++) {
+        /*for(let i = 0; i < this.layers.length; i++) {
             for(let j = 0; j < this.layers[i].nodes.length; j++) {
                 let from = this.layers[i].nodes[j]
                 if(i !== this.layers.length - 1) {
@@ -155,7 +158,10 @@ class Network {
                     }
                 }   
             }
-        }
+        }*/
+        this.s.stroke(255);
+        this.s.noFill();
+        this.s.line(0, this.s.height/2, this.s.width, this.s.height/2);
         for(let l of this.layers) {
             l.draw();
         }
@@ -192,7 +198,7 @@ class Layer {
     draw() {
         if(!(this.layerType === 'input' || this.layerType === 'output')) {
             let s = this.s;
-            s.noFill();
+            s.fill(255, this.s.netAlpha)
             s.stroke(0, this.s.netAlpha);
             s.rect(s.width * (this.i+1)/(this.layers),s.height/2,80,s.height - 200);
         }
@@ -276,8 +282,9 @@ class Node {
 
     checkClick() {
         if(this.hover && !this.clicked) {
-           this.s.detail = !this.s.detail;
+           this.s.detail = true;
            this.s.clickedNode = this;
+           this.s.props.actions.stopTraining(this.s.props.training);
         }
         this.clicked = this.hover
     }
