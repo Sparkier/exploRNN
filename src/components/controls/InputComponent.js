@@ -71,7 +71,7 @@ class Input extends React.Component {
     
     render() {
         return (
-            <div className = 'wrapper' style= {{background: grey[800]}}>
+            <div id = "valueDiv" className = 'wrapper' style= {{background: grey[800]}}>
                 
                 <Grid container spacing={5} direction="column" style={this.simplePaddingStyle}>
                     <Grid item xs={9} container justify="space-evenly">

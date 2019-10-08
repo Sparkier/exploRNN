@@ -77,7 +77,7 @@ header {
 .content {
     height: calc(100% - 60px);
     background-color: #000000;
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
 .full {

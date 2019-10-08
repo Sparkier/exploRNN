@@ -24,15 +24,14 @@ export default function (s) {
             s.net = new Network(s);
         }
        s.update = true;
-       console.log('I WILL DRAW', s.network);
     }
 
     s.windowResized = function(){
-        s.resizeCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - 60)
+        s.resizeCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight)
     }
         
     s.setup = function() {
-        s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - 60)
+        s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight)
         s.frameRate(60)
         s.net = new Network(s);
         s.imageMode(s.CENTER)
@@ -140,7 +139,6 @@ class Network {
         }
         nodes = s.network[layercount-1]
         this.layers.push(new Layer(s, layercount, -1, nodes));
-        console.log('MY NET', this.layers)
     }
 
     draw() {

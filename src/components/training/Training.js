@@ -32,7 +32,6 @@ class Training extends React.Component {
       }
     }
     this.pause = 2000 - 2 * this.props.training.speed;
-    console.log('WATCH ME GO:', this.props.training.speed, this.pause)
   }
 
   reset() {
