@@ -19,6 +19,7 @@ export class Model {
    */
   createComplexModel(timeSteps, vocab, labels, layers, layerSize) {
     this.model = tf.sequential();
+    // layerSize = 128;
     this.model.add(tf.layers.lstm({units: layerSize,  returnSequence: true, inputShape: [timeSteps, vocab]}));
     for(let i = 1; i < layers; i++) {
       this.model.add(tf.layers.repeatVector({n: layerSize})); // is this needed? maybe use a reshape layer?
