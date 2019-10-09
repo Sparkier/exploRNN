@@ -26,7 +26,8 @@ class Training extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.training.running !== prevProps.training.running) {
       if (this.props.training.running === true) {
-        this.start();
+        const this_ = this;
+        setTimeout (function() {this_.start()}, 500);
       } else {
         this.stop();
       }
