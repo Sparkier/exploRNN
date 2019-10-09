@@ -27,7 +27,7 @@ export default function (s) {
 
     s.draw = function() {
         s.background(s.bgval)
-        if(s.detail && s.lstmAnim && s.frameCount % 20 === 0) {
+        if(s.detail && s.lstmAnim && s.frameCount % 40 === 0) {
             s.cell.update();
         }
         s.drawNetwork();
@@ -39,6 +39,12 @@ export default function (s) {
         s.img_input = s.loadImage('./data/input_basic.png');
         s.img_lstm = s.loadImage('./data/lstm_block.png');
         s.img_output = s.loadImage('./data/output_basic.png');
+        s.receive = s.loadImage('./data/receive.png');
+        s.add = s.loadImage('./data/add.png');
+        s.save = s.loadImage('./data/save.png');
+        s.forget = s.loadImage('./data/remove.png');
+        s.cellImage = s.loadImage('./data/memory.png');
+        s.output = s.loadImage('./data/output.png');
     }
 
     s.updateMemory = () => {

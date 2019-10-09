@@ -157,7 +157,7 @@ class Item {
         switch(type) {
             case 'fst':
             case 'lst':
-                this.r = 5;
+                this.r = 30;
                 break;
             case 'crs':
                 this.r = 10;
@@ -180,6 +180,29 @@ class Item {
             s.fill(150,180,200);
         }
         this.s.ellipse(this.x, this.y, this.r);
+        this.s.tint(45,200,10)
+        let imgSize = 0.6 * this.r;
+        switch(this.type) {
+            case 'rec':
+                this.s.image(this.s.receive,this.x, this.y,imgSize,imgSize)
+                break;
+            case 'add':
+                this.s.image(this.s.add,this.x, this.y,imgSize,imgSize)
+                break;
+            case 'sav':
+                this.s.image(this.s.save,this.x, this.y,imgSize,imgSize)
+                break;
+            case 'los':
+                this.s.image(this.s.forget,this.x, this.y,imgSize,imgSize)
+                break;
+            case 'cel':
+                this.s.image(this.s.cellImage,this.x, this.y,imgSize,imgSize)
+                break;
+            case 'out':
+                this.s.image(this.s.output,this.x, this.y,imgSize,imgSize)
+                break;
+            default:
+        }
     }
 
     addActiveInput() {
