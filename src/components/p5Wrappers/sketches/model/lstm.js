@@ -87,11 +87,6 @@ export class LSTM {
             if(this.anim >= this.animMax) {
                 this.anim = this.animMax;
             }
-            let ratio = s.recdesc.width / s.recdesc.height;
-            let newW =  s.width * 0.5 * (this.anim/this.animMax);
-            let newH = newW / ratio;
-            let newX = s.clickedItem.x;
-            let newY = s.clickedItem.y;
             s.tint(255,245)
             let img = undefined;
             switch(s.clickedItem.type) {
@@ -115,6 +110,14 @@ export class LSTM {
                     break;
                 default:
             }
+            if(!img) {
+                return;
+            }
+            let ratio = img.width / img.height;
+            let newW =  s.width * 0.5 * (this.anim/this.animMax);
+            let newH = newW / ratio;
+            let newX = s.clickedItem.x;
+            let newY = s.clickedItem.y;
             s.image(img, newX, newY, newW, newH);
         } else {
             this.anim = 0;
@@ -173,10 +176,11 @@ class Connection {
         let s = this.s;
         s.noFill();
         s.stroke(255);
-        if(this.active) {
-            s.stroke(100,150,255);
-        }
         s.strokeWeight(1);
+        if(this.active) {
+            s.stroke(60,120,255);
+            s.strokeWeight(4);
+        }
         s.beginShape();
         for(let v of this.verts) {
             s.vertex(v.x, v.y);
@@ -252,9 +256,9 @@ class Item {
         this.s.fill(225);
         this.s.noStroke();
         if(this.active) {
-            s.fill(100,150,255);
+            s.fill(60,120,255);
         } else if(this.currentActivatedConnecions !== 0) {
-            s.fill(160,190,225);
+            s.fill(140,170,225);
         }
         if(this.hover && !this.clicked && !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs')) {
             s.fill(150,255,180);
