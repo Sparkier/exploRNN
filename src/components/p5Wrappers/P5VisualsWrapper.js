@@ -25,7 +25,6 @@ class P5VisualsWrapper extends React.Component {
 
     componentDidMount() {
         // this.sketch = new window.p5(sketch, 'p5sketch')
-        console.log('WHAT IS HAPPENING', this.inputSketch)
     }
 
     shouldComponentUpdate(nextProps) {

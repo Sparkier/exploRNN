@@ -17,7 +17,7 @@ export default function (s) {
     s.lstmAnim = true;
    
     s.setup = function() {
-        s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight)
+        s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight - 25)
         s.frameRate(60)
         s.net = new Network(s);
         s.cell = new LSTM(s);
@@ -28,7 +28,7 @@ export default function (s) {
     s.draw = function() {
         s.background(s.bgval)
         s.cursor(s.ARROW)
-        if(s.detail && s.lstmAnim && s.frameCount % 10 === 0) {
+        if(s.detail && s.lstmAnim && s.frameCount % 50 === 0) {
             s.cell.update();
         }
         s.drawNetwork();
@@ -66,7 +66,7 @@ export default function (s) {
     }
 
     s.windowResized = function(){
-        s.resizeCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight)
+        s.resizeCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight - 25)
     }
         
     s.drawCell = function() { 

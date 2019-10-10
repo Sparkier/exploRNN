@@ -65,12 +65,12 @@ export default function (s) {
     }
         
     s.windowResized = function(){
-        s.resizeCanvas(document.getElementById("inputDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight)
+        s.resizeCanvas(document.getElementById("inputDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight - 25)
         s.plot = [new Plot(0), new Plot(1), new Plot(2), new Plot(3), new Plot(4)]
     }
 
     s.setup = function() {
-        s.createCanvas(document.getElementById("inputDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight)
+        s.createCanvas(document.getElementById("inputDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight - 25)
         
         s.plot = [new Plot(0), new Plot(1), new Plot(2), new Plot(3), new Plot(4)]
     }
@@ -80,6 +80,8 @@ export default function (s) {
         /*for (let p of s.plot) {
             p.draw();
         }*/
+        s.plot[4].draw();
+        s.plot[3].draw();
         s.plot[2].draw();
     }
 }

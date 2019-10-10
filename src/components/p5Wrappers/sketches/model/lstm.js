@@ -124,7 +124,7 @@ class Connection {
         s.noFill();
         s.stroke(255);
         if(this.active) {
-            s.stroke(50,100,255);
+            s.stroke(100,150,255);
         }
         s.strokeWeight(1);
         s.beginShape();
@@ -190,22 +190,27 @@ class Item {
 
     draw() {
         let s = this.s;
+        let size = this.r;
+        let imgSize = 0.6 * this.r;
+        if(this.active) {
+            size = this.r * 1.2;
+            imgSize = 0.6 * this.r * 1.2;
+        }
         this.s.fill(0,70);
         this.s.noStroke();
-        this.s.ellipse(this.x + 5, this.y + 5, this.r);
+        this.s.ellipse(this.x + size * 0.1, this.y + size * 0.1, size);
         this.s.fill(225);
         this.s.noStroke();
         if(this.active) {
-            s.fill(50,100,255);
+            s.fill(100,150,255);
         } else if(this.currentActivatedConnecions !== 0) {
-            s.fill(150,180,200);
+            s.fill(160,190,225);
         }
         if(this.hover && !this.clicked && !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs')) {
-            s.fill(150,200,180);
+            s.fill(150,255,180);
             s.cursor(s.HAND)
         }
-        this.s.ellipse(this.x, this.y, this.r);
-        let imgSize = 0.6 * this.r;
+        this.s.ellipse(this.x, this.y, size);
         switch(this.type) {
             case 'rec':
                 this.s.image(this.s.receive,this.x, this.y,imgSize,imgSize)
