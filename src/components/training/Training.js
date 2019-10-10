@@ -43,9 +43,9 @@ class Training extends React.Component {
     this.model.model.summary();
     this.props.actions.firstcall();
     this.data.getSinDataFrom(this.props.network.iteration, this.props.training.dataVariant);
-    this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.train_sin_input, this.data.train_sin_next);
+    this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.chartPredictionInput,this.data.train_sin_input, this.data.train_sin_next,this.data.prediction_sin_input);
     this.data.getSinDataFrom(this.props.network.iteration + 1, this.props.training.dataVariant);
-    this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.train_sin_input, this.data.train_sin_next);
+    this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.chartPredictionInput,this.data.train_sin_input, this.data.train_sin_next,this.data.prediction_sin_input);
   }
 
   start = () => {
@@ -63,11 +63,11 @@ class Training extends React.Component {
       return;   
     }
     this.data.getSinDataFrom(this.props.network.iteration + 2, this.props.training.dataVariant);
-    this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.train_sin_input, this.data.train_sin_next);
+    this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.chartPredictionInput,this.data.train_sin_input, this.data.train_sin_next,this.data.prediction_sin_input);
     this.props.actions.updateNetwork({...this.props.network, iteration: this.props.network.iteration + 1});
     // this.data.getSampleFromTestData(this.props.network.iteration + this.props.training.testOffset);
     tf.tidy(() => {
-      const prediction = this.model.model.predict(this.props.network.data[2].modelInput);
+      const prediction = this.model.model.predict(this.props.network.data[2].modelPrediction);
       const preds = Array.from(prediction.arraySync());
       this.props.actions.addPredictionToNetwork(this.props.network, preds[0]);
     });

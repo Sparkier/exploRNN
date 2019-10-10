@@ -108,7 +108,9 @@ class Input extends React.Component {
                             <StyledSelect value={this.props.training.dataVariant} label="Input Variation" onChange={ this.handleDataVariantSelection }>
                                 <MenuItem value="basic">None</MenuItem>
                                 <MenuItem value="linear">Linear</MenuItem>
+                                <MenuItem value="noise">Noise Linear</MenuItem>
                                 <MenuItem value="random">Random</MenuItem>
+                                <MenuItem value="random-noise">Noise Random</MenuItem>
                             </StyledSelect>
                         </Grid>
                     </Grid>

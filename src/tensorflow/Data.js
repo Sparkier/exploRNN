@@ -33,14 +33,17 @@ export class Data {
 
   getSinDataForTime(start, plotLength, predictionLength, stepSize, setSize, variant) {
     this.sinInputBuff = [];
+    this.predictionInputBuff = [];
     this.sinOutputBuff = [];
     this.values = Math.round(plotLength / stepSize);
     this.predictions = Math.round(predictionLength / stepSize);
     this.stepSize = stepSize;
+    this.chartPredictionInput = [];
     this.chartDataInput = [];
     this.chartDataOutput = [];
     let randomOffset = Math.random() * 2 * Math.PI;
     let randomAmplitude = 0.2 + Math.random() * 0.8;
+    let noise = false;
 
     switch(variant) {
       case 'basic':
@@ -53,19 +56,39 @@ export class Data {
         randomAmplitude = 1;
         break;
       case 'random':
+        randomAmplitude = 1;
         start = 0;
+        break;
+      case 'noise':
+        randomOffset = 0;
+        randomAmplitude = 1;
+        noise = true;
+        break;
+      case 'random-noise':
+        randomAmplitude = 1;
+        noise = true;
         break;
       default:
     }
 
     for(let i = 0; i < setSize; i++) {
       const currentInSequence = [];
+      const predictionInSequence = [];
       for(let j = 0; j < this.values; j++) {
+        let noiseVal = 0;
+        if(noise) {
+          noiseVal = (-0.2 + 0.4 * Math.random());
+        }
         currentInSequence.push([Math.sin((start + j) * stepSize + randomOffset) * randomAmplitude]);
+        predictionInSequence.push([Math.sin((start + j) * stepSize + randomOffset) * randomAmplitude + noiseVal]);
         this.chartDataInput.push(
           Math.sin((j + start) * stepSize + randomOffset) * randomAmplitude
         )
+        this.chartPredictionInput.push(
+          Math.sin((j + start) * stepSize + randomOffset) * randomAmplitude + noiseVal
+        )
       }
+      this.predictionInputBuff.push(currentInSequence);
       this.sinInputBuff.push(currentInSequence);
       const currentOutSequence = [];
       for(let j = 0; j < this.predictions; j++) {
@@ -78,6 +101,7 @@ export class Data {
     }
 
     this.train_sin_input = tf.tensor3d(this.sinInputBuff);
+    this.prediction_sin_input = tf.tensor3d(this.predictionInputBuff);
     this.train_sin_next = tf.tensor2d(this.sinOutputBuff);
     console.log('train input')
     this.train_sin_input.print();

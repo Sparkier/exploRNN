@@ -35,13 +35,13 @@ export default function (s) {
             s.stroke(255, this.vis);
             s.strokeWeight(2 * this.scale)
             s.line(-this.plotWidth/2 * this.scale, 0, this.plotWidth / 2 * this.scale, 0);
-            s.line(-this.plotWidth/2 * this.scale, -this.plotHeight/2 * this.scale, -this.plotWidth/2* this.scale, this.scale * this.plotHeight/2)
-            if(s.props.network.data && s.props.network.data[this.index].chartInput){
+            s.line(-this.plotWidth/2 * this.scale, -this.plotHeight/2 * this.scale, -this.plotWidth/2 * this.scale, this.scale * this.plotHeight/2)
+            if(s.props.network.data && s.props.network.data[this.index].chartPrediction){
                 s.stroke(50,70,250, this.vis);
                 s.noFill();
                 s.beginShape();
                 for(let i = 0; i < s.props.training.values; i++) {
-                    s.vertex(this.scale * ((-this.plotWidth / 2) + (i * this.stepWidth)), this.scale * (this.plotHeight / 4 * s.props.network.data[this.index].chartInput[i]));
+                    s.vertex(this.scale * ((-this.plotWidth / 2) + (i * this.stepWidth)), this.scale * (this.plotHeight / 4 * s.props.network.data[this.index].chartPrediction[i]));
                 }
                 s.endShape();
             }

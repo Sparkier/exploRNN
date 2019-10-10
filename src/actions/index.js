@@ -53,14 +53,16 @@ export function updateTraining(training) {
   return {type: types.UPDATE_TRAINING, training}
 }
 
-export function addDataToNetwork(oldNetwork, chartInput, chartOutput, modelInput, modelOutput) {
+export function addDataToNetwork(oldNetwork, chartInput, chartOutput, chartPrediction, modelInput, modelOutput, modelPrediction) {
   const data = oldNetwork.data;
   data.shift();
   data.push({
     chartInput: chartInput,
     chartOutput: chartOutput,
+    chartPrediction: chartPrediction,
     modelInput: modelInput,
     modelOutput: modelOutput,
+    modelPrediction: modelPrediction,
     prediction: [],
   })
   const network = {...oldNetwork, data: data}

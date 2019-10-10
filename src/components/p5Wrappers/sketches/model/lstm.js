@@ -10,6 +10,9 @@ export class LSTM {
         let top = 0.1 * s.height;
         let horBuf = (1/6) * 0.8 * s.width
         let verBuf = (1/3) * 0.8 * s.height
+        s.clickedItem = undefined;
+        this.anim = 0;
+        this.animMax = 5;
 
         this.items.push(this.receive = new Item("rec", "Layer Input", left + horBuf, top + verBuf, 2, s))
         this.items.push(this.add = new Item("add", "Input Gate", left + 2*horBuf, top + verBuf, 1, s))
@@ -78,6 +81,44 @@ export class LSTM {
         for(let i of this.items) {
             i.draw();
         }
+
+        if(s.clickedItem) {
+            this.anim++;
+            if(this.anim >= this.animMax) {
+                this.anim = this.animMax;
+            }
+            let ratio = s.recdesc.width / s.recdesc.height;
+            let newW =  s.width * 0.5 * (this.anim/this.animMax);
+            let newH = newW / ratio;
+            let newX = s.clickedItem.x;
+            let newY = s.clickedItem.y;
+            s.tint(255,245)
+            let img = undefined;
+            switch(s.clickedItem.type) {
+                case 'rec':
+                    img = s.recdesc;
+                    break;
+                case 'add':
+                    img = s.adddesc
+                    break;
+                case 'sav':
+                    img = s.savdesc
+                    break;
+                case 'los':
+                    img = s.losdesc
+                    break;
+                case 'cel':
+                    img = s.celdesc
+                    break;
+                case 'out':
+                    img = s.outdesc
+                    break;
+                default:
+            }
+            s.image(img, newX, newY, newW, newH);
+        } else {
+            this.anim = 0;
+        }
     }
 
     update() {
@@ -103,10 +144,19 @@ export class LSTM {
 
     checkClick() {
         let ret = false;
+        let s = this.s;
+        if(s.clickedItem) {
+            s.clickedItem = undefined;
+            ret = true;
+        } 
         for(let i of this.items) {
             ret = i.checkClick() || ret
         }
+        if(!ret) {
+            s.clickedItem = undefined;
+        }
         return ret;
+        
     }
 }
 
@@ -273,6 +323,9 @@ class Item {
     }
 
     checkClick() {
+        if(this.hover) {
+            this.s.clickedItem = this;
+        }
         return this.clicked = this.hover;
     }
 }

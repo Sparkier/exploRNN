@@ -47,6 +47,12 @@ export default function (s) {
         s.cellImage = s.loadImage('./data/memory.png');
         s.output = s.loadImage('./data/output.png');
         s.desc = s.loadImage('./data/desc.png');
+        s.recdesc = s.loadImage('./data/rec_desc.png');
+        s.adddesc = s.loadImage('./data/add_desc.png');
+        s.celdesc = s.loadImage('./data/cel_desc.png');
+        s.savdesc = s.loadImage('./data/sav_desc.png');
+        s.outdesc = s.loadImage('./data/out_desc.png');
+        s.losdesc = s.loadImage('./data/los_desc.png');
     }
 
     s.updateMemory = () => {
@@ -58,6 +64,7 @@ export default function (s) {
             }
             s.network.push({size: 1, type: 'output'});
             s.net = new Network(s);
+            s.cell = new LSTM(s);
         } else {
             s.detail = false;
         }
