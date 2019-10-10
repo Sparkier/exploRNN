@@ -11,18 +11,18 @@ export class LSTM {
         let horBuf = (1/6) * 0.8 * s.width
         let verBuf = (1/3) * 0.8 * s.height
 
-        this.items.push(this.receive = new Item("rec", left + horBuf, top + verBuf, 2, s))
-        this.items.push(this.add = new Item("add", left + 2*horBuf, top + verBuf, 1, s))
-        this.items.push(this.save = new Item("sav", left + 3*horBuf, top + verBuf, 2, s))
-        this.items.push(this.forget = new Item("los", left + 4*horBuf, top + verBuf, 2, s))
-        this.items.push(this.output = new Item("out", left + 5*horBuf, top + verBuf, 2, s))
-        this.items.push(this.cell = new Item("cel", left + 3*horBuf, top + 2 * verBuf, 1, s))
-        this.items.push(this.crossInput = new Item("crs", left + 2 * horBuf, top + 0.5 * verBuf, 1, s))
-        this.items.push(this.crossForget = new Item("crs", left + 4 * horBuf, top + 0.5 * verBuf, 1, s))
-        this.items.push(this.crossOutput = new Item("crs", left + 5 * horBuf, top + 0.5 * verBuf, 1, s))
-        this.items.push(this.crossCell = new Item("crs", left + 4.5 * horBuf, top + verBuf, 1, s))
-        this.items.push(this.first = new Item("fst", left, top + verBuf, 1, s))
-        this.items.push(this.last = new Item("lst", left + 6 * horBuf, top + verBuf, 1, s))
+        this.items.push(this.receive = new Item("rec", "Layer Input", left + horBuf, top + verBuf, 2, s))
+        this.items.push(this.add = new Item("add", "Input Gate", left + 2*horBuf, top + verBuf, 1, s))
+        this.items.push(this.save = new Item("sav", "Cell State Update", left + 3*horBuf, top + verBuf, 2, s))
+        this.items.push(this.forget = new Item("los", "Forget Gate", left + 4*horBuf, top + verBuf, 2, s))
+        this.items.push(this.output = new Item("out", "Output Gate", left + 5*horBuf, top + verBuf, 2, s))
+        this.items.push(this.cell = new Item("cel", "Cell State", left + 3*horBuf, top + 2 * verBuf, 1, s))
+        this.items.push(this.crossInput = new Item("crs", "", left + 2 * horBuf, top + 0.5 * verBuf, 1, s))
+        this.items.push(this.crossForget = new Item("crs", "", left + 4 * horBuf, top + 0.5 * verBuf, 1, s))
+        this.items.push(this.crossOutput = new Item("crs", "", left + 5 * horBuf, top + 0.5 * verBuf, 1, s))
+        this.items.push(this.crossCell = new Item("crs", "", left + 4.5 * horBuf, top + verBuf, 1, s))
+        this.items.push(this.first = new Item("fst", "", left, top + verBuf, 1, s))
+        this.items.push(this.last = new Item("lst", "", left + 6 * horBuf, top + verBuf, 1, s))
 
         this.connections.push(this.mainInput = new Connection([{x: this.first.x, y: this.first.y}, {x: this.receive.x, y: this.receive.y}], this.receive, s))
         this.connections.push(this.busOne = new Connection([{x: this.receive.x, y: this.receive.y}, {x: this.receive.x, y: this.crossInput.y}, {x: this.crossInput.x, y: this.crossInput.y}], this.crossInput, s))
@@ -59,14 +59,15 @@ export class LSTM {
         this.last.connections.push(this.first);
     
         this.first.addActiveInput();   
-        this.receive.addActiveInput(); 
+        this.recurrent.addActiveInput(); 
         this.forget.addActiveInput();    
     }
 
     draw() {
         let s = this.s;
         s.fill(45);
-        s.stroke(0);
+        s.stroke(100);
+        s.strokeWeight(15)
         s.rectMode(s.CENTER);
         s.rect(s.width/2, s.height/2, s.width * 0.8, s.height * 0.8)
         
@@ -92,6 +93,20 @@ export class LSTM {
         for(let i of this.items) {
             i.updateActivation()
         }
+    }
+
+    mouseMoved(x, y) {
+        for(let i of this.items) {
+            i.mouseMoved(x, y)
+        }
+    }
+
+    checkClick() {
+        let ret = false;
+        for(let i of this.items) {
+            ret = i.checkClick() || ret
+        }
+        return ret;
     }
 }
 
@@ -144,11 +159,14 @@ class Connection {
 
 class Item {
 
-    constructor(type, x, y, ingoing, s) {
+    constructor(type, name, x, y, ingoing, s) {
         this.type = type;
+        this.name = name;
         this.x = x;
         this.y = y;
         this.s = s;
+        this.hover = false;
+        this.clicked = false;
         this.active = false;
         this.connections = []
         this.maxIngoingConnections = ingoing;
@@ -161,6 +179,9 @@ class Item {
                 break;
             case 'crs':
                 this.r = 10;
+                break;
+            case 'cel':
+                this.r = 100;
                 break;
             default:
                 this.r = 70;
@@ -179,8 +200,11 @@ class Item {
         } else if(this.currentActivatedConnecions !== 0) {
             s.fill(150,180,200);
         }
+        if(this.hover && !this.clicked && !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs')) {
+            s.fill(150,200,180);
+            s.cursor(s.HAND)
+        }
         this.s.ellipse(this.x, this.y, this.r);
-        this.s.tint(45,200,10)
         let imgSize = 0.6 * this.r;
         switch(this.type) {
             case 'rec':
@@ -202,6 +226,13 @@ class Item {
                 this.s.image(this.s.output,this.x, this.y,imgSize,imgSize)
                 break;
             default:
+        }
+        if(this.hover && !this.clicked && !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs')) {
+            s.textAlign(s.CENTER, s.CENTER);
+            s.fill(0,150)
+            s.rect(s.mouseX, s.mouseY+40, 100, 30);
+            s.fill(255)
+            s.text(this.name, s.mouseX, s.mouseY + 40)
         }
     }
 
@@ -226,5 +257,17 @@ class Item {
                 this.active = true;
             }
         }
+    }
+
+    mouseMoved(x, y) {
+        if(this.s.dist(x, y, this.x, this.y) < this.r/2) {
+            this.hover = true;
+        } else {
+            this.hover = false;
+        }
+    }
+
+    checkClick() {
+        return this.clicked = this.hover;
     }
 }

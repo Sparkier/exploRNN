@@ -1,5 +1,5 @@
-import {LSTM} from "./network/lstm";
-import {Network} from "./network/net";
+import {LSTM} from "./model/lstm";
+import {Network} from "./model/net";
 
 export default function (s) {
     s.props = {}
@@ -12,12 +12,12 @@ export default function (s) {
     s.detail = false;
     s.transition = 0;
     s.transitionSpeed = 7;
-    s.clickedNode = undefined;
+    s.clickedBlock = undefined;
     s.bgval = 45;
     s.lstmAnim = true;
    
     s.setup = function() {
-        s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight - 50)
+        s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight)
         s.frameRate(60)
         s.net = new Network(s);
         s.cell = new LSTM(s);
@@ -27,7 +27,8 @@ export default function (s) {
 
     s.draw = function() {
         s.background(s.bgval)
-        if(s.detail && s.lstmAnim && s.frameCount % 40 === 0) {
+        s.cursor(s.ARROW)
+        if(s.detail && s.lstmAnim && s.frameCount % 10 === 0) {
             s.cell.update();
         }
         s.drawNetwork();
@@ -45,6 +46,7 @@ export default function (s) {
         s.forget = s.loadImage('./data/remove.png');
         s.cellImage = s.loadImage('./data/memory.png');
         s.output = s.loadImage('./data/output.png');
+        s.desc = s.loadImage('./data/desc.png');
     }
 
     s.updateMemory = () => {
@@ -81,15 +83,15 @@ export default function (s) {
             }
         }
         s.push();
-        if(s.clickedNode){
-            let cx = s.clickedNode.x + (s.clickedNode.x - s.width / 2) * (s.transition / 100)
-            let cy = s.clickedNode.y + (s.clickedNode.y - s.height / 2) * (s.transition / 100)
+        if(s.clickedBlock){
+            let cx = s.clickedBlock.x + (s.clickedBlock.x - s.width / 2) * (s.transition / 100)
+            let cy = s.clickedBlock.y + (s.clickedBlock.y - s.height / 2) * (s.transition / 100)
             s.translate(cx, cy)
         }
-        s.scale(s.transition / 100);
-        if(s.clickedNode){
-            let cx = s.clickedNode.x + (s.clickedNode.x - s.width / 2) * (s.transition / 100)
-            let cy = s.clickedNode.y + (s.clickedNode.y - s.height / 2) * (s.transition / 100)
+        s.scale(s.transition >= 100 ? 1 : s.transition / 100);
+        if(s.clickedBlock){
+            let cx = s.clickedBlock.x + (s.clickedBlock.x - s.width / 2) * (s.transition / 100)
+            let cy = s.clickedBlock.y + (s.clickedBlock.y - s.height / 2) * (s.transition / 100)
             s.translate(-cx, -cy)
         }
         s.cellAlpha = 255 * s.transition / 100 
@@ -100,15 +102,15 @@ export default function (s) {
     s.drawNetwork = function() {
         s.push();
         s.netScale = (100 +  s.transition) / 100
-        if(s.clickedNode){
-            let cx = s.clickedNode.x + (s.clickedNode.x - s.width / 2) * (s.transition / 100)
-            let cy = s.clickedNode.y + (s.clickedNode.y - s.height / 2) * (s.transition / 100)
+        if(s.clickedBlock){
+            let cx = s.clickedBlock.x + (s.clickedBlock.x - s.width / 2) * (s.transition / 100)
+            let cy = s.clickedBlock.y + (s.clickedBlock.y - s.height / 2) * (s.transition / 100)
             s.translate(cx, cy)
         }
         s.scale(s.netScale);
-        if(s.clickedNode){
-            let cx = s.clickedNode.x + (s.clickedNode.x - s.width / 2) * (s.transition / 100)
-            let cy = s.clickedNode.y + (s.clickedNode.y - s.height / 2) * (s.transition / 100)
+        if(s.clickedBlock){
+            let cx = s.clickedBlock.x + (s.clickedBlock.x - s.width / 2) * (s.transition / 100)
+            let cy = s.clickedBlock.y + (s.clickedBlock.y - s.height / 2) * (s.transition / 100)
             s.translate(-cx, -cy)
         } 
         // s.netAlpha = 255 * (100 - s.transition) / 100
@@ -121,7 +123,11 @@ export default function (s) {
     }
 
     s.mouseMoved = function() {
-        s.net.update(s.mouseX, s.mouseY);
+        if(this.detail) {
+            s.cell.mouseMoved(s.mouseX, s.mouseY);
+        } else {
+            s.net.update(s.mouseX, s.mouseY);
+        }
     }
 
     s.mouseClicked = function() {
@@ -129,7 +135,7 @@ export default function (s) {
             return;
         }
         if(s.detail) {
-            s.detail = false;
+            s.detail = s.cell.checkClick();
         } else {
             s.net.checkClick();
         }   

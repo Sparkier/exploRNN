@@ -8,7 +8,7 @@ export class Network {
         this.layers.push(new Layer(s, layercount, -1, nodes));
         for(let i = 1; i < layercount - 1; i++) {
             nodes = s.network[i]
-            this.layers.push(new Layer(s, layercount, i - 1, nodes));
+            this.layers.push(new Layer(s, layercount, i, nodes));
         }
         nodes = s.network[layercount-1]
         this.layers.push(new Layer(s, layercount, -1, nodes));
@@ -44,40 +44,74 @@ class Layer {
     constructor(s, layers, i, nodes) {
         this.s = s;
         this.i = i;
-        this.layers = layers - 1;
+        this.layers = layers - 2;
         this.layerwidth = nodes.size
         this.nodes = []
         this.layerType = nodes.type;
+        this.hover = false;
+        this.clicked = false;
+        this.x = s.width * (this.i)/(this.layers + 1);
+        this.y = s.height/2;
+        this.w = s.width/(2*this.layers + 1);
+        this.h = this.w * 0.8
+        /*
         for(let j = 0; j < this.layerwidth; j++) {
             this.nodes.push(new Node(s, s.width * (i+1)/(this.layers), s.height * (j + 1)/ (nodes.size+1), 50, nodes.type))
         }
+        */
     }
 
     draw() {
         if(!(this.layerType === 'input' || this.layerType === 'output')) {
             let s = this.s;
-            s.fill(255, this.s.netAlpha)
-            s.stroke(0, this.s.netAlpha);
-            s.rect(s.width * (this.i+1)/(this.layers),s.height/2,80,s.height - 200);
+            s.fill(45, this.s.netAlpha);
+            s.stroke(225, this.s.netAlpha);
+            if(this.hover){
+                s.stroke(150,180,250, this.s.netAlpha);
+                s.cursor(s.HAND)
+            }
+            s.rect(this.x,this.y,this.w,this.h);
+            s.noStroke();
+            s.fill(180);
+            let left = this.x - this.w/2;
+            let top = this.y - this.h/2;
+            for(let i = 0; i < 5; i++) {
+                s.ellipse(left + (i+1) * this.w / 6, top + this.h / 3, this.w / (10))
+            }
+            s.ellipse(left + (3) * this.w / 6, top + 2 * this.h / 3, this.w / (6))
+            if(this.hover) {
+                s.textAlign(s.CENTER, s.CENTER);
+                s.fill(0,150)
+                s.rect(s.mouseX, s.mouseY+40, 100, 30);
+                s.fill(255)
+                s.text('Click for detail', s.mouseX, s.mouseY + 40)
+            }
         }
+        /*
         for(let n of this.nodes) {
             n.draw();
         }
+        */
     }
 
     update(x,y) {
-        for(let n of this.nodes) {
-            n.update(x,y)
+        if(x > this.x - this.w/2 && x < this.x + this.w/2 && y > this.y - this.h/2 && y < this.y + this.h/2) {
+            this.hover = true;
+        } else {
+            this.hover = false;
         }
     }
 
     checkClick() {
-        for(let n of this.nodes) {
-            n.checkClick()
+        if(this.hover && !this.clicked) {
+           this.s.detail = true;
+           this.s.clickedBlock = this;
+           this.s.props.actions.stopTraining(this.s.props.training);
         }
+        this.clicked = this.hover
     }
 }
-
+/*
 class Node {
     constructor(s, x, y, r, type) {
         this.s = s;
@@ -130,20 +164,6 @@ class Node {
 
     }
 
-    update(x,y) {
-        if(this.s.dist(x,y,this.x,this.y) < this.r/2) {
-            this.hover = true;
-        } else {
-            this.hover = false;
-        }
-    }
-
-    checkClick() {
-        if(this.hover && !this.clicked) {
-           this.s.detail = true;
-           this.s.clickedNode = this;
-           this.s.props.actions.stopTraining(this.s.props.training);
-        }
-        this.clicked = this.hover
-    }
+    
 }
+*/

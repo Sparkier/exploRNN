@@ -74,7 +74,7 @@ class Input extends React.Component {
             <div id = "valueDiv" className = 'wrapper' style= {{background: grey[800]}}>
                 
                 <Grid container spacing={5} direction="column" style={this.simplePaddingStyle}>
-                    <Grid item xs={9} container justify="space-evenly">
+                    <Grid item xs={7} container justify="flex-start">
                         <Grid item xs={2}>
                             <StyledSelect value={this.props.network.type} label="Type" onChange={ this.handleTypeSelection }>
                                 <MenuItem value="LSTM">LSTM</MenuItem>
@@ -83,18 +83,16 @@ class Input extends React.Component {
                         </Grid>
                         <Grid item xs={2}>
                             <StyledSelect value={this.props.network.layers} label="Block Layers" onChange={ this.handleLayerCountSelection }>
-                                <MenuItem value="1">One</MenuItem>
-                                <MenuItem value="2">Two</MenuItem>
-                                <MenuItem value="3">Three</MenuItem>
+                                <MenuItem value="1">1</MenuItem>
+                                <MenuItem value="2">2</MenuItem>
+                                <MenuItem value="3">3</MenuItem>
+                                <MenuItem value="4">4</MenuItem>
+                                <MenuItem value="5">5</MenuItem>
+                                <MenuItem value="6">6</MenuItem>
+                                <MenuItem value="7">7</MenuItem>
                             </StyledSelect>
                         </Grid>
-                        <Grid item xs={2}>
-                            <StyledSelect value={this.props.network.layerSize} label="Cells per Block" onChange={ this.handleSelectionChange }>
-                                <MenuItem value="1">One</MenuItem>
-                                <MenuItem value="2">Two</MenuItem>
-                                <MenuItem value="5">Five</MenuItem>
-                            </StyledSelect>
-                        </Grid>
+                        
                         <Grid item xs={2}>
                             <StyledSelect value={this.props.network.activation} label="Activation" onChange={ this.handleActivationSelection }>
                                 <MenuItem value="tanh">tanh</MenuItem>
