@@ -42,9 +42,9 @@ class Training extends React.Component {
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
     this.model.model.summary();
     this.props.actions.firstcall();
-    this.data.getSinDataFrom(this.props.network.iteration, this.props.training.dataVariant);
+    this.data.getSinDataFrom(this.props.network.iteration,  this.props.training.dataType, this.props.training.dataVariant);
     this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.chartPredictionInput,this.data.train_sin_input, this.data.train_sin_next,this.data.prediction_sin_input);
-    this.data.getSinDataFrom(this.props.network.iteration + 1, this.props.training.dataVariant);
+    this.data.getSinDataFrom(this.props.network.iteration + 1,  this.props.training.dataType, this.props.training.dataVariant);
     this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.chartPredictionInput,this.data.train_sin_input, this.data.train_sin_next,this.data.prediction_sin_input);
   }
 
@@ -62,7 +62,7 @@ class Training extends React.Component {
     if(!this.props.training.running) {
       return;   
     }
-    this.data.getSinDataFrom(this.props.network.iteration + 2, this.props.training.dataVariant);
+    this.data.getSinDataFrom(this.props.network.iteration + 2, this.props.training.dataType, this.props.training.dataVariant);
     this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.chartPredictionInput,this.data.train_sin_input, this.data.train_sin_next,this.data.prediction_sin_input);
     this.props.actions.updateNetwork({...this.props.network, iteration: this.props.network.iteration + 1});
     // this.data.getSampleFromTestData(this.props.network.iteration + this.props.training.testOffset);

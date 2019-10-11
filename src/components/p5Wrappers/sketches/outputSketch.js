@@ -41,7 +41,7 @@ export default function (s) {
                 s.noFill();
                 s.beginShape();
                 for(let i = 0; i < s.props.training.values; i++) {
-                    s.vertex(this.scale * ((-this.plotWidth / 2) + (i * this.stepWidth)), this.scale * (this.plotHeight / 4 * s.props.network.data[this.index].chartPrediction[i]));
+                    s.vertex(this.scale * ((-this.plotWidth / 2) + (i * this.stepWidth)), this.scale * (-this.plotHeight / 4 * s.props.network.data[this.index].chartPrediction[i]));
                 }
                 s.endShape();
             }
@@ -50,7 +50,7 @@ export default function (s) {
                 s.noFill();
                 s.beginShape();
                 for(let i = 0; i < s.props.training.predictions; i++) {
-                    s.vertex(this.scale* ((-this.plotWidth / 2) + ((i + s.props.training.values) * this.stepWidth)), this.scale * (this.plotHeight / 4 * s.props.network.data[this.index].chartOutput[i]));
+                    s.vertex(this.scale* ((-this.plotWidth / 2) + ((i + s.props.training.values) * this.stepWidth)), this.scale * (-this.plotHeight / 4 * s.props.network.data[this.index].chartOutput[i]));
                 }
                 s.endShape();
             }
@@ -59,7 +59,7 @@ export default function (s) {
                 s.noFill();
                 s.beginShape();
                 for(let i = 0; i < s.props.training.predictions; i++) {
-                    s.vertex(this.scale* ((-this.plotWidth / 2) + ((i + s.props.training.values) * this.stepWidth)), this.scale * (this.plotHeight / 4 * s.props.network.data[this.index].prediction[i]));
+                    s.vertex(this.scale* ((-this.plotWidth / 2) + ((i + s.props.training.values) * this.stepWidth)), this.scale * (-this.plotHeight / 4 * s.props.network.data[this.index].prediction[i]));
                 }
                 s.endShape();
             }

@@ -15,6 +15,7 @@ export default function (s) {
     s.clickedBlock = undefined;
     s.bgval = 45;
     s.lstmAnim = true;
+    s.currfps = 0;
    
     s.setup = function() {
         s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight - 25)
@@ -28,7 +29,8 @@ export default function (s) {
     s.draw = function() {
         s.background(s.bgval)
         s.cursor(s.ARROW)
-        if(s.detail && s.lstmAnim && s.frameCount % 50 === 0) {
+        let pause = Math.round((1010 - s.props.training.speed) / 10);
+        if(s.detail && s.lstmAnim && s.frameCount % pause === 0) {
             s.cell.update();
         }
         s.drawNetwork();
@@ -104,6 +106,10 @@ export default function (s) {
         s.cellAlpha = 255 * s.transition / 100 
         s.cell.draw();
         s.pop();
+        s.fill(255)
+        if(s.frameCount % 10 === 0)
+            s.currfps = Math.round(s.frameRate())
+        s.text(s.currfps + ' fps', 20,20)
     }
 
     s.drawNetwork = function() {
@@ -127,6 +133,9 @@ export default function (s) {
             s.update = false;
         }
         s.pop();
+        if(s.frameCount % 10 === 0)
+            s.currfps = Math.round(s.frameRate())
+        s.text(s.currfps + ' fps', 20,20)
     }
 
     s.mouseMoved = function() {

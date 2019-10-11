@@ -101,7 +101,9 @@ class Input extends React.Component {
                         <Grid item xs={2}>
                             <StyledSelect value={this.props.training.dataType} label="Data Type" onChange={ this.handleDataSelection }>
                                 <MenuItem value="sin">sin(x)</MenuItem>
-                                <MenuItem value="cir">Circle</MenuItem>
+                                <MenuItem value="sinc">sinc(x % 4)</MenuItem>
+                                <MenuItem value="saw">sawtooth</MenuItem>
+                                <MenuItem value="sqr">square</MenuItem>
                             </StyledSelect>
                         </Grid>
                         <Grid item xs={2}>

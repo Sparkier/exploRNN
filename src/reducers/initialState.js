@@ -16,7 +16,7 @@ export default {
     },
     training: {
         running: false,
-        speed: 1000,
+        speed: 750,
         dataType: 'sin',
         dataVariant: 'linear',
         values: 0,

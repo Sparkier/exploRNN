@@ -27,11 +27,11 @@ export class Data {
     
   }
 
-  getSinDataFrom(start, variant) {
-    return this.getSinDataForTime(start, 1.5 * Math.PI, 2 * Math.PI, 0.2, 1, variant);
+  getSinDataFrom(start, func, variant) {
+    return this.getSinDataForTime(start, func, 1.5 * Math.PI, 2 * Math.PI, 0.2, 1, variant);
   }
 
-  getSinDataForTime(start, plotLength, predictionLength, stepSize, setSize, variant) {
+  getSinDataForTime(start, func, plotLength, predictionLength, stepSize, setSize, variant) {
     this.sinInputBuff = [];
     this.predictionInputBuff = [];
     this.sinOutputBuff = [];
@@ -79,22 +79,22 @@ export class Data {
         if(noise) {
           noiseVal = (-0.2 + 0.4 * Math.random());
         }
-        currentInSequence.push([Math.sin((start + j) * stepSize + randomOffset) * randomAmplitude]);
-        predictionInSequence.push([Math.sin((start + j) * stepSize + randomOffset) * randomAmplitude + noiseVal]);
+        currentInSequence.push([this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude]);
+        predictionInSequence.push([this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude + noiseVal]);
         this.chartDataInput.push(
-          Math.sin((j + start) * stepSize + randomOffset) * randomAmplitude
+          this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude
         )
         this.chartPredictionInput.push(
-          Math.sin((j + start) * stepSize + randomOffset) * randomAmplitude + noiseVal
+          this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude + noiseVal
         )
       }
       this.predictionInputBuff.push(currentInSequence);
       this.sinInputBuff.push(currentInSequence);
       const currentOutSequence = [];
       for(let j = 0; j < this.predictions; j++) {
-        currentOutSequence.push(Math.sin((this.values + j + start) * stepSize + randomOffset ) * randomAmplitude)
+        currentOutSequence.push(this.dataFunction((this.values + j + start) * stepSize + randomOffset, func) * randomAmplitude)
         this.chartDataOutput.push(
-          Math.sin((this.values + j + start) * stepSize  + randomOffset) * randomAmplitude
+          this.dataFunction((this.values + j + start) * stepSize + randomOffset, func) * randomAmplitude
         )
       }
       this.sinOutputBuff.push(currentOutSequence);
@@ -118,6 +118,24 @@ export class Data {
     this.current_test_sin = tf.tensor3d([test_input_sequences]);
     console.log('tensor for prediction')
     this.current_test_sin.print();
+  }
+
+  dataFunction(x, type) {
+    let y = Math.sin(x);
+    if(type === 'sinc') {
+      if(x === Math.PI) {
+        return 1;
+      }
+      y = Math.sin((x+Math.PI) % 4) / ((x+Math.PI) % 4);
+    }
+    if(type === 'saw') {
+      y = -1 + x % 2;
+    }
+    if(type === 'sqr') {
+      y = Math.sin(x) >= 0 ? 1 : -1
+    }
+    return y;
+
   }
 
 
