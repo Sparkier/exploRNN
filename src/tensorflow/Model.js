@@ -22,8 +22,8 @@ export class Model {
     // layerSize = 128;
     this.model.add(tf.layers.lstm({units: layerSize,  returnSequence: true, inputShape: [timeSteps, vocab]}));
     for(let i = 1; i < layers; i++) {
-      this.model.add(tf.layers.repeatVector({n: 10})); // is this needed? maybe use a reshape layer?
-      this.model.add(tf.layers.lstm({units: 10, returnSequence: true})); // should this be done with individual cells?
+      this.model.add(tf.layers.repeatVector({n: layerSize})); // is this needed? maybe use a reshape layer?
+      this.model.add(tf.layers.lstm({units: layerSize, returnSequence: true})); // should this be done with individual cells?
     }
     const output = tf.layers.dense({units: labels, returnSequence: true, activation: 'tanh'});
     this.model.add(output);

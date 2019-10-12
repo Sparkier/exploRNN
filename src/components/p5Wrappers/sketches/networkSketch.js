@@ -10,7 +10,7 @@ export default function (s) {
     s.transition = 0;
     s.transitionSpeed = 7;
     s.clickedBlock = undefined;
-    s.bgval = 45;
+    s.bgval = 65;
     s.lstmAnim = true;
     s.currfps = 0;
    
@@ -25,7 +25,7 @@ export default function (s) {
     }
 
     s.draw = function() {
-        s.background(s.bgval)
+            s.background(150)
         s.cursor(s.ARROW)
         let pause = Math.round((1010 - s.props.training.speed) / 10);
         if(s.detail && s.lstmAnim && s.frameCount % pause === 0) {

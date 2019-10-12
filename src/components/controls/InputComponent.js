@@ -73,8 +73,8 @@ class Input extends React.Component {
         return (
             <div id = "valueDiv" className = 'wrapper' style= {{background: grey[800]}}>
                 
-                <Grid container spacing={5} direction="column" style={this.simplePaddingStyle}>
-                    <Grid item xs={7} container justify="flex-start">
+                <Grid container spacing={0} direction="column" style={this.simplePaddingStyle}>
+                    <Grid item xs={8} container justify="flex-start">
                         <Grid item xs={2}>
                             <StyledSelect value={this.props.network.type} label="Type" onChange={ this.handleTypeSelection }>
                                 <MenuItem value="LSTM">LSTM</MenuItem>
@@ -92,18 +92,20 @@ class Input extends React.Component {
                                 <MenuItem value="7">7</MenuItem>
                             </StyledSelect>
                         </Grid>
-                        
                         <Grid item xs={2}>
-                            <StyledSelect value={this.props.network.activation} label="Activation" onChange={ this.handleActivationSelection }>
-                                <MenuItem value="tanh">tanh</MenuItem>
+                            <StyledSelect value={this.props.network.layerSize} label="Cells per Block" onChange={ this.handleSelectionChange }>
+                                <MenuItem value="1">1</MenuItem>
+                                <MenuItem value="2">2</MenuItem>
+                                <MenuItem value="5">5</MenuItem>
+                                <MenuItem value="10">10</MenuItem>
                             </StyledSelect>
                         </Grid>
                         <Grid item xs={2}>
                             <StyledSelect value={this.props.training.dataType} label="Data Type" onChange={ this.handleDataSelection }>
                                 <MenuItem value="sin">sin(x)</MenuItem>
+                                <MenuItem value="saw">Sawtooth</MenuItem>
+                                <MenuItem value="sqr">Square</MenuItem>
                                 <MenuItem value="sinc">sinc(x % 4)</MenuItem>
-                                <MenuItem value="saw">sawtooth</MenuItem>
-                                <MenuItem value="sqr">square</MenuItem>
                             </StyledSelect>
                         </Grid>
                         <Grid item xs={2}>
@@ -117,8 +119,8 @@ class Input extends React.Component {
                         </Grid>
                     </Grid>
                     
-                    <Grid item xs={12} container justify="center">
-                        <Grid item xs={6}>
+                    <Grid item xs={12} container justify="flex-start">
+                        <Grid item xs={4}>
                             <Typography variant="body1" style={{...this.sliderPaddingStyle, color: lightBlue[400],}}>
                                 Learning Rate: {this.props.network.learningRate}
                             </Typography>
@@ -132,7 +134,7 @@ class Input extends React.Component {
                                 max={0.5} onChange={this.handleSliderChange}
                             />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={4}>
                             <Typography variant="body1" style={{...this.sliderPaddingStyle, color: lightBlue[400],}}>
                                 Speed
                             </Typography>

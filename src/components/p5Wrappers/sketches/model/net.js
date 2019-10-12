@@ -64,7 +64,10 @@ class Layer {
     draw() {
         if(!(this.layerType === 'input' || this.layerType === 'output')) {
             let s = this.s;
-            s.fill(45, this.s.netAlpha);
+            s.fill(0,100);
+            s.noStroke();
+            s.rect(this.x+10,this.y+10,this.w,this.h);
+            s.fill(65, this.s.netAlpha);
             s.stroke(225, this.s.netAlpha);
             if(this.hover){
                 s.stroke(150,180,250, this.s.netAlpha);

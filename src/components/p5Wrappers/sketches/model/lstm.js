@@ -63,10 +63,13 @@ export class LSTM {
 
     draw() {
         let s = this.s;
-        s.fill(45);
+        s.rectMode(s.CENTER);
+        s.fill(0,100);
+        s.noStroke();
+        s.rect(s.width/2+20, s.height/2+20, s.width * 0.8, s.height * 0.8)
+        s.fill(35);
         s.stroke(100);
         s.strokeWeight(15)
-        s.rectMode(s.CENTER);
         s.rect(s.width/2, s.height/2, s.width * 0.8, s.height * 0.8)
         
         for(let c of this.connections) {
