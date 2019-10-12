@@ -27,32 +27,27 @@ export class LSTM {
         this.items.push(this.first = new Item("fst", "", left, top + verBuf, 1, s))
         this.items.push(this.last = new Item("lst", "", left + 6 * horBuf, top + verBuf, 1, s))
 
-        this.connections.push(this.mainInput = new Connection([{x: this.first.x, y: this.first.y}, {x: this.receive.x, y: this.receive.y}], this.receive, s))
-        this.connections.push(this.busOne = new Connection([{x: this.receive.x, y: this.receive.y}, {x: this.receive.x, y: this.crossInput.y}, {x: this.crossInput.x, y: this.crossInput.y}], this.crossInput, s))
-        this.connections.push(this.busTwo = new Connection([{x: this.crossInput.x, y: this.crossInput.y}, {x: this.crossForget.x, y: this.crossForget.y}], this.crossForget, s))
-        this.connections.push(this.busThree = new Connection([{x: this.crossForget.x, y: this.crossForget.y}, {x: this.crossOutput.x, y: this.crossOutput.y}], this.crossOutput, s))
-        this.connections.push(this.toAdd = new Connection([{x: this.crossInput.x, y: this.crossInput.y}, {x: this.add.x, y: this.add.y}], this.add, s))
-        this.connections.push(this.toForget = new Connection([{x: this.crossForget.x, y: this.crossForget.y}, {x: this.forget.x, y: this.forget.y}], this.forget, s))
-        this.connections.push(this.toOutput = new Connection([{x: this.crossOutput.x, y: this.crossOutput.y}, {x: this.output.x, y: this.output.y}], this.output, s))
-        this.connections.push(this.addToSave = new Connection([{x: this.add.x, y: this.add.y}, {x: this.save.x, y: this.save.y}], this.save, s))
-        this.connections.push(this.forgetToSave = new Connection([{x: this.forget.x, y: this.forget.y}, {x: this.save.x, y: this.save.y}], this.save, s))
-        this.connections.push(this.saveToCell = new Connection([ {x: this.save.x, y: this.save.y}, {x: this.cell.x, y: this.cell.y}], this.cell, s))
-        this.connections.push(this.cellOut = new Connection([ {x: this.cell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.crossCell.y}], this.crossCell, s))
-        this.connections.push(this.cellToForget = new Connection([{x: this.crossCell.x, y: this.crossCell.y}, {x: this.forget.x, y: this.forget.y}], this.forget, s))
-        this.connections.push(this.cellToOutput = new Connection([{x: this.crossCell.x, y: this.crossCell.y}, {x: this.output.x, y: this.output.y}], this.output, s))
-        this.connections.push(this.recurrent = new Connection([{x: this.output.x, y: this.output.y}, {x: this.output.x, y: top + 2.5 * verBuf},{x: this.receive.x, y:  top + 2.5 * verBuf}, {x: this.receive.x, y: this.receive.y}], this.receive, s))
-        this.connections.push(this.mainOut = new Connection([{x: this.output.x, y: this.output.y}, {x: this.last.x, y: this.last.y}], this.last, s))
+        this.connections.push(this.mainInput = new Connection([{x: this.first.x, y: this.first.y}, {x: this.receive.x, y: this.receive.y}], [this.receive], s))
+        this.connections.push(this.bus = new Connection([{x: this.receive.x, y: this.receive.y}, {x: this.receive.x, y: this.crossOutput.y}, {x: this.crossOutput.x, y: this.crossOutput.y}], [this.crossInput, this.crossForget, this.crossOutput], s))
+        this.connections.push(this.toAdd = new Connection([{x: this.crossInput.x, y: this.crossInput.y}, {x: this.add.x, y: this.add.y}], [this.add], s))
+        this.connections.push(this.toForget = new Connection([{x: this.crossForget.x, y: this.crossForget.y}, {x: this.forget.x, y: this.forget.y}], [this.forget], s))
+        this.connections.push(this.toOutput = new Connection([{x: this.crossOutput.x, y: this.crossOutput.y}, {x: this.output.x, y: this.output.y}], [this.output], s))
+        this.connections.push(this.addToSave = new Connection([{x: this.add.x, y: this.add.y}, {x: this.save.x, y: this.save.y}], [this.save], s))
+        this.connections.push(this.forgetToSave = new Connection([{x: this.forget.x, y: this.forget.y}, {x: this.save.x, y: this.save.y}], [this.save], s))
+        this.connections.push(this.saveToCell = new Connection([ {x: this.save.x, y: this.save.y}, {x: this.cell.x, y: this.cell.y}], [this.cell], s))
+        this.connections.push(this.cellOut = new Connection([ {x: this.cell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.crossCell.y}], [this.crossCell], s))
+        this.connections.push(this.cellToForget = new Connection([{x: this.crossCell.x, y: this.crossCell.y}, {x: this.forget.x, y: this.forget.y}], [this.forget], s))
+        this.connections.push(this.cellToOutput = new Connection([{x: this.crossCell.x, y: this.crossCell.y}, {x: this.output.x, y: this.output.y}], [this.output], s))
+        this.connections.push(this.recurrent = new Connection([{x: this.output.x, y: this.output.y}, {x: this.output.x, y: top + 2.5 * verBuf},{x: this.receive.x, y:  top + 2.5 * verBuf}, {x: this.receive.x, y: this.receive.y}],[this.receive], s))
+        this.connections.push(this.mainOut = new Connection([{x: this.output.x, y: this.output.y}, {x: this.last.x, y: this.last.y}], [this.last], s))
     
         this.first.connections.push(this.mainInput);
-        this.receive.connections.push(this.busOne);
+        this.receive.connections.push(this.bus);
         this.add.connections.push(this.addToSave);
         this.save.connections.push(this.saveToCell);
         this.forget.connections.push(this.forgetToSave);
-        this.crossInput.connections.push(this.busTwo);
         this.crossInput.connections.push(this.toAdd);
-        this.crossForget.connections.push(this.busThree);
         this.crossForget.connections.push(this.toForget);
-        this.crossForget.connections.push(this.busThree);
         this.crossOutput.connections.push(this.toOutput);
         this.crossCell.connections.push(this.cellToForget);
         this.crossCell.connections.push(this.cellToOutput);
@@ -169,6 +164,7 @@ class Connection {
         this.next = goesTo;
         this.s = s;
         this.active = false;
+        this.hover = false;
         this.activeInputs = 0;
     }
 
@@ -180,12 +176,20 @@ class Connection {
         if(this.active) {
             s.stroke(60,120,255);
             s.strokeWeight(4);
+            s.drawingContext.lineDashOffset = -s.frameCount/2
+            s.drawingContext.setLineDash([10,10])
+        }
+        if(this.hover) {
+            s.stroke(120,255,160);
+            s.drawingContext.lineDashOffset = -s.frameCount/2
+            s.drawingContext.setLineDash([10,10])
         }
         s.beginShape();
         for(let v of this.verts) {
             s.vertex(v.x, v.y);
         }
         s.endShape();
+        s.drawingContext.setLineDash([])
         this.s.fill(0)
     }
 
@@ -195,7 +199,9 @@ class Connection {
 
     sendActivations() {
         if(this.active) {
-            this.next.addActiveInput();
+            for(let n of this.next) {
+                n.addActiveInput();
+            }
         }
     }
 
@@ -229,13 +235,12 @@ class Item {
         switch(type) {
             case 'fst':
             case 'lst':
+            case 'sav':
+            case 'rec':
                 this.r = 30;
                 break;
             case 'crs':
                 this.r = 10;
-                break;
-            case 'cel':
-                this.r = 100;
                 break;
             default:
                 this.r = 70;
@@ -252,7 +257,11 @@ class Item {
         }
         this.s.fill(0,70);
         this.s.noStroke();
-        this.s.ellipse(this.x + size * 0.1, this.y + size * 0.1, size);
+        if(this.type === 'cel') {
+            this.s.rect(this.x + size * 0.1, this.y + size * 0.1, size, size);
+        } else {
+            this.s.ellipse(this.x + size * 0.1, this.y + size * 0.1, size);
+        }
         this.s.fill(225);
         this.s.noStroke();
         if(this.active) {
@@ -261,19 +270,23 @@ class Item {
             s.fill(140,170,225);
         }
         if(this.hover && !this.clicked && !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs')) {
-            s.fill(150,255,180);
+            s.fill(120,255,160);
             s.cursor(s.HAND)
         }
-        this.s.ellipse(this.x, this.y, size);
+        if(this.type === 'cel') {
+            this.s.rect(this.x, this.y, size, size);
+        } else {
+            this.s.ellipse(this.x, this.y, size);
+        }
         switch(this.type) {
             case 'rec':
-                this.s.image(this.s.receive,this.x, this.y,imgSize,imgSize)
+                this.s.image(this.s.receive,this.x, this.y,imgSize*2,imgSize*2)
                 break;
             case 'add':
                 this.s.image(this.s.add,this.x, this.y,imgSize,imgSize)
                 break;
             case 'sav':
-                this.s.image(this.s.save,this.x, this.y,imgSize,imgSize)
+                this.s.image(this.s.save,this.x, this.y,imgSize*2,imgSize*2)
                 break;
             case 'los':
                 this.s.image(this.s.forget,this.x, this.y,imgSize,imgSize)
@@ -323,6 +336,9 @@ class Item {
             this.hover = true;
         } else {
             this.hover = false;
+        }
+        for(let c of this.connections) {
+            c.hover = this.hover;
         }
     }
 

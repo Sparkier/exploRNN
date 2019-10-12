@@ -5,33 +5,11 @@ export class Data {
     this.getSinDataFrom(0)
   }
 
-  createSinData(plotLength, stepSize, setSize) {
-    this.sinInputBuff = [];
-    this.sinOutputBuff = [];
-    this.values = plotLength / stepSize;
-    this.stepSize = stepSize;
-    for(let i = 0; i < setSize; i++) {
-      const currentSequence = [];
-      const startX = Math.random() * 2 * Math.PI;
-      for(let j = 0; j < this.values; j++) {
-        currentSequence.push([Math.sin(startX + j * stepSize)]);
-      }
-      this.sinInputBuff.push(currentSequence);
-      this.sinOutputBuff.push([Math.sin(startX + this.values * stepSize)])
-    }
-
-    this.train_sin_input = tf.tensor3d(this.sinInputBuff);
-    this.train_sin_next = tf.tensor2d(this.sinOutputBuff);
-    this.train_sin_input.print();
-    this.train_sin_next.print();
-    
-  }
-
   getSinDataFrom(start, func, variant) {
-    return this.getSinDataForTime(start, func, 1.5 * Math.PI, 2 * Math.PI, 0.2, 1, variant);
+    return this.getDataFor(start, func, 1.5 * Math.PI, 2 * Math.PI, 0.2, 1, variant);
   }
 
-  getSinDataForTime(start, func, plotLength, predictionLength, stepSize, setSize, variant) {
+  getDataFor(start, func, plotLength, predictionLength, stepSize, setSize, variant) {
     this.sinInputBuff = [];
     this.predictionInputBuff = [];
     this.sinOutputBuff = [];
@@ -46,7 +24,7 @@ export class Data {
     let noise = false;
 
     switch(variant) {
-      case 'basic':
+      case 'basic': 
         start = 0;
         randomOffset = 0;
         randomAmplitude = 1;
@@ -59,7 +37,7 @@ export class Data {
         randomAmplitude = 1;
         start = 0;
         break;
-      case 'noise':
+      case 'linear-noise':
         randomOffset = 0;
         randomAmplitude = 1;
         noise = true;

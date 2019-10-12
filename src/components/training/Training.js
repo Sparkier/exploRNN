@@ -11,7 +11,7 @@ import { Data } from '../../tensorflow/Data';
 class Training extends React.Component {
 
   componentDidMount() {
-    tf.setBackend('cpu')
+    tf.setBackend('cpu') // why so much better than webgl
     this.model = new Model();
     this.data = new Data();
     this.props.actions.updateTraining({

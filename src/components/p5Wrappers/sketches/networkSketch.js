@@ -4,9 +4,6 @@ import {Network} from "./model/net";
 export default function (s) {
     s.props = {}
     s.network = []
-
-    s.values = 63; // Only temporary, use props instead
-    s.predictions = 20; // Only temporary, use props instead
     s.update = false;
     s.scaleImage = 5;
     s.detail = false;
@@ -20,6 +17,7 @@ export default function (s) {
     s.setup = function() {
         s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight - 25)
         s.frameRate(60)
+        //s.drawingContext.setLineDash([5,5])
         s.net = new Network(s);
         s.cell = new LSTM(s);
         s.imageMode(s.CENTER)
@@ -42,10 +40,10 @@ export default function (s) {
         s.img_input = s.loadImage('./data/input_basic.png');
         s.img_lstm = s.loadImage('./data/lstm_block.png');
         s.img_output = s.loadImage('./data/output_basic.png');
-        s.receive = s.loadImage('./data/receive.png');
-        s.add = s.loadImage('./data/add.png');
-        s.save = s.loadImage('./data/save.png');
-        s.forget = s.loadImage('./data/remove.png');
+        s.receive = s.loadImage('./data/rec.png');
+        s.add = s.loadImage('./data/save.png');
+        s.save = s.loadImage('./data/rec.png');
+        s.forget = s.loadImage('./data/del.png');
         s.cellImage = s.loadImage('./data/memory.png');
         s.output = s.loadImage('./data/output.png');
         s.desc = s.loadImage('./data/desc.png');
@@ -92,6 +90,8 @@ export default function (s) {
             }
         }
         s.push();
+
+        // TODO: combine if statements with cx = cy = 0,
         if(s.clickedBlock){
             let cx = s.clickedBlock.x + (s.clickedBlock.x - s.width / 2) * (s.transition / 100)
             let cy = s.clickedBlock.y + (s.clickedBlock.y - s.height / 2) * (s.transition / 100)

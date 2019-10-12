@@ -76,9 +76,9 @@ class Layer {
             let left = this.x - this.w/2;
             let top = this.y - this.h/2;
             for(let i = 0; i < 5; i++) {
-                s.ellipse(left + (i+1) * this.w / 6, top + this.h / 3, this.w / (10))
+                s.ellipse(left + (i+1) * this.w / 6, top + this.h / 3, this.w / (i === 0 || i === 2 ? 20 : 10))
             }
-            s.ellipse(left + (3) * this.w / 6, top + 2 * this.h / 3, this.w / (6))
+            s.rect(left + (3) * this.w / 6, top + 2 * this.h / 3, this.w / (10),this.w / (10))
             if(this.hover) {
                 s.textAlign(s.CENTER, s.CENTER);
                 s.fill(0,150)
