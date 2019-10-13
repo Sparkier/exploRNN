@@ -152,6 +152,9 @@ export default function (s) {
         }
         if(s.detail) {
             s.detail = s.cell.checkClick();
+            if(!s.detail) {
+                s.props.actions.updateUI({...s.props.ui, detail: false})
+            }
         } else {
             s.net.checkClick();
         }   

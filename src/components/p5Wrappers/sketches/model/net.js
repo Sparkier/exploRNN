@@ -110,6 +110,7 @@ class Layer {
            this.s.detail = true;
            this.s.clickedBlock = this;
            this.s.props.actions.stopTraining(this.s.props.training);
+           this.s.props.actions.updateUI({...this.s.props.ui, detail: true});
         }
         this.clicked = this.hover
     }

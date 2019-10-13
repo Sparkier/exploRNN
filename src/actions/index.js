@@ -24,6 +24,10 @@ export function toggleTraining(training) {
   return {type: types.TOGGLE_TRAINING, training}
 }
 
+export function updateUI(ui) {
+  return {type: types.UPDATE_UI, ui}
+}
+
 export function resetNetwork(training) {
   return function(dispatch) {
     dispatch(updateIteration(0));

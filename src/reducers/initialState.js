@@ -24,5 +24,8 @@ export default {
         testOffset: 0,
         stepSize: 0.1
     },
+    ui: {
+        detail: false
+    },
     firstcall: true,
 }
