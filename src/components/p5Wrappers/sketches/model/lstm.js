@@ -13,6 +13,9 @@ export class LSTM {
         s.clickedItem = undefined;
         this.anim = 0;
         this.animMax = 5;
+        s.orange = s.color(255,150,40);
+        s.half_orange = s.color(200,150,80);
+        s.green = s.color(50,255,150);
 
         this.items.push(this.receive = new Item("rec", "Layer Input", left + horBuf, top + verBuf, 2, s))
         this.items.push(this.add = new Item("add", "Input Gate", left + 2*horBuf, top + verBuf, 1, s))
@@ -28,14 +31,14 @@ export class LSTM {
         this.items.push(this.last = new Item("lst", "", left + 6 * horBuf, top + verBuf, 1, s))
 
         this.connections.push(this.mainInput = new Connection([{x: this.first.x, y: this.first.y}, {x: this.receive.x, y: this.receive.y}], [this.receive], s))
-        this.connections.push(this.bus = new Connection([{x: this.receive.x, y: this.receive.y}, {x: this.receive.x, y: this.crossOutput.y}, {x: this.crossOutput.x, y: this.crossOutput.y}], [this.crossInput, this.crossForget, this.crossOutput], s))
-        this.connections.push(this.toAdd = new Connection([{x: this.crossInput.x, y: this.crossInput.y}, {x: this.add.x, y: this.add.y}], [this.add], s))
+        this.connections.push(this.bus = new Connection([{x: this.receive.x, y: this.receive.y}, {x: this.receive.x, y: this.crossOutput.y}, {x: this.crossOutput.x, y: this.crossOutput.y}], [], s))
+        this.connections.push(this.toInput = new Connection([{x: this.crossInput.x, y: this.crossInput.y}, {x: this.add.x, y: this.add.y}], [this.add], s))
         this.connections.push(this.toForget = new Connection([{x: this.crossForget.x, y: this.crossForget.y}, {x: this.forget.x, y: this.forget.y}], [this.forget], s))
         this.connections.push(this.toOutput = new Connection([{x: this.crossOutput.x, y: this.crossOutput.y}, {x: this.output.x, y: this.output.y}], [this.output], s))
         this.connections.push(this.addToSave = new Connection([{x: this.add.x, y: this.add.y}, {x: this.save.x, y: this.save.y}], [this.save], s))
         this.connections.push(this.forgetToSave = new Connection([{x: this.forget.x, y: this.forget.y}, {x: this.save.x, y: this.save.y}], [this.save], s))
         this.connections.push(this.saveToCell = new Connection([ {x: this.save.x, y: this.save.y}, {x: this.cell.x, y: this.cell.y}], [this.cell], s))
-        this.connections.push(this.cellOut = new Connection([ {x: this.cell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.crossCell.y}], [this.crossCell], s))
+        this.connections.push(this.cellOut = new Connection([ {x: this.cell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.crossCell.y}], [], s))
         this.connections.push(this.cellToForget = new Connection([{x: this.crossCell.x, y: this.crossCell.y}, {x: this.forget.x, y: this.forget.y}], [this.forget], s))
         this.connections.push(this.cellToOutput = new Connection([{x: this.crossCell.x, y: this.crossCell.y}, {x: this.output.x, y: this.output.y}], [this.output], s))
         this.connections.push(this.recurrent = new Connection([{x: this.output.x, y: this.output.y}, {x: this.output.x, y: top + 2.5 * verBuf},{x: this.receive.x, y:  top + 2.5 * verBuf}, {x: this.receive.x, y: this.receive.y}],[this.receive], s))
@@ -43,15 +46,19 @@ export class LSTM {
     
         this.first.connections.push(this.mainInput);
         this.receive.connections.push(this.bus);
+        this.receive.connections.push(this.crossInput);
+        this.receive.connections.push(this.crossForget);
+        this.receive.connections.push(this.crossOutput);
+        this.receive.connections.push(this.toInput);
+        this.receive.connections.push(this.toForget);
+        this.receive.connections.push(this.toOutput);
         this.add.connections.push(this.addToSave);
         this.save.connections.push(this.saveToCell);
         this.forget.connections.push(this.forgetToSave);
-        this.crossInput.connections.push(this.toAdd);
-        this.crossForget.connections.push(this.toForget);
-        this.crossOutput.connections.push(this.toOutput);
-        this.crossCell.connections.push(this.cellToForget);
-        this.crossCell.connections.push(this.cellToOutput);
         this.cell.connections.push(this.cellOut);
+        this.cell.connections.push(this.crossCell);
+        this.cell.connections.push(this.cellToForget);
+        this.cell.connections.push(this.cellToOutput);
         this.output.connections.push(this.mainOut);
         this.output.connections.push(this.recurrent);
         this.last.connections.push(this.first);
@@ -177,13 +184,13 @@ class Connection {
         s.stroke(255);
         s.strokeWeight(1);
         if(this.active) {
-            s.stroke(60,120,255);
+            s.stroke(s.orange);
             s.strokeWeight(4);
             s.drawingContext.lineDashOffset = -s.frameCount/2
             s.drawingContext.setLineDash([10,10])
         }
         if(this.hover) {
-            s.stroke(120,255,160);
+            s.stroke(s.green);
             s.drawingContext.lineDashOffset = -s.frameCount/2
             s.drawingContext.setLineDash([10,10])
         }
@@ -201,7 +208,7 @@ class Connection {
     }
 
     sendActivations() {
-        if(this.active) {
+        if(this.active && this.next && this.next.length > 0) {
             for(let n of this.next) {
                 n.addActiveInput();
             }
@@ -268,12 +275,12 @@ class Item {
         this.s.fill(225);
         this.s.noStroke();
         if(this.active) {
-            s.fill(60,120,255);
+            s.fill(s.orange);
         } else if(this.currentActivatedConnecions !== 0) {
-            s.fill(140,170,225);
+            s.fill(s.half_orange);
         }
         if(this.hover && !this.clicked && !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs')) {
-            s.fill(120,255,160);
+            s.fill(s.green);
             s.cursor(s.HAND)
         }
         if(this.type === 'cel') {
@@ -316,9 +323,11 @@ class Item {
     }
 
     sendActivations() {
-        if(this.active) {
+        if(this.active && this.connections && this.connections.length > 0) {
             for(let c of this.connections) {
-                c.addActiveInput();
+                if(c) {
+                    c.addActiveInput();
+                }
             }
         }
     }

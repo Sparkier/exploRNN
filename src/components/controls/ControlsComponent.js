@@ -23,13 +23,14 @@ class Controls extends React.Component {
   toggleTraining = () => {
     console.log('Training should start now')
     this.props.actions.toggleTraining(this.props.training);
+    this.props.actions.updateUI({...this.props.ui, detail: false});
   }
 
 
   render() {
     
     return(
-        <AppBar color="primary">
+        <AppBar >
           <Toolbar>
             <Typography variant="h6" color="inherit">
               leaRNN
@@ -52,17 +53,20 @@ class Controls extends React.Component {
     );
   }
 }
+
 // Controls state of the Application
 Controls.propTypes = {
   training: PropTypes.object.isRequired,
-  network: PropTypes.object.isRequired
+  network: PropTypes.object.isRequired,
+  ui: PropTypes.object.isRequired
 };
 
 // Mapping the Controls state to the Props of this Class
 function mapStateToProps(state, ownProps) {
   return {
     training: state.training,
-    network: state.network
+    network: state.network,
+    ui: state.ui
   };
 }
 

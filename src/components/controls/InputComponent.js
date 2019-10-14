@@ -4,15 +4,13 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import Slider from '@material-ui/core/Slider';
 import { Typography } from '@material-ui/core';
-import grey from '@material-ui/core/colors/grey';
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select';
 import { Grid } from '@material-ui/core';
 
 import * as actions from '../../actions';
-import { lightBlue } from '@material-ui/core/colors';
-
+import { lightBlue, grey, orange} from '@material-ui/core/colors';
 /**
  * The current Component holding all the input elements to change the Network for Training
  */
@@ -73,16 +71,16 @@ class Input extends React.Component {
         return (
             <div id = "valueDiv" className = 'wrapper' style= {{background: grey[800]}}>
                 
-                <Grid container spacing={0} direction="column" style={this.simplePaddingStyle}>
-                    <Grid item xs={6} container justify="flex-start">
+                <Grid container spacing={0} justify= "space-between" style={this.simplePaddingStyle}>
+                    <Grid item xs={6} spacing={5} container justify="flex-start">
                         <Grid item xs={2}>
-                            <StyledSelect value={this.props.network.type} label="Type" properties = {this.props} onChange={ this.handleTypeSelection }>
+                            <StyledSelect value={this.props.network.type} type='net' label="Type" properties = {this.props} onChange={ this.handleTypeSelection }>
                                 <MenuItem value="LSTM">LSTM</MenuItem>
                                 <MenuItem value="GRU">GRU</MenuItem>
                             </StyledSelect>
                         </Grid>
                         <Grid item xs={2}>
-                            <StyledSelect value={this.props.network.layers} label="Block Layers" properties = {this.props} onChange={ this.handleLayerCountSelection }>
+                            <StyledSelect value={this.props.network.layers} type='net' label="Block Layers" properties = {this.props} onChange={ this.handleLayerCountSelection }>
                                 <MenuItem value="1">1</MenuItem>
                                 <MenuItem value="2">2</MenuItem>
                                 <MenuItem value="3">3</MenuItem>
@@ -93,7 +91,7 @@ class Input extends React.Component {
                             </StyledSelect>
                         </Grid>
                         <Grid item xs={2}>
-                            <StyledSelect value={this.props.network.layerSize} label="Cells per Block" properties = {this.props} onChange={ this.handleSelectionChange }>
+                            <StyledSelect value={this.props.network.layerSize} type='net' label="Cells per Block" properties = {this.props} onChange={ this.handleSelectionChange }>
                                 <MenuItem value="1">1</MenuItem>
                                 <MenuItem value="2">2</MenuItem>
                                 <MenuItem value="5">5</MenuItem>
@@ -101,7 +99,7 @@ class Input extends React.Component {
                             </StyledSelect>
                         </Grid>
                         <Grid item xs={2}>
-                            <StyledSelect value={this.props.training.dataType} label="Data Type" properties = {this.props} onChange={ this.handleDataSelection }>
+                            <StyledSelect value={this.props.training.dataType} type='net' label="Data Type" properties = {this.props} onChange={ this.handleDataSelection }>
                                 <MenuItem value="sin">sin(x)</MenuItem>
                                 <MenuItem value="saw">Sawtooth</MenuItem>
                                 <MenuItem value="sqr">Square</MenuItem>
@@ -109,7 +107,7 @@ class Input extends React.Component {
                             </StyledSelect>
                         </Grid>
                         <Grid item xs={2}>
-                            <StyledSelect value={this.props.training.dataVariant} label="Input Variation" properties = {this.props} onChange={ this.handleDataVariantSelection }>
+                            <StyledSelect value={this.props.training.dataVariant} type='net' label="Input Variation" properties = {this.props} onChange={ this.handleDataVariantSelection }>
                                 <MenuItem value="basic">None</MenuItem>
                                 <MenuItem value="linear">Linear</MenuItem>
                                 <MenuItem value="linear-noise">Noise Linear</MenuItem>
@@ -118,9 +116,20 @@ class Input extends React.Component {
                             </StyledSelect>
                         </Grid>
                     </Grid>
+                    <Grid item xs={6} spacing={5} container justify="flex-start">
+                        <Grid item xs={2}>
+                            <StyledSelect value={this.props.network.type} type='detail' label="Type" properties = {this.props} onChange={ this.handleTypeSelection }>
+                                <MenuItem value="LSTM">LSTM</MenuItem>
+                                <MenuItem value="GRU">GRU</MenuItem>
+                            </StyledSelect>
+                        </Grid>
+                    </Grid>
                     
-                    <Grid item xs={12} container justify="flex-start">
-                        <Grid item xs={3}>
+                </Grid>
+                <Grid container spacing={0} justify= "space-between" style={this.simplePaddingStyle}>
+
+                <Grid item xs={6} container justify="flex-start">
+                        <Grid item xs={6}>
                             <Typography variant="body1" style={{...this.sliderPaddingStyle, color: !this.props.ui.detail ? lightBlue[400] : grey[500],}}>
                                 Learning Rate: {this.props.network.learningRate}
                             </Typography>
@@ -135,7 +144,7 @@ class Input extends React.Component {
                                 max={0.5} onChange={this.handleSliderChange}
                             />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={6}>
                             <Typography variant="body1" style={{...this.sliderPaddingStyle,color: !this.props.ui.detail ? lightBlue[400] : grey[500],}}>
                                 Speed
                             </Typography>
@@ -143,6 +152,25 @@ class Input extends React.Component {
                                 style={{...this.sliderPaddingStyle, color: 'white'}}
                                 marks
                                 disabled= {this.props.ui.detail}
+                                defaultValue={this.props.training.speed}
+                                valueLabelDisplay="off"
+                                step={10}
+                                min={100}
+                                max={1000}
+                                onChange={this.handleSpeedChange}
+                            />
+                        </Grid>
+                    </Grid>
+                    
+                    <Grid item xs={6} spacing={5} container justify="flex-start">
+                        <Grid item xs={6}>
+                            <Typography variant="body1" style={{...this.sliderPaddingStyle,color: !this.props.ui.detail ? grey[400] : orange[500],}}>
+                                Speed
+                            </Typography>
+                            <Slider
+                                style={{...this.sliderPaddingStyle, color: 'white'}}
+                                marks
+                                disabled= {!this.props.ui.detail}
                                 defaultValue={this.props.training.speed}
                                 valueLabelDisplay="off"
                                 step={10}
@@ -163,12 +191,21 @@ const styles = {
       borderRadius: 3,
       color: 'white',
     },
-    select: {
+    select_net: {
         '&:before': {
-            borderColor: grey[400],
+            borderColor: grey[500],
         },
         '&:after': {
-            borderColor: lightBlue[400],
+            borderColor: lightBlue[500],
+        },
+        width: "150px",
+        color:'white'
+    },select_detail: {
+        '&:before': {
+            borderColor: grey[500],
+        },
+        '&:after': {
+            borderColor: orange[500],
         },
         width: "150px",
         color:'white'
@@ -189,19 +226,24 @@ const styles = {
   };
   
   function StyledSelectRaw(props) {
-    const { classes, color, label, properties, ...other } = props;
+    const { classes, color, label, properties, type, ...other } = props;
     return (
         <div style={{display: 'inline-block', marginRight: '12px'}}>
         <Typography style= {
             {
-                color: !properties.ui.detail ? lightBlue[400] : grey[500],
+                color: !properties.ui.detail ? (type === 'net' ? lightBlue[500] : grey[500]) : (type === 'net' ? grey[500] : orange[500]),
             }
         }>{ label }</Typography>
-        <Select variant="outlined" className={properties.ui.detail ? classes.disabled : classes.select} inputProps={{
+        <Select variant="outlined" className={
+            properties.ui.detail ? 
+                (type === 'net' ? classes.disabled : classes.select_detail) 
+                : 
+                (type === 'net' ? classes.select_net : classes.disabled) }
+            inputProps={{
             classes: {
                 icon: classes.icon
             },
-            disabled:properties.ui.detail,
+            disabled: properties.ui.detail === (type === 'net'),
             color: 'white'
         }} {...other} />
         </div>
