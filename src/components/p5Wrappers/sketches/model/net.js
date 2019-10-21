@@ -2,6 +2,8 @@ export class Network {
 
     constructor(s) {
         this.s = s;
+        s.blue = s.color(50,100,200);
+        s.white = s.color(0)
         this.layers = []
         let layercount = s.network.length
         let nodes = s.network[0]
@@ -15,11 +17,18 @@ export class Network {
     }
 
     draw() {
-        this.s.strokeWeight(2 * this.s.netScale);
-
-        this.s.stroke(255);
+        let s = this.s;
+        s.strokeWeight(2 * s.netScale);
+        if(s.props.training.running) {
+            s.stroke(s.blue);
+            s.drawingContext.lineDashOffset = -s.frameCount/2
+            s.drawingContext.setLineDash([10,10])
+        } else {
+            s.stroke(s.white);
+        }
         this.s.noFill();
         this.s.line(0, this.s.height/2, this.s.width, this.s.height/2);
+        s.drawingContext.setLineDash([])
         for(let l of this.layers) {
             l.draw();
         }
@@ -67,15 +76,28 @@ class Layer {
             s.fill(0,100);
             s.noStroke();
             s.rect(this.x+10,this.y+10,this.w,this.h);
-            s.fill(65, this.s.netAlpha);
-            s.stroke(225, this.s.netAlpha);
+            s.fill(250, this.s.netAlpha);
+            if(s.props.training.running){
+                s.stroke(s.white, this.s.netAlpha);
+            } else {
+                s.stroke(s.white, this.s.netAlpha);
+            }
             if(this.hover){
-                s.stroke(150,180,250, this.s.netAlpha);
+                s.stroke(150, this.s.netAlpha);
                 s.cursor(s.HAND)
             }
             s.rect(this.x,this.y,this.w,this.h);
             s.noStroke();
-            s.fill(180);
+            if(s.props.training.running){
+                s.stroke(s.blue, this.s.netAlpha);
+            } else {
+                s.stroke(s.white, this.s.netAlpha);
+            }
+            if(this.hover){
+                s.stroke(150, this.s.netAlpha);
+                s.cursor(s.HAND)
+            }
+            s.strokeWeight(2)
             let left = this.x - this.w/2;
             let top = this.y - this.h/2;
             for(let i = 0; i < 5; i++) {

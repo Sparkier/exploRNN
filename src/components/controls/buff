@@ -1,0 +1,113 @@
+   
+                <Grid container spacing={0} justify= "space-between" style={this.simplePaddingStyle}>
+                    <Grid xs={6} spacing={5} container justify="flex-start">
+                        <Grid xs={12} container>
+                            <Grid item xs={12}>
+                                <StyledSelect value={this.props.network.type} type='net' label="Type" properties = {this.props} onChange={ this.handleTypeSelection }>
+                                    <MenuItem value="LSTM">LSTM</MenuItem>
+                                    <MenuItem value="GRU">GRU</MenuItem>
+                                </StyledSelect>
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <StyledSelect value={this.props.network.layers} type='net' label="Block Layers" properties = {this.props} onChange={ this.handleLayerCountSelection }>
+                                <MenuItem value="1">1</MenuItem>
+                                <MenuItem value="2">2</MenuItem>
+                                <MenuItem value="3">3</MenuItem>
+                                <MenuItem value="4">4</MenuItem>
+                                <MenuItem value="5">5</MenuItem>
+                                <MenuItem value="6">6</MenuItem>
+                                <MenuItem value="7">7</MenuItem>
+                            </StyledSelect>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <StyledSelect value={this.props.network.layerSize} type='net' label="Cells per Block" properties = {this.props} onChange={ this.handleSelectionChange }>
+                                <MenuItem value="1">1</MenuItem>
+                                <MenuItem value="2">2</MenuItem>
+                                <MenuItem value="5">5</MenuItem>
+                                <MenuItem value="10">10</MenuItem>
+                            </StyledSelect>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <StyledSelect value={this.props.training.dataType} type='net' label="Data Type" properties = {this.props} onChange={ this.handleDataSelection }>
+                                <MenuItem value="sin">sin(x)</MenuItem>
+                                <MenuItem value="saw">Sawtooth</MenuItem>
+                                <MenuItem value="sqr">Square</MenuItem>
+                                <MenuItem value="sinc">sinc(x % 4)</MenuItem>
+                            </StyledSelect>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <StyledSelect value={this.props.training.dataVariant} type='net' label="Input Variation" properties = {this.props} onChange={ this.handleDataVariantSelection }>
+                                <MenuItem value="basic">None</MenuItem>
+                                <MenuItem value="linear">Linear</MenuItem>
+                                <MenuItem value="linear-noise">Noise Linear</MenuItem>
+                                <MenuItem value="random">Random</MenuItem>
+                                <MenuItem value="random-noise">Noise Random</MenuItem>
+                            </StyledSelect>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={6} spacing={5} container justify="flex-start">
+                        <Grid item xs={2}>
+                            <StyledSelect value={this.props.network.type} type='detail' label="Type" properties = {this.props} onChange={ this.handleTypeSelection }>
+                                <MenuItem value="LSTM">LSTM</MenuItem>
+                                <MenuItem value="GRU">GRU</MenuItem>
+                            </StyledSelect>
+                        </Grid>
+                    </Grid>
+                    
+                </Grid>
+                <Grid container spacing={0} justify= "space-between" style={this.simplePaddingStyle}>
+
+                <Grid item xs={6} container justify="flex-start">
+                        <Grid item xs={6}>
+                            <Typography variant="body1" style={{...this.sliderPaddingStyle, color: !this.props.ui.detail ? lightBlue[400] : grey[500],}}>
+                                Learning Rate: {this.props.network.learningRate}
+                            </Typography>
+                            <Slider
+                                style={{...this.sliderPaddingStyle, color: 'white'}}
+                                marks
+                                disabled= {this.props.ui.detail}
+                                defaultValue={this.props.network.learningRate}
+                                valueLabelDisplay="off"
+                                step={0.01}
+                                min={0.01}
+                                max={0.5} onChange={this.handleSliderChange}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography variant="body1" style={{...this.sliderPaddingStyle,color: !this.props.ui.detail ? lightBlue[400] : grey[500],}}>
+                                Speed
+                            </Typography>
+                            <Slider
+                                style={{...this.sliderPaddingStyle, color: 'white'}}
+                                marks
+                                disabled= {this.props.ui.detail}
+                                defaultValue={this.props.training.speed}
+                                valueLabelDisplay="off"
+                                step={10}
+                                min={100}
+                                max={1000}
+                                onChange={this.handleSpeedChange}
+                            />
+                        </Grid>
+                    </Grid>
+                    
+                    <Grid item xs={6} spacing={5} container justify="flex-start">
+                        <Grid item xs={6}>
+                            <Typography variant="body1" style={{...this.sliderPaddingStyle,color: !this.props.ui.detail ? grey[400] : orange[500],}}>
+                                Speed
+                            </Typography>
+                            <Slider
+                                style={{...this.sliderPaddingStyle, color: 'white'}}
+                                marks
+                                disabled= {!this.props.ui.detail}
+                                defaultValue={this.props.training.speed}
+                                valueLabelDisplay="off"
+                                step={10}
+                                min={100}
+                                max={1000}
+                                onChange={this.handleSpeedChange}
+                            />
+                        </Grid>
+                    </Grid>
+                </Grid>

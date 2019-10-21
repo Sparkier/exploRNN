@@ -25,7 +25,7 @@ export default function (s) {
     }
 
     s.draw = function() {
-            s.background(150)
+        s.background(255)
         s.cursor(s.ARROW)
         let pause = Math.round((1010 - s.props.training.speed) / 10);
         if(s.detail && s.lstmAnim && s.frameCount % pause === 0) {
