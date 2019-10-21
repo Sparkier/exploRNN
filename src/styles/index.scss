@@ -2,7 +2,7 @@
 html,
 body {
     height: 100%;
-    overflow: scroll;
+    overflow: hidden;
     font-family: Roboto, sans-serif;
 }
 
@@ -69,14 +69,14 @@ header {
 }
 
 .wrap {
-    height: 100%;
-    background-color: #000000;
+    height: auto;
+    background-color: #135124;
     overflow: hidden;
 }
 
 .content {
     height: calc(100% - 60px);
-    background-color: #000000;
+    background-color: #555555;
     overflow-y: hidden;
     overflow-x: hidden;
 }

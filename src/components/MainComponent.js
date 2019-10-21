@@ -18,9 +18,9 @@ class Main extends React.Component {
     return (
       <Grid container direction='row' className='mainGrid'>
         <Grid item xs className='full'>
-            <Input/>
             <Training/>
             <P5VisualsWrapper/>
+            <Input/>
           </Grid>
         <AlertSnack />
       </Grid>

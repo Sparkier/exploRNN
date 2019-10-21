@@ -15,12 +15,8 @@ class P5VisualsWrapper extends React.Component {
 
     constructor(){
       super()
-      this.inputSketch = new window.p5(inputSketch, 'inputDiv')
       this.networkSketch = new window.p5(networkSketch, 'networkDiv')
-      this.outputSketch = new window.p5(outputSketch, 'outputDiv')
-      this.inputSketch.props = this.props
       this.networkSketch.props = this.props
-      this.outputSketch.props = this.props
     }
 
     componentDidMount() {
@@ -29,32 +25,21 @@ class P5VisualsWrapper extends React.Component {
 
     shouldComponentUpdate(nextProps) {
       this.props = nextProps
-      this.inputSketch.props = nextProps
       this.networkSketch.props = nextProps
-      this.outputSketch.props = nextProps
-      this.inputSketch.updateMemory();
       this.networkSketch.updateMemory();
-      this.outputSketch.updateMemory();
       return false
     }
 
     componentWillUnmount() {
-      this.inputSketch.remove()
       this.networkSketch.remove()
-      this.outputSketch.remove()
     }
 
   render() {
     return(
-        <Grid container spacing ={0} direction="row" justify='space-evenly'>
-            <Grid item xs={3}>
-                <div id = "inputDiv"/>
-            </Grid>
-            <Grid item xs={6}>
+        <Grid container spacing ={0} direction="row" justify='center'>
+            
+            <Grid item xs={10}>
                 <div id = "networkDiv"/>
-            </Grid>
-            <Grid item xs={3}>
-                <div id = "outputDiv"/>
             </Grid>
         </Grid>
     );

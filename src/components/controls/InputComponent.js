@@ -59,7 +59,15 @@ class Input extends React.Component {
         paddingLeft: "40px",
         paddingRight: "40px",
         paddingBottom: "20px",
-        color: grey[100]
+        background: "#FFFFFF"
+    };
+
+    myPadding = {
+        paddingTop: "20px",
+        paddingLeft: "20px",
+        paddingRight: "20px",
+        paddingBottom: "20px",
+        background: grey[400]
     };
 
     sliderPaddingStyle = {
@@ -69,30 +77,39 @@ class Input extends React.Component {
     
     render() {
         return (
-            <div id = "valueDiv" className = 'wrapper'>
-                <Grid container xs={12} spacing={3}  style={this.simplePaddingStyle}>
-                    <Grid container xs={4}>
-                        <Typography>Left</Typography>
+            <div id = "valueDiv">
+                <Grid container xs={12} spacing={3} noWrap style={this.simplePaddingStyle}>
+                    <Grid container item xs={4} justify='center'>
+                        <Grid item xs = {3}>
+                            <Typography>Left</Typography>
+                        </Grid>
                     </Grid>
-                    <Grid container xs={4} spacing={5}>
-                        <Grid container xs={12}>
-                            <Grid item xs = {3}>
+                    <Grid container item xs={4} style={{...this.myPadding, width:"80%"}}>
+                        <Grid container xs={12} justify='center'>
+                            <Grid item style={this.myPadding}>
                                 <Typography>One</Typography>
                             </Grid>
                         </Grid>
-                        <Grid container xs={12}>
-                            <Grid item xs = {3}>
+                        <Grid container item xs={12} justify='center'>
+                            <Grid item style={this.myPadding}>
                                 <Typography>Two</Typography>  
                             </Grid>                      
                         </Grid>
-                        <Grid container xs={12}>
-                            <Grid item xs = {3}>
+                        <Grid container item xs={12} justify='center'>
+                            <Grid item style={this.myPadding}>
                                 <Typography>Three</Typography>  
                             </Grid>                      
                         </Grid>
+                        <Grid container item xs={12} justify='center'>
+                            <Grid item style={this.myPadding}>
+                                
+                            </Grid>                      
+                        </Grid>
                     </Grid>
-                    <Grid container xs={4}>
-                        <Typography>Right</Typography>                   
+                    <Grid container item xs={4} justify='center'>
+                        <Grid item xs = {3}>
+                            <Typography>Right</Typography>
+                        </Grid>              
                     </Grid>
                 </Grid>
             </div>
