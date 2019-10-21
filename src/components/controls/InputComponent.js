@@ -8,9 +8,8 @@ import Box from '@material-ui/core/Box';
 import { withStyles } from '@material-ui/core/styles';
 //import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select';
-import { Grid } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import Start from '@material-ui/icons/PlayArrow';
 import Pause from '@material-ui/icons/Pause';
 import Reset from '@material-ui/icons/Replay';
@@ -22,6 +21,8 @@ import { lightBlue, grey, orange} from '@material-ui/core/colors';
  * The current Component holding all the input elements to change the Network for Training
  */
 class Input extends React.Component {
+
+    fontSize = 20;
 
     handleSelectionChange = (event) => {
         this.props.actions.updateNetwork({...this.props.network, layerSize: Number(event.target.value)});
@@ -111,77 +112,72 @@ class Input extends React.Component {
     render() {
         return (
             <div id = "valueDiv" align="center">
-                <Grid container spacing={3} style={this.simplePaddingStyle} justify='space-between'>
+                <Grid container spacing={3} style={this.simplePaddingStyle} justify='center'>
                     <Grid container item xs={4} justify='center'>
                         <Grid item xs = {3}>
                             <Typography>Left</Typography>
                         </Grid>
                     </Grid>
-                    <Grid container item xs={3} style={{...this.myPadding, width:"80%"}}>
-                        <Grid container item xs={12} justify='center'>
-                            <Typography variant="body1" style={{...this.sliderPaddingStyle,color: !this.props.ui.detail ? lightBlue[400] : orange[500]}}>
-                                    <Box fontWeight="fontWeightBold" fontSize={24} m={1}>
-                                        Controls:
-                                    </Box>
-                                </Typography>
-                            <Grid item style={this.myPadding}>
-                                <MyButton properties = {this.props} action={this.resetButtonPressed} icon ={<Reset fontSize="large" style={{ color: 'white' }}/>}/>
+                    <Grid container item xs={3} justify='center'>
+                        <Paper style={{...this.myPadding, width:"80%"}}>
+                            <Grid container item justify='center' alignItems="center">
+                                <Grid item style={this.myPadding}>
+                                    <MyButton disabled={this.props.ui.detail} properties = {this.props} action={this.resetButtonPressed} icon ={<Reset fontSize="medium" style={{ color: 'white' }}/>}/>
+                                </Grid>
+                                <Grid item style={this.myPadding}>
+                                    <MyButton properties = {this.props} action={this.toggleTraining} icon = {this.props.training.running ?
+                                            <Pause fontSize="large" style={{ color: 'white' }}/>
+                                            :
+                                            <Start fontSize="large" style={{ color: 'white' }}/>}>
+                                    </MyButton>
+                                </Grid>   
+                                <Grid item style={this.myPadding}>
+                                    <MyButton properties = {this.props} icon ={<SkipNext fontSize="medium" style={{ color: 'white' }}/>}/>
+                                </Grid>                  
                             </Grid>
-                            <Grid item style={this.myPadding}>
-                                <MyButton properties = {this.props} action={this.toggleTraining} icon = {this.props.training.running ?
-                                        <Pause fontSize="large" style={{ color: 'white' }}/>
-                                        :
-                                        <Start fontSize="large" style={{ color: 'white' }}/>}>
-                                </MyButton>
-                            </Grid>   
-                            <Grid item style={this.myPadding}>
-                                <MyButton properties = {this.props} icon ={<SkipNext fontSize="large" style={{ color: 'white' }}/>}/>
-                            </Grid>                  
-                        </Grid>
-                        <Grid container item xs={12} justify='center'>
-                            <Grid item style={this.myPadding}>
-                                <Typography style={{color: !this.props.ui.detail ? lightBlue[400] : orange[500]}}>
-                                    <Box fontWeight="fontWeightBold" fontSize={24} m={1}>
-                                        Epochs:
-                                    </Box>
-                                </Typography>
-                                <Typography style={{color: 'white'}}>
-                                    <Box fontSize={24} m={1}>    
-                                        {this.styledEpochs()}
-                                    </Box>
-                                </Typography>
+                            <Grid container item xs={12} justify='center'>
+                                <Grid item style={this.myPadding}>
+                                    <Typography style={{color: !this.props.ui.detail ? lightBlue[400] : orange[500]}}>
+                                        <Box fontWeight="fontWeightBold" fontSize={this.fontSize} m={1}>
+                                            Epochs:
+                                        </Box>
+                                    </Typography>
+                                    <Typography style={{color: 'white'}}>
+                                        <Box fontSize={24} m={1}>    
+                                            {this.styledEpochs()}
+                                        </Box>
+                                    </Typography>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <Grid container item xs={12} justify='center'>
-                            <Grid item xs={12}>
-                                <Typography variant="body1" style={{...this.sliderPaddingStyle,color: !this.props.ui.detail ? lightBlue[400] : orange[500]}}>
-                                    <Box fontWeight="fontWeightBold" fontSize={24} m={1}>
-                                        Speed:
-                                    </Box>
-                                </Typography>
-                                <Slider
-                                    style={{...this.sliderPaddingStyle, color: 'white'}}
-                                    marks
-                                    defaultValue={this.props.training.speed}
-                                    valueLabelDisplay="off"
-                                    step={10}
-                                    min={100}
-                                    max={1000}
-                                    onChange={this.handleSpeedChange}
-                                />
-                            </Grid>                     
-                        </Grid>
-                        <Grid container item xs={12} justify='center'>
-                            <Grid item xs={3} style={this.myPadding}>
-                                
-                            </Grid>                      
-                        </Grid>
+                            <Grid container item xs={12} justify='center'>
+                                <Grid item xs={12}>
+                                    <Typography variant="body1" style={{...this.sliderPaddingStyle,color: !this.props.ui.detail ? lightBlue[400] : orange[500]}}>
+                                        <Box fontWeight="fontWeightBold" fontSize={this.fontSize} m={1}>
+                                            Speed:
+                                        </Box>
+                                    </Typography>
+                                    <Slider
+                                        style={{...this.sliderPaddingStyle, color: 'white'}}
+                                        marks
+                                        defaultValue={this.props.training.speed}
+                                        valueLabelDisplay="off"
+                                        step={10}
+                                        min={100}
+                                        max={1000}
+                                        onChange={this.handleSpeedChange}
+                                    />
+                                </Grid>                     
+                            </Grid>
+                            
+                        </Paper>
                     </Grid>
                     <Grid container item xs={4} justify='center'>
                         <Grid item xs = {3}>
                             <Typography>Right</Typography>
                         </Grid>              
                     </Grid>
+                     <Grid item xs = {12}>
+                        </Grid>
                 </Grid>
             </div>
         );
@@ -225,26 +221,22 @@ const styles = {
         color:'white'
     },
     button_cell: {
-        width: '100%',
-        height: '100%',
         paddingLeft: "12px",
         paddingRight: "12px",
         color: 'white',
         borderRadius: '50%',
-        borderColor: orange[500],
+        background: orange[500],
         '&:hover': {
-            background: orange[500]
+            background: orange[800]
         }
     },button_net: { 
-        width: '100%',
-        height: '100%',
         paddingLeft: "12px",
         paddingRight: "12px",
         color: 'white',
         borderRadius: '50%',
-        borderColor: lightBlue[500],
+        background: lightBlue[500],
             '&:hover': {
-                background: lightBlue[500]
+                background: lightBlue[800]
             }
     },
     icon: {
@@ -253,9 +245,9 @@ const styles = {
   };
   
   function StyledButtonRaw(props) {
-    const { classes, properties, icon, action, ...other } = props;
+    const { classes, properties, icon, action, disabled } = props;
     return (
-        <IconButton variant="outlined" className={
+        <IconButton disabled={disabled} variant="outlined" className={
             properties.ui.detail ? classes.button_cell : classes.button_net } onClick={action}>
                 {icon}
         </IconButton>
@@ -301,7 +293,7 @@ const styles = {
     classes: PropTypes.object.isRequired,
   };
   
-  const StyledSelect = withStyles(styles)(StyledSelectRaw);
+  // const StyledSelect = withStyles(styles)(StyledSelectRaw);
   const MyButton = withStyles(styles)(StyledButtonRaw);
 
 // Controls state of the Application

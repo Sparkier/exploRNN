@@ -20,7 +20,7 @@ const store = createStore(
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: grey[900]
+      main: grey[800]
     },
     secondary: blue,
   },

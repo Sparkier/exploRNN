@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import inputSketch from "./sketches/inputSketch";
 import networkSketch from "./sketches/networkSketch";
-import outputSketch from "./sketches/outputSketch";
 import { Grid } from '@material-ui/core';
 
 import * as actions from '../../actions';

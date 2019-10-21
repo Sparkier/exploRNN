@@ -6,10 +6,6 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Start from '@material-ui/icons/PlayArrow';
-import Pause from '@material-ui/icons/Pause';
-import Reset from '@material-ui/icons/Replay';
 
 import * as actions from '../../actions';
 
@@ -37,15 +33,6 @@ class Controls extends React.Component {
             </Typography>
             <div className='wrapper'>
               <div className='menu'>
-              <IconButton className='noselect menuitem' aria-label='Reset' onClick={this.toggleTraining}>
-                  {this.props.training.running ?
-                  <Pause style={{ color: 'white' }}/>
-                  :
-                  <Start style={{ color: 'white' }}/>}
-              </IconButton>
-                <IconButton className='noselect menuitem' aria-label='Reset' onClick={this.resetButtonPressed}>
-                  <Reset style={{ color: 'white' }}/>
-                </IconButton>
               </div>
             </div>
           </Toolbar>
