@@ -67,7 +67,22 @@ header {
         height: 30px;
     }
 }
+.menuitem {
+    display: flex;
+    flex-direction: row;
+    height: calc(100% - 2px);
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-left: 12px;
+    font-size: large;
+    color: 'white'
+}
 
+.menuitem:hover {
+    background-color: #1B80DE;
+    text-decoration: complement($color: #000000);
+    cursor: pointer;
+}
 .wrap {
     height: auto;
     background-color: #135124;

@@ -2,12 +2,19 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-//import Slider from '@material-ui/core/Slider';
+import Slider from '@material-ui/core/Slider';
 import { Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import { withStyles } from '@material-ui/core/styles';
 //import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select';
 import { Grid } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import Start from '@material-ui/icons/PlayArrow';
+import Pause from '@material-ui/icons/Pause';
+import Reset from '@material-ui/icons/Replay';
+import SkipNext from '@material-ui/icons/SkipNext';
 
 import * as actions from '../../actions';
 import { lightBlue, grey, orange} from '@material-ui/core/colors';
@@ -52,13 +59,36 @@ class Input extends React.Component {
     handleSpeedChange = (event, value) => {
         this.props.actions.updateTraining({...this.props.training, speed: value});
     }
+
+    toggleTraining = () => {
+        console.log('Training should start now')
+        this.props.actions.toggleTraining(this.props.training);
+        this.props.actions.updateUI({...this.props.ui, detail: false});
+    }
+
+    resetButtonPressed = () => {
+        this.props.actions.resetNetwork(this.props.training);
+    }
+
+    styledEpochs() {
+        let num = this.props.network.iteration;
+        let out = "";
+        let buff = 0;
+        for(let i = 0; i < 9; i++) {
+            if(i!== 0 && i%3===0)
+                out = ',' + out;
+            buff = num % 10;
+            out = buff + out;
+            num = (num - buff) / 10
+        }
+        return out;
+    }
     
 
     simplePaddingStyle = {
         paddingTop: "20px",
-        paddingLeft: "40px",
-        paddingRight: "40px",
         paddingBottom: "20px",
+        width: "80%",
         background: "#FFFFFF"
     };
 
@@ -67,41 +97,82 @@ class Input extends React.Component {
         paddingLeft: "20px",
         paddingRight: "20px",
         paddingBottom: "20px",
-        background: grey[400]
+        background: grey[800]
     };
 
     sliderPaddingStyle = {
-        width:"80%",
-        paddingTop: "20px"
+        width:"80%"
     };
+
+    textStyle = {
+        color: !this.props.ui.detail ? lightBlue[400] : orange[500]
+    }
     
     render() {
         return (
-            <div id = "valueDiv">
-                <Grid container xs={12} spacing={3} noWrap style={this.simplePaddingStyle}>
+            <div id = "valueDiv" align="center">
+                <Grid container spacing={3} style={this.simplePaddingStyle} justify='space-between'>
                     <Grid container item xs={4} justify='center'>
                         <Grid item xs = {3}>
                             <Typography>Left</Typography>
                         </Grid>
                     </Grid>
-                    <Grid container item xs={4} style={{...this.myPadding, width:"80%"}}>
-                        <Grid container xs={12} justify='center'>
+                    <Grid container item xs={3} style={{...this.myPadding, width:"80%"}}>
+                        <Grid container item xs={12} justify='center'>
+                            <Typography variant="body1" style={{...this.sliderPaddingStyle,color: !this.props.ui.detail ? lightBlue[400] : orange[500]}}>
+                                    <Box fontWeight="fontWeightBold" fontSize={24} m={1}>
+                                        Controls:
+                                    </Box>
+                                </Typography>
                             <Grid item style={this.myPadding}>
-                                <Typography>One</Typography>
+                                <MyButton properties = {this.props} action={this.resetButtonPressed} icon ={<Reset fontSize="large" style={{ color: 'white' }}/>}/>
+                            </Grid>
+                            <Grid item style={this.myPadding}>
+                                <MyButton properties = {this.props} action={this.toggleTraining} icon = {this.props.training.running ?
+                                        <Pause fontSize="large" style={{ color: 'white' }}/>
+                                        :
+                                        <Start fontSize="large" style={{ color: 'white' }}/>}>
+                                </MyButton>
+                            </Grid>   
+                            <Grid item style={this.myPadding}>
+                                <MyButton properties = {this.props} icon ={<SkipNext fontSize="large" style={{ color: 'white' }}/>}/>
+                            </Grid>                  
+                        </Grid>
+                        <Grid container item xs={12} justify='center'>
+                            <Grid item style={this.myPadding}>
+                                <Typography style={{color: !this.props.ui.detail ? lightBlue[400] : orange[500]}}>
+                                    <Box fontWeight="fontWeightBold" fontSize={24} m={1}>
+                                        Epochs:
+                                    </Box>
+                                </Typography>
+                                <Typography style={{color: 'white'}}>
+                                    <Box fontSize={24} m={1}>    
+                                        {this.styledEpochs()}
+                                    </Box>
+                                </Typography>
                             </Grid>
                         </Grid>
                         <Grid container item xs={12} justify='center'>
-                            <Grid item style={this.myPadding}>
-                                <Typography>Two</Typography>  
-                            </Grid>                      
+                            <Grid item xs={12}>
+                                <Typography variant="body1" style={{...this.sliderPaddingStyle,color: !this.props.ui.detail ? lightBlue[400] : orange[500]}}>
+                                    <Box fontWeight="fontWeightBold" fontSize={24} m={1}>
+                                        Speed:
+                                    </Box>
+                                </Typography>
+                                <Slider
+                                    style={{...this.sliderPaddingStyle, color: 'white'}}
+                                    marks
+                                    defaultValue={this.props.training.speed}
+                                    valueLabelDisplay="off"
+                                    step={10}
+                                    min={100}
+                                    max={1000}
+                                    onChange={this.handleSpeedChange}
+                                />
+                            </Grid>                     
                         </Grid>
                         <Grid container item xs={12} justify='center'>
-                            <Grid item style={this.myPadding}>
-                                <Typography>Three</Typography>  
-                            </Grid>                      
-                        </Grid>
-                        <Grid container item xs={12} justify='center'>
-                            <Grid item style={this.myPadding}>
+                            <Grid item xs={3} style={this.myPadding}>
                                 
                             </Grid>                      
                         </Grid>
@@ -116,6 +187,8 @@ class Input extends React.Component {
         );
     }
 }
+
+
 const styles = {
     root: {
       border: 1,
@@ -151,11 +224,44 @@ const styles = {
         width: "150px",
         color:'white'
     },
+    button_cell: {
+        width: '100%',
+        height: '100%',
+        paddingLeft: "12px",
+        paddingRight: "12px",
+        color: 'white',
+        borderRadius: '50%',
+        borderColor: orange[500],
+        '&:hover': {
+            background: orange[500]
+        }
+    },button_net: { 
+        width: '100%',
+        height: '100%',
+        paddingLeft: "12px",
+        paddingRight: "12px",
+        color: 'white',
+        borderRadius: '50%',
+        borderColor: lightBlue[500],
+            '&:hover': {
+                background: lightBlue[500]
+            }
+    },
     icon: {
         fill: 'white',
     },
   };
   
+  function StyledButtonRaw(props) {
+    const { classes, properties, icon, action, ...other } = props;
+    return (
+        <IconButton variant="outlined" className={
+            properties.ui.detail ? classes.button_cell : classes.button_net } onClick={action}>
+                {icon}
+        </IconButton>
+    )
+  }
+
   function StyledSelectRaw(props) {
     const { classes, color, label, properties, type, ...other } = props;
     return (
@@ -187,8 +293,16 @@ const styles = {
      */
     classes: PropTypes.object.isRequired,
   };
+
+  StyledButtonRaw.propTypes = {
+    /**
+     * Override or extend the styles applied to the component.
+     */
+    classes: PropTypes.object.isRequired,
+  };
   
   const StyledSelect = withStyles(styles)(StyledSelectRaw);
+  const MyButton = withStyles(styles)(StyledButtonRaw);
 
 // Controls state of the Application
 Input.propTypes = {
