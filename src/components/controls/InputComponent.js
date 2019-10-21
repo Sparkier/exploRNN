@@ -87,8 +87,6 @@ class Input extends React.Component {
     
 
     simplePaddingStyle = {
-        paddingTop: "20px",
-        paddingBottom: "20px",
         width: "80%",
         background: "#FFFFFF"
     };
@@ -118,7 +116,7 @@ class Input extends React.Component {
                             <Typography>Left</Typography>
                         </Grid>
                     </Grid>
-                    <Grid container item xs={3} justify='center'>
+                    <Grid container item xs={4} justify='center'>
                         <Paper style={{...this.myPadding, width:"80%"}}>
                             <Grid container item justify='center' alignItems="center">
                                 <Grid item style={this.myPadding}>

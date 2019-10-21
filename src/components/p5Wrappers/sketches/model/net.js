@@ -73,7 +73,7 @@ class Layer {
     draw() {
         if(!(this.layerType === 'input' || this.layerType === 'output')) {
             let s = this.s;
-            s.fill(0,100);
+            s.fill(0,50,100,100);
             s.noStroke();
             s.rect(this.x+10,this.y+10,this.w,this.h);
             s.fill(250, this.s.netAlpha);
