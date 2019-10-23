@@ -6,9 +6,9 @@ export class LSTM {
 
     constructor(s) {
         this.s = s;
-        let left = 0.1 * s.width;
+        let left = s.ctrLeft +  0.1 * s.ctrWidth;
         let top = 0.1 * s.height;
-        let horBuf = (1/6) * 0.8 * s.width
+        let horBuf = (1/6) * 0.8 * s.ctrWidth
         let verBuf = (1/3) * 0.8 * s.height
         s.clickedItem = undefined;
         this.anim = 0;
@@ -73,11 +73,11 @@ export class LSTM {
         s.rectMode(s.CENTER);
         s.fill(0,100);
         s.noStroke();
-        s.rect(s.width/2+20, s.height/2+20, s.width * 0.8, s.height * 0.8)
+        s.rect(s.width/2+20, s.height/2+20, s.ctrWidth * 0.8, s.height * 0.8)
         s.fill(35);
         s.stroke(100);
         s.strokeWeight(15)
-        s.rect(s.width/2, s.height/2, s.width * 0.8, s.height * 0.8)
+        s.rect(s.width/2, s.height/2, s.ctrWidth * 0.8, s.height * 0.8)
         
         for(let c of this.connections) {
             c.draw();

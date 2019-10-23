@@ -1,9 +1,12 @@
 import {LSTM} from "./model/lstm";
 import {Network} from "./model/net";
+import {Plot} from './model/plot';
 
 export default function (s) {
     s.props = {}
     s.network = []
+    s.plotsLeft = [];
+    s.plotsRight = [];
     s.update = false;
     s.scaleImage = 5;
     s.detail = false;
@@ -13,15 +16,26 @@ export default function (s) {
     s.bgval = 65;
     s.lstmAnim = true;
     s.currfps = 0;
+    s.sideRatio = 0.2
    
     s.setup = function() {
         s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight - 25)
         s.frameRate(60)
         //s.drawingContext.setLineDash([5,5])
+        s.sideWidth = 0.2 * s.width;
+        s.inLeft = 0;
+        s.inRight = s.sideWidth;
+        s.outLeft = s.width - s.sideWidth;
+        s.outRight = s.width;
+        s.ctrWidth = s.width * (1 - 2*s.sideRatio);
+        s.ctrLeft = s.sideWidth;
+        s.ctrRight = s.width - s.sideWidth;
         s.net = new Network(s);
         s.cell = new LSTM(s);
         s.imageMode(s.CENTER)
         s.rectMode(s.CENTER)
+        s.plotsLeft = [new Plot(0, 'L', s), new Plot(1, 'L', s), new Plot(2, 'L', s), new Plot(3, 'L', s), new Plot(4, 'L', s)]
+        s.plotsRight = [new Plot(0, 'R', s), new Plot(1, 'R', s), new Plot(2, 'R', s), new Plot(3, 'R', s), new Plot(4, 'R', s)]
     }
 
     s.draw = function() {
@@ -31,6 +45,12 @@ export default function (s) {
         if(s.detail && s.lstmAnim && s.frameCount % pause === 0) {
             s.cell.update();
         }
+        s.plotsLeft[4].draw();
+        s.plotsLeft[3].draw();
+        s.plotsLeft[2].draw();
+        s.plotsRight[0].draw();
+        s.plotsRight[1].draw();
+        s.plotsRight[2].draw();
         s.drawNetwork();
         s.drawCell();
         s.fill(255)
@@ -74,12 +94,14 @@ export default function (s) {
 
     s.windowResized = function(){
         s.resizeCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight - 25)
+        s.plotsLeft = [new Plot(0, 'L', s), new Plot(1, 'L', s), new Plot(2, 'L', s), new Plot(3, 'L', s), new Plot(4, 'L', s)]
+        s.plotsRight = [new Plot(0, 'R', s), new Plot(1, 'R', s), new Plot(2, 'R', s), new Plot(3, 'R', s), new Plot(4, 'R', s)]
     }
         
     s.drawCell = function() { 
         s.fill(s.bgval, s.cellAlpha);
         s.noStroke();
-        s.rect(s.width/2, s.height/2,s.width,s.height);
+        s.rect(s.width/2, s.height/2,s.ctrWidth,s.height);
         if(s.detail) {
             if(s.transition < 100) {
                 s.transition += s.transitionSpeed
@@ -159,5 +181,7 @@ export default function (s) {
             s.net.checkClick();
         }   
     } 
+
+    
 
 }

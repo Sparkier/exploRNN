@@ -27,7 +27,7 @@ export class Network {
             s.stroke(s.white);
         }
         this.s.noFill();
-        this.s.line(0, this.s.height/2, this.s.width, this.s.height/2);
+        this.s.line(s.ctrLeft, this.s.height/2, this.s.ctrRight, this.s.height/2);
         s.drawingContext.setLineDash([])
         for(let l of this.layers) {
             l.draw();
@@ -59,15 +59,10 @@ class Layer {
         this.layerType = nodes.type;
         this.hover = false;
         this.clicked = false;
-        this.x = s.width * (this.i)/(this.layers + 1);
+        this.x = s.ctrLeft + s.ctrWidth * (this.i)/(this.layers + 1);
         this.y = s.height/2;
-        this.w = s.width/(2*this.layers + 1);
+        this.w = s.ctrWidth/(2*this.layers + 1);
         this.h = this.w * 0.8
-        /*
-        for(let j = 0; j < this.layerwidth; j++) {
-            this.nodes.push(new Node(s, s.width * (i+1)/(this.layers), s.height * (j + 1)/ (nodes.size+1), 50, nodes.type))
-        }
-        */
     }
 
     draw() {

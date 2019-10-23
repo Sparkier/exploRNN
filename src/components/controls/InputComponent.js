@@ -87,7 +87,7 @@ class Input extends React.Component {
     
 
     simplePaddingStyle = {
-        width: "80%",
+        width: "90%",
         background: "#FFFFFF"
     };
 
