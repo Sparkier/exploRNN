@@ -6,10 +6,10 @@ export class LSTM {
 
     constructor(s) {
         this.s = s;
-        let left = s.ctrLeft +  0.1 * s.ctrWidth;
-        let top = 0.1 * s.height;
-        let horBuf = (1/6) * 0.8 * s.ctrWidth
-        let verBuf = (1/3) * 0.8 * s.height
+        let left = s.ctrLeft +  s.ctrRatio / 2 * s.ctrWidth;
+        let top = s.ctrRatio / 2 * s.height;
+        let horBuf = (1/6) *  s.ctrRatio * s.ctrWidth
+        let verBuf = (1/3) *  s.ctrRatio * s.height
         s.clickedItem = undefined;
         this.anim = 0;
         this.animMax = 5;
@@ -28,8 +28,11 @@ export class LSTM {
         this.items.push(this.crossOutput = new Item("crs", "", left + 5 * horBuf, top + 0.5 * verBuf, 1, s))
         this.items.push(this.crossCell = new Item("crs", "", left + 4.5 * horBuf, top + verBuf, 1, s))
         this.items.push(this.first = new Item("fst", "", left, top + verBuf, 1, s))
+        this.items.push(this.ghostFirst = new Item("crs", "", left - horBuf, top + verBuf, 1, s))
         this.items.push(this.last = new Item("lst", "", left + 6 * horBuf, top + verBuf, 1, s))
+        this.items.push(this.ghostLast = new Item("crs", "", left + 7 * horBuf, top + verBuf, 1, s))
 
+        this.connections.push(this.ghostInput = new Connection([{x: this.ghostFirst.x, y: this.ghostFirst.y}, {x: this.first.x, y: this.first.y}], [this.first], s))
         this.connections.push(this.mainInput = new Connection([{x: this.first.x, y: this.first.y}, {x: this.receive.x, y: this.receive.y}], [this.receive], s))
         this.connections.push(this.bus = new Connection([{x: this.receive.x, y: this.receive.y}, {x: this.receive.x, y: this.crossOutput.y}, {x: this.crossOutput.x, y: this.crossOutput.y}], [], s))
         this.connections.push(this.toInput = new Connection([{x: this.crossInput.x, y: this.crossInput.y}, {x: this.add.x, y: this.add.y}], [this.add], s))
@@ -43,7 +46,9 @@ export class LSTM {
         this.connections.push(this.cellToOutput = new Connection([{x: this.crossCell.x, y: this.crossCell.y}, {x: this.output.x, y: this.output.y}], [this.output], s))
         this.connections.push(this.recurrent = new Connection([{x: this.output.x, y: this.output.y}, {x: this.output.x, y: top + 2.5 * verBuf},{x: this.receive.x, y:  top + 2.5 * verBuf}, {x: this.receive.x, y: this.receive.y}],[this.receive], s))
         this.connections.push(this.mainOut = new Connection([{x: this.output.x, y: this.output.y}, {x: this.last.x, y: this.last.y}], [this.last], s))
+        this.connections.push(this.ghostOutput = new Connection([{x: this.last.x, y: this.last.y}, {x: this.ghostLast.x, y: this.ghostLast.y}], [this.ghostLast], s))
     
+        this.ghostFirst.connections.push(this.ghostInput);
         this.first.connections.push(this.mainInput);
         this.receive.connections.push(this.bus);
         this.receive.connections.push(this.crossInput);
@@ -61,9 +66,10 @@ export class LSTM {
         this.cell.connections.push(this.cellToOutput);
         this.output.connections.push(this.mainOut);
         this.output.connections.push(this.recurrent);
-        this.last.connections.push(this.first);
+        this.last.connections.push(this.ghostOutput);
+        this.ghostLast.connections.push(this.ghostFirst);
     
-        this.first.addActiveInput();   
+        this.ghostFirst.addActiveInput();   
         this.recurrent.addActiveInput(); 
         this.forget.addActiveInput();    
     }
@@ -73,11 +79,11 @@ export class LSTM {
         s.rectMode(s.CENTER);
         s.fill(0,100);
         s.noStroke();
-        s.rect(s.width/2+20, s.height/2+20, s.ctrWidth * 0.8, s.height * 0.8)
-        s.fill(35);
+        s.rect(s.width/2+20, s.height/2+20, s.ctrWidth * s.ctrRatio, s.height * s.ctrRatio)
+        s.fill(255);
         s.stroke(100);
         s.strokeWeight(15)
-        s.rect(s.width/2, s.height/2, s.ctrWidth * 0.8, s.height * 0.8)
+        s.rect(s.width/2, s.height/2, s.ctrWidth * s.ctrRatio, s.height * s.ctrRatio)
         
         for(let c of this.connections) {
             c.draw();
@@ -181,7 +187,7 @@ class Connection {
     draw() {
         let s = this.s;
         s.noFill();
-        s.stroke(255);
+        s.stroke(54);
         s.strokeWeight(1);
         if(this.active) {
             s.stroke(s.orange);
@@ -247,13 +253,13 @@ class Item {
             case 'lst':
             case 'sav':
             case 'rec':
-                this.r = 30;
+                this.r = (s.ctrRatio * s.height)/12;
                 break;
             case 'crs':
-                this.r = 10;
+                this.r = (s.ctrRatio * s.height)/40;
                 break;
             default:
-                this.r = 70;
+                this.r = (s.ctrRatio * s.height)/6;
         }
     }
 
@@ -268,11 +274,11 @@ class Item {
         this.s.fill(0,70);
         this.s.noStroke();
         if(this.type === 'cel') {
-            this.s.rect(this.x + size * 0.1, this.y + size * 0.1, size, size);
+            //this.s.rect(this.x + size * 0.1, this.y + size * 0.1, size, size);
         } else {
-            this.s.ellipse(this.x + size * 0.1, this.y + size * 0.1, size);
+            //this.s.ellipse(this.x + size * 0.1, this.y + size * 0.1, size);
         }
-        this.s.fill(225);
+        this.s.fill(54);
         this.s.noStroke();
         if(this.active) {
             s.fill(s.orange);

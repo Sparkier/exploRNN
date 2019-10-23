@@ -16,16 +16,21 @@ export default {
     },
     training: {
         running: false,
-        speed: 750,
-        dataType: 'sin',
-        dataVariant: 'linear',
+        speed: 1000,
+        dataType: 'saw',
+        dataVariant: 'linear-noise',
         values: 0,
         predictions: 0,
         testOffset: 0,
-        stepSize: 0.1
+        stepSize: 0.1,
+        reset: false,
+        step: false,
     },
     ui: {
-        detail: false
+        detail: false,
+        speed: 800,
+        anim: true,
+        animStep: false,
     },
     firstcall: true,
 }

@@ -32,6 +32,14 @@ class Training extends React.Component {
         this.stop();
       }
     }
+    if(this.props.training.reset) {
+      this.reset();
+      this.props.actions.updateTraining({...this.props.training, reset: false})
+    }
+    if(this.props.training.step) {
+      this.props.actions.updateTraining({...this.props.training, step: false})
+      this.iterate();
+    }
     this.pause = 2000 - 2 * this.props.training.speed;
   }
 
@@ -42,6 +50,8 @@ class Training extends React.Component {
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
     this.model.model.summary();
     this.props.actions.firstcall();
+    this.props.actions.updateNetwork({...this.props.network, data: Array(5).fill({})});
+    this.props.actions.updateNetwork({...this.props.network, iteration: 0});
     this.data.getSinDataFrom(this.props.network.iteration,  this.props.training.dataType, this.props.training.dataVariant);
     this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.chartPredictionInput,this.data.train_sin_input, this.data.train_sin_next,this.data.prediction_sin_input);
     this.data.getSinDataFrom(this.props.network.iteration + 1,  this.props.training.dataType, this.props.training.dataVariant);
@@ -49,19 +59,16 @@ class Training extends React.Component {
   }
 
   start = () => {
-    this.reset();
+    // this.reset();
     this.iterate();
   }
 
   stop() {
-    this.props.actions.stopTraining(this.props.training);
+    // this.props.actions.stopTraining(this.props.training);
   }
 
   async iterate() {
     const this_ = this;
-    if(!this.props.training.running) {
-      return;   
-    }
     this.data.getSinDataFrom(this.props.network.iteration + 2, this.props.training.dataType, this.props.training.dataVariant);
     this.props.actions.addDataToNetwork(this.props.network, this.data.chartDataInput, this.data.chartDataOutput, this.data.chartPredictionInput,this.data.train_sin_input, this.data.train_sin_next,this.data.prediction_sin_input);
     this.props.actions.updateNetwork({...this.props.network, iteration: this.props.network.iteration + 1});
@@ -75,7 +82,9 @@ class Training extends React.Component {
       epochs: 1, 
       batchSize: 1
     }).then(() =>  {
-      setTimeout (function() {this_.iterate()}, this.pause); 
+      if(this.props.training.running){
+        setTimeout (function() {this_.iterate()}, this.pause); 
+      }
     })
   }
 

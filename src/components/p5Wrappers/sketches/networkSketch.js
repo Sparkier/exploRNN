@@ -13,10 +13,11 @@ export default function (s) {
     s.transition = 0;
     s.transitionSpeed = 7;
     s.clickedBlock = undefined;
-    s.bgval = 65;
+    s.bgval = 255;
     s.lstmAnim = true;
     s.currfps = 0;
     s.sideRatio = 0.2
+    s.ctrRatio = 0.5
    
     s.setup = function() {
         s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight - 25)
@@ -41,17 +42,12 @@ export default function (s) {
     s.draw = function() {
         s.background(255)
         s.cursor(s.ARROW)
-        let pause = Math.round((1010 - s.props.training.speed) / 10);
-        if(s.detail && s.lstmAnim && s.frameCount % pause === 0) {
+        let pause = Math.round((1010 - s.props.ui.speed) / 10);
+        if(s.detail && s.props.ui.anim && s.frameCount % pause === 0) {
             s.cell.update();
         }
-        s.plotsLeft[4].draw();
-        s.plotsLeft[3].draw();
-        s.plotsLeft[2].draw();
-        s.plotsRight[0].draw();
-        s.plotsRight[1].draw();
-        s.plotsRight[2].draw();
         s.drawNetwork();
+        s.drawPlots();
         s.drawCell();
         s.fill(255)
     }
@@ -84,7 +80,11 @@ export default function (s) {
             }
             s.network.push({size: 1, type: 'output'});
             s.net = new Network(s);
-            s.cell = new LSTM(s);
+            if(s.props.ui.animStep) {
+                s.cell.update();
+                s.props.actions.updateUI({...s.props.ui, animStep: false})
+            }
+           // s.cell = new LSTM(s);
         } else {
             s.detail = false;
         }
@@ -96,6 +96,19 @@ export default function (s) {
         s.resizeCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight - 25)
         s.plotsLeft = [new Plot(0, 'L', s), new Plot(1, 'L', s), new Plot(2, 'L', s), new Plot(3, 'L', s), new Plot(4, 'L', s)]
         s.plotsRight = [new Plot(0, 'R', s), new Plot(1, 'R', s), new Plot(2, 'R', s), new Plot(3, 'R', s), new Plot(4, 'R', s)]
+    }
+
+    s.drawPlots = function() {
+        s.noStroke();
+        s.fill(s.bgval);
+        s.rect(s.sideWidth / 2, s.height / 2, s.sideWidth, s.height);
+        for(let plot of s.plotsLeft) {
+            plot.draw();
+        }
+        s.rect(s.outLeft + s.sideWidth / 2, s.height / 2, s.sideWidth, s.height);
+        for(let plot of s.plotsRight) {
+            plot.draw();
+        }
     }
         
     s.drawCell = function() { 

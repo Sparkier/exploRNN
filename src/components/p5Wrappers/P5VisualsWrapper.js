@@ -46,13 +46,15 @@ class P5VisualsWrapper extends React.Component {
 
 P5VisualsWrapper.propTypes = {
   network: PropTypes.object.isRequired,
-  training: PropTypes.object.isRequired
+  training: PropTypes.object.isRequired,
+  ui: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
     network: state.network,
-    training: state.training
+    training: state.training,
+    ui: state.ui
   };
 }
 

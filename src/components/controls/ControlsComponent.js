@@ -6,11 +6,15 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
 
 import * as actions from '../../actions';
 
 // Controls at top of the Application
 class Controls extends React.Component {
+
+  drawer = false;
 
   resetButtonPressed = () => {
     this.props.actions.resetNetwork(this.props.training);
@@ -22,6 +26,9 @@ class Controls extends React.Component {
     this.props.actions.updateUI({...this.props.ui, detail: false});
   }
 
+  toggleDrawer = (open) => event => {
+    this.drawer = open
+  };
 
   render() {
     
@@ -32,7 +39,10 @@ class Controls extends React.Component {
               leaRNN
             </Typography>
             <div className='wrapper'>
-              <div className='menu'>
+              <div className='menu' align="right">
+              <Fab color="primary" aria-label="add" onClick={this.toggleDrawer(true)}>
+                <AddIcon />
+              </Fab>
               </div>
             </div>
           </Toolbar>

@@ -29,12 +29,7 @@ export function updateUI(ui) {
 }
 
 export function resetNetwork(training) {
-  return function(dispatch) {
-    dispatch(updateIteration(0));
-    dispatch(updatePrediction([]));
-    dispatch(stopTraining(training));
-    dispatch(resetModel());
-  }
+  resetModel()
 }
 
 export function stopTraining(training) {

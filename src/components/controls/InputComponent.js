@@ -2,7 +2,6 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import Slider from '@material-ui/core/Slider';
 import { Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { withStyles } from '@material-ui/core/styles';
@@ -63,12 +62,23 @@ class Input extends React.Component {
 
     toggleTraining = () => {
         console.log('Training should start now')
-        this.props.actions.toggleTraining(this.props.training);
-        this.props.actions.updateUI({...this.props.ui, detail: false});
+        if(this.props.ui.detail) {
+            this.props.actions.updateUI({...this.props.ui, anim: !this.props.ui.anim});
+        } else {
+            this.props.actions.toggleTraining(this.props.training);
+        }
     }
 
     resetButtonPressed = () => {
-        this.props.actions.resetNetwork(this.props.training);
+        this.props.actions.updateTraining({...this.props.training, reset: true});
+    }
+
+    nextStep = () => {
+        if(this.props.ui.detail) {
+            this.props.actions.updateUI({...this.props.ui, animStep: true});
+        } else {
+            this.props.actions.updateTraining({...this.props.training, step: true});
+        }
     }
 
     styledEpochs() {
@@ -123,14 +133,14 @@ class Input extends React.Component {
                                     <MyButton disabled={this.props.ui.detail} properties = {this.props} action={this.resetButtonPressed} icon ={<Reset fontSize="medium" style={{ color: 'white' }}/>}/>
                                 </Grid>
                                 <Grid item style={this.myPadding}>
-                                    <MyButton properties = {this.props} action={this.toggleTraining} icon = {this.props.training.running ?
+                                    <MyButton properties = {this.props} action={this.toggleTraining} icon = {(this.props.ui.detail && this.props.ui.anim) || (!this.props.ui.detail && this.props.training.running) ?
                                             <Pause fontSize="large" style={{ color: 'white' }}/>
                                             :
                                             <Start fontSize="large" style={{ color: 'white' }}/>}>
                                     </MyButton>
                                 </Grid>   
                                 <Grid item style={this.myPadding}>
-                                    <MyButton properties = {this.props} icon ={<SkipNext fontSize="medium" style={{ color: 'white' }}/>}/>
+                                    <MyButton properties = {this.props} disabled={(this.props.ui.detail && this.props.ui.anim) || (!this.props.ui.detail && this.props.training.running)} action={this.nextStep} icon ={<SkipNext fontSize="medium" style={{ color: 'white' }}/>}/>
                                 </Grid>                  
                             </Grid>
                             <Grid container item xs={12} justify='center'>
@@ -147,26 +157,7 @@ class Input extends React.Component {
                                     </Typography>
                                 </Grid>
                             </Grid>
-                            <Grid container item xs={12} justify='center'>
-                                <Grid item xs={12}>
-                                    <Typography variant="body1" style={{...this.sliderPaddingStyle,color: !this.props.ui.detail ? lightBlue[400] : orange[500]}}>
-                                        <Box fontWeight="fontWeightBold" fontSize={this.fontSize} m={1}>
-                                            Speed:
-                                        </Box>
-                                    </Typography>
-                                    <Slider
-                                        style={{...this.sliderPaddingStyle, color: 'white'}}
-                                        marks
-                                        defaultValue={this.props.training.speed}
-                                        valueLabelDisplay="off"
-                                        step={10}
-                                        min={100}
-                                        max={1000}
-                                        onChange={this.handleSpeedChange}
-                                    />
-                                </Grid>                     
-                            </Grid>
-                            
+                                                      
                         </Paper>
                     </Grid>
                     <Grid container item xs={4} justify='center'>
