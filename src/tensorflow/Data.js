@@ -1,6 +1,9 @@
 import * as tf from '@tensorflow/tfjs';
 export class Data {
 
+  // TODO: Create all necessary Data beforehand
+
+
   constructor() {
     this.getSinDataFrom(0)
   }

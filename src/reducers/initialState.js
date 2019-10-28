@@ -28,7 +28,7 @@ export default {
     },
     ui: {
         detail: false,
-        speed: 1000,
+        speed: 850,
         anim: true,
         animStep: false,
     },

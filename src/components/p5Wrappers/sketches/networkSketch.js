@@ -88,6 +88,7 @@ export default function (s) {
            // s.cell = new LSTM(s);
         } else {
             s.detail = false;
+            s.lstmStep = 0;
         }
         
        s.update = true;
