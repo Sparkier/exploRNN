@@ -85,6 +85,9 @@ export default function (s) {
                 s.cell.update();
                 s.props.actions.updateUI({...s.props.ui, animStep: false})
             }
+            if(s.props.training.step) {
+                s.lstmStep = 0;
+            }
            // s.cell = new LSTM(s);
         } else {
             s.detail = false;

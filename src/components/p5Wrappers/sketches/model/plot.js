@@ -87,6 +87,7 @@ export class Plot {
             s.strokeWeight(3 * this.scale)
             if(this.side === 'L' && s.props.network.data && s.props.network.data[this.index].chartPrediction){
                 detailStepWidth = this.plotWidth / s.props.training.values;
+                s.strokeWeight(2 * this.scale)
                 s.stroke(150,this.vis);
                 s.noFill();
                 s.beginShape();
@@ -95,6 +96,7 @@ export class Plot {
                 }
                 s.endShape();
                 if(this.index <= 2 ){
+                    s.strokeWeight(3 * this.scale)
                     s.stroke(50,70,250,this.vis);
                     s.noFill();
                     s.beginShape();
