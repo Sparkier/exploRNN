@@ -18,6 +18,7 @@ export default function (s) {
     s.currfps = 0;
     s.sideRatio = 0.2
     s.ctrRatio = 0.5
+    s.lstmStep = 0;
    
     s.setup = function() {
         s.createCanvas(document.getElementById("networkDiv").offsetWidth, window.innerHeight - document.getElementById("valueDiv").offsetHeight - 25)

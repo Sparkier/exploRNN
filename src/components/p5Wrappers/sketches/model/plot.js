@@ -87,32 +87,48 @@ export class Plot {
             s.strokeWeight(3 * this.scale)
             if(this.side === 'L' && s.props.network.data && s.props.network.data[this.index].chartPrediction){
                 detailStepWidth = this.plotWidth / s.props.training.values;
-                s.stroke(50,70,250,this.vis);
+                s.stroke(150,this.vis);
                 s.noFill();
                 s.beginShape();
                 for(let i = 0; i < s.props.training.values; i++) {
                     s.vertex( ((-this.plotWidth / 2) + (i * detailStepWidth)), (-this.plotHeight / 4 * s.props.network.data[this.index].chartPrediction[i]));
                 }
                 s.endShape();
-                s.noStroke();
-                s.fill(50,70,250,this.vis);
-                for(let i = 0; i < s.props.training.values; i++) {
-                    s.ellipse( ((-this.plotWidth / 2) + (i * detailStepWidth)),  (-this.plotHeight / 4 * s.props.network.data[this.index].chartPrediction[i]),5);
+                if(this.index <= 2 ){
+                    s.stroke(50,70,250,this.vis);
+                    s.noFill();
+                    s.beginShape();
+                    for(let i = 0; (i <= (this.index === 2 ? s.lstmStep : s.props.training.values)); i++) {
+                        s.vertex( ((-this.plotWidth / 2) + (i * detailStepWidth)), (-this.plotHeight / 4 * s.props.network.data[this.index].chartPrediction[i]));
+                    }
+                    s.endShape();
+                    
+                    s.noStroke();
+                    s.fill(50,70,250,this.vis);
+                    for(let i = 0; (i <= (this.index === 2 ? s.lstmStep : s.props.training.values)); i++) {
+                        s.ellipse( ((-this.plotWidth / 2) + (i * detailStepWidth)),  (-this.plotHeight / 4 * s.props.network.data[this.index].chartPrediction[i]),5);
+                    }
+                    if(this.index === 2)
+                        s.ellipse( ((-this.plotWidth / 2) + (s.lstmStep * detailStepWidth)),  (-this.plotHeight / 4 * s.props.network.data[this.index].chartPrediction[s.lstmStep]),7);
                 }
             }
             if(this.side === 'R' && s.props.network.data && s.props.network.data[this.index].chartOutput){
                 detailStepWidth = this.plotWidth / s.props.training.predictions;
+                let ratio  = this.s.lstmStep / this.s.props.training.values;
+                if(this.index !== 2) {
+                    ratio = 1;
+                }
                 s.stroke(250,50,70, this.vis);
                 s.noFill();
                 s.beginShape();
                 for(let i = 0; i < s.props.training.predictions; i++) {
-                    s.vertex(((-this.plotWidth / 2) + (i * detailStepWidth)),  (-this.plotHeight / 4 * s.props.network.data[this.index].prediction[i]));
+                    s.vertex(((-this.plotWidth / 2) + (i * detailStepWidth)),  (-this.plotHeight / 4 * s.props.network.data[this.index].prediction[i] * ratio));
                 }
                 s.endShape();
                 s.noStroke();
                 s.fill(250,50,70, this.vis);
                 for(let i = 0; i < s.props.training.predictions; i++) {
-                    s.ellipse( ((-this.plotWidth / 2) + (i * detailStepWidth)),  (-this.plotHeight / 4 * s.props.network.data[this.index].prediction[i]),5);
+                    s.ellipse( ((-this.plotWidth / 2) + (i * detailStepWidth)),  (-this.plotHeight / 4 * s.props.network.data[this.index].prediction[i]) * ratio,5);
                 }
             }
             s.pop();

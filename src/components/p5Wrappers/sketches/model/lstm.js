@@ -28,9 +28,9 @@ export class LSTM {
         this.items.push(this.crossOutput = new Item("crs", "", left + 5 * horBuf, top + 0.5 * verBuf, 1, s))
         this.items.push(this.crossCell = new Item("crs", "", left + 4.5 * horBuf, top + verBuf, 1, s))
         this.items.push(this.first = new Item("fst", "", left, top + verBuf, 1, s))
-        this.items.push(this.ghostFirst = new Item("crs", "", left - horBuf, top + verBuf, 1, s))
+        this.items.push(this.ghostFirst = new Item("gft", "", left - horBuf, top + verBuf, 1, s))
         this.items.push(this.last = new Item("lst", "", left + 6 * horBuf, top + verBuf, 1, s))
-        this.items.push(this.ghostLast = new Item("crs", "", left + 7 * horBuf, top + verBuf, 1, s))
+        this.items.push(this.ghostLast = new Item("glt", "", left + 7 * horBuf, top + verBuf, 1, s))
 
         this.connections.push(this.ghostInput = new Connection([{x: this.ghostFirst.x, y: this.ghostFirst.y}, {x: this.first.x, y: this.first.y}], [this.first], s))
         this.connections.push(this.mainInput = new Connection([{x: this.first.x, y: this.first.y}, {x: this.receive.x, y: this.receive.y}], [this.receive], s))
@@ -255,6 +255,8 @@ class Item {
             case 'rec':
                 this.r = (s.ctrRatio * s.height)/12;
                 break;
+            case 'glt':
+            case 'gft':
             case 'crs':
                 this.r = (s.ctrRatio * s.height)/40;
                 break;
@@ -330,6 +332,13 @@ class Item {
 
     sendActivations() {
         if(this.active && this.connections && this.connections.length > 0) {
+            if(this.type === 'glt') {
+                this.s.lstmStep++;
+                if(this.s.lstmStep === this.s.props.training.values) {
+                    this.s.lstmStep = 0;
+                    this.s.props.actions.updateTraining({...this.s.props.training, step: true});
+                }
+            }
             for(let c of this.connections) {
                 if(c) {
                     c.addActiveInput();
