@@ -87,6 +87,8 @@ class Layer {
             s.noStroke();
             s.rect(this.x+5,this.y+5,this.w,this.h);
             s.fill(250, this.s.netAlpha);
+            let w = this.w
+            let h = this.h
             if(s.props.training.running){
                 s.stroke(s.white, this.s.netAlpha);
             } else {
@@ -95,40 +97,45 @@ class Layer {
             if(this.hover){
                 s.stroke(100, this.s.netAlpha);
                 s.cursor(s.HAND)
+                w = 1.2 * this.w 
+                h = 1.2 * this.h
             }
-            s.rect(this.x,this.y,this.w,this.h);
+            s.rect(this.x,this.y,w,h);
             s.noStroke();
             if(s.props.training.running){
                 s.fill(s.blue, this.s.netAlpha);
             } else {
                 s.fill(s.white, this.s.netAlpha);
             }
-            if(this.hover){
-                s.fill(s.orange, this.s.netAlpha);
-            }
             s.strokeWeight(2)
-            let left = this.x - this.w/2;
-            let top = this.y - this.h/2;
+            let left = this.x - w/2;
+            let top = this.y - h/2;
             for(let i = 0; i < 5; i++) {
-                s.ellipse(left + (i+1) * this.w / 6, top + this.h / 3, this.w / (i === 0 || i === 2 ? 20 : 10))
+                s.ellipse(left + (i+1) * w / 6, top + h / 3, w / (i === 0 || i === 2 ? 20 : 10))
             }
-            s.rect(left + (3) * this.w / 6, top + 2 * this.h / 3, this.w / (10),this.w / (10))
-            if(this.hover) {
+            s.rect(left + (3) * w / 6, top + 2 * h / 3, w / (10),w / (10))
+            if(this.hover_left) {
+                s.noStroke();
+                s.fill(50,250,100,240)
+                s.rect(this.x - w/4,this.y,w/2,h);
+                s.fill(150,20,20,100)
+                s.rect(this.x + w/4,this.y,w/2,h);
                 s.textAlign(s.CENTER, s.CENTER);
                 s.fill(0,150)
-                s.rect(s.mouseX, s.mouseY+40, 100, 30);
+                s.rect(s.mouseX, s.mouseY+40, 85, 25);
                 s.fill(255)
-            }
-            if(this.hover_left) {
                 s.text('Click for detail', s.mouseX, s.mouseY + 40)
+            } else if(this.hover_right && this.s.props.network.layers > 1 ) {
                 s.noStroke();
-                s.fill(50,250,100,200)
-                s.rect(this.x - this.w/4,this.y,this.w/2,this.h);
-            } else if(this.hover_right) {
+                s.fill(225,50,50,240)
+                s.rect(this.x + w/4,this.y,w/2,h);
+                s.fill(20,150,50,100)
+                s.rect(this.x - w/4,this.y,w/2,h);
+                s.textAlign(s.CENTER, s.CENTER);
+                s.fill(0,150)
+                s.rect(s.mouseX, s.mouseY+40, 85, 25);
+                s.fill(255)
                 s.text('Remove Layer', s.mouseX, s.mouseY + 40)
-                s.noStroke();
-                s.fill(50,250,100,200)
-                s.rect(this.x + this.w/4,this.y,this.w/2,this.h);
             }
         }
     }
@@ -149,7 +156,7 @@ class Layer {
                 this.s.detail = true;
                 this.s.props.actions.stopTraining(this.s.props.training);
                 this.s.props.actions.updateUI({...this.s.props.ui, detail: true});
-            } else if(this.s.props.network.layers >= 1){
+            } else if(this.s.props.network.layers > 1){
                 this.s.props.actions.stopTraining(this.s.props.training);
                 this.s.props.actions.updateNetwork({...this.s.props.network, layers: this.s.props.network.layers - 1})
             }
@@ -181,7 +188,7 @@ class FakeLayer {
         }
         let s = this.s;
         let d = s.dist(s.mouseX,s.mouseY,this.x,this.y)
-        let alpha = (3*this.w - d) / (2*this.w) * 255
+        let alpha = (2*this.w - d) / (this.w) * 255
         if(alpha > 255) {
             alpha = 255
         } else if(alpha <= 0) {
@@ -213,7 +220,7 @@ class FakeLayer {
     }
 
     checkClick() {
-        if(this.hover && !this.clicked &&  this.s.props.network.layers <= 7) {
+        if(this.hover && !this.clicked &&  this.s.props.network.layers < 7) {
            this.s.props.actions.stopTraining(this.s.props.training);
            this.s.props.actions.updateNetwork({...this.s.props.network, layers: this.s.props.network.layers + 1})
         }

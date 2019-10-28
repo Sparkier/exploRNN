@@ -15,7 +15,7 @@ export class LSTM {
         this.animMax = 5;
         s.orange = s.color(255,150,40);
         s.half_orange = s.color(200,150,80);
-        s.green = s.color(50,255,150);
+        s.green = s.color(50,175,80);
 
         this.items.push(this.receive = new Item("rec", "Layer Input", left + horBuf, top + verBuf, 2, s))
         this.items.push(this.add = new Item("add", "Input Gate", left + 2*horBuf, top + verBuf, 1, s))
