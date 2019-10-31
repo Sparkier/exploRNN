@@ -1,0 +1,13 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["eslint:recommended", "google"],
+  "plugins": ["babel"],
+  "rules": {
+    "no-invalid-this": 0,
+    "babel/no-invalid-this": 1
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  }
+}
