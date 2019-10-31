@@ -4,8 +4,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import Main from './components/MainComponent';
 
-// AppRouter Calling other Components dependant on Route
+/**
+ * AppRouter Calling other Components dependant on Route.
+ */
 class AppRouter extends React.Component {
+  /**
+   * Renders the component for a route.
+   *
+   * @return {object} - the component to be rendered for this route.
+   */
   render() {
     return (
       <div className='wrap'>

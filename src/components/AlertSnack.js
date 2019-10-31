@@ -8,11 +8,23 @@ import * as actions from '../actions';
 import CloseIcon from '@material-ui/icons/Close';
 import {IconButton, Snackbar} from '@material-ui/core';
 
+/**
+ * AlertSnack component that can be used to display alert snacks in the app.
+ */
 class AlertSnack extends React.Component {
-  handleClose = (event, reason) => {
+  /**
+   * Handles a action that should lead to closing this alert.
+   *
+   * @memberof AlertSnack
+   */
+  handleClose = () => {
     this.props.actions.updateAlertSnack({open: false, message: ''});
   };
 
+  /**
+   * Creates the AlertSnack to be rendered.
+   * @return {object} - the alert that is to  be displayed.
+   */
   render() {
     return (
       <Snackbar
@@ -40,16 +52,28 @@ class AlertSnack extends React.Component {
 // Prop Types holding all the Preferences
 AlertSnack.propTypes = {
   alertSnack: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
 };
 
-// Map the State to the Properties of this Component
+/**
+ * Map the states from redux to this property.
+ *
+ * @param {object} state - the global redux state.
+ * @param {object} ownProps - the properties of this component.
+ * @return {object} - the new props of this component.
+ */
 function mapStateToProps(state, ownProps) {
   return {
     alertSnack: state.alertSnack,
   };
 }
 
-// Map the actions of the State to the Props of this Class
+/**
+ * Maps the actions to this property.
+ *
+ * @param {function} dispatch - the function that is used to call an action.
+ * @return {object} - the actions that can be used in this component.
+ */
 function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
