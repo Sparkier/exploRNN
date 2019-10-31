@@ -13,7 +13,6 @@ import * as actions from '../../actions';
 
 // Controls at top of the Application
 class Controls extends React.Component {
-
   drawer = false;
 
   resetButtonPressed = () => {
@@ -21,32 +20,31 @@ class Controls extends React.Component {
   }
 
   toggleTraining = () => {
-    console.log('Training should start now')
+    console.log('Training should start now');
     this.props.actions.toggleTraining(this.props.training);
     this.props.actions.updateUI({...this.props.ui, detail: false});
   }
 
-  toggleDrawer = (open) => event => {
-    this.drawer = open
+  toggleDrawer = (open) => (event) => {
+    this.drawer = open;
   };
 
   render() {
-    
-    return(
-        <AppBar >
-          <Toolbar>
-            <Typography variant="h6" color="inherit">
+    return (
+      <AppBar >
+        <Toolbar>
+          <Typography variant="h6" color="inherit">
               leaRNN
-            </Typography>
-            <div className='wrapper'>
-              <div className='menu' align="right">
+          </Typography>
+          <div className='wrapper'>
+            <div className='menu' align="right">
               <Fab color="primary" aria-label="add" onClick={this.toggleDrawer(true)}>
                 <AddIcon />
               </Fab>
-              </div>
             </div>
-          </Toolbar>
-        </AppBar>
+          </div>
+        </Toolbar>
+      </AppBar>
     );
   }
 }
@@ -55,7 +53,7 @@ class Controls extends React.Component {
 Controls.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
-  ui: PropTypes.object.isRequired
+  ui: PropTypes.object.isRequired,
 };
 
 // Mapping the Controls state to the Props of this Class
@@ -63,13 +61,13 @@ function mapStateToProps(state, ownProps) {
   return {
     training: state.training,
     network: state.network,
-    ui: state.ui
+    ui: state.ui,
   };
 }
 
-// Map the Actions called when Controls are used to the Props of this Class  
+// Map the Actions called when Controls are used to the Props of this Class
 function mapDispatchToProps(dispatch) {
-  return {actions: bindActionCreators(actions, dispatch)}
+  return {actions: bindActionCreators(actions, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Controls);

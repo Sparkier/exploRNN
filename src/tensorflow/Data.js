@@ -1,11 +1,10 @@
 import * as tf from '@tensorflow/tfjs';
 export class Data {
-
   // TODO: Create all necessary Data beforehand
 
 
   constructor() {
-    this.getSinDataFrom(0)
+    this.getSinDataFrom(0);
   }
 
   getSinDataFrom(start, func, variant, noise) {
@@ -25,8 +24,8 @@ export class Data {
     let randomOffset = Math.random() * 20 * Math.PI;
     let randomAmplitude = 0.2 + Math.random() * 0.8;
 
-    switch(variant) {
-      case 'basic': 
+    switch (variant) {
+      case 'basic':
         start = 0;
         randomOffset = 0;
         randomAmplitude = 1;
@@ -51,28 +50,28 @@ export class Data {
       default:
     }
 
-    for(let i = 0; i < setSize; i++) {
+    for (let i = 0; i < setSize; i++) {
       const currentInSequence = [];
       const predictionInSequence = [];
-      for(let j = 0; j < this.values; j++) {
-        let noiseVal = noise * (-0.1 + 0.2 * Math.random());
+      for (let j = 0; j < this.values; j++) {
+        const noiseVal = noise * (-0.1 + 0.2 * Math.random());
         currentInSequence.push([this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude]);
         predictionInSequence.push([this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude + noiseVal]);
         this.chartDataInput.push(
-          this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude
-        )
+            this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude
+        );
         this.chartPredictionInput.push(
-          this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude + noiseVal
-        )
+            this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude + noiseVal
+        );
       }
       this.predictionInputBuff.push(currentInSequence);
       this.sinInputBuff.push(currentInSequence);
       const currentOutSequence = [];
-      for(let j = 0; j < this.predictions; j++) {
-        currentOutSequence.push(this.dataFunction((this.values + j + start) * stepSize + randomOffset, func) * randomAmplitude)
+      for (let j = 0; j < this.predictions; j++) {
+        currentOutSequence.push(this.dataFunction((this.values + j + start) * stepSize + randomOffset, func) * randomAmplitude);
         this.chartDataOutput.push(
-          this.dataFunction((this.values + j + start) * stepSize + randomOffset, func) * randomAmplitude
-        )
+            this.dataFunction((this.values + j + start) * stepSize + randomOffset, func) * randomAmplitude
+        );
       }
       this.sinOutputBuff.push(currentOutSequence);
     }
@@ -80,40 +79,37 @@ export class Data {
     this.train_sin_input = tf.tensor3d(this.sinInputBuff);
     this.prediction_sin_input = tf.tensor3d(this.predictionInputBuff);
     this.train_sin_next = tf.tensor2d(this.sinOutputBuff);
-    console.log('train input')
+    console.log('train input');
     this.train_sin_input.print();
-    console.log('train output')
+    console.log('train output');
     this.train_sin_next.print();
   }
 
   getSampleFromTestData(start) {
     const test_input_sequences = [];
-    console.log('data x: ', start, this.values)
-    for(let j = 0; j < this.values; j++) {
+    console.log('data x: ', start, this.values);
+    for (let j = 0; j < this.values; j++) {
       test_input_sequences.push([Math.sin((start + j) * this.stepSize)]);
     }
     this.current_test_sin = tf.tensor3d([test_input_sequences]);
-    console.log('tensor for prediction')
+    console.log('tensor for prediction');
     this.current_test_sin.print();
   }
 
   dataFunction(x, type) {
     let y = Math.sin(x);
-    if(type === 'sinc') {
-      if(x === Math.PI) {
+    if (type === 'sinc') {
+      if (x === Math.PI) {
         return 1;
       }
       y = Math.sin((x+Math.PI) % 4) / ((x+Math.PI) % 4);
     }
-    if(type === 'saw') {
+    if (type === 'saw') {
       y = -1 + x % 2;
     }
-    if(type === 'sqr') {
-      y = Math.sin(x) >= 0 ? 1 : -1
+    if (type === 'sqr') {
+      y = Math.sin(x) >= 0 ? 1 : -1;
     }
     return y;
-
   }
-
-
 }

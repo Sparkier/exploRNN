@@ -1,9 +1,8 @@
 import * as tf from '@tensorflow/tfjs';
 
 export class Model {
-
   /**
-   * Creates a basic lstm network model with only one hidden layer 
+   * Creates a basic lstm network model with only one hidden layer
    */
   createModel(timeSteps, vocab, labels, layerSize) {
     this.model = tf.sequential();
@@ -20,8 +19,8 @@ export class Model {
   createComplexModel(timeSteps, vocab, labels, layers, layerSize) {
     this.model = tf.sequential();
     // layerSize = 128;
-    this.model.add(tf.layers.lstm({units: layerSize,  returnSequence: true, inputShape: [timeSteps, vocab]}));
-    for(let i = 1; i < layers; i++) {
+    this.model.add(tf.layers.lstm({units: layerSize, returnSequence: true, inputShape: [timeSteps, vocab]}));
+    for (let i = 1; i < layers; i++) {
       this.model.add(tf.layers.repeatVector({n: layerSize})); // is this needed? maybe use a reshape layer?
       this.model.add(tf.layers.lstm({units: layerSize, returnSequence: true})); // should this be done with individual cells?
     }

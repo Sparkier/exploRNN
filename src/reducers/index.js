@@ -1,5 +1,5 @@
 // Import all Reducers
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 import alertSnack from './AlertSnackReducer';
 import training from './TrainingReducer';
 import firstcall from './FirstcallReducer';
@@ -8,9 +8,9 @@ import ui from './UIReducer';
 
 // Combine all Reducers
 export default combineReducers({
-    alertSnack,
-    network,
-    training,
-    firstcall,
-    ui,
-})
+  alertSnack,
+  network,
+  training,
+  firstcall,
+  ui,
+});

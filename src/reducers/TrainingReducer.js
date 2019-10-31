@@ -6,12 +6,12 @@ export default function trainingReducer(state = initialState.training, action) {
     case types.TOGGLE_TRAINING:
       return {
         ...(action.training),
-        running: !(action.training.running)
+        running: !(action.training.running),
       };
     case types.STOP_TRAINING:
       return {
         ...action.training,
-        running: false
+        running: false,
       };
     case types.UPDATE_TRAINING:
       return action.training;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import {HashRouter as Router, Route} from 'react-router-dom';
 import Toolbar from '@material-ui/core/Toolbar';
 
 import Main from './components/MainComponent';
@@ -19,7 +19,7 @@ class AppRouter extends React.Component {
         </div>
       </div>
     );
-  }    
+  }
 }
 
 export default AppRouter;

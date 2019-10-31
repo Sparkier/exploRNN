@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import * as actions from '../actions';
 
 import CloseIcon from '@material-ui/icons/Close';
-import { IconButton, Snackbar } from '@material-ui/core';
+import {IconButton, Snackbar} from '@material-ui/core';
 
 class AlertSnack extends React.Component {
   handleClose = (event, reason) => {
@@ -30,7 +30,7 @@ class AlertSnack extends React.Component {
         action={[
           <IconButton key="close" aria-label="Close" color="inherit" onClick={this.handleClose} >
             <CloseIcon />
-          </IconButton>
+          </IconButton>,
         ]}
       />
     );
@@ -39,19 +39,19 @@ class AlertSnack extends React.Component {
 
 // Prop Types holding all the Preferences
 AlertSnack.propTypes = {
-  alertSnack: PropTypes.object.isRequired
+  alertSnack: PropTypes.object.isRequired,
 };
 
 // Map the State to the Properties of this Component
 function mapStateToProps(state, ownProps) {
   return {
-    alertSnack: state.alertSnack
+    alertSnack: state.alertSnack,
   };
 }
 
-// Map the actions of the State to the Props of this Class 
+// Map the actions of the State to the Props of this Class
 function mapDispatchToProps(dispatch) {
-  return {actions: bindActionCreators(actions, dispatch)}
+  return {actions: bindActionCreators(actions, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlertSnack);
