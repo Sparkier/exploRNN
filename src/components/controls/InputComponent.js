@@ -137,12 +137,15 @@ class Input extends React.Component {
     };
 
     mySecondPadding = {
+        background: grey[100]
+    };
+
+    buttonPadding = {
         paddingTop: "10px",
         paddingLeft: "10px",
         paddingRight: "10px",
         paddingBottom: "10px",
-        background: grey[100]
-    };
+    }
 
     sliderPaddingStyle = {
         paddingTop: "10px",
@@ -161,46 +164,41 @@ class Input extends React.Component {
             <div id = "valueDiv" align="center">
                 <Grid container spacing={3} style={this.simplePaddingStyle} justify='center'>
                     <Grid container item xs={4} justify='center'>
-                    <Paper style={{...this.mySecondPadding, width:"80%"}}>
+                    <Paper style={{...this.myPadding, height:"100%", width:"80%"}}>
                         <Grid container item justify='center' alignItems="center">
-                            <Grid item container xs = {2} alignItems='center'>
-                                <Grid item style={this.mySecondPadding}>
-                                    <IconButton onClick={event => this.changeType(-1)}>
-                                        <ChevronLeftIcon fontSize="large" style={{ color: 'black' }}/>
-                                    </IconButton>
+                            <Grid item container xs = {2} justify="center" alignItems='center'>
+                                <Grid item>
+                                    <MyButton disabled={this.props.ui.detail || this.props.training.running} properties = {this.props} action={event => this.changeType(-1)} icon ={<ChevronLeftIcon fontSize="small" style={{ color: 'white' }}/>}/>
                                 </Grid>
                             </Grid>
-                            <Grid item container xs = {6} alignItems='center' direction="column">
-                                <Grid item style={this.mySecondPadding}>
-                                    <IconButton onClick={event => this.changeNoise(1)}>
-                                        <KeyboardArrowUpIcon fontSize="large" style={{ color: 'black' }}/>
-                                    </IconButton>
+                            <Grid item container xs = {3} justify="center"  alignItems='center' direction="column">
+                                <Grid item>
+                                    <MyButton disabled={this.props.ui.detail || this.props.training.running} properties = {this.props} action={event => this.changeNoise(1)} icon ={<KeyboardArrowUpIcon fontSize="small" style={{ color: 'white' }}/>}/>
                                 </Grid>
-                                <Grid item style={this.mySecondPadding}>
-                                    <Card>
-                                        <CardContent>
-                                            <Typography>
-                                                Type: {this.props.training.dataType}
-                                            </Typography>
-                                            <Typography>
-                                                Noise: {this.props.training.noise}
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>    
+                                <Grid item >
+                                    <Typography style={{color: !this.props.ui.detail && !this.props.training.running ? lightBlue[400] : grey[500]}}>
+                                        <Box fontWeight="fontWeightRegular" fontSize={this.fontSize - 2} m={1}>
+                                            Input
+                                        </Box>
+                                    </Typography>
+                                    <Typography style={{color: !this.props.ui.detail && !this.props.training.running ? lightBlue[400] : grey[500]}}>
+                                        <Box fontWeight="fontWeightRegular" fontSize={this.fontSize - 2} m={1}>
+                                            Type: {this.props.training.dataType}
+                                        </Box>
+                                    </Typography>
+                                    <Typography style={{color: !this.props.ui.detail && !this.props.training.running ? lightBlue[400] : grey[500]}}>
+                                        <Box fontWeight="fontWeightRegular" fontSize={this.fontSize - 2} m={1}>
+                                            Noise: {this.props.training.noise}
+                                        </Box>
+                                    </Typography>   
                                 </Grid>
-                                <Grid item style={this.mySecondPadding}>
-                                    <Grid item style={this.mySecondPadding}>
-                                    <IconButton onClick={event => this.changeNoise(-1)}>
-                                        <KeyboardArrowDownIcon fontSize="large" style={{ color: 'black' }}/>
-                                    </IconButton>
-                                    </Grid>
+                                <Grid item>
+                                    <MyButton disabled={this.props.ui.detail || this.props.training.running} properties = {this.props} action={event => this.changeNoise(-1)} icon ={<KeyboardArrowDownIcon fontSize="small" style={{ color: 'white' }}/>}/>
                                 </Grid>
                             </Grid>
-                            <Grid item container xs = {2} alignItems='center'>
-                                <Grid item style={this.mySecondPadding}>
-                                    <IconButton onClick={event => this.changeType(1)}>
-                                        <ChevronRightIcon fontSize="large" style={{ color: 'black' }}/>
-                                    </IconButton>
+                            <Grid item container xs = {2}  justify="center"  alignItems='center'>
+                                <Grid item>
+                                    <MyButton disabled={this.props.ui.detail || this.props.training.running} properties = {this.props} action={event => this.changeType(-1)} icon ={<ChevronRightIcon fontSize="small" style={{ color: 'white' }}/>}/>                                
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -223,24 +221,7 @@ class Input extends React.Component {
                                     <MyButton properties = {this.props} disabled={(this.props.ui.detail && this.props.ui.anim) || (!this.props.ui.detail && this.props.training.running)} action={this.nextStep} icon ={<SkipNext fontSize="medium" style={{ color: 'white' }}/>}/>
                                 </Grid>                  
                             </Grid>
-                            <Grid item xs={12}>
-                            <Typography variant="body1" style={{...this.sliderPaddingStyle, color: !this.props.ui.detail ? lightBlue[400] : grey[500],}}>
-                                <Box fontWeight="fontWeightBold" fontSize={this.fontSize} m={1}>
-                                    Learning Rate:
-                                </Box>
-                                {this.props.network.learningRate}
-                            </Typography>
-                            <Slider
-                                style={{...this.sliderPaddingStyle, color: 'white'}}
-                                marks
-                                disabled= {this.props.ui.detail}
-                                defaultValue={this.props.network.learningRate}
-                                valueLabelDisplay="off"
-                                step={0.01}
-                                min={0.01}
-                                max={0.5} onChange={this.handleSliderChange}
-                            />
-                        </Grid>
+                            
                             <Grid container item xs={12} justify='center'>
                                 <Grid item style={this.myPadding}>
                                     <Typography style={{color: !this.props.ui.detail ? lightBlue[400] : orange[500]}}>
@@ -259,9 +240,26 @@ class Input extends React.Component {
                         </Paper>
                     </Grid>
                     <Grid container item xs={4} justify='center'>
-                        <Grid item xs = {3}>
-                            <Typography>Right</Typography>
-                        </Grid>              
+                        <Paper style={{...this.myPadding, width:"80%"}}>
+                        <Grid item>
+                            <Typography variant="body1" style={{...this.sliderPaddingStyle, color: !this.props.ui.detail && !this.props.training.running ? lightBlue[400] : grey[500],}}>
+                                <Box fontWeight="fontWeightBold" fontSize={this.fontSize} m={1}>
+                                    Learning Rate:
+                                </Box>
+                                {this.props.network.learningRate}
+                            </Typography>
+                            <Slider
+                                style={{...this.sliderPaddingStyle, color: 'white'}}
+                                marks
+                                disabled= {this.props.ui.detail || this.props.training.running}
+                                defaultValue={this.props.network.learningRate}
+                                valueLabelDisplay="off"
+                                step={0.01}
+                                min={0.01}
+                                max={0.5} onChange={this.handleSliderChange}
+                            />
+                        </Grid>  
+                        </Paper>          
                     </Grid>
                      <Grid item xs = {12}>
                         </Grid>
