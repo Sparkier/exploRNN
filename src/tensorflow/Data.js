@@ -8,11 +8,11 @@ export class Data {
     this.getSinDataFrom(0)
   }
 
-  getSinDataFrom(start, func, variant) {
-    return this.getDataFor(start, func, 1.5 * Math.PI, 2 * Math.PI, 0.2, 1, variant);
+  getSinDataFrom(start, func, variant, noise) {
+    return this.getDataFor(start, func, 1.5 * Math.PI, 2 * Math.PI, 0.2, 1, variant, noise);
   }
 
-  getDataFor(start, func, plotLength, predictionLength, stepSize, setSize, variant) {
+  getDataFor(start, func, plotLength, predictionLength, stepSize, setSize, variant, noise) {
     this.sinInputBuff = [];
     this.predictionInputBuff = [];
     this.sinOutputBuff = [];
@@ -22,9 +22,8 @@ export class Data {
     this.chartPredictionInput = [];
     this.chartDataInput = [];
     this.chartDataOutput = [];
-    let randomOffset = Math.random() * 2 * Math.PI;
+    let randomOffset = Math.random() * 20 * Math.PI;
     let randomAmplitude = 0.2 + Math.random() * 0.8;
-    let noise = false;
 
     switch(variant) {
       case 'basic': 
@@ -56,10 +55,7 @@ export class Data {
       const currentInSequence = [];
       const predictionInSequence = [];
       for(let j = 0; j < this.values; j++) {
-        let noiseVal = 0;
-        if(noise) {
-          noiseVal = (-0.2 + 0.4 * Math.random());
-        }
+        let noiseVal = noise * (-0.1 + 0.2 * Math.random());
         currentInSequence.push([this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude]);
         predictionInSequence.push([this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude + noiseVal]);
         this.chartDataInput.push(

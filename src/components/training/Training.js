@@ -55,11 +55,11 @@ class Training extends React.Component {
     network = {...network, data: Array(5).fill({}), iteration: 0};
     for(let i = 0; i < 5; i++)
       this.addDataToNetwork(network, [], [], [], [], [], []);
-    this.data.getSinDataFrom(0,  this.props.training.dataType, this.props.training.dataVariant);
+    this.data.getSinDataFrom(0,  this.props.training.dataType, this.props.training.dataVariant, this.props.training.noise);
     this.addDataToNetwork(network, this.data.chartDataInput, this.data.chartDataOutput, this.data.chartPredictionInput,this.data.train_sin_input, this.data.train_sin_next,this.data.prediction_sin_input);
-    this.data.getSinDataFrom(1,  this.props.training.dataType, this.props.training.dataVariant);
+    this.data.getSinDataFrom(1,  this.props.training.dataType, this.props.training.dataVariant, this.props.training.noise);
     this.addDataToNetwork(network, this.data.chartDataInput, this.data.chartDataOutput, this.data.chartPredictionInput,this.data.train_sin_input, this.data.train_sin_next,this.data.prediction_sin_input);
-    this.data.getSinDataFrom(2,  this.props.training.dataType, this.props.training.dataVariant);
+    this.data.getSinDataFrom(2,  this.props.training.dataType, this.props.training.dataVariant, this.props.training.noise);
     this.addDataToNetwork(network, this.data.chartDataInput, this.data.chartDataOutput, this.data.chartPredictionInput,this.data.train_sin_input, this.data.train_sin_next,this.data.prediction_sin_input);
     tf.tidy(() => {
       const prediction = this.model.model.predict(network.data[2].modelPrediction);
@@ -111,7 +111,7 @@ addPredictionToNetwork(oldNetwork, prediction) {
     const this_ = this;
     // this.data.getSampleFromTest7Data(this.props.network.iteration + this.props.training.testOffset);
     let network = this.props.network; 
-    this.data.getSinDataFrom(network.iteration + 2, this.props.training.dataType, this.props.training.dataVariant);
+    this.data.getSinDataFrom(network.iteration + 2, this.props.training.dataType, this.props.training.dataVariant, this.props.training.noise);
     this.addDataToNetwork(network, this.data.chartDataInput, this.data.chartDataOutput, this.data.chartPredictionInput,this.data.train_sin_input, this.data.train_sin_next,this.data.prediction_sin_input);  
     tf.tidy(() => {
       const prediction = this.model.model.predict(network.data[2].modelPrediction);

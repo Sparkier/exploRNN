@@ -2,9 +2,10 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import { Typography } from '@material-ui/core';
+import { Typography, CardMedia } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { withStyles } from '@material-ui/core/styles';
+import Slider from '@material-ui/core/Slider'
 //import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select';
 import { Grid, Paper } from '@material-ui/core';
@@ -13,6 +14,12 @@ import Start from '@material-ui/icons/PlayArrow';
 import Pause from '@material-ui/icons/Pause';
 import Reset from '@material-ui/icons/Replay';
 import SkipNext from '@material-ui/icons/SkipNext';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 import * as actions from '../../actions';
 import { lightBlue, grey, orange} from '@material-ui/core/colors';
@@ -22,6 +29,8 @@ import { lightBlue, grey, orange} from '@material-ui/core/colors';
 class Input extends React.Component {
 
     fontSize = 20;
+
+    data = ['saw', 'sin', 'sqr', 'sinc']
 
     handleSelectionChange = (event) => {
         this.props.actions.updateNetwork({...this.props.network, layerSize: Number(event.target.value)});
@@ -81,6 +90,24 @@ class Input extends React.Component {
         }
     }
 
+    changeType = (dir) => {
+        let i = 0;
+        for(; i < this.data.length; i++) {
+            if(this.data[i] === this.props.training.dataType) {
+                break;
+            }
+        }
+        i = (i + this.data.length + dir) % this.data.length;
+        console.log(this.data[i], dir)
+        this.props.actions.updateTraining({...this.props.training, dataType: this.data[i]});
+
+    }
+
+    changeNoise = (dir) => {
+        let newNoise = (this.props.training.noise + dir + 3) % 3; 
+        this.props.actions.updateTraining({...this.props.training, noise: newNoise});
+    }
+
     styledEpochs() {
         let num = this.props.network.iteration;
         let out = "";
@@ -109,7 +136,19 @@ class Input extends React.Component {
         background: grey[800]
     };
 
+    mySecondPadding = {
+        paddingTop: "10px",
+        paddingLeft: "10px",
+        paddingRight: "10px",
+        paddingBottom: "10px",
+        background: grey[100]
+    };
+
     sliderPaddingStyle = {
+        paddingTop: "10px",
+        paddingLeft: "10px",
+        paddingRight: "10px",
+        paddingBottom: "10px",
         width:"80%"
     };
 
@@ -122,9 +161,50 @@ class Input extends React.Component {
             <div id = "valueDiv" align="center">
                 <Grid container spacing={3} style={this.simplePaddingStyle} justify='center'>
                     <Grid container item xs={4} justify='center'>
-                        <Grid item xs = {3}>
-                            <Typography>Left</Typography>
+                    <Paper style={{...this.mySecondPadding, width:"80%"}}>
+                        <Grid container item justify='center' alignItems="center">
+                            <Grid item container xs = {2} alignItems='center'>
+                                <Grid item style={this.mySecondPadding}>
+                                    <IconButton onClick={event => this.changeType(-1)}>
+                                        <ChevronLeftIcon fontSize="large" style={{ color: 'black' }}/>
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
+                            <Grid item container xs = {6} alignItems='center' direction="column">
+                                <Grid item style={this.mySecondPadding}>
+                                    <IconButton onClick={event => this.changeNoise(1)}>
+                                        <KeyboardArrowUpIcon fontSize="large" style={{ color: 'black' }}/>
+                                    </IconButton>
+                                </Grid>
+                                <Grid item style={this.mySecondPadding}>
+                                    <Card>
+                                        <CardContent>
+                                            <Typography>
+                                                Type: {this.props.training.dataType}
+                                            </Typography>
+                                            <Typography>
+                                                Noise: {this.props.training.noise}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>    
+                                </Grid>
+                                <Grid item style={this.mySecondPadding}>
+                                    <Grid item style={this.mySecondPadding}>
+                                    <IconButton onClick={event => this.changeNoise(-1)}>
+                                        <KeyboardArrowDownIcon fontSize="large" style={{ color: 'black' }}/>
+                                    </IconButton>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid item container xs = {2} alignItems='center'>
+                                <Grid item style={this.mySecondPadding}>
+                                    <IconButton onClick={event => this.changeType(1)}>
+                                        <ChevronRightIcon fontSize="large" style={{ color: 'black' }}/>
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
                         </Grid>
+                        </Paper> 
                     </Grid>
                     <Grid container item xs={4} justify='center'>
                         <Paper style={{...this.myPadding, width:"80%"}}>
@@ -143,6 +223,24 @@ class Input extends React.Component {
                                     <MyButton properties = {this.props} disabled={(this.props.ui.detail && this.props.ui.anim) || (!this.props.ui.detail && this.props.training.running)} action={this.nextStep} icon ={<SkipNext fontSize="medium" style={{ color: 'white' }}/>}/>
                                 </Grid>                  
                             </Grid>
+                            <Grid item xs={12}>
+                            <Typography variant="body1" style={{...this.sliderPaddingStyle, color: !this.props.ui.detail ? lightBlue[400] : grey[500],}}>
+                                <Box fontWeight="fontWeightBold" fontSize={this.fontSize} m={1}>
+                                    Learning Rate:
+                                </Box>
+                                {this.props.network.learningRate}
+                            </Typography>
+                            <Slider
+                                style={{...this.sliderPaddingStyle, color: 'white'}}
+                                marks
+                                disabled= {this.props.ui.detail}
+                                defaultValue={this.props.network.learningRate}
+                                valueLabelDisplay="off"
+                                step={0.01}
+                                min={0.01}
+                                max={0.5} onChange={this.handleSliderChange}
+                            />
+                        </Grid>
                             <Grid container item xs={12} justify='center'>
                                 <Grid item style={this.myPadding}>
                                     <Typography style={{color: !this.props.ui.detail ? lightBlue[400] : orange[500]}}>
@@ -282,7 +380,7 @@ const styles = {
     classes: PropTypes.object.isRequired,
   };
   
-  // const StyledSelect = withStyles(styles)(StyledSelectRaw);
+  //const StyledSelect = withStyles(styles)(StyledSelectRaw);
   const MyButton = withStyles(styles)(StyledButtonRaw);
 
 // Controls state of the Application
