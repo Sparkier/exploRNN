@@ -54,15 +54,12 @@ export default function (s) {
     }
 
     s.preload = function() {
-        s.img_input = s.loadImage('./data/input_basic.png');
-        s.img_lstm = s.loadImage('./data/lstm_block.png');
-        s.img_output = s.loadImage('./data/output_basic.png');
-        s.receive = s.loadImage('./data/rec.png');
-        s.add = s.loadImage('./data/save.png');
-        s.save = s.loadImage('./data/rec.png');
-        s.forget = s.loadImage('./data/del.png');
-        s.cellImage = s.loadImage('./data/memory.png');
-        s.output = s.loadImage('./data/output.png');
+        s.receive = s.loadImage('./data/rec_white.png');
+        s.add = s.loadImage('./data/save_white.png');
+        s.save = s.loadImage('./data/rec_white.png');
+        s.forget = s.loadImage('./data/del_white.png');
+        s.cellImage = s.loadImage('./data/memory_white.png');
+        s.output = s.loadImage('./data/output_white.png');
         s.desc = s.loadImage('./data/desc.png');
         s.recdesc = s.loadImage('./data/rec_desc.png');
         s.adddesc = s.loadImage('./data/add_desc.png');

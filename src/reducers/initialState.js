@@ -7,8 +7,8 @@ export default {
     },
     network: {
         data: Array(5).fill({}),
-        layerSize: 2,
-        layers: 5,
+        layerSize: 8,
+        layers: 3,
         learningRate: 0.2,
         iteration: 0,
         type: 'LSTM',
