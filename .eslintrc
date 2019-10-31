@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": ["eslint:recommended", "google"],
+  "extends": ["eslint:recommended", "google", "plugin:react/recommended"],
   "plugins": ["babel"],
   "rules": {
     "no-invalid-this": 0,

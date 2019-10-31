@@ -23,8 +23,10 @@ import CardContent from '@material-ui/core/CardContent';
 
 import * as actions from '../../actions';
 import {lightBlue, grey, orange} from '@material-ui/core/colors';
+
 /**
- * The current Component holding all the input elements to change the Network for Training
+ * The current Component holding all the input elements to change the Network
+ * for Training.
  */
 class Input extends React.Component {
     fontSize = 20;
@@ -32,11 +34,13 @@ class Input extends React.Component {
     data = ['saw', 'sin', 'sqr', 'sinc']
 
     handleSelectionChange = (event) => {
-      this.props.actions.updateNetwork({...this.props.network, layerSize: Number(event.target.value)});
+      this.props.actions.updateNetwork({...this.props.network,
+        layerSize: Number(event.target.value)});
     }
 
     handleSliderChange = (event, value) => {
-      this.props.actions.updateNetwork({...this.props.network, learningRate: value});
+      this.props.actions.updateNetwork({...this.props.network,
+        learningRate: value});
     }
 
     handleLabelClick = (event) => {
@@ -45,11 +49,13 @@ class Input extends React.Component {
 
     handleTypeSelection = (event) => {
       console.log('click', event);
-      this.props.actions.updateNetwork({...this.props.network, type: String(event.target.value)});
+      this.props.actions.updateNetwork({...this.props.network,
+        type: String(event.target.value)});
     }
 
     handleLayerCountSelection = (event) => {
-      this.props.actions.updateNetwork({...this.props.network, layers: Number(event.target.value)});
+      this.props.actions.updateNetwork({...this.props.network,
+        layers: Number(event.target.value)});
     }
 
     handleActivationSelection = (event) => {
@@ -57,11 +63,13 @@ class Input extends React.Component {
     }
 
     handleDataSelection = (event) => {
-      this.props.actions.updateTraining({...this.props.training, dataType: String(event.target.value)});
+      this.props.actions.updateTraining({...this.props.training,
+        dataType: String(event.target.value)});
     }
 
     handleDataVariantSelection = (event) => {
-      this.props.actions.updateTraining({...this.props.training, dataVariant: String(event.target.value)});
+      this.props.actions.updateTraining({...this.props.training,
+        dataVariant: String(event.target.value)});
     }
 
     handleSpeedChange = (event, value) => {
@@ -71,7 +79,8 @@ class Input extends React.Component {
     toggleTraining = () => {
       console.log('Training should start now');
       if (this.props.ui.detail) {
-        this.props.actions.updateUI({...this.props.ui, anim: !this.props.ui.anim});
+        this.props.actions.updateUI({...this.props.ui,
+          anim: !this.props.ui.anim});
       } else {
         this.props.actions.toggleTraining(this.props.training);
       }
@@ -89,6 +98,13 @@ class Input extends React.Component {
       }
     }
 
+    /**
+     * Change the type of network.
+     *
+     * @memberof Input
+     *
+     * @param {number} dir - the directory blabla.
+     */
     changeType = (dir) => {
       let i = 0;
       for (; i < this.data.length; i++) {
@@ -98,12 +114,21 @@ class Input extends React.Component {
       }
       i = (i + this.data.length + dir) % this.data.length;
       console.log(this.data[i], dir);
-      this.props.actions.updateTraining({...this.props.training, dataType: this.data[i]});
+      this.props.actions.updateTraining({...this.props.training,
+        dataType: this.data[i]});
     }
 
+    /**
+     * Change the noise used in the trainin process.
+     *
+     * @memberof Input
+     *
+     * @param {number} dir - the direction in which to change the noise.
+     */
     changeNoise = (dir) => {
       const newNoise = (this.props.training.noise + dir + 3) % 3;
-      this.props.actions.updateTraining({...this.props.training, noise: newNoise});
+      this.props.actions.updateTraining({...this.props.training,
+        noise: newNoise});
     }
 
     styledEpochs() {
