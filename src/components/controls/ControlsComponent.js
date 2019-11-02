@@ -15,14 +15,15 @@ import * as actions from '../../actions';
  * Controls at top of the Application
  */
 class Controls extends React.Component {
-
+  // stores the state of the drawer
   drawer = false;
-  
+
   /**
    * Handles the opening and closing of the side drawer
    *
    * @param {boolean} open true, if the drawer should now be opened
    * @memberof Controls
+   * @return {undefined}
    */
   toggleDrawer = (open) => (event) => {
     this.drawer = open;
