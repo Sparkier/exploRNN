@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import { Typography } from '@material-ui/core';
+import {Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 // import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select';
-import { Grid, Paper } from '@material-ui/core';
+import {Grid, Paper} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import Start from '@material-ui/icons/PlayArrow';
 import Pause from '@material-ui/icons/Pause';
@@ -31,9 +31,9 @@ class Input extends React.Component {
    * The constructor for the Input class
    */
   constructor() {
-    super()
+    super();
     this.fontSize = 20;
-    this.data = ['saw', 'sin', 'sqr', 'sinc']
+    this.data = ['saw', 'sin', 'sqr', 'sinc'];
   }
 
   /**
@@ -47,7 +47,7 @@ class Input extends React.Component {
   handleSliderChange = (event, value) => {
     this.props.actions.updateNetwork({
       ...this.props.network,
-      learningRate: value
+      learningRate: value,
     });
   }
 
@@ -61,7 +61,7 @@ class Input extends React.Component {
     if (this.props.ui.detail) {
       this.props.actions.updateUI({
         ...this.props.ui,
-        anim: !this.props.ui.anim
+        anim: !this.props.ui.anim,
       });
     } else {
       this.props.actions.toggleTraining(this.props.training);
@@ -75,7 +75,7 @@ class Input extends React.Component {
    * @memberof Input
    */
   resetButtonPressed = () => {
-    this.props.actions.updateTraining({ ...this.props.training, reset: true });
+    this.props.actions.updateTraining({...this.props.training, reset: true});
   }
 
   /**
@@ -85,9 +85,9 @@ class Input extends React.Component {
    */
   nextStep = () => {
     if (this.props.ui.detail) {
-      this.props.actions.updateUI({ ...this.props.ui, animStep: true });
+      this.props.actions.updateUI({...this.props.ui, animStep: true});
     } else {
-      this.props.actions.updateTraining({ ...this.props.training, step: true });
+      this.props.actions.updateTraining({...this.props.training, step: true});
     }
   }
 
@@ -110,7 +110,7 @@ class Input extends React.Component {
     i = (i + this.data.length + dir) % this.data.length;
     this.props.actions.updateTraining({
       ...this.props.training,
-      dataType: this.data[i]
+      dataType: this.data[i],
     });
   }
 
@@ -125,7 +125,7 @@ class Input extends React.Component {
     const newNoise = (this.props.training.noise + dir + 3) % 3;
     this.props.actions.updateTraining({
       ...this.props.training,
-      noise: newNoise
+      noise: newNoise,
     });
   }
 
@@ -183,6 +183,11 @@ class Input extends React.Component {
     color: !this.props.ui.detail ? lightBlue[400] : orange[500],
   }
 
+  /**
+   * The render function for this react component
+   *
+   * @return {object} the rendered component
+   */
   render() {
     return (
       <div id="valueDiv" align="center">
@@ -193,7 +198,7 @@ class Input extends React.Component {
           <Grid container item
             xs={4}
             justify='center'>
-            <Paper style={{ ...this.myPadding, height: '100%', width: '80%' }}>
+            <Paper style={{...this.myPadding, height: '100%', width: '80%'}}>
               <Grid container item justify='center' alignItems="center">
                 <Grid item container
                   xs={2}
@@ -208,7 +213,7 @@ class Input extends React.Component {
                       action={(event) => this.changeType(-1)}
                       icon={
                         <ChevronLeftIcon fontSize="small" style={{
-                          color: 'white'
+                          color: 'white',
                         }} />
                       } />
                   </Grid>
@@ -225,14 +230,15 @@ class Input extends React.Component {
                       action={(event) => this.changeNoise(1)}
                       icon={
                         <KeyboardArrowUpIcon fontSize="small" style={{
-                          color: 'white'
+                          color: 'white',
                         }} />
                       } />
                   </Grid>
                   <Grid item >
                     <Typography
                       style={{
-                        color: !this.props.ui.detail && !this.props.training.running
+                        color: !this.props.ui.detail
+                          && !this.props.training.running
                           ? lightBlue[400] : grey[500]
                       }}>
                       <Box fontWeight="fontWeightRegular"
@@ -242,7 +248,8 @@ class Input extends React.Component {
                     </Typography>
                     <Typography
                       style={{
-                        color: !this.props.ui.detail && !this.props.training.running
+                        color: !this.props.ui.detail
+                          && !this.props.training.running
                           ? lightBlue[400] : grey[500]
                       }}>
                       <Box fontWeight="fontWeightRegular"
@@ -252,7 +259,8 @@ class Input extends React.Component {
                     </Typography>
                     <Typography
                       style={{
-                        color: !this.props.ui.detail && !this.props.training.running
+                        color: !this.props.ui.detail
+                          && !this.props.training.running
                           ? lightBlue[400] : grey[500]
                       }}>
                       <Box fontWeight="fontWeightRegular"
@@ -269,7 +277,7 @@ class Input extends React.Component {
                       action={(event) => this.changeNoise(-1)}
                       icon={
                         <KeyboardArrowDownIcon fontSize="small" style={{
-                          color: 'white'
+                          color: 'white',
                         }} />
                       } />
                   </Grid>
@@ -284,7 +292,7 @@ class Input extends React.Component {
                       action={(event) => this.changeType(-1)}
                       icon={
                         <ChevronRightIcon fontSize="small" style={{
-                          color: 'white'
+                          color: 'white',
                         }} />
                       } />
                   </Grid>
@@ -293,30 +301,51 @@ class Input extends React.Component {
             </Paper>
           </Grid>
           <Grid container item xs={4} justify='center'>
-            <Paper style={{ ...this.myPadding, width: '80%' }}>
+            <Paper style={{...this.myPadding, width: '80%',}}>
               <Grid container item justify='center' alignItems="center">
                 <Grid item style={this.myPadding}>
-                  <MyButton disabled={this.props.ui.detail} properties={this.props} action={this.resetButtonPressed} icon={<Reset fontSize="medium" style={{ color: 'white' }} />} />
+                  <MyButton disabled={this.props.ui.detail}
+                    properties={this.props}
+                    action={this.resetButtonPressed}
+                    icon={
+                      <Reset fontSize="medium" style={{color: 'white',}} />
+                    } />
                 </Grid>
                 <Grid item style={this.myPadding}>
-                  <MyButton properties={this.props} action={this.toggleTraining} icon={(this.props.ui.detail && this.props.ui.anim) || (!this.props.ui.detail && this.props.training.running) ?
-                    <Pause fontSize="large" style={{ color: 'white' }} /> :
-                    <Start fontSize="large" style={{ color: 'white' }} />}>
+                  <MyButton properties={this.props}
+                    action={this.toggleTraining}
+                    icon={(this.props.ui.detail && this.props.ui.anim) ||
+                      (!this.props.ui.detail && this.props.training.running)
+                      ?
+                      <Pause fontSize="large" style={{color: 'white',}} /> :
+                      <Start fontSize="large" style={{color: 'white',}} />
+                    }>
                   </MyButton>
                 </Grid>
                 <Grid item style={this.myPadding}>
-                  <MyButton properties={this.props} disabled={(this.props.ui.detail && this.props.ui.anim) || (!this.props.ui.detail && this.props.training.running)} action={this.nextStep} icon={<SkipNext fontSize="medium" style={{ color: 'white' }} />} />
+                  <MyButton properties={this.props}
+                    disabled={(this.props.ui.detail && this.props.ui.anim) ||
+                    (!this.props.ui.detail && this.props.training.running)}
+                    action={this.nextStep}
+                    icon={
+                      <SkipNext fontSize="medium" style={{color: 'white',}}/>
+                    } />
                 </Grid>
               </Grid>
 
               <Grid container item xs={12} justify='center'>
                 <Grid item style={this.myPadding}>
-                  <Typography style={{ color: !this.props.ui.detail ? lightBlue[400] : orange[500] }}>
-                    <Box fontWeight="fontWeightBold" fontSize={this.fontSize} m={1}>
+                  <Typography 
+                    style={{ 
+                      color: !this.props.ui.detail 
+                        ? lightBlue[400] : orange[500] 
+                    }}>
+                    <Box fontWeight="fontWeightBold" 
+                      fontSize={this.fontSize} m={1}>
                       Epochs:
                     </Box>
                   </Typography>
-                  <Typography style={{ color: 'white' }}>
+                  <Typography style={{color: 'white',}}>
                     <Box fontSize={24} m={1}>
                       {this.styledEpochs()}
                     </Box>
@@ -327,18 +356,27 @@ class Input extends React.Component {
             </Paper>
           </Grid>
           <Grid container item xs={4} justify='center'>
-            <Paper style={{ ...this.myPadding, width: '80%' }}>
+            <Paper style={{...this.myPadding, width: '80%'}}>
               <Grid item>
-                <Typography variant="body1" style={{ ...this.sliderPaddingStyle, color: !this.props.ui.detail && !this.props.training.running ? lightBlue[400] : grey[500] }}>
-                  <Box fontWeight="fontWeightBold" fontSize={this.fontSize} m={1}>
+                <Typography variant="body1" 
+                  style={{
+                    ...this.sliderPaddingStyle,
+                    color: !this.props.ui.detail
+                      && !this.props.training.running
+                      ? lightBlue[400] : grey[500],
+                  }}>
+                  <Box fontWeight="fontWeightBold" 
+                    fontSize={this.fontSize} m={1}>
                     Learning Rate:
                   </Box>
                   {this.props.network.learningRate}
                 </Typography>
                 <Slider
-                  style={{ ...this.sliderPaddingStyle, color: 'white' }}
+                  style={{...this.sliderPaddingStyle, color: 'white',}}
                   marks
-                  disabled={this.props.ui.detail || this.props.training.running}
+                  disabled={
+                    this.props.ui.detail || this.props.training.running
+                  }
                   defaultValue={this.props.network.learningRate}
                   valueLabelDisplay="off"
                   step={0.01}
@@ -420,7 +458,8 @@ function StyledButtonRaw(props) {
   const { classes, properties, icon, action, disabled } = props;
   return (
     <IconButton disabled={disabled} variant="outlined" className={
-      properties.ui.detail ? classes.button_cell : classes.button_net} onClick={action}>
+      properties.ui.detail ? classes.button_cell : classes.button_net}
+      onClick={action}>
       {icon}
     </IconButton>
   );
@@ -432,7 +471,9 @@ function StyledSelectRaw(props) {
     <div style={{ display: 'inline-block', marginRight: '12px' }}>
       <Typography style={
         {
-          color: !properties.ui.detail ? (type === 'net' ? lightBlue[500] : grey[500]) : (type === 'net' ? grey[500] : orange[500]),
+          color: !properties.ui.detail
+          ? (type === 'net' ? lightBlue[500] : grey[500]) 
+          : (type === 'net' ? grey[500] : orange[500]),
         }
       }>{label}</Typography>
       <Select variant="outlined" className={
