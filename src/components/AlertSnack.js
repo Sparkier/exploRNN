@@ -12,8 +12,9 @@ import {IconButton, Snackbar} from '@material-ui/core';
  * AlertSnack component that can be used to display alert snacks in the app.
  */
 class AlertSnack extends React.Component {
+
   /**
-   * Handles a action that should lead to closing this alert.
+   * Handles an action that should lead to closing this alert.
    *
    * @memberof AlertSnack
    */
@@ -23,7 +24,7 @@ class AlertSnack extends React.Component {
 
   /**
    * Creates the AlertSnack to be rendered.
-   * @return {object} - the alert that is to  be displayed.
+   * @return {object} - the alert that is to be displayed.
    */
   render() {
     return (
@@ -40,7 +41,8 @@ class AlertSnack extends React.Component {
         }}
         message={<span id="message-id">{this.props.alertSnack.message}</span>}
         action={[
-          <IconButton key="close" aria-label="Close" color="inherit" onClick={this.handleClose} >
+          <IconButton key="close" aria-label="Close" 
+            color="inherit" onClick={this.handleClose} >
             <CloseIcon />
           </IconButton>,
         ]}

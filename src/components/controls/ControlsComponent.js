@@ -11,7 +11,9 @@ import Fab from '@material-ui/core/Fab';
 
 import * as actions from '../../actions';
 
-// Controls at top of the Application
+/**
+ * Controls at top of the Application
+ */ 
 class Controls extends React.Component {
   drawer = false;
   
@@ -19,6 +21,11 @@ class Controls extends React.Component {
     this.drawer = open;
   };
 
+  /**
+   * Readt render function controlling the look of the 
+   * AppBar of the Application
+   * @return {object} the react components rendered look
+   */
   render() {
     return (
       <AppBar >
@@ -28,7 +35,10 @@ class Controls extends React.Component {
           </Typography>
           <div className='wrapper'>
             <div className='menu' align="right">
-              <Fab color="primary" aria-label="add" onClick={this.toggleDrawer(true)}>
+              <Fab 
+                color="primary" 
+                aria-label="add" 
+                onClick={this.toggleDrawer(true)}>
                 <AddIcon />
               </Fab>
             </div>
@@ -46,8 +56,12 @@ Controls.propTypes = {
   ui: PropTypes.object.isRequired,
 };
 
-// Mapping the Controls state to the Props of this Class
-function mapStateToProps(state, ownProps) {
+/**
+ * Mapping the Controls state to the Props of this Class
+ * @param {object} state ...
+ * @return {object} ... 
+ */
+function mapStateToProps(state) {
   return {
     training: state.training,
     network: state.network,
@@ -55,7 +69,12 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-// Map the Actions called when Controls are used to the Props of this Class
+/**
+ * Map the Actions called when Controls are used to the Props of this Class
+ *
+ * @param {object} dispatch ...
+ * @return {object} ...
+ */
 function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }

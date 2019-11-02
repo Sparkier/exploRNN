@@ -2,8 +2,9 @@ import * as types from './types';
 
 /**
  * Switches training from on to off, or off to on
- * 
+ *
  * @param {object} training the new training object
+ * @return {object} a redux state update
  */
 export function toggleTraining(training) {
   return {type: types.TOGGLE_TRAINING, training};
@@ -11,8 +12,9 @@ export function toggleTraining(training) {
 
 /**
  * Stops the training of the current model
- * 
+ *
  * @param {object} training the new training object
+ * @return {object} a redux state update
  */
 export function stopTraining(training) {
   return {type: types.STOP_TRAINING, training};
@@ -20,8 +22,9 @@ export function stopTraining(training) {
 
 /**
  * Updates the internal UI values
- * 
+ *
  * @param {object} ui the object holding the new ui values
+ * @return {object} a redux state update
  */
 export function updateUI(ui) {
   return {type: types.UPDATE_UI, ui};
@@ -29,8 +32,9 @@ export function updateUI(ui) {
 
 /**
  * Updates the network values of the RNN model
- * 
+ *
  * @param {object} network the object holding the new network values
+ * @return {object} a redux state update
  */
 export function updateNetwork(network) {
   return {type: types.UPDATE_NETWORK, network};
@@ -38,8 +42,9 @@ export function updateNetwork(network) {
 
 /**
  * Updates the internal training values
- * 
+ *
  * @param {object} training the object holding the new training values 
+ * @return {object} a redux state update
  */
 export function updateTraining(training) {
   return {type: types.UPDATE_TRAINING, training};
@@ -47,8 +52,9 @@ export function updateTraining(training) {
 
 /**
  * Updates the alertsnack values
- * 
+ *
  * @param {object} alertSnack the new alertSnack object
+ * @return {object} a redux state update
  */
 export function updateAlertSnack(alertSnack) {
   return {type: types.UPDATE_ALERT_SNACK_SUCCESS, alertSnack};
@@ -57,7 +63,7 @@ export function updateAlertSnack(alertSnack) {
 /**
  * Adds a new Dataset for the current timestep, includes training data, 
  * prediction data and ui data
- * 
+ *
  * @param {object} net the old network object
  * @param {array} chIn input data for the drawing canvas
  * @param {array} chOut output data for the drawing canvas
@@ -65,6 +71,7 @@ export function updateAlertSnack(alertSnack) {
  * @param {tf.Tensor} modIn input data for the training of the model
  * @param {tf.Tensor} modOut output data for the training of the model
  * @param {tf.Tensor} modP prediction input for the testing of the model
+ * @return {object} a redux state update
  */
 export function addDataToNetwork(net, chIn, chOut, chP, modIn, modOut, modP) {
   const data = net.data;
@@ -84,9 +91,10 @@ export function addDataToNetwork(net, chIn, chOut, chP, modIn, modOut, modP) {
 
 /**
  * adds the predicted data from the network for the current input values
- * 
+ *
  * @param {object} oldNetwork the old network object
  * @param {array} prediction the new prediction data
+ * @return {object} a redux state update
  */
 export function addPredictionToNetwork(oldNetwork, prediction) {
   const data = oldNetwork.data;
