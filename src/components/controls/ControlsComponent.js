@@ -14,17 +14,7 @@ import * as actions from '../../actions';
 // Controls at top of the Application
 class Controls extends React.Component {
   drawer = false;
-
-  resetButtonPressed = () => {
-    this.props.actions.resetNetwork(this.props.training);
-  }
-
-  toggleTraining = () => {
-    console.log('Training should start now');
-    this.props.actions.toggleTraining(this.props.training);
-    this.props.actions.updateUI({...this.props.ui, detail: false});
-  }
-
+  
   toggleDrawer = (open) => (event) => {
     this.drawer = open;
   };

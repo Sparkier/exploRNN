@@ -52,7 +52,6 @@ class Training extends React.Component {
     const optimizer = tf.train.rmsprop(network.learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
     this.model.model.summary();
-    this.props.actions.firstcall();
     network = {...network, data: Array(5).fill({}), iteration: 0};
     for (let i = 0; i < 5; i++) {
       this.addDataToNetwork(network, [], [], [], [], [], []);
@@ -141,15 +140,13 @@ class Training extends React.Component {
 
 Training.propTypes = {
   network: PropTypes.object.isRequired,
-  training: PropTypes.object.isRequired,
-  firstcall: PropTypes.bool.isRequired,
+  training: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
   return {
     network: state.network,
-    training: state.training,
-    firstcall: state.firstcall,
+    training: state.training
   };
 }
 
