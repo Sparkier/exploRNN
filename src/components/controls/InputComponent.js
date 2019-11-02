@@ -334,8 +334,8 @@ class Input extends React.Component {
 
               <Grid container item xs={12} justify='center'>
                 <Grid item style={this.myPadding}>
-                  <Typography 
-                    style={{ 
+                  <Typography
+                    style={{
                       color: !this.props.ui.detail ?
                         lightBlue[400] : orange[500],
                     }}>
@@ -357,14 +357,14 @@ class Input extends React.Component {
           <Grid container item xs={4} justify='center'>
             <Paper style={{...this.myPadding, width: '80%'}}>
               <Grid item>
-                <Typography variant="body1" 
+                <Typography variant="body1"
                   style={{
                     ...this.sliderPaddingStyle,
                     color: !this.props.ui.detail &&
                       !this.props.training.running ?
                       lightBlue[400] : grey[500],
                   }}>
-                  <Box fontWeight="fontWeightBold" 
+                  <Box fontWeight="fontWeightBold"
                     fontSize={this.fontSize} m={1}>
                     Learning Rate:
                   </Box>
@@ -457,12 +457,15 @@ const styles = {
  * Generating function for the individual styled buttons
  *
  * @param {object} props the current redux state properties
+ * @return {object} rendered styled button
  */
 function StyledButtonRaw(props) {
   const {classes, properties, icon, action, disabled} = props;
   return (
-    <IconButton disabled={disabled} variant="outlined" className={
-      properties.ui.detail ? classes.button_cell : classes.button_net}
+    <IconButton disabled={disabled} variant="outlined" 
+      className={
+        properties.ui.detail ? classes.button_cell : classes.button_net
+      }
       onClick={action}>
       {icon}
     </IconButton>
@@ -470,15 +473,17 @@ function StyledButtonRaw(props) {
 }
 
 /**
- * Generating function for the styled slider (learning rate slider)
+ * @deprecated
+ * Generating function for the styled select comp
  *
  * @param {object} props the current redux state properties
+ * @return {object} rendered styled selection component
  */
 function StyledSelectRaw(props) {
-  const {classes, color, label, properties, type, ...other} = props;
+  const {classes, label, properties, type, ...other} = props;
   return (
-    <div style={{ display: 'inline-block', marginRight: '12px' }}>
-      <Typography 
+    <div style={{display: 'inline-block', marginRight: '12px'}}>
+      <Typography
         style={
           {
             color: !properties.ui.detail ?
@@ -488,7 +493,7 @@ function StyledSelectRaw(props) {
         }>
         {label}
       </Typography>
-      <Select variant="outlined" 
+      <Select variant="outlined"
         className={
           properties.ui.detail ?
             (type === 'net' ? classes.disabled : classes.select_detail) :
@@ -500,14 +505,13 @@ function StyledSelectRaw(props) {
           },
           disabled: properties.ui.detail === (type === 'net'),
           color: 'white',
-        }} {...other} 
+        }} {...other}
       />
     </div>
   );
 }
 
 StyledSelectRaw.propTypes = {
-  color: PropTypes.object.isRequired,
   label: PropTypes.object.isRequired,
   properties: PropTypes.object.isRequired,
   type: PropTypes.object.isRequired,
@@ -517,7 +521,7 @@ StyledSelectRaw.propTypes = {
 StyledButtonRaw.propTypes = {
   properties: PropTypes.object.isRequired,
   icon: PropTypes.object.isRequired,
-  action:PropTypes.object.isRequired,
+  action: PropTypes.object.isRequired,
   disabled: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
