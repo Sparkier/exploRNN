@@ -13,17 +13,25 @@ import * as actions from '../../actions';
 
 /**
  * Controls at top of the Application
- */ 
+ */
 class Controls extends React.Component {
+
   drawer = false;
   
+  /**
+   * Handles the opening and closing of the side drawer
+   *
+   * @param {boolean} open true, if the drawer should now be opened
+   * @memberof Controls
+   */
   toggleDrawer = (open) => (event) => {
     this.drawer = open;
   };
 
   /**
-   * Readt render function controlling the look of the 
+   * Readt render function controlling the look of the
    * AppBar of the Application
+   *
    * @return {object} the react components rendered look
    */
   render() {
@@ -35,9 +43,9 @@ class Controls extends React.Component {
           </Typography>
           <div className='wrapper'>
             <div className='menu' align="right">
-              <Fab 
-                color="primary" 
-                aria-label="add" 
+              <Fab
+                color="primary"
+                aria-label="add"
                 onClick={this.toggleDrawer(true)}>
                 <AddIcon />
               </Fab>
@@ -59,7 +67,7 @@ Controls.propTypes = {
 /**
  * Mapping the Controls state to the Props of this Class
  * @param {object} state ...
- * @return {object} ... 
+ * @return {object} ...
  */
 function mapStateToProps(state) {
   return {

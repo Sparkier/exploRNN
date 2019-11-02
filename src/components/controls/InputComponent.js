@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Typography, CardMedia} from '@material-ui/core';
+import {Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import {withStyles} from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
@@ -18,8 +18,8 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+
+
 
 import * as actions from '../../actions';
 import {lightBlue, grey, orange} from '@material-ui/core/colors';
@@ -33,51 +33,26 @@ class Input extends React.Component {
 
     data = ['saw', 'sin', 'sqr', 'sinc']
 
-    handleSelectionChange = (event) => {
-      this.props.actions.updateNetwork({...this.props.network,
-        layerSize: Number(event.target.value)});
-    }
-
+    /**
+     * Handles the interaction with the learning rate slider
+     *
+     * @memberof Input
+     *
+     * @param {object} event - the direction in which to change the noise.
+     * @param {number} value - the new value of the learning rate
+     */
     handleSliderChange = (event, value) => {
       this.props.actions.updateNetwork({...this.props.network,
         learningRate: value});
     }
 
-    handleLabelClick = (event) => {
-      console.log('click');
-    }
-
-    handleTypeSelection = (event) => {
-      console.log('click', event);
-      this.props.actions.updateNetwork({...this.props.network,
-        type: String(event.target.value)});
-    }
-
-    handleLayerCountSelection = (event) => {
-      this.props.actions.updateNetwork({...this.props.network,
-        layers: Number(event.target.value)});
-    }
-
-    handleActivationSelection = (event) => {
-
-    }
-
-    handleDataSelection = (event) => {
-      this.props.actions.updateTraining({...this.props.training,
-        dataType: String(event.target.value)});
-    }
-
-    handleDataVariantSelection = (event) => {
-      this.props.actions.updateTraining({...this.props.training,
-        dataVariant: String(event.target.value)});
-    }
-
-    handleSpeedChange = (event, value) => {
-      this.props.actions.updateTraining({...this.props.training, speed: value});
-    }
-
+    /**
+     * Toggles wether the training of the network is currently
+     * on or off
+     *
+     * @memberof Input
+     */
     toggleTraining = () => {
-      console.log('Training should start now');
       if (this.props.ui.detail) {
         this.props.actions.updateUI({...this.props.ui,
           anim: !this.props.ui.anim});
@@ -86,10 +61,21 @@ class Input extends React.Component {
       }
     }
 
+    /**
+     * Handles the interaction with the reset button, lets the network
+     * know that it needs be reset
+     *
+     * @memberof Input
+     */
     resetButtonPressed = () => {
       this.props.actions.updateTraining({...this.props.training, reset: true});
     }
 
+    /**
+     * This function makes the training go on by only one training step
+     *
+     * @memberof Input
+     */
     nextStep = () => {
       if (this.props.ui.detail) {
         this.props.actions.updateUI({...this.props.ui, animStep: true});
@@ -98,12 +84,14 @@ class Input extends React.Component {
       }
     }
 
+    
     /**
-     * Change the type of network.
+     * Change the type of data for the training input.
      *
      * @memberof Input
      *
-     * @param {number} dir - the directory blabla.
+     * @param {number} dir either 1 or -1 depending on which direction
+     * the user has pressed
      */
     changeType = (dir) => {
       let i = 0;
@@ -113,13 +101,12 @@ class Input extends React.Component {
         }
       }
       i = (i + this.data.length + dir) % this.data.length;
-      console.log(this.data[i], dir);
       this.props.actions.updateTraining({...this.props.training,
         dataType: this.data[i]});
     }
 
     /**
-     * Change the noise used in the trainin process.
+     * Change the noise used in the training process.
      *
      * @memberof Input
      *
@@ -131,6 +118,12 @@ class Input extends React.Component {
         noise: newNoise});
     }
 
+    /**
+     * creates a formatted string representation of the number
+     * of epochs, always having the same string length
+     *
+     * @return {string} the formatted epoch number
+     */
     styledEpochs() {
       let num = this.props.network.iteration;
       let out = '';
@@ -145,7 +138,6 @@ class Input extends React.Component {
       }
       return out;
     }
-
 
     simplePaddingStyle = {
       width: '90%',
@@ -172,10 +164,7 @@ class Input extends React.Component {
     }
 
     sliderPaddingStyle = {
-      paddingTop: '10px',
-      paddingLeft: '10px',
-      paddingRight: '10px',
-      paddingBottom: '10px',
+      ...this.buttonPadding,
       width: '80%',
     };
 

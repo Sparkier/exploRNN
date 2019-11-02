@@ -43,7 +43,7 @@ export function updateNetwork(network) {
 /**
  * Updates the internal training values
  *
- * @param {object} training the object holding the new training values 
+ * @param {object} training the object holding the new training values
  * @return {object} a redux state update
  */
 export function updateTraining(training) {
@@ -61,7 +61,7 @@ export function updateAlertSnack(alertSnack) {
 }
 
 /**
- * Adds a new Dataset for the current timestep, includes training data, 
+ * Adds a new Dataset for the current timestep, includes training data,
  * prediction data and ui data
  *
  * @param {object} net the old network object
