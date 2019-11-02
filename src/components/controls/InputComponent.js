@@ -20,7 +20,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import * as actions from '../../actions';
-import { lightBlue, grey, orange } from '@material-ui/core/colors';
+import {lightBlue, grey, orange} from '@material-ui/core/colors';
 
 /**
  * The current Component holding all the input elements to change the Network
@@ -237,9 +237,9 @@ class Input extends React.Component {
                   <Grid item >
                     <Typography
                       style={{
-                        color: !this.props.ui.detail
-                          && !this.props.training.running
-                          ? lightBlue[400] : grey[500]
+                        color: !this.props.ui.detail &&
+                          !this.props.training.running ?
+                          lightBlue[400] : grey[500],
                       }}>
                       <Box fontWeight="fontWeightRegular"
                         fontSize={this.fontSize - 2} m={1}>
@@ -248,9 +248,9 @@ class Input extends React.Component {
                     </Typography>
                     <Typography
                       style={{
-                        color: !this.props.ui.detail
-                          && !this.props.training.running
-                          ? lightBlue[400] : grey[500]
+                        color: !this.props.ui.detail &&
+                          !this.props.training.running ?
+                          lightBlue[400] : grey[500],
                       }}>
                       <Box fontWeight="fontWeightRegular"
                         fontSize={this.fontSize - 2} m={1}>
@@ -259,9 +259,9 @@ class Input extends React.Component {
                     </Typography>
                     <Typography
                       style={{
-                        color: !this.props.ui.detail
-                          && !this.props.training.running
-                          ? lightBlue[400] : grey[500]
+                        color: !this.props.ui.detail &&
+                          !this.props.training.running ?
+                          lightBlue[400] : grey[500],
                       }}>
                       <Box fontWeight="fontWeightRegular"
                         fontSize={this.fontSize - 2} m={1}>
@@ -301,24 +301,23 @@ class Input extends React.Component {
             </Paper>
           </Grid>
           <Grid container item xs={4} justify='center'>
-            <Paper style={{...this.myPadding, width: '80%',}}>
+            <Paper style={{...this.myPadding, width: '80%'}}>
               <Grid container item justify='center' alignItems="center">
                 <Grid item style={this.myPadding}>
                   <MyButton disabled={this.props.ui.detail}
                     properties={this.props}
                     action={this.resetButtonPressed}
                     icon={
-                      <Reset fontSize="medium" style={{color: 'white',}} />
+                      <Reset fontSize="medium" style={{color: 'white'}} />
                     } />
                 </Grid>
                 <Grid item style={this.myPadding}>
                   <MyButton properties={this.props}
                     action={this.toggleTraining}
                     icon={(this.props.ui.detail && this.props.ui.anim) ||
-                      (!this.props.ui.detail && this.props.training.running)
-                      ?
-                      <Pause fontSize="large" style={{color: 'white',}} /> :
-                      <Start fontSize="large" style={{color: 'white',}} />
+                      (!this.props.ui.detail && this.props.training.running) ?
+                      <Pause fontSize="large" style={{color: 'white'}} /> :
+                      <Start fontSize="large" style={{color: 'white'}} />
                     }>
                   </MyButton>
                 </Grid>
@@ -328,7 +327,7 @@ class Input extends React.Component {
                     (!this.props.ui.detail && this.props.training.running)}
                     action={this.nextStep}
                     icon={
-                      <SkipNext fontSize="medium" style={{color: 'white',}}/>
+                      <SkipNext fontSize="medium" style={{color: 'white'}}/>
                     } />
                 </Grid>
               </Grid>
@@ -337,15 +336,15 @@ class Input extends React.Component {
                 <Grid item style={this.myPadding}>
                   <Typography 
                     style={{ 
-                      color: !this.props.ui.detail 
-                        ? lightBlue[400] : orange[500] 
+                      color: !this.props.ui.detail ?
+                        lightBlue[400] : orange[500],
                     }}>
-                    <Box fontWeight="fontWeightBold" 
+                    <Box fontWeight="fontWeightBold"
                       fontSize={this.fontSize} m={1}>
                       Epochs:
                     </Box>
                   </Typography>
-                  <Typography style={{color: 'white',}}>
+                  <Typography style={{color: 'white'}}>
                     <Box fontSize={24} m={1}>
                       {this.styledEpochs()}
                     </Box>
@@ -361,9 +360,9 @@ class Input extends React.Component {
                 <Typography variant="body1" 
                   style={{
                     ...this.sliderPaddingStyle,
-                    color: !this.props.ui.detail
-                      && !this.props.training.running
-                      ? lightBlue[400] : grey[500],
+                    color: !this.props.ui.detail &&
+                      !this.props.training.running ?
+                      lightBlue[400] : grey[500],
                   }}>
                   <Box fontWeight="fontWeightBold" 
                     fontSize={this.fontSize} m={1}>
@@ -372,7 +371,7 @@ class Input extends React.Component {
                   {this.props.network.learningRate}
                 </Typography>
                 <Slider
-                  style={{...this.sliderPaddingStyle, color: 'white',}}
+                  style={{...this.sliderPaddingStyle, color: 'white'}}
                   marks
                   disabled={
                     this.props.ui.detail || this.props.training.running
@@ -454,8 +453,13 @@ const styles = {
   },
 };
 
+/**
+ * Generating function for the individual styled buttons
+ *
+ * @param {object} props the current redux state properties
+ */
 function StyledButtonRaw(props) {
-  const { classes, properties, icon, action, disabled } = props;
+  const {classes, properties, icon, action, disabled} = props;
   return (
     <IconButton disabled={disabled} variant="outlined" className={
       properties.ui.detail ? classes.button_cell : classes.button_net}
@@ -465,43 +469,56 @@ function StyledButtonRaw(props) {
   );
 }
 
+/**
+ * Generating function for the styled slider (learning rate slider)
+ *
+ * @param {object} props the current redux state properties
+ */
 function StyledSelectRaw(props) {
-  const { classes, color, label, properties, type, ...other } = props;
+  const {classes, color, label, properties, type, ...other} = props;
   return (
     <div style={{ display: 'inline-block', marginRight: '12px' }}>
-      <Typography style={
-        {
-          color: !properties.ui.detail
-          ? (type === 'net' ? lightBlue[500] : grey[500]) 
-          : (type === 'net' ? grey[500] : orange[500]),
+      <Typography 
+        style={
+          {
+            color: !properties.ui.detail ?
+            (type === 'net' ? lightBlue[500] : grey[500]) :
+            (type === 'net' ? grey[500] : orange[500]),
+          }
+        }>
+        {label}
+      </Typography>
+      <Select variant="outlined" 
+        className={
+          properties.ui.detail ?
+            (type === 'net' ? classes.disabled : classes.select_detail) :
+            (type === 'net' ? classes.select_net : classes.disabled)
         }
-      }>{label}</Typography>
-      <Select variant="outlined" className={
-        properties.ui.detail ?
-          (type === 'net' ? classes.disabled : classes.select_detail) :
-          (type === 'net' ? classes.select_net : classes.disabled)}
         inputProps={{
           classes: {
             icon: classes.icon,
           },
           disabled: properties.ui.detail === (type === 'net'),
           color: 'white',
-        }} {...other} />
+        }} {...other} 
+      />
     </div>
   );
 }
 
 StyledSelectRaw.propTypes = {
-  /**
-     * Override or extend the styles applied to the component.
-     */
+  color: PropTypes.object.isRequired,
+  label: PropTypes.object.isRequired,
+  properties: PropTypes.object.isRequired,
+  type: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
 StyledButtonRaw.propTypes = {
-  /**
-     * Override or extend the styles applied to the component.
-     */
+  properties: PropTypes.object.isRequired,
+  icon: PropTypes.object.isRequired,
+  action:PropTypes.object.isRequired,
+  disabled: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
@@ -516,7 +533,13 @@ Input.propTypes = {
   actions: PropTypes.object.isRequired,
 };
 
-// Mapping the Controls state to the Props of this Class
+/**
+ * Mapping the Controls state to the Props of this Class
+ *
+ * @param {object} state ...
+ * @param {object} ownProps ...
+ * @return {object} ...
+ */
 function mapStateToProps(state, ownProps) {
   return {
     network: state.network,
@@ -525,9 +548,14 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-// Map the Actions called when Controls are used to the Props of this Class
+/**
+ * Map the Actions called when Controls are used to the Props of this Class
+ *
+ * @param {object} dispatch ...
+ * @return {object} ...
+ */
 function mapDispatchToProps(dispatch) {
-  return { actions: bindActionCreators(actions, dispatch) };
+  return {actions: bindActionCreators(actions, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Input);
