@@ -1,175 +1,185 @@
-
+/**
+ * This class represents the model for a LSTM cell in the sketch canvas
+ * of the network
+ */
 export class LSTM {
-    items = [];
-    connections = []
+  /**
+   * This is the constructor for the LSTM cell model, initialising all
+   * components and connections within the cell
+   * 
+   * @param {object} s the p5 sketch
+   */
+  constructor(s) {
+    this.s = s;
+    this.items = [];
+    this.connections = []
+    const left = s.ctrLeft + s.ctrRatio / 2 * s.ctrWidth;
+    const top = s.ctrRatio / 2 * s.height;
+    const horBuf = (1/6) * s.ctrRatio * s.ctrWidth;
+    const verBuf = (1/3) * s.ctrRatio * s.height;
+    s.clickedItem = undefined;
+    this.anim = 0;
+    this.animMax = 5;
+    s.orange = s.color(255, 150, 40);
+    s.half_orange = s.color(200, 150, 80);
+    s.green = s.color(50, 175, 80);
 
-    constructor(s) {
-      this.s = s;
-      const left = s.ctrLeft + s.ctrRatio / 2 * s.ctrWidth;
-      const top = s.ctrRatio / 2 * s.height;
-      const horBuf = (1/6) * s.ctrRatio * s.ctrWidth;
-      const verBuf = (1/3) * s.ctrRatio * s.height;
-      s.clickedItem = undefined;
+    this.items.push(this.receive = new Item(
+      'rec', 'Layer Input', left + horBuf, top + verBuf, 2, s
+    ));
+    this.items.push(this.add = new Item('add', 'Input Gate', left + 2*horBuf, top + verBuf, 1, s));
+    this.items.push(this.save = new Item('sav', 'Cell State Update', left + 3*horBuf, top + verBuf, 2, s));
+    this.items.push(this.forget = new Item('los', 'Forget Gate', left + 4*horBuf, top + verBuf, 2, s));
+    this.items.push(this.output = new Item('out', 'Output Gate', left + 5*horBuf, top + verBuf, 2, s));
+    this.items.push(this.cell = new Item('cel', 'Cell State', left + 3*horBuf, top + 2 * verBuf, 1, s));
+    this.items.push(this.crossInput = new Item('crs', '', left + 2 * horBuf, top + 0.5 * verBuf, 1, s));
+    this.items.push(this.crossForget = new Item('crs', '', left + 4 * horBuf, top + 0.5 * verBuf, 1, s));
+    this.items.push(this.crossOutput = new Item('crs', '', left + 5 * horBuf, top + 0.5 * verBuf, 1, s));
+    this.items.push(this.crossCell = new Item('crs', '', left + 4.5 * horBuf, top + verBuf, 1, s));
+    this.items.push(this.first = new Item('fst', '', left, top + verBuf, 1, s));
+    this.items.push(this.ghostFirst = new Item('gft', '', left - horBuf, top + verBuf, 1, s));
+    this.items.push(this.last = new Item('lst', '', left + 6 * horBuf, top + verBuf, 1, s));
+    this.items.push(this.ghostLast = new Item('glt', '', left + 7 * horBuf, top + verBuf, 1, s));
+
+    this.connections.push(this.ghostInput = new Connection([{x: this.ghostFirst.x, y: this.ghostFirst.y}, {x: this.first.x, y: this.first.y}], [this.first], s));
+    this.connections.push(this.mainInput = new Connection([{x: this.first.x, y: this.first.y}, {x: this.receive.x, y: this.receive.y}], [this.receive], s));
+    this.connections.push(this.bus = new Connection([{x: this.receive.x, y: this.receive.y}, {x: this.receive.x, y: this.crossOutput.y}, {x: this.crossOutput.x, y: this.crossOutput.y}], [], s));
+    this.connections.push(this.toInput = new Connection([{x: this.crossInput.x, y: this.crossInput.y}, {x: this.add.x, y: this.add.y}], [this.add], s));
+    this.connections.push(this.toForget = new Connection([{x: this.crossForget.x, y: this.crossForget.y}, {x: this.forget.x, y: this.forget.y}], [this.forget], s));
+    this.connections.push(this.toOutput = new Connection([{x: this.crossOutput.x, y: this.crossOutput.y}, {x: this.output.x, y: this.output.y}], [this.output], s));
+    this.connections.push(this.addToSave = new Connection([{x: this.add.x, y: this.add.y}, {x: this.save.x, y: this.save.y}], [this.save], s));
+    this.connections.push(this.forgetToSave = new Connection([{x: this.forget.x, y: this.forget.y}, {x: this.save.x, y: this.save.y}], [this.save], s));
+    this.connections.push(this.saveToCell = new Connection([{x: this.save.x, y: this.save.y}, {x: this.cell.x, y: this.cell.y}], [this.cell], s));
+    this.connections.push(this.cellOut = new Connection([{x: this.cell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.crossCell.y}], [], s));
+    this.connections.push(this.cellToForget = new Connection([{x: this.crossCell.x, y: this.crossCell.y}, {x: this.forget.x, y: this.forget.y}], [this.forget], s));
+    this.connections.push(this.cellToOutput = new Connection([{x: this.crossCell.x, y: this.crossCell.y}, {x: this.output.x, y: this.output.y}], [this.output], s));
+    this.connections.push(this.recurrent = new Connection([{x: this.output.x, y: this.output.y}, {x: this.output.x, y: top + 2.5 * verBuf}, {x: this.receive.x, y: top + 2.5 * verBuf}, {x: this.receive.x, y: this.receive.y}], [this.receive], s));
+    this.connections.push(this.mainOut = new Connection([{x: this.output.x, y: this.output.y}, {x: this.last.x, y: this.last.y}], [this.last], s));
+    this.connections.push(this.ghostOutput = new Connection([{x: this.last.x, y: this.last.y}, {x: this.ghostLast.x, y: this.ghostLast.y}], [this.ghostLast], s));
+
+    this.ghostFirst.connections.push(this.ghostInput);
+    this.first.connections.push(this.mainInput);
+    this.receive.connections.push(this.bus);
+    this.receive.connections.push(this.crossInput);
+    this.receive.connections.push(this.crossForget);
+    this.receive.connections.push(this.crossOutput);
+    this.receive.connections.push(this.toInput);
+    this.receive.connections.push(this.toForget);
+    this.receive.connections.push(this.toOutput);
+    this.add.connections.push(this.addToSave);
+    this.save.connections.push(this.saveToCell);
+    this.forget.connections.push(this.forgetToSave);
+    this.cell.connections.push(this.cellOut);
+    this.cell.connections.push(this.crossCell);
+    this.cell.connections.push(this.cellToForget);
+    this.cell.connections.push(this.cellToOutput);
+    this.output.connections.push(this.mainOut);
+    this.output.connections.push(this.recurrent);
+    this.last.connections.push(this.ghostOutput);
+    this.ghostLast.connections.push(this.ghostFirst);
+
+    this.ghostFirst.addActiveInput();
+    this.recurrent.addActiveInput();
+    this.forget.addActiveInput();
+  }
+
+  draw() {
+    const s = this.s;
+    s.rectMode(s.CENTER);
+    s.fill(0, 100);
+    s.noStroke();
+    s.rect(s.width/2+20, s.height/2+20, s.ctrWidth * s.ctrRatio, s.height * s.ctrRatio);
+    s.fill(255);
+    s.stroke(100);
+    s.strokeWeight(15);
+    s.rect(s.width/2, s.height/2, s.ctrWidth * s.ctrRatio, s.height * s.ctrRatio);
+
+    for (const c of this.connections) {
+      c.draw();
+    }
+
+    for (const i of this.items) {
+      i.draw();
+    }
+
+    if (s.clickedItem) {
+      this.anim++;
+      if (this.anim >= this.animMax) {
+        this.anim = this.animMax;
+      }
+      s.tint(255, 245);
+      let img = undefined;
+      switch (s.clickedItem.type) {
+        case 'rec':
+          img = s.recdesc;
+          break;
+        case 'add':
+          img = s.adddesc;
+          break;
+        case 'sav':
+          img = s.savdesc;
+          break;
+        case 'los':
+          img = s.losdesc;
+          break;
+        case 'cel':
+          img = s.celdesc;
+          break;
+        case 'out':
+          img = s.outdesc;
+          break;
+        default:
+      }
+      if (!img) {
+        return;
+      }
+      const ratio = img.width / img.height;
+      const newW = s.width * 0.5 * (this.anim/this.animMax);
+      const newH = newW / ratio;
+      const newX = s.clickedItem.x;
+      const newY = s.clickedItem.y;
+      s.image(img, newX, newY, newW, newH);
+    } else {
       this.anim = 0;
-      this.animMax = 5;
-      s.orange = s.color(255, 150, 40);
-      s.half_orange = s.color(200, 150, 80);
-      s.green = s.color(50, 175, 80);
-
-      this.items.push(this.receive = new Item('rec', 'Layer Input', left + horBuf, top + verBuf, 2, s));
-      this.items.push(this.add = new Item('add', 'Input Gate', left + 2*horBuf, top + verBuf, 1, s));
-      this.items.push(this.save = new Item('sav', 'Cell State Update', left + 3*horBuf, top + verBuf, 2, s));
-      this.items.push(this.forget = new Item('los', 'Forget Gate', left + 4*horBuf, top + verBuf, 2, s));
-      this.items.push(this.output = new Item('out', 'Output Gate', left + 5*horBuf, top + verBuf, 2, s));
-      this.items.push(this.cell = new Item('cel', 'Cell State', left + 3*horBuf, top + 2 * verBuf, 1, s));
-      this.items.push(this.crossInput = new Item('crs', '', left + 2 * horBuf, top + 0.5 * verBuf, 1, s));
-      this.items.push(this.crossForget = new Item('crs', '', left + 4 * horBuf, top + 0.5 * verBuf, 1, s));
-      this.items.push(this.crossOutput = new Item('crs', '', left + 5 * horBuf, top + 0.5 * verBuf, 1, s));
-      this.items.push(this.crossCell = new Item('crs', '', left + 4.5 * horBuf, top + verBuf, 1, s));
-      this.items.push(this.first = new Item('fst', '', left, top + verBuf, 1, s));
-      this.items.push(this.ghostFirst = new Item('gft', '', left - horBuf, top + verBuf, 1, s));
-      this.items.push(this.last = new Item('lst', '', left + 6 * horBuf, top + verBuf, 1, s));
-      this.items.push(this.ghostLast = new Item('glt', '', left + 7 * horBuf, top + verBuf, 1, s));
-
-      this.connections.push(this.ghostInput = new Connection([{x: this.ghostFirst.x, y: this.ghostFirst.y}, {x: this.first.x, y: this.first.y}], [this.first], s));
-      this.connections.push(this.mainInput = new Connection([{x: this.first.x, y: this.first.y}, {x: this.receive.x, y: this.receive.y}], [this.receive], s));
-      this.connections.push(this.bus = new Connection([{x: this.receive.x, y: this.receive.y}, {x: this.receive.x, y: this.crossOutput.y}, {x: this.crossOutput.x, y: this.crossOutput.y}], [], s));
-      this.connections.push(this.toInput = new Connection([{x: this.crossInput.x, y: this.crossInput.y}, {x: this.add.x, y: this.add.y}], [this.add], s));
-      this.connections.push(this.toForget = new Connection([{x: this.crossForget.x, y: this.crossForget.y}, {x: this.forget.x, y: this.forget.y}], [this.forget], s));
-      this.connections.push(this.toOutput = new Connection([{x: this.crossOutput.x, y: this.crossOutput.y}, {x: this.output.x, y: this.output.y}], [this.output], s));
-      this.connections.push(this.addToSave = new Connection([{x: this.add.x, y: this.add.y}, {x: this.save.x, y: this.save.y}], [this.save], s));
-      this.connections.push(this.forgetToSave = new Connection([{x: this.forget.x, y: this.forget.y}, {x: this.save.x, y: this.save.y}], [this.save], s));
-      this.connections.push(this.saveToCell = new Connection([{x: this.save.x, y: this.save.y}, {x: this.cell.x, y: this.cell.y}], [this.cell], s));
-      this.connections.push(this.cellOut = new Connection([{x: this.cell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.crossCell.y}], [], s));
-      this.connections.push(this.cellToForget = new Connection([{x: this.crossCell.x, y: this.crossCell.y}, {x: this.forget.x, y: this.forget.y}], [this.forget], s));
-      this.connections.push(this.cellToOutput = new Connection([{x: this.crossCell.x, y: this.crossCell.y}, {x: this.output.x, y: this.output.y}], [this.output], s));
-      this.connections.push(this.recurrent = new Connection([{x: this.output.x, y: this.output.y}, {x: this.output.x, y: top + 2.5 * verBuf}, {x: this.receive.x, y: top + 2.5 * verBuf}, {x: this.receive.x, y: this.receive.y}], [this.receive], s));
-      this.connections.push(this.mainOut = new Connection([{x: this.output.x, y: this.output.y}, {x: this.last.x, y: this.last.y}], [this.last], s));
-      this.connections.push(this.ghostOutput = new Connection([{x: this.last.x, y: this.last.y}, {x: this.ghostLast.x, y: this.ghostLast.y}], [this.ghostLast], s));
-
-      this.ghostFirst.connections.push(this.ghostInput);
-      this.first.connections.push(this.mainInput);
-      this.receive.connections.push(this.bus);
-      this.receive.connections.push(this.crossInput);
-      this.receive.connections.push(this.crossForget);
-      this.receive.connections.push(this.crossOutput);
-      this.receive.connections.push(this.toInput);
-      this.receive.connections.push(this.toForget);
-      this.receive.connections.push(this.toOutput);
-      this.add.connections.push(this.addToSave);
-      this.save.connections.push(this.saveToCell);
-      this.forget.connections.push(this.forgetToSave);
-      this.cell.connections.push(this.cellOut);
-      this.cell.connections.push(this.crossCell);
-      this.cell.connections.push(this.cellToForget);
-      this.cell.connections.push(this.cellToOutput);
-      this.output.connections.push(this.mainOut);
-      this.output.connections.push(this.recurrent);
-      this.last.connections.push(this.ghostOutput);
-      this.ghostLast.connections.push(this.ghostFirst);
-
-      this.ghostFirst.addActiveInput();
-      this.recurrent.addActiveInput();
-      this.forget.addActiveInput();
     }
+  }
 
-    draw() {
-      const s = this.s;
-      s.rectMode(s.CENTER);
-      s.fill(0, 100);
-      s.noStroke();
-      s.rect(s.width/2+20, s.height/2+20, s.ctrWidth * s.ctrRatio, s.height * s.ctrRatio);
-      s.fill(255);
-      s.stroke(100);
-      s.strokeWeight(15);
-      s.rect(s.width/2, s.height/2, s.ctrWidth * s.ctrRatio, s.height * s.ctrRatio);
-
-      for (const c of this.connections) {
-        c.draw();
-      }
-
-      for (const i of this.items) {
-        i.draw();
-      }
-
-      if (s.clickedItem) {
-        this.anim++;
-        if (this.anim >= this.animMax) {
-          this.anim = this.animMax;
-        }
-        s.tint(255, 245);
-        let img = undefined;
-        switch (s.clickedItem.type) {
-          case 'rec':
-            img = s.recdesc;
-            break;
-          case 'add':
-            img = s.adddesc;
-            break;
-          case 'sav':
-            img = s.savdesc;
-            break;
-          case 'los':
-            img = s.losdesc;
-            break;
-          case 'cel':
-            img = s.celdesc;
-            break;
-          case 'out':
-            img = s.outdesc;
-            break;
-          default:
-        }
-        if (!img) {
-          return;
-        }
-        const ratio = img.width / img.height;
-        const newW = s.width * 0.5 * (this.anim/this.animMax);
-        const newH = newW / ratio;
-        const newX = s.clickedItem.x;
-        const newY = s.clickedItem.y;
-        s.image(img, newX, newY, newW, newH);
-      } else {
-        this.anim = 0;
-      }
+  update() {
+    for (const c of this.connections) {
+      c.sendActivations();
     }
-
-    update() {
-      for (const c of this.connections) {
-        c.sendActivations();
-      }
-      for (const i of this.items) {
-        i.sendActivations();
-      }
-      for (const c of this.connections) {
-        c.updateActivation();
-      }
-      for (const i of this.items) {
-        i.updateActivation();
-      }
+    for (const i of this.items) {
+      i.sendActivations();
     }
-
-    mouseMoved(x, y) {
-      for (const i of this.items) {
-        i.mouseMoved(x, y);
-      }
+    for (const c of this.connections) {
+      c.updateActivation();
     }
-
-    checkClick() {
-      let ret = false;
-      const s = this.s;
-      if (s.clickedItem) {
-        s.clickedItem = undefined;
-        ret = true;
-      }
-      for (const i of this.items) {
-        ret = i.checkClick() || ret;
-      }
-      if (!ret) {
-        s.clickedItem = undefined;
-      }
-      return ret;
+    for (const i of this.items) {
+      i.updateActivation();
     }
+  }
+
+  mouseMoved(x, y) {
+    for (const i of this.items) {
+      i.mouseMoved(x, y);
+    }
+  }
+
+  checkClick() {
+    let ret = false;
+    const s = this.s;
+    if (s.clickedItem) {
+      s.clickedItem = undefined;
+      ret = true;
+    }
+    for (const i of this.items) {
+      ret = i.checkClick() || ret;
+    }
+    if (!ret) {
+      s.clickedItem = undefined;
+    }
+    return ret;
+  }
 }
 
 class Connection {
