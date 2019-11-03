@@ -86,10 +86,10 @@ export class LSTM {
 
     // setting uo the connections between the lstm cell items
     this.connections.push(
-          this.ghostInput =
-            new Connection([
-              {x: this.ghostFirst.x, y: this.ghostFirst.y},
-              {x: this.first.x, y: this.first.y}], [this.first], s));
+        this.ghostInput =
+          new Connection([
+            {x: this.ghostFirst.x, y: this.ghostFirst.y},
+            {x: this.first.x, y: this.first.y}], [this.first], s));
     this.connections.push(
         this.mainInput =
           new Connection([
@@ -279,7 +279,7 @@ export class LSTM {
   /**
    * A function that gets called if the user moves the mouse over the canvas
    * and sends the trigger to all interactable items on the screen
-   * 
+   *
    * @param {number} x the x position of the mouse cursor
    * @param {number} y the y position of the mouse cursor
    */
@@ -447,7 +447,7 @@ class Item {
   }
 
   /**
-   * This function is responsible for drawing the item on the 
+   * This function is responsible for drawing the item on the
    * drawing canvas
    */
   draw() {
@@ -525,7 +525,8 @@ class Item {
         this.s.lstmStep++;
         if (this.s.lstmStep === this.s.props.training.values) {
           this.s.lstmStep = 0;
-          this.s.props.actions.updateTraining({...this.s.props.training, step: true});
+          this.s.props.actions.updateTraining(
+              {...this.s.props.training, step: true});
         }
       }
       for (const c of this.connections) {

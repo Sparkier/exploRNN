@@ -1,4 +1,12 @@
+/**
+ * This class represents the network model to be drawn on the drawing canvas
+ */
 export class Network {
+  /**
+   * The constructor function of the network class
+   *
+   * @param {object} s the p5 sketch
+   */
   constructor(s) {
     this.s = s;
     s.blue = s.color(100, 150, 255);
@@ -19,6 +27,10 @@ export class Network {
     this.layers.push(new Layer(s, layercount, -1, nodes));
   }
 
+  /**
+   * This functions is responsible for drawing the network model
+   * onto the dedicated canvas
+   */
   draw() {
     const s = this.s;
     s.strokeWeight(2 * s.netScale);
@@ -40,8 +52,14 @@ export class Network {
     }
   }
 
+  /**
+   * This function is being called by the p5 sketch if the user has moved
+   * the cursor across the canvas and then updates the network accordingly
+   *
+   * @param {number} x the x position of the mouse cursor
+   * @param {number} y the y position of the mouse cursor
+   */
   update(x, y) {
-    // console.log('UPDATE',x ,y )
     for (const l of this.layers) {
       l.update(x, y);
     }
@@ -50,6 +68,9 @@ export class Network {
     }
   }
 
+  /**
+   * This function is being called when the user clicks on the canvas
+   */
   checkClick() {
     for (const l of this.layers) {
       l.checkClick();
@@ -60,7 +81,18 @@ export class Network {
   }
 }
 
+/**
+ * This class represents a layer in the network model
+ */
 class Layer {
+  /**
+   * The construcor function of the layer class
+   *
+   * @param {object} s the p5 sketch
+   * @param {number} layers the amount of layers in the network
+   * @param {number} i the index of this layer
+   * @param {object} nodes an object containing the type and size of this layer
+   */
   constructor(s, layers, i, nodes) {
     this.s = s;
     this.i = i;
@@ -78,6 +110,10 @@ class Layer {
     this.h = this.w * 0.8;
   }
 
+  /**
+   * This function is responsible of drawing the current layer onto
+   * the p5 canvas
+   */
   draw() {
     if (!(this.layerType === 'input' || this.layerType === 'output')) {
       const s = this.s;
@@ -109,7 +145,8 @@ class Layer {
       const left = this.x - w/2;
       const top = this.y - h/2;
       for (let i = 0; i < 5; i++) {
-        s.ellipse(left + (i+1) * w / 6, top + h / 3, w / (i === 0 || i === 2 ? 20 : 10));
+        s.ellipse(left + (i+1) * w / 6, top + h / 3,
+            w / (i === 0 || i === 2 ? 20 : 10));
       }
       s.rect(left + (3) * w / 6, top + 2 * h / 3, w / (10), w / (10));
       if (this.hover_left) {
@@ -138,6 +175,13 @@ class Layer {
     }
   }
 
+  /**
+   * This function gets called if the mouse has been moved and checks
+   * if this current layer is being hovered over
+   *
+   * @param {number} x the x position of the cursor
+   * @param {number} y the y position of the cursor
+   */
   update(x, y) {
     if (x > this.x - this.w/2 && x < this.x + this.w/2 && y > this.y - this.h/2 && y < this.y + this.h/2) {
       this.hover = true;
@@ -147,6 +191,10 @@ class Layer {
     }
   }
 
+  /**
+   * This function is called when the user clicks on the canvas, it then
+   * checks if this layer is being clicked on
+   */
   checkClick() {
     if (this.hover && !this.clicked) {
       this.s.clickedBlock = this;
@@ -163,8 +211,19 @@ class Layer {
   }
 }
 
-
+/**
+ * This class represents a so called fake layer, meaning a layer
+ * that is not currently in the network but can be added to the network
+ * if the user clicks on it
+ */
 class FakeLayer {
+  /**
+   * The constructor function of the fake layer class
+   *
+   * @param {object} s the p5 sketch
+   * @param {number} layers the total amount of layers in the network
+   * @param {number} i the index of this fake layer, not necessarily an integer
+   */
   constructor(s, layers, i) {
     this.s = s;
     this.i = i;
@@ -179,6 +238,9 @@ class FakeLayer {
     this.h = this.w;
   }
 
+  /**
+   * This function will draw the fake layer object onto th canvas
+   */
   draw() {
     if (this.s.props.network.layers >= 7) {
       return;
@@ -208,18 +270,32 @@ class FakeLayer {
     }
   }
 
+  /**
+   * This functions checks if the mouse cursor is near the fake layer
+   * and will draw the fake layer more visible if the cursor is closer
+   * to it
+   *
+   * @param {number} x the x position of the cursor
+   * @param {number} y the y position of the cursor
+   */
   update(x, y) {
-    if (x > this.x - this.w/2 && x < this.x + this.w/2 && y > this.y - this.h/2 && y < this.y + this.h/2) {
+    if (x > this.x - this.w/2 && x < this.x + this.w/2 &&
+        y > this.y - this.h/2 && y < this.y + this.h/2) {
       this.hover = true;
     } else {
       this.hover = false;
     }
   }
 
+  /**
+   * This function checks if the current fake layer component has been
+   * clicked on
+   */
   checkClick() {
     if (this.hover && !this.clicked && this.s.props.network.layers < 7) {
       this.s.props.actions.stopTraining(this.s.props.training);
-      this.s.props.actions.updateNetwork({...this.s.props.network, layers: this.s.props.network.layers + 1});
+      this.s.props.actions.updateNetwork({...this.s.props.network, 
+          layers: this.s.props.network.layers + 1});
     }
     this.clicked = this.hover;
   }
