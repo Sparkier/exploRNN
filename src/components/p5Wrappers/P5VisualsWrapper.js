@@ -13,47 +13,54 @@ import * as actions from '../../actions';
  * network itself
  */
 class P5VisualsWrapper extends React.Component {
-    constructor() {
-      super();
-      // eslint-disable-next-line new-cap
-      this.networkSketch = new window.p5(networkSketch, 'networkDiv');
-      this.networkSketch.props = this.props;
-      this.updateValues = true;
-    }
+  /**
+   * The constructor function for the P5Wrapper, creates the necessary
+   * sketches and sets the initial properties
+   */
+  constructor() {
+    super();
+    // eslint-disable-next-line new-cap
+    this.networkSketch = new window.p5(networkSketch, 'networkDiv');
+    this.networkSketch.props = this.props;
+    this.updateValues = true;
+  }
 
-    /**
-     * This method is called if the global properties have changed, it
-     * then sends the new properties to the related canvas sketches
-     *
-     * @param {object} nextProps the new global properties
-     */
-    shouldComponentUpdate(nextProps) {
-      this.props = nextProps;
-      this.networkSketch.props = nextProps;
-      this.networkSketch.updateMemory();
-      return false;
-    }
+  /**
+   * This method is called if the global properties have changed, it
+   * then sends the new properties to the related canvas sketches
+   *
+   * @param {object} nextProps the new global properties
+   * @return {boolean} true, if the component should update and rerender
+   */
+  shouldComponentUpdate(nextProps) {
+    this.props = nextProps;
+    this.networkSketch.props = nextProps;
+    this.networkSketch.updateMemory();
+    return false;
+  }
 
-    /**
-     * This function will remove all active sketches if the component
-     * is about to be unmounted
-     */
-    componentWillUnmount() {
-      this.networkSketch.remove();
-    }
+  /**
+   * This function will remove all active sketches if the component
+   * is about to be unmounted
+   */
+  componentWillUnmount() {
+    this.networkSketch.remove();
+  }
 
-    /**
-     * Creates a placeholder div component for the canvas to be put in
-     */
-    render() {
-      return (
-        <Grid container spacing ={0} direction="row" justify='center'>
-          <Grid item xs={10}>
-            <div id = "networkDiv"/>
-          </Grid>
+  /**
+   * Creates a placeholder div component for the canvas to be put in
+   *
+   * @return {object} the rendered div for the sketch canvas
+   */
+  render() {
+    return (
+      <Grid container spacing ={0} direction="row" justify='center'>
+        <Grid item xs={10}>
+          <div id = "networkDiv"/>
         </Grid>
-      );
-    }
+      </Grid>
+    );
+  }
 }
 
 P5VisualsWrapper.propTypes = {

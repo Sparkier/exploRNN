@@ -225,7 +225,7 @@ class Input extends React.Component {
                       } properties={this.props}
                       action={(event) => this.changeNoise(1)}
                       icon={
-                        <KeyboardArrowUpIcon fontSize="small" 
+                        <KeyboardArrowUpIcon fontSize="small"
                           style={{
                             color: 'white',
                           }} />
