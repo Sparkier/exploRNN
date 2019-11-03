@@ -179,10 +179,6 @@ class Input extends React.Component {
     width: '80%',
   };
 
-  textStyle = {
-    color: !this.props.ui.detail ? lightBlue[400] : orange[500],
-  }
-
   /**
    * The render function for this react component
    *
@@ -229,9 +225,10 @@ class Input extends React.Component {
                       } properties={this.props}
                       action={(event) => this.changeNoise(1)}
                       icon={
-                        <KeyboardArrowUpIcon fontSize="small" style={{
-                          color: 'white',
-                        }} />
+                        <KeyboardArrowUpIcon fontSize="small" 
+                          style={{
+                            color: 'white',
+                          }} />
                       } />
                   </Grid>
                   <Grid item >
@@ -462,7 +459,7 @@ const styles = {
 function StyledButtonRaw(props) {
   const {classes, properties, icon, action, disabled} = props;
   return (
-    <IconButton disabled={disabled} variant="outlined" 
+    <IconButton disabled={disabled} variant="outlined"
       className={
         properties.ui.detail ? classes.button_cell : classes.button_net
       }
