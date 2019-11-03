@@ -34,7 +34,8 @@ export class LSTM {
     );
     this.items.push(
         this.save =
-          new Item('sav', 'Cell State Update', left + 3*horBuf, top + verBuf, 2, s)
+          new Item('sav', 'Cell State Update',
+            left + 3*horBuf, top + verBuf, 2, s)
     );
     this.items.push(
         this.forget =
@@ -84,23 +85,82 @@ export class LSTM {
     this.connections.push(
         this.ghostInput =
           new Connection([
-              {x: this.ghostFirst.x, y: this.ghostFirst.y},
-              {x: this.first.x, y: this.first.y}], [this.first], s)
-    );
-    this.connections.push(this.mainInput = new Connection([{x: this.first.x, y: this.first.y}, {x: this.receive.x, y: this.receive.y}], [this.receive], s));
-    this.connections.push(this.bus = new Connection([{x: this.receive.x, y: this.receive.y}, {x: this.receive.x, y: this.crossOutput.y}, {x: this.crossOutput.x, y: this.crossOutput.y}], [], s));
-    this.connections.push(this.toInput = new Connection([{x: this.crossInput.x, y: this.crossInput.y}, {x: this.add.x, y: this.add.y}], [this.add], s));
-    this.connections.push(this.toForget = new Connection([{x: this.crossForget.x, y: this.crossForget.y}, {x: this.forget.x, y: this.forget.y}], [this.forget], s));
-    this.connections.push(this.toOutput = new Connection([{x: this.crossOutput.x, y: this.crossOutput.y}, {x: this.output.x, y: this.output.y}], [this.output], s));
-    this.connections.push(this.addToSave = new Connection([{x: this.add.x, y: this.add.y}, {x: this.save.x, y: this.save.y}], [this.save], s));
-    this.connections.push(this.forgetToSave = new Connection([{x: this.forget.x, y: this.forget.y}, {x: this.save.x, y: this.save.y}], [this.save], s));
-    this.connections.push(this.saveToCell = new Connection([{x: this.save.x, y: this.save.y}, {x: this.cell.x, y: this.cell.y}], [this.cell], s));
-    this.connections.push(this.cellOut = new Connection([{x: this.cell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.cell.y}, {x: this.crossCell.x, y: this.crossCell.y}], [], s));
-    this.connections.push(this.cellToForget = new Connection([{x: this.crossCell.x, y: this.crossCell.y}, {x: this.forget.x, y: this.forget.y}], [this.forget], s));
-    this.connections.push(this.cellToOutput = new Connection([{x: this.crossCell.x, y: this.crossCell.y}, {x: this.output.x, y: this.output.y}], [this.output], s));
-    this.connections.push(this.recurrent = new Connection([{x: this.output.x, y: this.output.y}, {x: this.output.x, y: top + 2.5 * verBuf}, {x: this.receive.x, y: top + 2.5 * verBuf}, {x: this.receive.x, y: this.receive.y}], [this.receive], s));
-    this.connections.push(this.mainOut = new Connection([{x: this.output.x, y: this.output.y}, {x: this.last.x, y: this.last.y}], [this.last], s));
-    this.connections.push(this.ghostOutput = new Connection([{x: this.last.x, y: this.last.y}, {x: this.ghostLast.x, y: this.ghostLast.y}], [this.ghostLast], s));
+            {x: this.ghostFirst.x, y: this.ghostFirst.y},
+            {x: this.first.x, y: this.first.y}], [this.first], s));
+    this.connections.push(
+      this.mainInput =
+        new Connection([
+          {x: this.first.x, y: this.first.y},
+          {x: this.receive.x, y: this.receive.y}], [this.receive], s));
+    this.connections.push(
+      this.bus =
+        new Connection([
+          {x: this.receive.x, y: this.receive.y},
+          {x: this.receive.x, y: this.crossOutput.y},
+          {x: this.crossOutput.x, y: this.crossOutput.y}], [], s));
+    this.connections.push(
+      this.toInput =
+        new Connection([
+          {x: this.crossInput.x, y: this.crossInput.y},
+          {x: this.add.x, y: this.add.y}], [this.add], s));
+    this.connections.push(
+      this.toForget =
+        new Connection([
+          {x: this.crossForget.x, y: this.crossForget.y},
+          {x: this.forget.x, y: this.forget.y}], [this.forget], s));
+    this.connections.push(
+      this.toOutput =
+        new Connection([
+          {x: this.crossOutput.x, y: this.crossOutput.y},
+          {x: this.output.x, y: this.output.y}], [this.output], s));
+    this.connections.push(
+      this.addToSave =
+        new Connection([
+          {x: this.add.x, y: this.add.y},
+          {x: this.save.x, y: this.save.y}], [this.save], s));
+    this.connections.push(
+      this.forgetToSave =
+        new Connection([
+          {x: this.forget.x, y: this.forget.y},
+          {x: this.save.x, y: this.save.y}], [this.save], s));
+    this.connections.push(
+      this.saveToCell =
+        new Connection([
+          {x: this.save.x, y: this.save.y},
+          {x: this.cell.x, y: this.cell.y}], [this.cell], s));
+    this.connections.push(
+      this.cellOut =
+        new Connection([
+          {x: this.cell.x, y: this.cell.y},
+          {x: this.crossCell.x, y: this.cell.y},
+          {x: this.crossCell.x, y: this.crossCell.y}], [], s));
+    this.connections.push(
+      this.cellToForget =
+        new Connection([
+          {x: this.crossCell.x, y: this.crossCell.y},
+          {x: this.forget.x, y: this.forget.y}], [this.forget], s));
+    this.connections.push(
+      this.cellToOutput =
+        new Connection([
+          {x: this.crossCell.x, y: this.crossCell.y},
+          {x: this.output.x, y: this.output.y}], [this.output], s));
+    this.connections.push(
+      this.recurrent =
+        new Connection([
+          {x: this.output.x, y: this.output.y},
+          {x: this.output.x, y: top + 2.5 * verBuf},
+          {x: this.receive.x, y: top + 2.5 * verBuf},
+          {x: this.receive.x, y: this.receive.y}], [this.receive], s));
+    this.connections.push(
+      this.mainOut =
+        new Connection([
+          {x: this.output.x, y: this.output.y},
+          {x: this.last.x, y: this.last.y}], [this.last], s));
+    this.connections.push(
+      this.ghostOutput =
+        new Connection([
+          {x: this.last.x, y: this.last.y},
+          {x: this.ghostLast.x, y: this.ghostLast.y}], [this.ghostLast], s));
 
     this.ghostFirst.connections.push(this.ghostInput);
     this.first.connections.push(this.mainInput);
