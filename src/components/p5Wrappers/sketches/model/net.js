@@ -183,7 +183,8 @@ class Layer {
    * @param {number} y the y position of the cursor
    */
   update(x, y) {
-    if (x > this.x - this.w/2 && x < this.x + this.w/2 && y > this.y - this.h/2 && y < this.y + this.h/2) {
+    if (x > this.x - this.w/2 && x < this.x + this.w/2 &&
+        y > this.y - this.h/2 && y < this.y + this.h/2) {
       this.hover = true;
       this.hover_left = !(this.hover_right = (x > this.x));
     } else {
@@ -204,7 +205,8 @@ class Layer {
         this.s.props.actions.updateUI({...this.s.props.ui, detail: true});
       } else if (this.s.props.network.layers > 1) {
         this.s.props.actions.stopTraining(this.s.props.training);
-        this.s.props.actions.updateNetwork({...this.s.props.network, layers: this.s.props.network.layers - 1});
+        this.s.props.actions.updateNetwork({...this.s.props.network, 
+          layers: this.s.props.network.layers - 1});
       }
     }
     this.clicked = this.hover;
@@ -294,8 +296,8 @@ class FakeLayer {
   checkClick() {
     if (this.hover && !this.clicked && this.s.props.network.layers < 7) {
       this.s.props.actions.stopTraining(this.s.props.training);
-      this.s.props.actions.updateNetwork({...this.s.props.network, 
-          layers: this.s.props.network.layers + 1});
+      this.s.props.actions.updateNetwork({...this.s.props.network,
+        layers: this.s.props.network.layers + 1});
     }
     this.clicked = this.hover;
   }
