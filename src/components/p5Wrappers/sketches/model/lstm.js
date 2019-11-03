@@ -6,7 +6,7 @@ export class LSTM {
   /**
    * This is the constructor for the LSTM cell model, initialising all
    * components and connections within the cell
-   * 
+   *
    * @param {object} s the p5 sketch
    */
   constructor(s) {
@@ -24,24 +24,70 @@ export class LSTM {
     s.half_orange = s.color(200, 150, 80);
     s.green = s.color(50, 175, 80);
 
-    this.items.push(this.receive = new Item(
-      'rec', 'Layer Input', left + horBuf, top + verBuf, 2, s
-    ));
-    this.items.push(this.add = new Item('add', 'Input Gate', left + 2*horBuf, top + verBuf, 1, s));
-    this.items.push(this.save = new Item('sav', 'Cell State Update', left + 3*horBuf, top + verBuf, 2, s));
-    this.items.push(this.forget = new Item('los', 'Forget Gate', left + 4*horBuf, top + verBuf, 2, s));
-    this.items.push(this.output = new Item('out', 'Output Gate', left + 5*horBuf, top + verBuf, 2, s));
-    this.items.push(this.cell = new Item('cel', 'Cell State', left + 3*horBuf, top + 2 * verBuf, 1, s));
-    this.items.push(this.crossInput = new Item('crs', '', left + 2 * horBuf, top + 0.5 * verBuf, 1, s));
-    this.items.push(this.crossForget = new Item('crs', '', left + 4 * horBuf, top + 0.5 * verBuf, 1, s));
-    this.items.push(this.crossOutput = new Item('crs', '', left + 5 * horBuf, top + 0.5 * verBuf, 1, s));
-    this.items.push(this.crossCell = new Item('crs', '', left + 4.5 * horBuf, top + verBuf, 1, s));
-    this.items.push(this.first = new Item('fst', '', left, top + verBuf, 1, s));
-    this.items.push(this.ghostFirst = new Item('gft', '', left - horBuf, top + verBuf, 1, s));
-    this.items.push(this.last = new Item('lst', '', left + 6 * horBuf, top + verBuf, 1, s));
-    this.items.push(this.ghostLast = new Item('glt', '', left + 7 * horBuf, top + verBuf, 1, s));
+    this.items.push(
+      this.receive =
+        new Item('rec', 'Layer Input', left + horBuf, top + verBuf, 2, s)
+    );
+    this.items.push(
+      this.add =
+        new Item('add', 'Input Gate', left + 2*horBuf, top + verBuf, 1, s)
+    );
+    this.items.push(
+      this.save =
+        new Item('sav', 'Cell State Update', left + 3*horBuf, top + verBuf, 2, s)
+    );
+    this.items.push(
+      this.forget =
+        new Item('los', 'Forget Gate', left + 4*horBuf, top + verBuf, 2, s)
+    );
+    this.items.push(
+      this.output =
+        new Item('out', 'Output Gate', left + 5*horBuf, top + verBuf, 2, s)
+    );
+    this.items.push(
+      this.cell =
+        new Item('cel', 'Cell State', left + 3*horBuf, top + 2 * verBuf, 1, s)
+    );
+    this.items.push(
+      this.crossInput =
+        new Item('crs', '', left + 2 * horBuf, top + 0.5 * verBuf, 1, s)
+    );
+    this.items.push(
+      this.crossForget =
+        new Item('crs', '', left + 4 * horBuf, top + 0.5 * verBuf, 1, s)
+    );
+    this.items.push(
+      this.crossOutput =
+        new Item('crs', '', left + 5 * horBuf, top + 0.5 * verBuf, 1, s)
+    );
+    this.items.push(
+      this.crossCell =
+        new Item('crs', '', left + 4.5 * horBuf, top + verBuf, 1, s)
+    );
+    this.items.push(
+      this.first =
+        new Item('fst', '', left, top + verBuf, 1, s)
+    );
+    this.items.push(
+      this.ghostFirst =
+        new Item('gft', '', left - horBuf, top + verBuf, 1, s)
+    );
+    this.items.push(
+      this.last =
+        new Item('lst', '', left + 6 * horBuf, top + verBuf, 1, s)
+    );
+    this.items.push(
+      this.ghostLast =
+        new Item('glt', '', left + 7 * horBuf, top + verBuf, 1, s)
+    );
 
-    this.connections.push(this.ghostInput = new Connection([{x: this.ghostFirst.x, y: this.ghostFirst.y}, {x: this.first.x, y: this.first.y}], [this.first], s));
+    this.connections.push(
+      this.ghostInput =
+        new Connection([
+          {x: this.ghostFirst.x, y: this.ghostFirst.y},
+          {x: this.first.x, y: this.first.y}],
+          [this.first], s)
+    );
     this.connections.push(this.mainInput = new Connection([{x: this.first.x, y: this.first.y}, {x: this.receive.x, y: this.receive.y}], [this.receive], s));
     this.connections.push(this.bus = new Connection([{x: this.receive.x, y: this.receive.y}, {x: this.receive.x, y: this.crossOutput.y}, {x: this.crossOutput.x, y: this.crossOutput.y}], [], s));
     this.connections.push(this.toInput = new Connection([{x: this.crossInput.x, y: this.crossInput.y}, {x: this.add.x, y: this.add.y}], [this.add], s));
