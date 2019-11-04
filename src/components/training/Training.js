@@ -146,7 +146,7 @@ class Training extends React.Component {
    * Adds the net prediction for the current time step to the global state
    *
    * @param {object} oldNetwork the previous network object from the state
-   * @param {number[]} prediction the prediciton values predicted by 
+   * @param {number[]} prediction the prediciton values predicted by
    *  the neural network
    * @return {object} the new network object with the updated data
    */
@@ -197,6 +197,8 @@ class Training extends React.Component {
 
   /**
    * An empty render function needed for react.js
+   *
+   * @return {object} null
    */
   render() {
     return null;

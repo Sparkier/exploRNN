@@ -1,81 +1,101 @@
 import * as tf from '@tensorflow/tfjs';
+
+/**
+ * This class is responsible for generating all the necessary data for
+ * the training of the network
+ */
 export class Data {
-  // TODO: Create all necessary Data beforehand
-
-
+  /**
+   * The constructor function of the data class, initializes the values
+   * for setting up the training phase
+   */
   constructor() {
     this.getSinDataFrom(0);
   }
 
+  /**
+   * Helper function for generating the data sets used for training
+   *
+   * @param {number} start the time step to start the data from
+   * @param {string} func the type of function the network should be trained on
+   * @param {string} variant the variation of input values, currently always
+   *  'random'
+   * @param {number} noise the amount of noise that should be added onto
+   *  the training data (0-2)
+   */
   getSinDataFrom(start, func, variant, noise) {
     return this.getDataFor(start, func, 1.5 * Math.PI, 2 * Math.PI, 0.2, 1, variant, noise);
   }
 
-  getDataFor(start, func, plotLength, predictionLength, stepSize, setSize, variant, noise) {
+  /**
+   * The actual function for generating the data sets used for training
+   *
+   * @param {number} start the time step to start the data from
+   * @param {string} func the type of function the network should be trained on
+   * @param {number} plotLength the size of the interval of the input values
+   * @param {number} predLength the size of the interval of the output values
+   * @param {number} stepSize the distance between two values in the data set
+   * @param {number} setSize the amount of individual training data 
+   *  within the set
+   * @param {string} variant the variation of input values, currently always
+   *  'random'
+   * @param {number} noise the amount of noise that should be added onto
+   *  the training data (0-2)
+   */
+  getDataFor(start, func, plotLength,
+      predLength, stepSize, setSize, variant, noise) {
     this.sinInputBuff = [];
     this.predictionInputBuff = [];
     this.sinOutputBuff = [];
     this.values = Math.round(plotLength / stepSize);
-    this.predictions = Math.round(predictionLength / stepSize);
+    this.predictions = Math.round(predLength / stepSize);
     this.stepSize = stepSize;
     this.chartPredictionInput = [];
     this.chartDataInput = [];
     this.chartDataOutput = [];
-    let randomOffset = Math.random() * 20 * Math.PI;
-    let randomAmplitude = 0.2 + Math.random() * 0.8;
-
+    let rndOff = Math.random() * 20 * Math.PI;
+    let rndAmp = 0.2 + Math.random() * 0.8;
+    let val = 0;
+    let noiseVal = 0;
     switch (variant) {
       case 'basic':
         start = 0;
-        randomOffset = 0;
-        randomAmplitude = 1;
+        rndOff = 0;
+        rndAmp = 1;
         break;
       case 'linear':
-        randomOffset = 0;
-        randomAmplitude = 1;
+        rndOff = 0;
+        rndAmp = 1;
         break;
       case 'random':
-        randomAmplitude = 1;
+        rndAmp = 1;
         start = 0;
-        break;
-      case 'linear-noise':
-        randomOffset = 0;
-        randomAmplitude = 1;
-        noise = true;
-        break;
-      case 'random-noise':
-        randomAmplitude = 1;
-        noise = true;
         break;
       default:
     }
-
     for (let i = 0; i < setSize; i++) {
       const currentInSequence = [];
       const predictionInSequence = [];
       for (let j = 0; j < this.values; j++) {
-        const noiseVal = noise * (-0.1 + 0.2 * Math.random());
-        currentInSequence.push([this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude]);
-        predictionInSequence.push([this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude + noiseVal]);
-        this.chartDataInput.push(
-            this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude
-        );
-        this.chartPredictionInput.push(
-            this.dataFunction((start + j) * stepSize + randomOffset, func) * randomAmplitude + noiseVal
-        );
+        noiseVal = noise * (-0.1 + 0.2 * Math.random());
+        val = this.dataFunction((start + j) * stepSize + rndOff, func) * rndAmp
+        currentInSequence.push([val]);
+        predictionInSequence.push([val + noiseVal]);
+        this.chartDataInput.push(val);
+        this.chartPredictionInput.push(val + noiseVal);
       }
       this.predictionInputBuff.push(currentInSequence);
       this.sinInputBuff.push(currentInSequence);
       const currentOutSequence = [];
+      let x;
       for (let j = 0; j < this.predictions; j++) {
-        currentOutSequence.push(this.dataFunction((this.values + j + start) * stepSize + randomOffset, func) * randomAmplitude);
-        this.chartDataOutput.push(
-            this.dataFunction((this.values + j + start) * stepSize + randomOffset, func) * randomAmplitude
-        );
+        x = (this.values + j + start) * stepSize + rndOff;
+        val = this.dataFunction(x, func) * rndAmp;
+        currentOutSequence.push(val);
+        this.chartDataOutput.push(val);
       }
       this.sinOutputBuff.push(currentOutSequence);
     }
-
     this.train_sin_input = tf.tensor3d(this.sinInputBuff);
     this.prediction_sin_input = tf.tensor3d(this.predictionInputBuff);
     this.train_sin_next = tf.tensor2d(this.sinOutputBuff);
@@ -85,17 +105,14 @@ export class Data {
     this.train_sin_next.print();
   }
 
-  getSampleFromTestData(start) {
-    const test_input_sequences = [];
-    console.log('data x: ', start, this.values);
-    for (let j = 0; j < this.values; j++) {
-      test_input_sequences.push([Math.sin((start + j) * this.stepSize)]);
-    }
-    this.current_test_sin = tf.tensor3d([test_input_sequences]);
-    console.log('tensor for prediction');
-    this.current_test_sin.print();
-  }
-
+  /**
+   * A helper function that represents the currently chosen input function
+   *
+   * @param {number} x the current input value
+   * @param {string} type the type of function that should be applied to
+   *  the input values
+   * @return {number} y = type(x)
+   */
   dataFunction(x, type) {
     let y = Math.sin(x);
     if (type === 'sinc') {
