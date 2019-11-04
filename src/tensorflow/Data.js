@@ -10,7 +10,7 @@ export class Data {
    * for setting up the training phase
    */
   constructor() {
-    this.getSinDataFrom(0);
+    this.generateDataFor(0);
   }
 
   /**
@@ -23,8 +23,9 @@ export class Data {
    * @param {number} noise the amount of noise that should be added onto
    *  the training data (0-2)
    */
-  getSinDataFrom(start, func, variant, noise) {
-    return this.getDataFor(start, func, 1.5 * Math.PI, 2 * Math.PI, 0.2, 1, variant, noise);
+  generateDataWith(start, func, variant, noise) {
+    this.generateData(start, func, 1.5 * Math.PI, 2 * Math.PI,
+        0.2, 1, variant, noise);
   }
 
   /**
@@ -35,14 +36,14 @@ export class Data {
    * @param {number} plotLength the size of the interval of the input values
    * @param {number} predLength the size of the interval of the output values
    * @param {number} stepSize the distance between two values in the data set
-   * @param {number} setSize the amount of individual training data 
+   * @param {number} setSize the amount of individual training data
    *  within the set
    * @param {string} variant the variation of input values, currently always
    *  'random'
    * @param {number} noise the amount of noise that should be added onto
    *  the training data (0-2)
    */
-  getDataFor(start, func, plotLength,
+  generateData(start, func, plotLength,
       predLength, stepSize, setSize, variant, noise) {
     this.sinInputBuff = [];
     this.predictionInputBuff = [];
@@ -78,7 +79,7 @@ export class Data {
       const predictionInSequence = [];
       for (let j = 0; j < this.values; j++) {
         noiseVal = noise * (-0.1 + 0.2 * Math.random());
-        val = this.dataFunction((start + j) * stepSize + rndOff, func) * rndAmp
+        val = this.dataFunc((start + j) * stepSize + rndOff, func) * rndAmp;
         currentInSequence.push([val]);
         predictionInSequence.push([val + noiseVal]);
         this.chartDataInput.push(val);
@@ -90,7 +91,7 @@ export class Data {
       let x;
       for (let j = 0; j < this.predictions; j++) {
         x = (this.values + j + start) * stepSize + rndOff;
-        val = this.dataFunction(x, func) * rndAmp;
+        val = this.dataFunc(x, func) * rndAmp;
         currentOutSequence.push(val);
         this.chartDataOutput.push(val);
       }
@@ -113,7 +114,7 @@ export class Data {
    *  the input values
    * @return {number} y = type(x)
    */
-  dataFunction(x, type) {
+  dataFunc(x, type) {
     let y = Math.sin(x);
     if (type === 'sinc') {
       if (x === Math.PI) {

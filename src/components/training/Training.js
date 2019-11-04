@@ -76,19 +76,19 @@ class Training extends React.Component {
     for (let i = 0; i < 5; i++) {
       this.addDataToNetwork(network, [], [], [], [], [], []);
     }
-    this.data.getSinDataFrom(0, this.props.training.dataType,
+    this.data.generateDataWith(0, this.props.training.dataType,
         this.props.training.dataVariant, this.props.training.noise);
     this.addDataToNetwork(network, this.data.chartDataInput,
         this.data.chartDataOutput, this.data.chartPredictionInput,
         this.data.train_sin_input, this.data.train_sin_next,
         this.data.prediction_sin_input);
-    this.data.getSinDataFrom(1, this.props.training.dataType,
+    this.data.generateDataWith(1, this.props.training.dataType,
         this.props.training.dataVariant, this.props.training.noise);
     this.addDataToNetwork(network, this.data.chartDataInput,
         this.data.chartDataOutput, this.data.chartPredictionInput,
         this.data.train_sin_input, this.data.train_sin_next,
         this.data.prediction_sin_input);
-    this.data.getSinDataFrom(2, this.props.training.dataType,
+    this.data.generateDataWith(2, this.props.training.dataType,
         this.props.training.dataVariant, this.props.training.noise);
     this.addDataToNetwork(network, this.data.chartDataInput,
         this.data.chartDataOutput, this.data.chartPredictionInput,
@@ -166,7 +166,7 @@ class Training extends React.Component {
   async iterate() {
     const this_ = this;
     let network = this.props.network;
-    this.data.getSinDataFrom(network.iteration + 2,
+    this.data.generateDataWith(network.iteration + 2,
         this.props.training.dataType, this.props.training.dataVariant,
         this.props.training.noise);
     this.addDataToNetwork(network, this.data.chartDataInput,
