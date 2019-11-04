@@ -2,6 +2,12 @@ import {LSTM} from './model/lstm';
 import {Network} from './model/net';
 import {Plot} from './model/plot';
 
+/**
+ * This function represents the sketch in which the network with user
+ * interaction functionality is being drawn
+ *
+ * @param {object} s the p5.js sketch
+ */
 export default function(s) {
   s.props = {};
   s.network = [];
@@ -21,7 +27,10 @@ export default function(s) {
   s.lstmStep = 0;
 
   s.setup = function() {
-    s.createCanvas(document.getElementById('networkDiv').offsetWidth, window.innerHeight - document.getElementById('valueDiv').offsetHeight - 25);
+    const netDiv = document.getElementById('networkDiv');
+    const valDiv = document.getElementById('valueDiv');
+    s.createCanvas(netDiv.offsetWidth,
+        window.innerHeight - valDiv.offsetHeight - 25);
     s.frameRate(60);
     // s.drawingContext.setLineDash([5,5])
     s.sideWidth = 0.2 * s.width;
@@ -36,8 +45,12 @@ export default function(s) {
     s.cell = new LSTM(s);
     s.imageMode(s.CENTER);
     s.rectMode(s.CENTER);
-    s.plotsLeft = [new Plot(0, 'L', s), new Plot(1, 'L', s), new Plot(2, 'L', s), new Plot(3, 'L', s), new Plot(4, 'L', s)];
-    s.plotsRight = [new Plot(0, 'R', s), new Plot(1, 'R', s), new Plot(2, 'R', s), new Plot(3, 'R', s), new Plot(4, 'R', s)];
+    s.plotsLeft = [];
+    s.plotsRight = [];
+    for(let i = 0; i < 5; i++) {
+      s.plotsLeft.push(new Plot(i, 'L', s));
+      s.plotsRight.push(new Plot(i, 'R', s));
+    }
   };
 
   s.draw = function() {
@@ -95,9 +108,16 @@ export default function(s) {
   };
 
   s.windowResized = function() {
-    s.resizeCanvas(document.getElementById('networkDiv').offsetWidth, window.innerHeight - document.getElementById('valueDiv').offsetHeight - 25);
-    s.plotsLeft = [new Plot(0, 'L', s), new Plot(1, 'L', s), new Plot(2, 'L', s), new Plot(3, 'L', s), new Plot(4, 'L', s)];
-    s.plotsRight = [new Plot(0, 'R', s), new Plot(1, 'R', s), new Plot(2, 'R', s), new Plot(3, 'R', s), new Plot(4, 'R', s)];
+    const netDiv = document.getElementById('networkDiv');
+    const valDiv = document.getElementById('valueDiv');
+    s.resizeCanvas(netDiv.offsetWidth,
+        window.innerHeight - valDiv.offsetHeight - 25);
+    s.plotsLeft = [];
+    s.plotsRight = [];
+    for(let i = 0; i < 5; i++) {
+      s.plotsLeft.push(new Plot(i, 'L', s));
+      s.plotsRight.push(new Plot(i, 'R', s));
+    }
   };
 
   s.drawPlots = function() {
@@ -127,17 +147,17 @@ export default function(s) {
       }
     }
     s.push();
-
+    const cb = s.clickedBlock;
     // TODO: combine if statements with cx = cy = 0,
-    if (s.clickedBlock) {
-      const cx = s.clickedBlock.x + (s.clickedBlock.x - s.width / 2) * (s.transition / 100);
-      const cy = s.clickedBlock.y + (s.clickedBlock.y - s.height / 2) * (s.transition / 100);
+    if (cb) {
+      const cx = cb.x + (cb.x - s.width / 2) * (s.transition / 100);
+      const cy = cb.y + (cb.y - s.height / 2) * (s.transition / 100);
       s.translate(cx, cy);
     }
     s.scale(s.transition >= 100 ? 1 : s.transition / 100);
-    if (s.clickedBlock) {
-      const cx = s.clickedBlock.x + (s.clickedBlock.x - s.width / 2) * (s.transition / 100);
-      const cy = s.clickedBlock.y + (s.clickedBlock.y - s.height / 2) * (s.transition / 100);
+    if (cb) {
+      const cx = cb.x + (cb.x - s.width / 2) * (s.transition / 100);
+      const cy = cb.y + (cb.y - s.height / 2) * (s.transition / 100);
       s.translate(-cx, -cy);
     }
     s.cellAlpha = 255 * s.transition / 100;
@@ -152,16 +172,17 @@ export default function(s) {
 
   s.drawNetwork = function() {
     s.push();
+    const cb = s.clickedBlock;
     s.netScale = (100 + s.transition) / 100;
     if (s.clickedBlock) {
-      const cx = s.clickedBlock.x + (s.clickedBlock.x - s.width / 2) * (s.transition / 100);
-      const cy = s.clickedBlock.y + (s.clickedBlock.y - s.height / 2) * (s.transition / 100);
+      const cx = cb.x + (cb.x - s.width / 2) * (s.transition / 100);
+      const cy = cb.y + (cb.y - s.height / 2) * (s.transition / 100);
       s.translate(cx, cy);
     }
     s.scale(s.netScale);
-    if (s.clickedBlock) {
-      const cx = s.clickedBlock.x + (s.clickedBlock.x - s.width / 2) * (s.transition / 100);
-      const cy = s.clickedBlock.y + (s.clickedBlock.y - s.height / 2) * (s.transition / 100);
+    if (cb) {
+      const cx = cb.x + (cb.x - s.width / 2) * (s.transition / 100);
+      const cy = cb.y + (cb.y - s.height / 2) * (s.transition / 100);
       s.translate(-cx, -cy);
     }
     // s.netAlpha = 255 * (100 - s.transition) / 100
@@ -186,7 +207,8 @@ export default function(s) {
   };
 
   s.mouseClicked = function() {
-    if (s.mouseX < 0 || s.mouseY < 0 || s.mouseX > s.width || s.mouseY > s.height) {
+    if (s.mouseX < 0 || s.mouseY < 0 ||
+        s.mouseX > s.width || s.mouseY > s.height) {
       return;
     }
     if (s.detail) {
