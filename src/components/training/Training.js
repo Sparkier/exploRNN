@@ -39,11 +39,10 @@ class Training extends React.Component {
     this.pause = 2000 - 2 * this.props.training.speed;
     if (this.props.training.running !== prevProps.training.running) {
       if (this.props.training.running === true) {
+        const this_ = this;
         setTimeout(function() {
-          this.iterate();
+          this_.iterate();
         }, 500);
-      } else {
-        this.stop();
       }
     }
     if (this.props.training.reset) {
@@ -196,6 +195,9 @@ class Training extends React.Component {
     });
   }
 
+  /**
+   * An empty render function needed for react.js
+   */
   render() {
     return null;
   }
@@ -204,7 +206,7 @@ class Training extends React.Component {
 Training.propTypes = {
   network: PropTypes.object.isRequired,
   training: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
 };
 
 /**
@@ -217,7 +219,7 @@ Training.propTypes = {
 function mapStateToProps(state, ownProps) {
   return {
     network: state.network,
-    training: state.training
+    training: state.training,
   };
 }
 /**
