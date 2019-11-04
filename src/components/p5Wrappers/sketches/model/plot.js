@@ -15,7 +15,7 @@ export class Plot {
     this.s = s;
     this.side = side;
     this.index = index;
-    this.scale = 0.8;
+    this.scale = 0.7;
     this.vis = 255 - Math.abs(2-index) * 110;
     if (side === 'L') {
       this.l = s.inLeft;
@@ -58,14 +58,14 @@ export class Plot {
       s.stroke(200, this.vis);
       s.strokeWeight(2 * this.scale);
       if (this.index===2) {
-        s.rect(0, 0, this.plotWidth, this.plotHeight);
+        s.rect(0, 0, this.scale * this.plotWidth,
+            this.scale * this.plotHeight);
       }
       s.stroke(54, this.vis);
-      s.line(-this.halfW * this.scale, 0,
-          this.half * this.scale, 0);
-      s.line(this.scale* (-this.half + (this.in * this.stepWidth)),
+      s.line(-this.halfW * this.scale, 0,this.halfW * this.scale, 0);
+      s.line(this.scale * ((-this.halfW) + (this.in * this.stepWidth)),
           -this.halfH * this.scale,
-          this.scale* (this.halfW + (this.in * this.stepWidth)),
+          this.scale * (-this.halfW + (this.in * this.stepWidth)),
           this.scale * this.halfH
       );
       s.strokeWeight(3 * this.scale);
@@ -76,7 +76,7 @@ export class Plot {
         s.beginShape();
         for (let i = 0; i < this.in; i++) {
           data = s.props.network.data[this.index].chartPrediction[i];
-          s.vertex(this.scale * (-this.halfW) + (i * this.stepWidth),
+          s.vertex(this.scale * (-this.halfW + i * this.stepWidth),
               this.scale * (-this.halfH / 2 * data));
         }
         s.endShape();

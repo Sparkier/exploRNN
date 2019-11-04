@@ -305,11 +305,12 @@ class Input extends React.Component {
                     properties={this.props}
                     action={this.resetButtonPressed}
                     icon={
-                      <Reset fontSize="medium" style={{color: 'white'}} />
+                      <Reset fontSize="default" style={{color: 'white'}} />
                     } />
                 </Grid>
                 <Grid item style={this.myPadding}>
                   <MyButton properties={this.props}
+                    disabled = {false}
                     action={this.toggleTraining}
                     icon={(this.props.ui.detail && this.props.ui.anim) ||
                       (!this.props.ui.detail && this.props.training.running) ?
@@ -324,7 +325,7 @@ class Input extends React.Component {
                     (!this.props.ui.detail && this.props.training.running)}
                     action={this.nextStep}
                     icon={
-                      <SkipNext fontSize="medium" style={{color: 'white'}}/>
+                      <SkipNext fontSize="default" style={{color: 'white'}}/>
                     } />
                 </Grid>
               </Grid>
@@ -518,8 +519,8 @@ StyledSelectRaw.propTypes = {
 StyledButtonRaw.propTypes = {
   properties: PropTypes.object.isRequired,
   icon: PropTypes.object.isRequired,
-  action: PropTypes.object.isRequired,
-  disabled: PropTypes.object.isRequired,
+  action: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
