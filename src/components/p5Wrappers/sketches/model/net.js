@@ -205,7 +205,7 @@ class Layer {
         this.s.props.actions.updateUI({...this.s.props.ui, detail: true});
       } else if (this.s.props.network.layers > 1) {
         this.s.props.actions.stopTraining(this.s.props.training);
-        this.s.props.actions.updateNetwork({...this.s.props.network, 
+        this.s.props.actions.updateNetwork({...this.s.props.network,
           layers: this.s.props.network.layers - 1});
       }
     }
