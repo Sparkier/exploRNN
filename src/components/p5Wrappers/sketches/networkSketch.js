@@ -47,7 +47,7 @@ export default function(s) {
     s.rectMode(s.CENTER);
     s.plotsLeft = [];
     s.plotsRight = [];
-    for(let i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i++) {
       s.plotsLeft.push(new Plot(i, 'L', s));
       s.plotsRight.push(new Plot(i, 'R', s));
     }
@@ -114,7 +114,7 @@ export default function(s) {
         window.innerHeight - valDiv.offsetHeight - 25);
     s.plotsLeft = [];
     s.plotsRight = [];
-    for(let i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i++) {
       s.plotsLeft.push(new Plot(i, 'L', s));
       s.plotsRight.push(new Plot(i, 'R', s));
     }
