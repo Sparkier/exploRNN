@@ -1,11 +1,14 @@
 import * as tf from '@tensorflow/tfjs';
 
+/**
+ * This class represents the neural network model created with tf.js
+ */
 export class Model {
   /**
    * Creates a basic lstm network model with only one hidden layer
    *
    * @param {number} timeSteps the amount of input time steps
-   * @param {number} vocab the vocabulray size, = 1 for numerical input 
+   * @param {number} vocab the vocabulray size, = 1 for numerical input
    *  functions
    * @param {number} labels the output labels, or output dimensionality
    * @param {number} blockSize the amount of cell states within the lstm block
