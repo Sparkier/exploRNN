@@ -97,13 +97,10 @@ export class Data {
       }
       this.sinOutputBuff.push(currentOutSequence);
     }
-    console.log(this.sinInputBuff)
     this.train_sin_input = tf.tensor3d(this.sinInputBuff);
     this.prediction_sin_input = tf.tensor3d(this.predictionInputBuff);
     this.train_sin_next = tf.tensor2d(this.sinOutputBuff);
-    console.log('train input');
     this.train_sin_input.print();
-    console.log('train output');
     this.train_sin_next.print();
   }
 

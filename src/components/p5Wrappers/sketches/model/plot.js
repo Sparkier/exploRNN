@@ -62,7 +62,7 @@ export class Plot {
             this.scale * this.plotHeight);
       }
       s.stroke(54, this.vis);
-      s.line(-this.halfW * this.scale, 0,this.halfW * this.scale, 0);
+      s.line(-this.halfW * this.scale, 0, this.halfW * this.scale, 0);
       s.line(this.scale * ((-this.halfW) + (this.in * this.stepWidth)),
           -this.halfH * this.scale,
           this.scale * (-this.halfW + (this.in * this.stepWidth)),
