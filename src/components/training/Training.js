@@ -30,7 +30,7 @@ class Training extends React.Component {
   }
 
   /**
-   * Thi function is called if the state props have been changed and
+   * This function is called if the state props have been changed and
    * then it checks if the training should be updated
    *
    * @param {object} prevProps the previous properties
@@ -66,12 +66,14 @@ class Training extends React.Component {
    * prediction arrays/tensors
    */
   reset() {
+    // Create the network model and compile it
     this.model.createComplexModel(this.data.values, 1, this.data.predictions,
         this.props.network.layers, this.props.network.layerSize);
     let network = this.props.network;
     const optimizer = tf.train.rmsprop(network.learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
     this.model.model.summary();
+    // reset the datasets and create the new data for the upcoming training
     network = {...network, data: Array(5).fill({}), iteration: 0};
     for (let i = 0; i < 5; i++) {
       this.addDataToNetwork(network, [], [], [], [], [], []);
@@ -94,6 +96,7 @@ class Training extends React.Component {
         this.data.chartDataOutput, this.data.chartPredictionInput,
         this.data.train_sin_input, this.data.train_sin_next,
         this.data.prediction_sin_input);
+    // Initialize the first prediction data for visual clarity
     tf.tidy(() => {
       const prediction =
         this.model.model.predict(network.data[2].modelPrediction);
@@ -166,6 +169,7 @@ class Training extends React.Component {
   async iterate() {
     const this_ = this;
     let network = this.props.network;
+    // Prepare the data
     this.data.generateDataWith(network.iteration + 2,
         this.props.training.dataType, this.props.training.dataVariant,
         this.props.training.noise);
@@ -181,6 +185,7 @@ class Training extends React.Component {
     });
     network = {...network, iteration: this.props.network.iteration + 1};
     this.props.actions.updateNetwork(network);
+    // Train the model
     this.model.model.fit(this.props.network.data[2].modelInput,
         this.props.network.data[2].modelOutput, {
           epochs: 1,
