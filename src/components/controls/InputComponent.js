@@ -2,11 +2,11 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+import {lightBlue, grey, orange} from '@material-ui/core/colors';
 import {Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import {withStyles} from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
-// import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select';
 import {Grid, Paper} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,9 +18,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-
 import * as actions from '../../actions';
-import {lightBlue, grey, orange} from '@material-ui/core/colors';
 
 /**
  * The current Component holding all the input elements to change the Network
@@ -131,7 +129,7 @@ class Input extends React.Component {
 
   /**
    * creates a formatted string representation of the number
-   * of epochs, always having the same string length
+   * of epochs, always having the same amount of characters
    *
    * @return {string} the formatted epoch number
    */
@@ -150,6 +148,7 @@ class Input extends React.Component {
     return out;
   }
 
+  // Some styles for better looks, TODO: clean up
   simplePaddingStyle = {
     width: '90%',
     background: '#FFFFFF',
@@ -349,7 +348,6 @@ class Input extends React.Component {
                   </Typography>
                 </Grid>
               </Grid>
-
             </Paper>
           </Grid>
           <Grid container item xs={4} justify='center'>

@@ -571,7 +571,7 @@ class Item {
   }
 
   /**
-   * This function is called when the userclicks on the canvas and checks
+   * This function is called when the user clicks on the canvas and checks
    * if the current item is being clicked on
    *
    * @return {boolean} true, if this item is being clicked on

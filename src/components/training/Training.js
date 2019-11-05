@@ -158,9 +158,9 @@ class Training extends React.Component {
   }
 
   /**
-   * This is the main function for training th neural network, the datasets
+   * This is the main function for training the neural network, the datasets
    * for the current time step are generated according to the user input
-   * values, a prediction for the current input is computet and then the
+   * values, a prediction for the current input is computed and then the
    * network is trained by comparing predicted output to actual output
    */
   async iterate() {
@@ -196,7 +196,7 @@ class Training extends React.Component {
   }
 
   /**
-   * An empty render function needed for react.js
+   * An empty render function needed for react.js (?)
    *
    * @return {object} null
    */
