@@ -19,20 +19,22 @@ class DescriptionPanel extends React.Component {
     super();
     this.titles = ['0 - Wait for next Input', '1 - Layer Input',
       '2 - Gate Activation', '3 - Cell Update', '4 - Cell State', '5 - Output'];
-    this.descriptions = ['Zelle wartet auf nächsten Input', 'Der Output aus ' +
-      'der Ebene vor dieser Ebene wird mit dem Output dieser Ebene aus dem ' +
-      'letzten Zeitschritt vereint und weiter geleitet', 'Im Input Gate wird' +
-      ' berechnet welche Werte aus dem Input neu in den Zell Zustand mit' +
-      ' aufgenommen werden sollen. Das forget Gate bestimmt während dessen ' +
-      'welche Werte aus dem alten Zell Zustand nun überflüssig geworden sind',
+    this.descriptions = ['Zelle wartet auf nächsten Input',
+      'Der Output aus der Ebene vor dieser Ebene wird mit dem Output dieser ' +
+        'Ebene aus dem letzten Zeitschritt vereint und weiter geleitet',
+      'Im Input Gate wird berechnet welche Werte aus dem Input neu in den ' +
+        'Zell Zustand mit aufgenommen werden sollen. Das forget Gate ' +
+        'bestimmt während dessen welche Werte aus dem alten Zell Zustand ' +
+        'nun überflüssig geworden sind',
       'Die Ergebnisse aus Input und Forget Gate werden vereint um ein Update' +
-      ' für den Zell Zustand zu ermitteln', 'Der Zell Zustand wird mit dem' +
-      ' Update angepasst und weiter geleitet', 'Das Output Gate bestimmt ' +
-      'welche Informationen aus dem Zell Zustand an die nächste Ebene weiter '+
-      'gegeben werden sollen. Diese Ausgabe wird dann auch wieder in '+
-      'die aktuelle Ebene eingespeißt'];
-      this.titleSize = 20;
-      this.descSize = 14;
+        ' für den Zell Zustand zu ermitteln',
+      'Der Zell Zustand wird mit dem Update angepasst und weiter geleitet',
+      'Das Output Gate bestimmt welche Informationen aus dem Zell Zustand ' +
+        'an die nächste Ebene weiter gegeben werden sollen. Diese Ausgabe ' +
+        'wird dann auch wieder in die aktuelle Ebene eingespeißt',
+    ];
+    this.titleSize = 20;
+    this.descSize = 14;
   }
   // Some styles for better looks, TODO: clean up
   simplePaddingStyle = {

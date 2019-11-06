@@ -67,15 +67,15 @@ class ValuePanel extends React.Component {
         xs={4}
         justify='center'>
         <Paper style={{...this.myPadding, height: '100%', width: '80%'}}>
-          <Grid container item justify='center' alignItems="center">
-            <Grid item container style={{height: "80%", paddingTop: "10px"}}
-              justify = 'space-between' alignItems="center">
+          <Grid container item justify='center' alignItems='center'>
+            <Grid item container style={{height: '80%', paddingTop: '10px'}}
+              justify = 'space-between' alignItems='center'>
               <Grid item xs = {2}>
                 <MyButton properties={this.props}
                   disabled = {true}
                   action={this.toggleTraining}
                   icon={
-                    <AddIcon fontSize="small" style={{color: 'white'}} />
+                    <AddIcon fontSize='small' style={{color: 'white'}} />
                   }
                 />
               </Grid>
@@ -84,7 +84,7 @@ class ValuePanel extends React.Component {
                   style={{
                     color: orange[500],
                   }} align='left'>
-                  <Box fontWeight="fontWeightBold"
+                  <Box fontWeight='fontWeightBold'
                     fontSize={this.titleSize} m={1}>
                     Layer Input
                   </Box>
@@ -96,7 +96,7 @@ class ValuePanel extends React.Component {
                     color: this.props.ui.lstmStep === 1 ?
                       orange[500] : grey[500],
                   }} align='center'>
-                  <Box fontWeight="fontWeightRegular"
+                  <Box fontWeight='fontWeightRegular'
                     fontSize={this.valueSize} m={1}>
                     y_(j-1)(t)
                   </Box>
@@ -108,21 +108,21 @@ class ValuePanel extends React.Component {
                     color: this.props.ui.lstmStep < 2 ?
                       orange[500] : grey[500],
                   }} align='center'>
-                  <Box fontWeight="fontWeightRegular"
+                  <Box fontWeight='fontWeightRegular'
                     fontSize={this.valueSize} m={1}>
                     y_j(t-1)
                   </Box>
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item container style={{paddingTop: "10px"}}
-              justify = 'space-between' alignItems="center">
+            <Grid item container style={{paddingTop: '10px'}}
+              justify = 'space-between' alignItems='center'>
               <Grid item xs = {2}>
                 <MyButton properties={this.props}
                   disabled = {true}
                   action={this.toggleTraining}
-                  icon={<DeleteForeverIcon fontSize="small"
-                  style={{color: 'white'}} />
+                  icon={<DeleteForeverIcon fontSize='small'
+                    style={{color: 'white'}} />
                   }
                 />
               </Grid>
@@ -131,7 +131,7 @@ class ValuePanel extends React.Component {
                   style={{
                     color: orange[500],
                   }} align='left'>
-                  <Box fontWeight="fontWeightBold"
+                  <Box fontWeight='fontWeightBold'
                     fontSize={this.titleSize} m={1}>
                     Forget Gate
                   </Box>
@@ -144,7 +144,7 @@ class ValuePanel extends React.Component {
                     this.props.ui.lstmStep === 5 ?
                     orange[500] : grey[500],
                   }} align='center'>
-                  <Box fontWeight="fontWeightRegular"
+                  <Box fontWeight='fontWeightRegular'
                     fontSize={this.valueSize} m={1}>
                     c_(j)(t-1)
                   </Box>
@@ -156,20 +156,20 @@ class ValuePanel extends React.Component {
                     color: this.props.ui.lstmStep === 2 ?
                     orange[500] : grey[500],
                   }} align='center'>
-                  <Box fontWeight="fontWeightRegular"
+                  <Box fontWeight='fontWeightRegular'
                     fontSize={this.valueSize} m={1}>
                     lin_j(t)
                   </Box>
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item container style={{paddingTop: "10px"}}
-              justify = 'space-between' alignItems="center">
+            <Grid item container style={{paddingTop: '10px'}}
+              justify = 'space-between' alignItems='center'>
               <Grid item xs = {2}>
                 <MyButton properties={this.props}
                   disabled = {true}
                   action={this.toggleTraining}
-                  icon={<AddIcon fontSize="small" style={{color: 'white'}} />
+                  icon={<AddIcon fontSize='small' style={{color: 'white'}} />
                   }
                 />
               </Grid>
@@ -178,7 +178,7 @@ class ValuePanel extends React.Component {
                   style={{
                     color: orange[500],
                   }} align='left'>
-                  <Box fontWeight="fontWeightBold"
+                  <Box fontWeight='fontWeightBold'
                     fontSize={this.titleSize} m={1}>
                     Cell Update
                   </Box>
@@ -190,7 +190,7 @@ class ValuePanel extends React.Component {
                     color: this.props.ui.lstmStep === 3 ?
                       orange[500] : grey[500],
                   }} align='center'>
-                  <Box fontWeight="fontWeightRegular"
+                  <Box fontWeight='fontWeightRegular'
                     fontSize={this.valueSize} m={1}>
                     in_j(t)
                   </Box>
@@ -202,20 +202,20 @@ class ValuePanel extends React.Component {
                     color: this.props.ui.lstmStep === 3 ?
                       orange[500] : grey[500],
                   }} align='center'>
-                  <Box fontWeight="fontWeightRegular"
+                  <Box fontWeight='fontWeightRegular'
                     fontSize={this.valueSize} m={1}>
                     f_j(t)
                   </Box>
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item container style={{paddingTop: "10px"}}
-              justify = 'space-between' alignItems="center">
+            <Grid item container style={{paddingTop: '10px'}}
+              justify = 'space-between' alignItems='center'>
               <Grid item xs = {2}>
                 <MyButton properties={this.props}
                   disabled = {true}
                   action={this.toggleTraining}
-                  icon={<SendIcon fontSize="small" style={{color: 'white'}} />
+                  icon={<SendIcon fontSize='small' style={{color: 'white'}} />
                   }
                 />
               </Grid>
@@ -224,7 +224,7 @@ class ValuePanel extends React.Component {
                   style={{
                     color: orange[500],
                   }} align='left'>
-                  <Box fontWeight="fontWeightBold"
+                  <Box fontWeight='fontWeightBold'
                     fontSize={this.titleSize} m={1}>
                     Output Gate
                   </Box>
@@ -236,7 +236,7 @@ class ValuePanel extends React.Component {
                     color: this.props.ui.lstmStep === 5 ?
                       orange[500] : grey[500],
                   }} align='center'>
-                  <Box fontWeight="fontWeightRegular"
+                  <Box fontWeight='fontWeightRegular'
                     fontSize={this.valueSize} m={1}>
                     c_j(t)
                   </Box>
@@ -248,7 +248,7 @@ class ValuePanel extends React.Component {
                     color: this.props.ui.lstmStep > 1 ?
                       orange[500] : grey[500],
                   }} align='center'>
-                  <Box fontWeight="fontWeightRegular"
+                  <Box fontWeight='fontWeightRegular'
                     fontSize={this.valueSize} m={1}>
                     in_j(t)
                   </Box>
