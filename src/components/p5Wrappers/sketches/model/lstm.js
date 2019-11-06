@@ -28,60 +28,52 @@ export class LSTM {
     // creating the cell components of the lstm cell
     this.items.push(
         this.receive =
-          new Item('rec', 'Layer Input', left + horBuf, top + verBuf, 2, s)
+          new Item('rec', 'Layer Input', left + horBuf, top + verBuf, 2, 1, s)
     );
     this.items.push(
         this.add =
-          new Item('add', 'Input Gate', left + 2*horBuf, top + verBuf, 1, s)
+          new Item('add', 'Input Gate', left + 2*horBuf, top + verBuf, 1, 2, s)
     );
     this.items.push(
         this.save =
           new Item('sav', 'Cell State Update',
-              left + 3*horBuf, top + verBuf, 2, s)
+              left + 3*horBuf, top + verBuf, 2, 3, s)
     );
     this.items.push(
         this.forget =
-          new Item('los', 'Forget Gate', left + 4*horBuf, top + verBuf, 2, s)
+          new Item('los', 'Forget Gate', left + 4*horBuf, top + verBuf, 2, 2, s)
     );
     this.items.push(
         this.output =
-          new Item('out', 'Output Gate', left + 5*horBuf, top + verBuf, 2, s)
+          new Item('out', 'Output Gate', left + 5*horBuf, top + verBuf, 2, 5, s)
     );
     this.items.push(
         this.cell =
-          new Item('cel', 'Cell State', left + 3*horBuf, top + 2 * verBuf, 1, s)
+          new Item('cel', 'Cell State', left + 3*horBuf, top + 2 * verBuf, 1, 4, s)
     );
     this.items.push(
         this.crossInput =
-          new Item('crs', '', left + 2 * horBuf, top + 0.5 * verBuf, 1, s)
+          new Item('crs', '', left + 2 * horBuf, top + 0.5 * verBuf, 1, -1, s)
     );
     this.items.push(
         this.crossForget =
-          new Item('crs', '', left + 4 * horBuf, top + 0.5 * verBuf, 1, s)
+          new Item('crs', '', left + 4 * horBuf, top + 0.5 * verBuf, 1, -1, s)
     );
     this.items.push(
         this.crossOutput =
-          new Item('crs', '', left + 5 * horBuf, top + 0.5 * verBuf, 1, s)
+          new Item('crs', '', left + 5 * horBuf, top + 0.5 * verBuf, 1, -1, s)
     );
     this.items.push(
         this.crossCell =
-          new Item('crs', '', left + 4.5 * horBuf, top + verBuf, 1, s)
-    );
-    this.items.push(
-        this.first =
-          new Item('fst', '', left, top + verBuf, 1, s)
+          new Item('crs', '', left + 4.5 * horBuf, top + verBuf, 1, -1, s)
     );
     this.items.push(
         this.ghostFirst =
-          new Item('gft', '', left - horBuf, top + verBuf, 1, s)
-    );
-    this.items.push(
-        this.last =
-          new Item('lst', '', left + 6 * horBuf, top + verBuf, 1, s)
+          new Item('gft', '', left - horBuf, top + verBuf, 1, 0, s)
     );
     this.items.push(
         this.ghostLast =
-          new Item('glt', '', left + 7 * horBuf, top + verBuf, 1, s)
+          new Item('glt', '', left + 7 * horBuf, top + verBuf, 1, 0, s)
     );
 
     // setting uo the connections between the lstm cell items
@@ -89,12 +81,8 @@ export class LSTM {
         this.ghostInput =
           new Connection([
             {x: this.ghostFirst.x, y: this.ghostFirst.y},
-            {x: this.first.x, y: this.first.y}], [this.first], s));
-    this.connections.push(
-        this.mainInput =
-          new Connection([
-            {x: this.first.x, y: this.first.y},
             {x: this.receive.x, y: this.receive.y}], [this.receive], s));
+    
     this.connections.push(
         this.bus =
           new Connection([
@@ -154,20 +142,15 @@ export class LSTM {
             {x: this.output.x, y: top + 2.5 * verBuf},
             {x: this.receive.x, y: top + 2.5 * verBuf},
             {x: this.receive.x, y: this.receive.y}], [this.receive], s));
-    this.connections.push(
-        this.mainOut =
-          new Connection([
-            {x: this.output.x, y: this.output.y},
-            {x: this.last.x, y: this.last.y}], [this.last], s));
+
     this.connections.push(
         this.ghostOutput =
           new Connection([
-            {x: this.last.x, y: this.last.y},
+            {x: this.output.x, y: this.output.y},
             {x: this.ghostLast.x, y: this.ghostLast.y}], [this.ghostLast], s));
 
     // defining which items have which outgoing connections
     this.ghostFirst.connections.push(this.ghostInput);
-    this.first.connections.push(this.mainInput);
     this.receive.connections.push(this.bus);
     this.receive.connections.push(this.crossInput);
     this.receive.connections.push(this.crossForget);
@@ -182,9 +165,8 @@ export class LSTM {
     this.cell.connections.push(this.crossCell);
     this.cell.connections.push(this.cellToForget);
     this.cell.connections.push(this.cellToOutput);
-    this.output.connections.push(this.mainOut);
+    this.output.connections.push(this.ghostOutput);
     this.output.connections.push(this.recurrent);
-    this.last.connections.push(this.ghostOutput);
     this.ghostLast.connections.push(this.ghostFirst);
 
     // activating some items to start of the animation sequence
@@ -274,6 +256,7 @@ export class LSTM {
     for (const i of this.items) {
       i.updateActivation();
     }
+    this.s.props.actions.updateUI({...this.s.props.ui})
   }
 
   /**
@@ -414,14 +397,16 @@ class Item {
    * @param {number} x the absolute x position of this item
    * @param {number} y the absolute y position of this item
    * @param {number} ingoing the amount of ingoing connections
+   * @param {number} step the corresponding description step
    * @param {object} s the p5 sketch
    */
-  constructor(type, name, x, y, ingoing, s) {
+  constructor(type, name, x, y, ingoing, step, s) {
     this.type = type;
     this.name = name;
     this.x = x;
     this.y = y;
     this.s = s;
+    this.step = step;
     this.hover = false;
     this.clicked = false;
     this.active = false;
@@ -438,6 +423,8 @@ class Item {
         break;
       case 'glt':
       case 'gft':
+        this.r = (s.ctrRatio * s.height)/12;
+        break;
       case 'crs':
         this.r = (s.ctrRatio * s.height)/40;
         break;
@@ -548,6 +535,8 @@ class Item {
     } else {
       if (this.currentActivatedConnecions >= this.maxIngoingConnections) {
         this.active = true;
+        if(this.step >= 0)
+          this.s.props = {...this.s.props, ui: {...this.s.props.ui, lstmStep: this.step}};
       }
     }
   }

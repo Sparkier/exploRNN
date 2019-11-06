@@ -92,8 +92,8 @@ export default function(s) {
       s.network.push({size: 1, type: 'output'});
       s.net = new Network(s);
       if (s.props.ui.animStep) {
+        s.props = {...s.props, ui: {...s.props.ui, animStep: false}};
         s.cell.update();
-        s.props.actions.updateUI({...s.props.ui, animStep: false});
       }
       if (s.props.training.step) {
         s.lstmStep = 0;

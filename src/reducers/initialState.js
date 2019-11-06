@@ -32,6 +32,7 @@ export default {
     speed: 850,
     anim: true,
     animStep: false,
+    lstmStep: 0,
   },
   firstcall: true,
 };

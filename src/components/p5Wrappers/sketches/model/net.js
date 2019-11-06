@@ -108,6 +108,7 @@ class Layer {
     this.y = s.height/2;
     this.w = s.ctrWidth/(2*this.layers + 1)*0.8;
     this.h = this.w * 0.8;
+    this.clSize = this.w * 0.3;
   }
 
   /**
@@ -136,7 +137,7 @@ class Layer {
       }
       s.rect(this.x, this.y, w, h);
       s.noStroke();
-      if (s.props.training.running) {
+      if (s.props.training.running || this.hover) {
         s.fill(s.blue, this.s.netAlpha);
       } else {
         s.fill(s.white, this.s.netAlpha);
@@ -151,10 +152,11 @@ class Layer {
       s.rect(left + (3) * w / 6, top + 2 * h / 3, w / (10), w / (10));
       if (this.hover_left) {
         s.noStroke();
-        s.fill(50, 250, 100, 240);
-        s.rect(this.x - w/4, this.y, w/2, h);
+        if(this.s.props.network.layers > 1){
         s.fill(150, 20, 20, 100);
-        s.rect(this.x + w/4, this.y, w/2, h);
+        s.rect(this.x + w/2 - this.clSize / 2, this.y - h/2 + this.clSize / 2,
+            this.clSize, this.clSize);
+        }
         s.textAlign(s.CENTER, s.CENTER);
         s.fill(0, 150);
         s.rect(s.mouseX, s.mouseY+40, 85, 25);
@@ -163,9 +165,8 @@ class Layer {
       } else if (this.hover_right && this.s.props.network.layers > 1 ) {
         s.noStroke();
         s.fill(225, 50, 50, 240);
-        s.rect(this.x + w/4, this.y, w/2, h);
-        s.fill(20, 150, 50, 100);
-        s.rect(this.x - w/4, this.y, w/2, h);
+        s.rect(this.x + w/2 - this.clSize / 2, this.y - h/2 + this.clSize / 2,
+            this.clSize, this.clSize);
         s.textAlign(s.CENTER, s.CENTER);
         s.fill(0, 150);
         s.rect(s.mouseX, s.mouseY+40, 85, 25);
@@ -186,7 +187,11 @@ class Layer {
     if (x > this.x - this.w/2 && x < this.x + this.w/2 &&
         y > this.y - this.h/2 && y < this.y + this.h/2) {
       this.hover = true;
-      this.hover_left = !(this.hover_right = (x > this.x));
+      let w = this.w;
+      let h = this.h;
+      this.hover_left = !(this.hover_right = 
+          (x > this.x + w/2 - this.clSize && y < this.y - h/2 + this.clSize) &&
+            this.s.props.network.layers > 1 );
     } else {
       this.hover = this.hover_left = this.hover_right = false;
     }
@@ -258,7 +263,7 @@ class FakeLayer {
     s.fill(250, alpha);
     s.stroke(54, alpha);
     if (this.hover) {
-      s.stroke(50, 150, 50, alpha);
+      s.stroke(50, 150, 200, alpha);
       s.cursor(s.HAND);
     }
     s.ellipse(this.x, this.y, this.w, this.h);

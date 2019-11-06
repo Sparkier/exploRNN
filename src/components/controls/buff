@@ -111,3 +111,55 @@
                         </Grid>
                     </Grid>
                 </Grid>
+
+                
+
+/*
+StyledSelectRaw.propTypes = {
+  label: PropTypes.object.isRequired,
+  properties: PropTypes.object.isRequired,
+  type: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+};*/
+
+
+/**
+ * @deprecated
+ * Generating function for the styled select comp
+ *
+ * @param {object} props the current redux state properties
+ * @return {object} rendered styled selection component
+ */
+function StyledSelectRaw(props) {
+  const {classes, label, properties, type, ...other} = props;
+  return (
+    <div style={{display: 'inline-block', marginRight: '12px'}}>
+      <Typography
+        style={
+          {
+            color: !properties.ui.detail ?
+            (type === 'net' ? lightBlue[500] : grey[500]) :
+            (type === 'net' ? grey[500] : orange[500]),
+          }
+        }>
+        {label}
+      </Typography>
+      <Select variant="outlined"
+        className={
+          properties.ui.detail ?
+            (type === 'net' ? classes.disabled : classes.select_detail) :
+            (type === 'net' ? classes.select_net : classes.disabled)
+        }
+        inputProps={{
+          classes: {
+            icon: classes.icon,
+          },
+          disabled: properties.ui.detail === (type === 'net'),
+          color: 'white',
+        }} {...other}
+      />
+    </div>
+  );
+}
+
+  
