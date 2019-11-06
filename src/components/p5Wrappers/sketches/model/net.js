@@ -152,10 +152,10 @@ class Layer {
       s.rect(left + (3) * w / 6, top + 2 * h / 3, w / (10), w / (10));
       if (this.hover_left) {
         s.noStroke();
-        if(this.s.props.network.layers > 1){
-        s.fill(150, 20, 20, 100);
-        s.rect(this.x + w/2 - this.clSize / 2, this.y - h/2 + this.clSize / 2,
-            this.clSize, this.clSize);
+        if (this.s.props.network.layers > 1) {
+          s.fill(150, 20, 20, 100);
+          s.rect(this.x + w/2 - this.clSize / 2, this.y - h/2 + this.clSize / 2,
+              this.clSize, this.clSize);
         }
         s.textAlign(s.CENTER, s.CENTER);
         s.fill(0, 150);
@@ -187,9 +187,9 @@ class Layer {
     if (x > this.x - this.w/2 && x < this.x + this.w/2 &&
         y > this.y - this.h/2 && y < this.y + this.h/2) {
       this.hover = true;
-      let w = this.w;
-      let h = this.h;
-      this.hover_left = !(this.hover_right = 
+      const w = this.w;
+      const h = this.h;
+      this.hover_left = !(this.hover_right =
           (x > this.x + w/2 - this.clSize && y < this.y - h/2 + this.clSize) &&
             this.s.props.network.layers > 1 );
     } else {

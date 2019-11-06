@@ -17,7 +17,6 @@ import MyButton from './StyledButton';
  * Controls at bottom of the Application
  */
 class ControlPanel extends React.Component {
- 
   /**
    * Toggles wether the training of the network is currently
    * on or off
@@ -58,7 +57,6 @@ class ControlPanel extends React.Component {
     }
   }
 
-  
   // Some styles for better looks, TODO: clean up
   simplePaddingStyle = {
     width: '90%',
@@ -89,7 +87,7 @@ class ControlPanel extends React.Component {
     width: '80%',
   };
 
-    /**
+  /**
    * creates a formatted string representation of the number
    * of epochs, always having the same amount of characters
    *
@@ -180,6 +178,7 @@ ControlPanel.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
 };
 
 /**

@@ -25,7 +25,7 @@ class InputPanel extends React.Component {
     this.fontSize = 20;
     this.data = ['saw', 'sin', 'sqr', 'sinc'];
   }
-  
+
   /**
    * Change the type of data for the training input.
    *
@@ -62,7 +62,7 @@ class InputPanel extends React.Component {
       noise: newNoise,
     });
   }
-  
+
   // Some styles for better looks, TODO: clean up
   simplePaddingStyle = {
     width: '90%',
@@ -216,6 +216,7 @@ InputPanel.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
 };
 
 /**

@@ -49,7 +49,8 @@ export class LSTM {
     );
     this.items.push(
         this.cell =
-          new Item('cel', 'Cell State', left + 3*horBuf, top + 2 * verBuf, 1, 4, s)
+          new Item('cel', 'Cell State', left + 3*horBuf, top + 2 * verBuf,
+              1, 4, s)
     );
     this.items.push(
         this.crossInput =
@@ -82,7 +83,6 @@ export class LSTM {
           new Connection([
             {x: this.ghostFirst.x, y: this.ghostFirst.y},
             {x: this.receive.x, y: this.receive.y}], [this.receive], s));
-    
     this.connections.push(
         this.bus =
           new Connection([
@@ -256,7 +256,7 @@ export class LSTM {
     for (const i of this.items) {
       i.updateActivation();
     }
-    this.s.props.actions.updateUI({...this.s.props.ui})
+    this.s.props.actions.updateUI({...this.s.props.ui});
   }
 
   /**
@@ -535,8 +535,10 @@ class Item {
     } else {
       if (this.currentActivatedConnecions >= this.maxIngoingConnections) {
         this.active = true;
-        if(this.step >= 0)
-          this.s.props = {...this.s.props, ui: {...this.s.props.ui, lstmStep: this.step}};
+        if (this.step >= 0) {
+          this.s.props = {...this.s.props, ui: {...this.s.props.ui,
+            lstmStep: this.step}};
+        }
       }
     }
   }

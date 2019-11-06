@@ -13,7 +13,6 @@ import Slider from '@material-ui/core/Slider';
  * Controls at bottom of the Application
  */
 class OutputPanel extends React.Component {
-  
   /**
    * Handles the interaction with the learning rate slider
    *
@@ -28,7 +27,7 @@ class OutputPanel extends React.Component {
       learningRate: value,
     });
   }
-  
+
   // Some styles for better looks, TODO: clean up
   simplePaddingStyle = {
     width: '90%',
@@ -107,6 +106,7 @@ OutputPanel.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
 };
 
 /**

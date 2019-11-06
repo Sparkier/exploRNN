@@ -68,7 +68,8 @@ class ValuePanel extends React.Component {
         justify='center'>
         <Paper style={{...this.myPadding, height: '100%', width: '80%'}}>
           <Grid container item justify='center' alignItems="center">
-            <Grid item container style={{height: "80%", paddingTop: "10px"}} justify = 'space-between' alignItems="center">
+            <Grid item container style={{height: "80%", paddingTop: "10px"}}
+              justify = 'space-between' alignItems="center">
               <Grid item xs = {2}>
                 <MyButton properties={this.props}
                   disabled = {true}
@@ -92,7 +93,8 @@ class ValuePanel extends React.Component {
               <Grid item xs = {3}>
                 <Typography
                   style={{
-                    color: this.props.ui.lstmStep === 1 ? orange[500] : grey[500],
+                    color: this.props.ui.lstmStep === 1 ?
+                      orange[500] : grey[500],
                   }} align='center'>
                   <Box fontWeight="fontWeightRegular"
                     fontSize={this.valueSize} m={1}>
@@ -101,9 +103,10 @@ class ValuePanel extends React.Component {
                 </Typography>
               </Grid>
               <Grid item xs = {3}>
-               <Typography
+                <Typography
                   style={{
-                    color: this.props.ui.lstmStep < 2 ? orange[500] : grey[500],
+                    color: this.props.ui.lstmStep < 2 ?
+                      orange[500] : grey[500],
                   }} align='center'>
                   <Box fontWeight="fontWeightRegular"
                     fontSize={this.valueSize} m={1}>
@@ -112,15 +115,18 @@ class ValuePanel extends React.Component {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item container style={{paddingTop: "10px"}}justify = 'space-between' alignItems="center">
+            <Grid item container style={{paddingTop: "10px"}}
+              justify = 'space-between' alignItems="center">
               <Grid item xs = {2}>
                 <MyButton properties={this.props}
                   disabled = {true}
                   action={this.toggleTraining}
-                  icon={<DeleteForeverIcon fontSize="small" style={{color: 'white'}} />
-                  }/>
-                </Grid>
-                <Grid item xs = {3}>
+                  icon={<DeleteForeverIcon fontSize="small"
+                  style={{color: 'white'}} />
+                  }
+                />
+              </Grid>
+              <Grid item xs = {3}>
                 <Typography
                   style={{
                     color: orange[500],
@@ -135,7 +141,8 @@ class ValuePanel extends React.Component {
                 <Typography
                   style={{
                     color: this.props.ui.lstmStep < 3 ||
-                    this.props.ui.lstmStep ===5 ? orange[500] : grey[500],
+                    this.props.ui.lstmStep === 5 ?
+                    orange[500] : grey[500],
                   }} align='center'>
                   <Box fontWeight="fontWeightRegular"
                     fontSize={this.valueSize} m={1}>
@@ -144,9 +151,10 @@ class ValuePanel extends React.Component {
                 </Typography>
               </Grid>
               <Grid item xs = {3}>
-               <Typography
+                <Typography
                   style={{
-                    color: this.props.ui.lstmStep === 2 ? orange[500] : grey[500],
+                    color: this.props.ui.lstmStep === 2 ?
+                    orange[500] : grey[500],
                   }} align='center'>
                   <Box fontWeight="fontWeightRegular"
                     fontSize={this.valueSize} m={1}>
@@ -155,15 +163,17 @@ class ValuePanel extends React.Component {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item container style={{paddingTop: "10px"}} justify = 'space-between' alignItems="center">
+            <Grid item container style={{paddingTop: "10px"}}
+              justify = 'space-between' alignItems="center">
               <Grid item xs = {2}>
                 <MyButton properties={this.props}
                   disabled = {true}
                   action={this.toggleTraining}
                   icon={<AddIcon fontSize="small" style={{color: 'white'}} />
-                  }/>
-                </Grid>
-                <Grid item xs = {3}>
+                  }
+                />
+              </Grid>
+              <Grid item xs = {3}>
                 <Typography
                   style={{
                     color: orange[500],
@@ -177,7 +187,8 @@ class ValuePanel extends React.Component {
               <Grid item xs = {3}>
                 <Typography
                   style={{
-                    color: this.props.ui.lstmStep === 3 ? orange[500] : grey[500],
+                    color: this.props.ui.lstmStep === 3 ?
+                      orange[500] : grey[500],
                   }} align='center'>
                   <Box fontWeight="fontWeightRegular"
                     fontSize={this.valueSize} m={1}>
@@ -186,9 +197,10 @@ class ValuePanel extends React.Component {
                 </Typography>
               </Grid>
               <Grid item xs = {3}>
-               <Typography
+                <Typography
                   style={{
-                    color: this.props.ui.lstmStep === 3 ? orange[500] : grey[500],
+                    color: this.props.ui.lstmStep === 3 ?
+                      orange[500] : grey[500],
                   }} align='center'>
                   <Box fontWeight="fontWeightRegular"
                     fontSize={this.valueSize} m={1}>
@@ -197,15 +209,17 @@ class ValuePanel extends React.Component {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item container style={{paddingTop: "10px"}}justify = 'space-between' alignItems="center">
+            <Grid item container style={{paddingTop: "10px"}}
+              justify = 'space-between' alignItems="center">
               <Grid item xs = {2}>
                 <MyButton properties={this.props}
                   disabled = {true}
                   action={this.toggleTraining}
                   icon={<SendIcon fontSize="small" style={{color: 'white'}} />
-                  }/>
-                </Grid>
-                <Grid item xs = {3}>
+                  }
+                />
+              </Grid>
+              <Grid item xs = {3}>
                 <Typography
                   style={{
                     color: orange[500],
@@ -219,7 +233,8 @@ class ValuePanel extends React.Component {
               <Grid item xs = {3}>
                 <Typography
                   style={{
-                    color: this.props.ui.lstmStep === 5 ? orange[500] : grey[500],
+                    color: this.props.ui.lstmStep === 5 ?
+                      orange[500] : grey[500],
                   }} align='center'>
                   <Box fontWeight="fontWeightRegular"
                     fontSize={this.valueSize} m={1}>
@@ -228,9 +243,10 @@ class ValuePanel extends React.Component {
                 </Typography>
               </Grid>
               <Grid item xs = {3}>
-               <Typography
+                <Typography
                   style={{
-                    color: this.props.ui.lstmStep > 1 ? orange[500] : grey[500],
+                    color: this.props.ui.lstmStep > 1 ?
+                      orange[500] : grey[500],
                   }} align='center'>
                   <Box fontWeight="fontWeightRegular"
                     fontSize={this.valueSize} m={1}>

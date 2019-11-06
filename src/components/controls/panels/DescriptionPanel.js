@@ -12,23 +12,25 @@ import Box from '@material-ui/core/Box';
  * Controls at bottom of the Application
  */
 class DescriptionPanel extends React.Component {
-
+  /**
+   * The constructor function fo the DescriptionPanel class
+   */
   constructor() {
     super();
-    this.titles = ["0 - Wait for next Input", "1 - Layer Input",
-      "2 - Gate Activation", "3 - Cell Update", "4 - Cell State", "5 - Output"];
-    this.descriptions = ["Zelle wartet auf nächsten Input", "Der Output aus " +
-      "der Ebene vor dieser Ebene wird mit dem Output dieser Ebene aus dem " +
-      "letzten Zeitschritt vereint und weiter geleitet", "Im Input Gate wird" +
-      " berechnet welche Werte aus dem Input neu in den Zell Zustand mit" +
-      " aufgenommen werden sollen. Das forget Gate bestimmt während dessen " +
-      "welche Werte aus dem alten Zell Zustand nun überflüssig geworden sind",
-      "Die Ergebnisse aus Input und Forget Gate werden vereint um ein Update" +
-      " für den Zell Zustand zu ermitteln", "Der Zell Zustand wird mit dem" +
-      " Update angepasst und weiter geleitet", "Das Output Gate bestimmt " +
-      "welche Informationen aus dem Zell Zustand an die nächste Ebene weiter "+
-      "gegeben werden sollen. Diese Ausgabe wird dann auch wieder in "+
-      "die aktuelle Ebene eingespeißt"];
+    this.titles = ['0 - Wait for next Input', '1 - Layer Input',
+      '2 - Gate Activation', '3 - Cell Update', '4 - Cell State', '5 - Output'];
+    this.descriptions = ['Zelle wartet auf nächsten Input', 'Der Output aus ' +
+      'der Ebene vor dieser Ebene wird mit dem Output dieser Ebene aus dem ' +
+      'letzten Zeitschritt vereint und weiter geleitet', 'Im Input Gate wird' +
+      ' berechnet welche Werte aus dem Input neu in den Zell Zustand mit' +
+      ' aufgenommen werden sollen. Das forget Gate bestimmt während dessen ' +
+      'welche Werte aus dem alten Zell Zustand nun überflüssig geworden sind',
+      'Die Ergebnisse aus Input und Forget Gate werden vereint um ein Update' +
+      ' für den Zell Zustand zu ermitteln', 'Der Zell Zustand wird mit dem' +
+      ' Update angepasst und weiter geleitet', 'Das Output Gate bestimmt ' +
+      'welche Informationen aus dem Zell Zustand an die nächste Ebene weiter '+
+      'gegeben werden sollen. Diese Ausgabe wird dann auch wieder in '+
+      'die aktuelle Ebene eingespeißt'];
       this.titleSize = 20;
       this.descSize = 14;
   }
@@ -74,13 +76,13 @@ class DescriptionPanel extends React.Component {
         xs={4}
         justify='center'>
         <Paper style={{...this.myPadding, height: '100%', width: '80%'}}>
-          <Grid container item justify='center' alignItems="top">
+          <Grid container item justify='center' alignItems='top'>
             <Grid item xs={12}>
               <Typography
                 style={{
                   color: orange[500],
                 }} align='left'>
-                <Box fontWeight="fontWeightBold"
+                <Box fontWeight='fontWeightBold'
                   fontSize={this.titleSize} m={1}>
                   {this.titles[this.props.ui.lstmStep]}
                 </Box>
@@ -89,10 +91,10 @@ class DescriptionPanel extends React.Component {
             <Grid item xs={12}>
               <Typography
                 style={{
-                  color:'white',
+                  color: 'white',
                   paddingLeft: '10px',
                 }} align='left'>
-                <Box fontWeight="fontWeightRegular"
+                <Box fontWeight='fontWeightRegular'
                   fontSize={this.descSize} m={1}>
                   {this.descriptions[this.props.ui.lstmStep]}
                 </Box>
