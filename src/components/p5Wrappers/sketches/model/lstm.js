@@ -8,12 +8,16 @@ export class LSTM {
    * components and connections within the cell
    *
    * @param {object} s the p5 sketch
+   * @param {boolean} hasPrev true, if this LSTM layer has a previous layer
+   * @param {boolean} hasNext true, if this LSTM layer has a next layer
    */
-  constructor(s) {
+  constructor(s, hasPrev, hasNext) {
     // defining general global values
     this.s = s;
     this.items = [];
     this.connections = [];
+    this.hasPrev = hasPrev;
+    this.hasNext = hasNext;
     const left = s.ctrLeft + s.ctrRatio / 2 * s.ctrWidth;
     const top = s.ctrRatio / 2 * s.height;
     const horBuf = (1/6) * s.ctrRatio * s.ctrWidth;
@@ -24,57 +28,64 @@ export class LSTM {
     s.orange = s.color(255, 150, 40);
     s.half_orange = s.color(200, 150, 80);
     s.green = s.color(50, 175, 80);
+    const cell = {
+      s: s,
+      hasPrev: hasPrev,
+      hasNext: hasNext,
+      horBuf: horBuf,
+      verBuf: verBuf,
+      left: left,
+      top: top,
+    };
 
     // creating the cell components of the lstm cell
     this.items.push(
         this.receive =
-          new Item('rec', 'Layer Input', left + horBuf, top + verBuf, 2, 1, s)
+          new Item(cell, 'rec', 'Layer Input', 1, 1, 2, 1, s)
     );
     this.items.push(
         this.add =
-          new Item('add', 'Input Gate', left + 2*horBuf, top + verBuf, 1, 2, s)
+          new Item(cell, 'add', 'Input Gate', 2, 1, 1, 2)
     );
     this.items.push(
         this.save =
-          new Item('sav', 'Cell State Update',
-              left + 3*horBuf, top + verBuf, 2, 3, s)
+          new Item(cell, 'sav', 'Cell State Update', 3, 1, 2, 3)
     );
     this.items.push(
         this.forget =
-          new Item('los', 'Forget Gate', left + 4*horBuf, top + verBuf, 2, 2, s)
+          new Item(cell, 'los', 'Forget Gate', 4, 1, 2, 2)
     );
     this.items.push(
         this.output =
-          new Item('out', 'Output Gate', left + 5*horBuf, top + verBuf, 2, 5, s)
+          new Item(cell, 'out', 'Output Gate', 5, 1, 2, 5)
     );
     this.items.push(
         this.cell =
-          new Item('cel', 'Cell State', left + 3*horBuf, top + 2 * verBuf,
-              1, 4, s)
+          new Item(cell, 'cel', 'Cell State', 3, 2, 1, 4)
     );
     this.items.push(
         this.crossInput =
-          new Item('crs', '', left + 2 * horBuf, top + 0.5 * verBuf, 1, -1, s)
+          new Item(cell, 'crs', '', 2, 0.5, 1, -1)
     );
     this.items.push(
         this.crossForget =
-          new Item('crs', '', left + 4 * horBuf, top + 0.5 * verBuf, 1, -1, s)
+          new Item(cell, 'crs', '', 4, 0.5, 1, -1)
     );
     this.items.push(
         this.crossOutput =
-          new Item('crs', '', left + 5 * horBuf, top + 0.5 * verBuf, 1, -1, s)
+          new Item(cell, 'crs', '', 5, 0.5, 1, -1)
     );
     this.items.push(
         this.crossCell =
-          new Item('crs', '', left + 4.5 * horBuf, top + verBuf, 1, -1, s)
+          new Item(cell, 'crs', '', 4.5, 1, 1, -1)
     );
     this.items.push(
         this.ghostFirst =
-          new Item('gft', '', left - horBuf, top + verBuf, 1, 0, s)
+          new Item(cell, 'gft', '', -1, 1, 1, 0)
     );
     this.items.push(
         this.ghostLast =
-          new Item('glt', '', left + 7 * horBuf, top + verBuf, 1, 0, s)
+          new Item(cell, 'glt', '', 7, 1, 1, 0)
     );
 
     // setting uo the connections between the lstm cell items
@@ -392,20 +403,21 @@ class Item {
   /**
    * The constructor function of the item class
    *
+   * @param {object} cell the constant cell values
    * @param {string} type the item type represented as a string
    * @param {string} name the name to be displayed when hovering over this item
-   * @param {number} x the absolute x position of this item
-   * @param {number} y the absolute y position of this item
+   * @param {number} x realtive x position of this item
+   * @param {number} y the relative y position of this item
    * @param {number} ingoing the amount of ingoing connections
    * @param {number} step the corresponding description step
-   * @param {object} s the p5 sketch
    */
-  constructor(type, name, x, y, ingoing, step, s) {
+  constructor(cell, type, name, x, y, ingoing, step) {
     this.type = type;
     this.name = name;
-    this.x = x;
-    this.y = y;
-    this.s = s;
+    this.cell = cell;
+    this.x = cell.left + x * cell.horBuf;
+    this.y = cell.top + y * cell.verBuf;
+    this.s = cell.s;
     this.step = step;
     this.hover = false;
     this.clicked = false;
@@ -419,17 +431,17 @@ class Item {
       case 'lst':
       case 'sav':
       case 'rec':
-        this.r = (s.ctrRatio * s.height)/12;
+        this.r = (cell.s.ctrRatio * cell.s.height)/12;
         break;
       case 'glt':
       case 'gft':
-        this.r = (s.ctrRatio * s.height)/12;
+        this.r = (cell.s.ctrRatio * cell.s.height)/12;
         break;
       case 'crs':
-        this.r = (s.ctrRatio * s.height)/40;
+        this.r = (cell.s.ctrRatio * cell.s.height)/40;
         break;
       default:
-        this.r = (s.ctrRatio * s.height)/6;
+        this.r = (cell.s.ctrRatio * cell.s.height)/6;
     }
   }
 
@@ -457,7 +469,43 @@ class Item {
       s.fill(s.green);
       s.cursor(s.HAND);
     }
-    if (this.type === 'cel') {
+    const layer = s.clickedBlock;
+    const hasPrev = layer ? (layer.i !== 1) : false;
+    const hasNext = layer ? (layer.i !== layer.layers) : false;
+    if ((this.type === 'gft' && hasPrev) ||
+        (this.type === 'glt' && hasNext)) {
+      const w = 0.05 * s.width;
+      const h = 0.8 * w;
+      s.fill(0, 100);
+      s.noStroke();
+      s.rect(this.x+5, this.y+5, w, h);
+      s.strokeWeight(2);
+      s.fill(250, this.s.netAlpha);
+      if (s.props.training.running) {
+        s.stroke(s.white, this.s.netAlpha);
+      } else {
+        s.stroke(s.white, this.s.netAlpha);
+      }
+      if (this.hover) {
+        s.stroke(100, this.s.netAlpha);
+        s.cursor(s.HAND);
+      }
+      s.rect(this.x, this.y, w, h);
+      s.noStroke();
+      if (this.active) {
+        s.fill(s.orange, this.s.netAlpha);
+      } else {
+        s.fill(s.white, this.s.netAlpha);
+      }
+      s.strokeWeight(2);
+      const left = this.x - w/2;
+      const top = this.y - h/2;
+      for (let i = 0; i < 5; i++) {
+        s.ellipse(left + (i+1) * w / 6, top + h / 3,
+            w / (i === 0 || i === 2 ? 20 : 10));
+      }
+      s.rect(left + (3) * w / 6, top + 2 * h / 3, w / (10), w / (10));
+    } else if (this.type === 'cel') {
       this.s.rect(this.x, this.y, size, size);
     } else {
       this.s.ellipse(this.x, this.y, size);

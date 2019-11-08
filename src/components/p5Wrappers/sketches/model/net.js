@@ -118,9 +118,11 @@ class Layer {
   draw() {
     if (!(this.layerType === 'input' || this.layerType === 'output')) {
       const s = this.s;
+      // draw shadow
       s.fill(0, 100);
       s.noStroke();
       s.rect(this.x+5, this.y+5, this.w, this.h);
+      // draw layer with correct parameters
       s.fill(250, this.s.netAlpha);
       let w = this.w;
       let h = this.h;
@@ -136,6 +138,7 @@ class Layer {
         h = 1.2 * this.h;
       }
       s.rect(this.x, this.y, w, h);
+      // draw inside of layer block
       s.noStroke();
       if (s.props.training.running || this.hover) {
         s.fill(s.blue, this.s.netAlpha);
@@ -150,6 +153,7 @@ class Layer {
             w / (i === 0 || i === 2 ? 20 : 10));
       }
       s.rect(left + (3) * w / 6, top + 2 * h / 3, w / (10), w / (10));
+      // draw hover info
       if (this.hover_left) {
         s.noStroke();
         if (this.s.props.network.layers > 1) {
@@ -279,8 +283,8 @@ class FakeLayer {
 
   /**
    * This functions checks if the mouse cursor is near the fake layer
-   * and will draw the fake layer more visible if the cursor is closer
-   * to it
+   * and will cause the draw function to draw the fake layer more visible
+   * if the cursor is closer to it
    *
    * @param {number} x the x position of the cursor
    * @param {number} y the y position of the cursor
