@@ -271,6 +271,29 @@ export class LSTM {
   }
 
   /**
+   * Resets all activations to 0 and sets the starting items to 1
+   */
+  reset() {
+    this.s.lstmStep = 0;
+    for (const c of this.connections) {
+      c.deactivate();
+    }
+    for (const i of this.items) {
+      i.deactivate();
+    }
+    // activating some items to start of the animation sequence
+    this.ghostFirst.addActiveInput();
+    this.recurrent.addActiveInput();
+    this.forget.addActiveInput();
+    for (const c of this.connections) {
+      c.updateActivation();
+    }
+    for (const i of this.items) {
+      i.updateActivation();
+    }
+  }
+
+  /**
    * A function that gets called if the user moves the mouse over the canvas
    * and sends the trigger to all interactable items on the screen
    *
@@ -364,6 +387,14 @@ class Connection {
    */
   addActiveInput() {
     this.activeInputs += 1;
+  }
+
+  /**
+   * Removes the current activations
+   */
+  deactivate() {
+    this.active = false;
+    this.activeInputs = 0;
   }
 
   /**
@@ -548,6 +579,14 @@ class Item {
    */
   addActiveInput() {
     this.currentActivatedConnecions += 1;
+  }
+
+  /**
+   * Removes the current activations
+   */
+  deactivate() {
+    this.active = false;
+    this.currentActivatedConnecions = 0;
   }
 
   /**
