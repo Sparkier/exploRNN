@@ -1,0 +1,9 @@
+#######################
+## Development Notes ##
+#######################
+
+TODO:
+    - Rearrange data creation to support one by one prediction of
+        values
+    - Change the rest of the code to work with this new data creation 
+    - Leave the rest be for now
