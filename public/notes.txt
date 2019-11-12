@@ -7,3 +7,13 @@ TODO:
         values
     - Change the rest of the code to work with this new data creation 
     - Leave the rest be for now
+
+
+Data - Plan:
+    - Train the model more intuitively by creating a large dataset
+        and let the network train over multiple epochs/batches
+    - Test the network with one prediction cycle after one epoch
+        -> take ONE sample data block (first?) and let the network predict a
+            whole interval of values step by step, while using the predicted
+            values also as new input value 
+        -> discuss the length of input and prediction intervals

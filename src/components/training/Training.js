@@ -23,7 +23,7 @@ class Training extends React.Component {
     this.props.actions.updateTraining({
       ...this.props.training,
       values: this.data.values,
-      predictions: this.data.predictions,
+      predictions: this.data.values,
     });
     this.pause = 1000;
     this.reset();
@@ -67,7 +67,8 @@ class Training extends React.Component {
    */
   reset() {
     // Create the network model and compile it
-    this.model.createComplexModel(this.data.values, 1, this.data.predictions,
+    this.model.createComplexModel(this.data.values,
+        1, this.data.predictions,
         this.props.network.layers, this.props.network.layerSize);
     let network = this.props.network;
     const optimizer = tf.train.rmsprop(network.learningRate);
@@ -82,32 +83,25 @@ class Training extends React.Component {
         this.props.training.dataVariant, this.props.training.noise);
     this.addDataToNetwork(network, this.data.chartDataInput,
         this.data.chartDataOutput, this.data.chartPredictionInput,
-        this.data.train_sin_input, this.data.train_sin_next,
-        this.data.prediction_sin_input);
-    this.data.generateDataWith(1, this.props.training.dataType,
-        this.props.training.dataVariant, this.props.training.noise);
+        this.data.trainInput, this.data.trainOutput,
+        this.data.testInput);
     this.addDataToNetwork(network, this.data.chartDataInput,
         this.data.chartDataOutput, this.data.chartPredictionInput,
-        this.data.train_sin_input, this.data.train_sin_next,
-        this.data.prediction_sin_input);
-    this.data.generateDataWith(2, this.props.training.dataType,
-        this.props.training.dataVariant, this.props.training.noise);
+        this.data.trainInput, this.data.trainOutput,
+        this.data.testInput);
     this.addDataToNetwork(network, this.data.chartDataInput,
         this.data.chartDataOutput, this.data.chartPredictionInput,
-        this.data.train_sin_input, this.data.train_sin_next,
-        this.data.prediction_sin_input);
+        this.data.trainInput, this.data.trainOutput,
+        this.data.testInput);
     // Initialize the first prediction data for visual clarity
-    tf.tidy(() => {
-      const prediction =
-        this.model.model.predict(network.data[2].modelPrediction);
-      const preds = Array.from(prediction.arraySync());
-      this.addPredictionToNetwork(network, preds[0]);
-    });
+    console.log(network.data[2].modelPrediction);
+    const pred = this.createPrediction(this.data.testInput);
+    network = this.addPredictionToNetwork(network, pred);
     this.props.actions.updateNetwork(network);
     this.model.model.fit(network.data[2].modelInput,
         network.data[2].modelOutput, {
           epochs: 1,
-          batchSize: 1,
+          batchSize: this.props.training.batchSize,
         }
     );
   }
@@ -170,26 +164,19 @@ class Training extends React.Component {
     const this_ = this;
     let network = this.props.network;
     // Prepare the data
-    this.data.generateDataWith(network.iteration + 2,
-        this.props.training.dataType, this.props.training.dataVariant,
-        this.props.training.noise);
     this.addDataToNetwork(network, this.data.chartDataInput,
         this.data.chartDataOutput, this.data.chartPredictionInput,
-        this.data.train_sin_input, this.data.train_sin_next,
-        this.data.prediction_sin_input);
-    tf.tidy(() => {
-      const prediction =
-        this.model.model.predict(network.data[2].modelPrediction);
-      const preds = Array.from(prediction.arraySync());
-      this.addPredictionToNetwork(network, preds[0]);
-    });
+        this.data.trainInput, this.data.trainOutput,
+        this.data.testInput);
+    const pred = this.createPrediction(this.data.testInput);
+    network = this.addPredictionToNetwork(network, pred);
     network = {...network, iteration: this.props.network.iteration + 1};
     this.props.actions.updateNetwork(network);
     // Train the model
     this.model.model.fit(this.props.network.data[2].modelInput,
         this.props.network.data[2].modelOutput, {
           epochs: 1,
-          batchSize: 1,
+          batchSize: this.props.training.batchSize,
         }
     ).then(() => {
       if (this.props.training.running) {
@@ -198,6 +185,32 @@ class Training extends React.Component {
         }, this.pause);
       }
     });
+  }
+
+  /**
+   * dbdrbdrbdr
+   * @param {array} testInput gdrg
+   * @return {array} output
+   */
+  createPrediction(testInput) {
+    const output = [];
+    let preds;
+    let prediction;
+    let inputBuff;
+    const newInput = [];
+    for (const step of testInput) {
+      newInput.push([step[0]]);
+    }
+    for (let i = 0; i < this.data.values; i++) {
+      inputBuff = tf.tensor3d([newInput]);
+      prediction =
+        this.model.model.predict(inputBuff);
+      preds = Array.from(prediction.arraySync());
+      output.push(preds[0]);
+      newInput.shift();
+      newInput.push([preds[0]]);
+    }
+    return output;
   }
 
   /**

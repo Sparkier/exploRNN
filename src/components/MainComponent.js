@@ -7,7 +7,7 @@ import * as actions from '../actions';
 import {Grid} from '@material-ui/core';
 import AlertSnack from './AlertSnack';
 import Training from './training/Training';
-import P5VisualsWrapper from './p5Wrappers/P5VisualsWrapper';
+import P5VisualsWrapper from './visualisation/P5VisualsWrapper';
 import Input from '../components/controls/InputComponent';
 
 /**
