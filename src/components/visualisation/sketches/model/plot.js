@@ -203,13 +203,14 @@ export class Plot {
                 -this.halfH / 2 * data * ratio);
           }
           s.endShape();
-        }
-        s.noStroke();
-        s.fill(250, 50, 70, this.vis);
-        for (let i = 0; i < s.props.training.predictions; i++) {
-          data = s.props.network.data[this.index].prediction[i];
-          s.ellipse((-this.halfW + (i * detailStepWidth)),
-              -this.halfH / 2 * data * ratio, 5);
+
+          s.noStroke();
+          s.fill(250, 50, 70, this.vis);
+          for (let i = 0; i < s.props.training.predictions; i++) {
+            data = s.props.network.data[this.index].prediction[i];
+            s.ellipse((-this.halfW + (i * detailStepWidth)),
+                -this.halfH / 2 * data * ratio, 5);
+          }
         }
       }
       s.pop();
