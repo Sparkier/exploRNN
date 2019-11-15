@@ -12,7 +12,7 @@ import * as actions from '../../actions';
  * canvas(-es), that implement the animation and interaction with the
  * network itself
  */
-class P5VisualsWrapper extends React.Component {
+class VisualWrapper extends React.Component {
   /**
    * The constructor function for the P5Wrapper, creates the necessary
    * sketches and sets the initial properties
@@ -63,7 +63,7 @@ class P5VisualsWrapper extends React.Component {
   }
 }
 
-P5VisualsWrapper.propTypes = {
+VisualWrapper.propTypes = {
   network: PropTypes.object.isRequired,
   training: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
@@ -93,4 +93,4 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(P5VisualsWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(VisualWrapper);

@@ -71,7 +71,7 @@ export class Model {
           activation: 'tanh',
         })
     );
-    this.model.summary();
+    // this.model.summary();
     return this.model;
   }
 }

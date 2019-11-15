@@ -7,7 +7,7 @@ import * as actions from '../actions';
 import {Grid} from '@material-ui/core';
 import AlertSnack from './AlertSnack';
 import Training from './training/Training';
-import P5VisualsWrapper from './visualisation/P5VisualsWrapper';
+import VisualWrapper from './visualisation/VisualWrapper';
 import Input from '../components/controls/InputComponent';
 
 /**
@@ -25,7 +25,7 @@ class Main extends React.Component {
       <Grid container direction='row' className='mainGrid'>
         <Grid item xs className='full'>
           <Training/>
-          <P5VisualsWrapper/>
+          <VisualWrapper/>
           <Input/>
         </Grid>
         <AlertSnack />

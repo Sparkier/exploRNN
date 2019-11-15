@@ -6,6 +6,8 @@ import * as tf from '@tensorflow/tfjs';
 import * as actions from '../../actions';
 import {Model} from '../../tensorflow/Model';
 import {Data} from '../../tensorflow/Data';
+import worker from './worker.js';
+import TrainingWorker from './TrainingWorker';
 
 /**
  * This class handles the generation, compilation and training of the
@@ -17,6 +19,12 @@ class Training extends React.Component {
    * initializes all necessary objects used for the training steps
    */
   componentDidMount() {
+    this.worker = new TrainingWorker(worker);
+    this.worker.onmessage = function(e) {
+      console.log(e);
+    };
+    console.log(window.location.href);
+    this.worker.postMessage({cmd: 'init'});
     tf.setBackend('cpu');
     this.model = new Model();
     this.data = new Data();
@@ -73,7 +81,7 @@ class Training extends React.Component {
     let network = this.props.network;
     const optimizer = tf.train.rmsprop(network.learningRate);
     this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
-    this.model.model.summary();
+    // this.model.model.summary();
     // reset the datasets and create the new data for the upcoming training
     network = {...network, data: Array(5).fill({}), iteration: 0};
     for (let i = 0; i < 5; i++) {
