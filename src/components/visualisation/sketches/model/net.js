@@ -15,6 +15,9 @@ export class Network {
     this.layers = [];
     this.fakeLayers = [];
     const layercount = s.network.length;
+    if (layercount === 0) {
+      return;
+    }
     let nodes = s.network[0];
     this.layers.push(new Layer(s, layercount, -1, nodes));
     this.fakeLayers.push(new FakeLayer(s, layercount, 0.5));

@@ -21,8 +21,15 @@ class VisualWrapper extends React.Component {
     super();
     // eslint-disable-next-line new-cap
     this.networkSketch = new window.p5(networkSketch, 'networkDiv');
+  }
+
+  /**
+   *
+   */
+  componentDidMount() {
+    console.log('Wrapper Props', this.props);
     this.networkSketch.props = this.props;
-    this.updateValues = true;
+    this.networkSketch.updateMemory();
   }
 
   /**
@@ -33,6 +40,7 @@ class VisualWrapper extends React.Component {
    * @return {boolean} true, if the component should update and rerender
    */
   shouldComponentUpdate(nextProps) {
+    console.log('UPDATING WRAPPER MEMORY');
     this.props = nextProps;
     this.networkSketch.props = nextProps;
     this.networkSketch.updateMemory();

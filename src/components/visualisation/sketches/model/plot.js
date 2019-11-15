@@ -28,6 +28,9 @@ export class Plot {
     this.cy = (5 - index - 0.5) * (s.height / 5);
     this.plotWidth = s.sideWidth * 0.7;
     this.plotHeight = s.height * 0.2;
+    if (!s.props) {
+      return;
+    }
     if (s.props.training.values + s.props.training.predictions === 0) {
       this.stepWidth = 2;
     } else {
@@ -42,6 +45,15 @@ export class Plot {
    */
   draw() {
     const s = this.s;
+    if (!s.props) {
+      return;
+    }
+    if (s.props.training.values + s.props.training.predictions === 0) {
+      this.stepWidth = 2;
+    } else {
+      this.total = s.props.training.values + s.props.training.predictions;
+      this.stepWidth = this.plotWidth / this.total;
+    }
     this.in = s.props.training.values;
     this.out = s.props.training.predictions;
     this.total = this.in + this.out;
@@ -69,6 +81,10 @@ export class Plot {
           this.scale * this.halfH
       );
       s.strokeWeight(3 * this.scale);
+
+      if (s.frameCount % 100 === 0) {
+        console.log('Drawing data', this.index, this.in, this.out);
+      }
       if (s.props.network.data &&
           s.props.network.data[this.index].chartPrediction) {
         s.stroke(50, 70, 250, this.vis);
@@ -98,10 +114,12 @@ export class Plot {
                 this.scale * (-this.halfW + ((i + this.in) * this.stepWidth)),
                 this.scale * (-this.halfH / 2 * data));
           } else {
-            data = s.props.network.data[this.index].prediction[i];
-            s.vertex(
-                this.scale * (-this.halfW + ((i + this.in) * this.stepWidth)),
-                this.scale * (-this.halfH / 2 * data));
+            if (s.props.network.data[this.index].prediction) {
+              data = s.props.network.data[this.index].prediction[i];
+              s.vertex(
+                  this.scale * (-this.halfW + ((i + this.in) * this.stepWidth)),
+                  this.scale * (-this.halfH / 2 * data));
+            }
           }
         }
         s.endShape();
@@ -175,15 +193,17 @@ export class Plot {
         if (this.index !== 2) {
           ratio = 1;
         }
-        s.stroke(250, 50, 70, this.vis);
-        s.noFill();
-        s.beginShape();
-        for (let i = 0; i < s.props.training.predictions; i++) {
-          data = s.props.network.data[this.index].prediction[i];
-          s.vertex((-this.halfW + (i * detailStepWidth)),
-              -this.halfH / 2 * data * ratio);
+        if (s.props.network.data[this.index].prediction) {
+          s.stroke(250, 50, 70, this.vis);
+          s.noFill();
+          s.beginShape();
+          for (let i = 0; i < s.props.training.predictions; i++) {
+            data = s.props.network.data[this.index].prediction[i];
+            s.vertex((-this.halfW + (i * detailStepWidth)),
+                -this.halfH / 2 * data * ratio);
+          }
+          s.endShape();
         }
-        s.endShape();
         s.noStroke();
         s.fill(250, 50, 70, this.vis);
         for (let i = 0; i < s.props.training.predictions; i++) {

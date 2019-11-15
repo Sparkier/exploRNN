@@ -25,6 +25,7 @@ export default function(s) {
   s.sideRatio = 0.2;
   s.ctrRatio = 0.5;
   s.lstmStep = 0;
+  s.ready = false;
 
   s.setup = function() {
     const netDiv = document.getElementById('networkDiv');
@@ -43,6 +44,7 @@ export default function(s) {
     s.ctrRight = s.width - s.sideWidth;
     s.net = new Network(s);
     s.cell = new LSTM(s);
+    s.pause = 0;
     s.imageMode(s.CENTER);
     s.rectMode(s.CENTER);
     s.plotsLeft = [];
@@ -56,8 +58,14 @@ export default function(s) {
   s.draw = function() {
     s.background(255);
     s.cursor(s.ARROW);
-    const pause = Math.round((1010 - s.props.ui.speed) / 10);
-    if (s.detail && s.props.ui.anim && s.frameCount % pause === 0) {
+    s.fill(0);
+    if (!s.props) {
+      return;
+    }
+    if (s.props) {
+      s.pause = Math.round((1010 - s.props.ui.speed) / 10);
+    }
+    if (s.detail && s.props.ui.anim && s.frameCount % s.pause === 0) {
       s.cell.update();
     }
     s.drawNetwork();
@@ -83,6 +91,11 @@ export default function(s) {
   };
 
   s.updateMemory = () => {
+    console.log('UPDATING SKETCH MEMORY');
+    s.ready = (s.props !== undefined);
+    if (!s.ready) {
+      return;
+    }
     if (!s.props.training.running) {
       s.network = [];
       s.network.push({size: 1, type: 'input'});
@@ -199,6 +212,9 @@ export default function(s) {
   };
 
   s.mouseMoved = function() {
+    if (!s.ready) {
+      return;
+    }
     if (this.detail) {
       s.cell.mouseMoved(s.mouseX, s.mouseY);
     } else {
@@ -207,6 +223,9 @@ export default function(s) {
   };
 
   s.mouseClicked = function() {
+    if (!s.ready) {
+      return;
+    }
     if (s.mouseX < 0 || s.mouseY < 0 ||
         s.mouseX > s.width || s.mouseY > s.height) {
       return;

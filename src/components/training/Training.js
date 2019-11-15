@@ -4,8 +4,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as tf from '@tensorflow/tfjs';
 import * as actions from '../../actions';
-import {Model} from '../../tensorflow/Model';
-import {Data} from '../../tensorflow/Data';
 import worker from './worker.js';
 import TrainingWorker from './TrainingWorker';
 
@@ -19,23 +17,55 @@ class Training extends React.Component {
    * initializes all necessary objects used for the training steps
    */
   componentDidMount() {
-    this.worker = new TrainingWorker(worker);
-    this.worker.onmessage = function(e) {
-      console.log(e);
-    };
-    console.log(window.location.href);
-    this.worker.postMessage({cmd: 'init'});
     tf.setBackend('cpu');
-    this.model = new Model();
-    this.data = new Data();
-    this.props.actions.updateTraining({
-      ...this.props.training,
-      values: this.data.values,
-      predictions: this.data.values,
-    });
+    this.worker = new TrainingWorker(worker);
+    this.worker.onmessage = this.onmessage;
+    console.log(window.location.href);
+    this.worker.postMessage(
+        {cmd: 'init'}
+    );
     this.pause = 1000;
     this.reset();
+    console.log('MY NETWORK', this.props.network);
   }
+
+  /**
+   * sfsef
+   *
+   * @param {event} e efsf
+   */
+  onmessage = (e) => {
+    const this_ = this;
+    const buff = e.data.values;
+    switch (e.data.cmd) {
+      case 'init':
+        this.props.actions.updateTraining({
+          ...this.props.training,
+          values: buff.values,
+          predictions: buff.predictions,
+        });
+        this.props.actions.updateUI({...this.props.ui});
+        break;
+      case 'fit':
+        if (this.props.training.running) {
+          setTimeout(function() {
+            this_.iterate();
+          }, this.pause);
+        }
+        break;
+      case 'data':
+        this.addDataToNetwork(this.props.network, buff.chartIn, buff.chartOut,
+            buff.chartPred);
+        break;
+      case 'pred':
+        this.addPredictionToNetwork(this.props.network, buff.pred);
+        break;
+      default:
+    }
+    console.log(e);
+    console.log('MY NETWORK', this.props.network);
+  };
+
 
   /**
    * This function is called if the state props have been changed and
@@ -74,44 +104,49 @@ class Training extends React.Component {
    * prediction arrays/tensors
    */
   reset() {
-    // Create the network model and compile it
-    this.model.createComplexModel(this.data.values,
-        1, this.data.predictions,
-        this.props.network.layers, this.props.network.layerSize);
+    this.worker.postMessage(
+        {
+          cmd: 'model',
+          params: {
+            layers: this.props.network.layers,
+            cells: this.props.network.layerSize,
+            learningRate: this.props.network.learningRate,
+          },
+        });
+
     let network = this.props.network;
-    const optimizer = tf.train.rmsprop(network.learningRate);
-    this.model.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
     // this.model.model.summary();
     // reset the datasets and create the new data for the upcoming training
     network = {...network, data: Array(5).fill({}), iteration: 0};
     for (let i = 0; i < 5; i++) {
-      this.addDataToNetwork(network, [], [], [], [], [], []);
+      this.addDataToNetwork(network, [], [], []);
     }
-    this.data.generateDataWith(0, this.props.training.dataType,
-        this.props.training.dataVariant, this.props.training.noise);
-    this.addDataToNetwork(network, this.data.chartDataInput,
-        this.data.chartDataOutput, this.data.chartPredictionInput,
-        this.data.trainInput, this.data.trainOutput,
-        this.data.testInput);
-    this.addDataToNetwork(network, this.data.chartDataInput,
-        this.data.chartDataOutput, this.data.chartPredictionInput,
-        this.data.trainInput, this.data.trainOutput,
-        this.data.testInput);
-    this.addDataToNetwork(network, this.data.chartDataInput,
-        this.data.chartDataOutput, this.data.chartPredictionInput,
-        this.data.trainInput, this.data.trainOutput,
-        this.data.testInput);
-    // Initialize the first prediction data for visual clarity
-    console.log(network.data[2].modelPrediction);
-    const pred = this.createPrediction(this.data.testInput);
-    network = this.addPredictionToNetwork(network, pred);
-    this.props.actions.updateNetwork(network);
-    this.model.model.fit(network.data[2].modelInput,
-        network.data[2].modelOutput, {
-          epochs: 1,
-          batchSize: this.props.training.batchSize,
-        }
-    );
+    for (let i = 0; i < 3; i++) {
+      this.worker.postMessage(
+          {
+            cmd: 'data',
+            params: {
+              start: i,
+              type: this.props.training.dataType,
+              var: this.props.training.dataVariant,
+              noise: this.props.training.noise,
+              size: this.props.training.dataSetSize,
+            },
+          }
+      );
+    }
+    this.worker.postMessage(
+        {
+          cmd: 'pred',
+        });
+    this.worker.postMessage(
+        {
+          cmd: 'fit',
+          params: {
+            epochs: 1,
+            batchSize: this.props.training.batchSize,
+          },
+        });
   }
 
   /**
@@ -124,24 +159,16 @@ class Training extends React.Component {
    * @param {number[]} chartOutput the output values to be drawn on the screen
    * @param {number[]} chartPrediction the prediction input
    *  values to be drawn on the screen
-   * @param {array} modelInput the input values used for training the model
-   * @param {array} modelOutput the output values used for training the model
-   * @param {array} modelPrediction the prediction input values used to
-   *   create a prediction for the training visualisation
    * @return {object} the new network object with the updated data
    */
   addDataToNetwork(oldNetwork, chartInput, chartOutput,
-      chartPrediction, modelInput, modelOutput, modelPrediction) {
+      chartPrediction) {
     const data = oldNetwork.data;
     data.shift();
     data.push({
       chartInput: chartInput,
       chartOutput: chartOutput,
       chartPrediction: chartPrediction,
-      modelInput: modelInput,
-      modelOutput: modelOutput,
-      modelPrediction: modelPrediction,
-      prediction: [],
     });
     const network = {...oldNetwork, data: data};
     return network;
@@ -169,36 +196,44 @@ class Training extends React.Component {
    * network is trained by comparing predicted output to actual output
    */
   async iterate() {
-    const this_ = this;
     let network = this.props.network;
     // Prepare the data
-    this.addDataToNetwork(network, this.data.chartDataInput,
-        this.data.chartDataOutput, this.data.chartPredictionInput,
-        this.data.trainInput, this.data.trainOutput,
-        this.data.testInput);
-    const pred = this.createPrediction(this.data.testInput);
-    network = this.addPredictionToNetwork(network, pred);
+    this.worker.postMessage(
+        {
+          cmd: 'data',
+          params: {
+            start: this.props.training.iteration,
+            type: this.props.training.dataType,
+            var: this.props.training.dataVariant,
+            noise: this.props.training.noise,
+            size: this.props.training.dataSetSize,
+          },
+        }
+    );
+    this.worker.postMessage(
+        {
+          cmd: 'pred',
+        });
     network = {...network, iteration: this.props.network.iteration + 1};
     this.props.actions.updateNetwork(network);
-    // Train the model
-    this.model.model.fit(this.props.network.data[2].modelInput,
-        this.props.network.data[2].modelOutput, {
-          epochs: 1,
-          batchSize: this.props.training.batchSize,
-        }
-    ).then(() => {
-      if (this.props.training.running) {
-        setTimeout(function() {
-          this_.iterate();
-        }, this.pause);
-      }
-    });
+    this.worker.postMessage(
+        {
+          cmd: 'fit',
+          params: {
+            epochs: 1,
+            batchSize: this.props.training.batchSize,
+          },
+        });
   }
 
   /**
-   * dbdrbdrbdr
-   * @param {array} testInput gdrg
-   * @return {array} output
+   * This function creates a continous array of single prediction values
+   * for the current test input values. The predicted values are being added
+   * to the values so that the model needs to predict the function with its
+   * own previous predictions
+   *
+   * @param {number[]} testInput the input values for testing the model
+   * @return {number[]} the predicition array
    */
   createPrediction(testInput) {
     const output = [];
@@ -234,6 +269,7 @@ class Training extends React.Component {
 Training.propTypes = {
   network: PropTypes.object.isRequired,
   training: PropTypes.object.isRequired,
+  ui: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
 };
 
@@ -248,6 +284,7 @@ function mapStateToProps(state, ownProps) {
   return {
     network: state.network,
     training: state.training,
+    ui: state.ui,
   };
 }
 /**
