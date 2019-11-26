@@ -81,20 +81,20 @@ export class Plot {
           this.scale * this.halfH
       );
       s.strokeWeight(3 * this.scale);
-      if (s.props.network.data &&
-          s.props.network.data[this.index].chartPrediction) {
+      if (s.props.ui.data &&
+          s.props.ui.data.chartPrediction) {
         s.stroke(50, 70, 250, this.vis);
         s.noFill();
         s.beginShape();
         for (let i = 0; i < this.in; i++) {
-          data = s.props.network.data[this.index].chartPrediction[i];
+          data = s.props.ui.data.chartPrediction[i];
           s.vertex(this.scale * (-this.halfW + i * this.stepWidth),
               this.scale * (-this.halfH / 2 * data));
         }
         s.endShape();
       }
-      if (s.props.network.data &&
-          s.props.network.data[this.index].chartOutput) {
+      if (s.props.ui.data &&
+          s.props.ui.data.chartOutput) {
         if (this.side === 'L') {
           s.stroke(50, 250, 50, this.vis);
         } else {
@@ -103,15 +103,15 @@ export class Plot {
         s.noFill();
         s.beginShape();
         for (let i = 0; i < this.out; i++) {
-          data = s.props.network.data[this.index].chartPrediction[i];
+          data = s.props.ui.data.chartPrediction[i];
           if (this.side === 'L') {
-            data = s.props.network.data[this.index].chartOutput[i];
+            data = s.props.ui.data.chartOutput[i];
             s.vertex(
                 this.scale * (-this.halfW + ((i + this.in) * this.stepWidth)),
                 this.scale * (-this.halfH / 2 * data));
           } else {
-            if (s.props.network.data[this.index].prediction) {
-              data = s.props.network.data[this.index].prediction[i];
+            if (s.props.ui.data.prediction) {
+              data = s.props.ui.data.prediction[i];
               s.vertex(
                   this.scale * (-this.halfW + ((i + this.in) * this.stepWidth)),
                   this.scale * (-this.halfH / 2 * data));

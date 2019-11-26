@@ -147,7 +147,8 @@ class Training extends React.Component {
             batchSize: this.props.training.batchSize,
           },
         });
-    // this.props.actions.updateNetwork(network);
+    this.props.actions.updateNetwork(network);
+    this.props.actions.updateUI({...this.props.ui, data: this.props.network.data[2]});
   }
 
   /**
@@ -197,6 +198,7 @@ class Training extends React.Component {
    * network is trained by comparing predicted output to actual output
    */
   async iterate() {
+    this.props.actions.updateUI({...this.props.ui, data: this.props.network.data[2]});
     let network = this.props.network;
     // Prepare the data
     this.worker.postMessage(

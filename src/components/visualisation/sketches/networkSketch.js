@@ -50,7 +50,6 @@ export default function(s) {
     s.plotsLeft = [];
     s.plotsRight = [];
     for (let i = 0; i < 5; i++) {
-      s.plotsLeft.push(new Plot(i, 'L', s));
       s.plotsRight.push(new Plot(i, 'R', s));
     }
   };
@@ -128,7 +127,6 @@ export default function(s) {
     s.plotsLeft = [];
     s.plotsRight = [];
     for (let i = 0; i < 5; i++) {
-      s.plotsLeft.push(new Plot(i, 'L', s));
       s.plotsRight.push(new Plot(i, 'R', s));
     }
   };
@@ -136,10 +134,6 @@ export default function(s) {
   s.drawPlots = function() {
     s.noStroke();
     s.fill(s.bgval);
-    s.rect(s.sideWidth / 2, s.height / 2, s.sideWidth, s.height);
-    for (const plot of s.plotsLeft) {
-      plot.draw();
-    }
     s.rect(s.outLeft + s.sideWidth / 2, s.height / 2, s.sideWidth, s.height);
     for (const plot of s.plotsRight) {
       plot.draw();

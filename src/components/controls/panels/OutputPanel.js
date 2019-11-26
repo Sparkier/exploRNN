@@ -77,7 +77,7 @@ class OutputPanel extends React.Component {
                   lightBlue[400] : grey[500],
               }}>
               <Box fontWeight="fontWeightBold"
-                fontSize={this.fontSize} m={1}>
+                fontSize={20} m={1}>
                 Learning Rate:
               </Box>
               {this.props.network.learningRate}

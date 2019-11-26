@@ -43,7 +43,7 @@ export default () => {
         break;
       case 'pred':
         postMessage({cmd: 'pred', values: {
-          pred: self.createPrediction(self.mem.predIn),
+          pred: self.createPrediction(),
         }});
         break;
       default:
@@ -161,6 +161,7 @@ export default () => {
     self.chartPredictionInput = [];
     self.chartDataInput = [];
     self.chartDataOutput = [];
+    self.maxNoise = 0.2;
     if (func === undefined || variant === undefined) {
       return;
     }
@@ -188,10 +189,10 @@ export default () => {
     // train data
     for (let i = 0; i < setSize; i++) {
       const trainInputSequence = [];
-      start = Math.random() * 20 * Math.PI;
+      start = Math.random() * Math.PI;
       for (let j = 0; j < self.values; j++) {
-        noiseVal = noise * (-0.1 + 0.2 * Math.random());
-        val = self.dataFunc(start + (i + j) * stepSize, func) * rndAmp;
+        noiseVal = (noise/100) * (-self.maxNoise + 2 *self.maxNoise * Math.random());
+        val = self.dataFunc(start + (i + j) * stepSize, func) + noiseVal;
         trainInputSequence.push([val]);
       }
       self.trainInputBuff.push(trainInputSequence);
@@ -208,11 +209,11 @@ export default () => {
     const testInputSequence = [];
     // test data
     for (let j = 0; j < self.values; j++) {
-      noiseVal = noise * (-0.1 + 0.2 * Math.random());
-      val = self.dataFunc(j * stepSize, func) * rndAmp;
+      noiseVal = (noise/100) * (-self.maxNoise + 2 * self.maxNoise * Math.random());
+      val = self.dataFunc(j * stepSize, func) * rndAmp + noiseVal;
       testInputSequence.push([val]);
       self.chartDataInput.push(val);
-      self.chartPredictionInput.push(val + noiseVal);
+      self.chartPredictionInput.push(val);
     }
     self.testInputBuff.push(testInputSequence);
     const currentOutSequence = [];
@@ -261,7 +262,6 @@ export default () => {
    * to the values so that the model needs to predict the function with its
    * own previous predictions
    *
-   * @param {number[]} testInput the input values for testing the model
    * @return {number[]} the predicition array
    */
   self.createPrediction = () => {
@@ -273,14 +273,14 @@ export default () => {
     for (const step of self.testInput) {
       newInput.push([step[0]]);
     }
-    for (let i = 0; i < self.values; i++) {
+    for (let i = 0; i < self.testOutputs; i++) {
       inputBuff = tf.tensor3d([newInput]);
       prediction =
       self.model.predict(inputBuff);
       preds = Array.from(prediction.arraySync());
       output.push(preds[0]);
-      newInput.splice(newInput.length - 1);
-      newInput.push([preds[0]]);
+      newInput.splice(0, 1);
+      newInput.push(preds[0]);
     }
     return output;
   };

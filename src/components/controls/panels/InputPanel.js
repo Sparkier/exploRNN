@@ -3,13 +3,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import * as actions from '../../../actions';
-import MyButton from './StyledButton';
 import {Grid, Paper} from '@material-ui/core';
 import {lightBlue, grey} from '@material-ui/core/colors';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Slider from '@material-ui/core/Slider';
 import {Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 
@@ -53,10 +49,11 @@ class InputPanel extends React.Component {
    *
    * @memberof Input
    *
-   * @param {number} dir - the direction in which to change the noise.
+   * @param {object} event - the percentage of noise
+   * @param {number} value - the percentage of noise
    */
-  changeNoise = (dir) => {
-    const newNoise = (this.props.training.noise + dir + 3) % 3;
+  changeNoise = (event, value) => {
+    const newNoise = value;
     this.props.actions.updateTraining({
       ...this.props.training,
       noise: newNoise,
@@ -106,104 +103,31 @@ class InputPanel extends React.Component {
         justify='center'>
         <Paper style={{...this.myPadding, height: '100%', width: '80%'}}>
           <Grid container item justify='center' alignItems="center">
-            <Grid item container
-              xs={2}
-              justify="center"
-              alignItems='center'>
-              <Grid item>
-                <MyButton
-                  disabled={
-                    this.props.ui.detail || this.props.training.running
-                  }
-                  properties={this.props}
-                  action={(event) => this.changeType(-1)}
-                  icon={
-                    <ChevronLeftIcon fontSize="small" style={{
-                      color: 'white',
-                    }} />
-                  } />
-              </Grid>
-            </Grid>
-            <Grid item container xs={3}
-              justify="center"
-              alignItems='center'
-              direction="column">
-              <Grid item>
-                <MyButton
-                  disabled={
-                    this.props.ui.detail || this.props.training.running
-                  } properties={this.props}
-                  action={(event) => this.changeNoise(1)}
-                  icon={
-                    <KeyboardArrowUpIcon fontSize="small"
-                      style={{
-                        color: 'white',
-                      }} />
-                  } />
-              </Grid>
-              <Grid item >
-                <Typography
-                  style={{
-                    color: !this.props.ui.detail &&
-                      !this.props.training.running ?
-                      lightBlue[400] : grey[500],
-                  }}>
-                  <Box fontWeight="fontWeightRegular"
-                    fontSize={this.fontSize - 2} m={1}>
-                    Input
-                  </Box>
-                </Typography>
-                <Typography
-                  style={{
-                    color: !this.props.ui.detail &&
-                      !this.props.training.running ?
-                      lightBlue[400] : grey[500],
-                  }}>
-                  <Box fontWeight="fontWeightRegular"
-                    fontSize={this.fontSize - 2} m={1}>
-                    Type: {this.props.training.dataType}
-                  </Box>
-                </Typography>
-                <Typography
-                  style={{
-                    color: !this.props.ui.detail &&
-                      !this.props.training.running ?
-                      lightBlue[400] : grey[500],
-                  }}>
-                  <Box fontWeight="fontWeightRegular"
-                    fontSize={this.fontSize - 2} m={1}>
-                    Noise: {this.props.training.noise}
-                  </Box>
-                </Typography>
-              </Grid>
-              <Grid item>
-                <MyButton
-                  disabled={
-                    this.props.ui.detail || this.props.training.running
-                  } properties={this.props}
-                  action={(event) => this.changeNoise(-1)}
-                  icon={
-                    <KeyboardArrowDownIcon fontSize="small" style={{
-                      color: 'white',
-                    }} />
-                  } />
-              </Grid>
-            </Grid>
-            <Grid item container xs={2} justify="center"
-              alignItems='center'>
-              <Grid item>
-                <MyButton
-                  disabled={
-                    this.props.ui.detail || this.props.training.running
-                  } properties={this.props}
-                  action={(event) => this.changeType(-1)}
-                  icon={
-                    <ChevronRightIcon fontSize="small" style={{
-                      color: 'white',
-                    }} />
-                  } />
-              </Grid>
-            </Grid>
+            <Typography variant="body1"
+              style={{
+                ...this.sliderPaddingStyle,
+                color: !this.props.ui.detail &&
+                  !this.props.training.running ?
+                  lightBlue[400] : grey[500],
+              }}>
+              <Box fontWeight="fontWeightBold"
+                fontSize={this.fontSize} m={1}>
+                Noise:
+              </Box>
+              {this.props.training.noise} %
+            </Typography>
+            <Slider
+              style={{...this.sliderPaddingStyle, color: 'white'}}
+              marks
+              disabled={
+                this.props.ui.detail || this.props.training.running
+              }
+              defaultValue={this.props.training.noise}
+              valueLabelDisplay="off"
+              step={0.1}
+              min={0}
+              max={100} onChange={this.changeNoise}
+            />
           </Grid>
         </Paper>
       </Grid>
