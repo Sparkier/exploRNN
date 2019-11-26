@@ -81,10 +81,6 @@ export class Plot {
           this.scale * this.halfH
       );
       s.strokeWeight(3 * this.scale);
-
-      if (s.frameCount % 100 === 0) {
-        console.log('Drawing data', this.index, this.in, this.out);
-      }
       if (s.props.network.data &&
           s.props.network.data[this.index].chartPrediction) {
         s.stroke(50, 70, 250, this.vis);

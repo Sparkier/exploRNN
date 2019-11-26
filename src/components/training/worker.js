@@ -12,7 +12,7 @@ export default () => {
         postMessage({cmd: 'init', values:
           {
             values: self.values,
-            predictions: self.values,
+            predictions: self.testOutputs,
           }});
         break;
       case 'fit':
@@ -156,6 +156,7 @@ export default () => {
     self.testInputBuff = [];
     self.values = Math.round(plotLength / stepSize);
     self.predictions = predLength;
+    self.testOutputs = 2 * Math.PI / stepSize;
     self.stepSize = stepSize;
     self.chartPredictionInput = [];
     self.chartDataInput = [];
@@ -190,14 +191,14 @@ export default () => {
       start = Math.random() * 20 * Math.PI;
       for (let j = 0; j < self.values; j++) {
         noiseVal = noise * (-0.1 + 0.2 * Math.random());
-        val = self.dataFunc((i + j) * stepSize, func) * rndAmp;
+        val = self.dataFunc(start + (i + j) * stepSize, func) * rndAmp;
         trainInputSequence.push([val]);
       }
       self.trainInputBuff.push(trainInputSequence);
       const currentOutSequence = [];
       let x;
       for (let j = 0; j < self.predictions; j++) {
-        x = (i + self.values + j) * stepSize;
+        x = (i + self.values + j) * stepSize + start;
         val = self.dataFunc(x, func) * rndAmp;
         currentOutSequence.push(val);
       }
@@ -216,7 +217,7 @@ export default () => {
     self.testInputBuff.push(testInputSequence);
     const currentOutSequence = [];
     let x;
-    for (let j = 0; j < self.values; j++) {
+    for (let j = 0; j < self.testOutputs; j++) {
       x = (self.values + j) * stepSize;
       val = self.dataFunc(x, func) * rndAmp;
       currentOutSequence.push(val);
@@ -226,6 +227,7 @@ export default () => {
     self.trainOutput = tf.tensor2d(self.trainOutputBuff);
     // self.testInput = tf.tensor3d(self.testInputBuff);
     self.testInput = testInputSequence;
+    console.log(self.testInput);
   };
 
   /**
@@ -277,7 +279,7 @@ export default () => {
       self.model.predict(inputBuff);
       preds = Array.from(prediction.arraySync());
       output.push(preds[0]);
-      newInput.shift();
+      newInput.splice(newInput.length - 1);
       newInput.push([preds[0]]);
     }
     return output;

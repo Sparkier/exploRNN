@@ -147,6 +147,7 @@ class Training extends React.Component {
             batchSize: this.props.training.batchSize,
           },
         });
+    // this.props.actions.updateNetwork(network);
   }
 
   /**
