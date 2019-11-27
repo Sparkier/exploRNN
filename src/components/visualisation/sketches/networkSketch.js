@@ -22,7 +22,8 @@ export default function(s) {
   s.bgval = 255;
   s.lstmAnim = true;
   s.currfps = 0;
-  s.sideRatio = 0.2;
+  s.sideRatioLeft = 0.1;
+  s.sideRatioRight = 0.3;
   s.ctrRatio = 0.5;
   s.lstmStep = 0;
   s.ready = false;
@@ -34,14 +35,17 @@ export default function(s) {
         window.innerHeight - valDiv.offsetHeight - 25);
     s.frameRate(60);
     // s.drawingContext.setLineDash([5,5])
-    s.sideWidth = 0.2 * s.width;
+    s.sideWidthLeft = s.sideRatioLeft * s.width;
+    s.sideWidthRight = s.sideRatioRight * s.width;
     s.inLeft = 0;
-    s.inRight = s.sideWidth;
-    s.outLeft = s.width - s.sideWidth;
+    s.inRight = s.sideWidthLeft;
+    s.outLeft = s.width - s.sideWidthRight;
     s.outRight = s.width;
-    s.ctrWidth = s.width * (1 - 2*s.sideRatio);
-    s.ctrLeft = s.sideWidth;
-    s.ctrRight = s.width - s.sideWidth;
+    s.ctrWidth = s.width * (1 - (s.sideRatioLeft + s.sideRatioRight));
+    s.ctrLeft = s.sideWidthLeft;
+    s.ctrRight = s.width - s.sideWidthRight;
+    s.ctrMidX = s.ctrLeft + s.ctrWidth/2;
+    s.ctrMidY = s.height/2;
     s.net = new Network(s);
     s.cell = new LSTM(s);
     s.pause = 0;
@@ -133,8 +137,9 @@ export default function(s) {
 
   s.drawPlots = function() {
     s.noStroke();
-    s.fill(s.bgval);
-    s.rect(s.outLeft + s.sideWidth / 2, s.height / 2, s.sideWidth, s.height);
+    s.fill(255, 150, 150);
+    s.rect(s.inLeft + s.sideWidthLeft / 2, s.height / 2, s.sideWidthLeft, s.height);
+    s.rect(s.outLeft + s.sideWidthRight / 2, s.height / 2, s.sideWidthRight, s.height);
     for (const plot of s.plotsRight) {
       plot.draw();
     }
@@ -143,7 +148,7 @@ export default function(s) {
   s.drawCell = function() {
     s.fill(s.bgval, s.cellAlpha);
     s.noStroke();
-    s.rect(s.width/2, s.height/2, s.ctrWidth, s.height);
+    s.rect(s.ctrMidX, s.height/2, s.ctrWidth, s.height);
     if (s.detail) {
       if (s.transition < 100) {
         s.transition += s.transitionSpeed;

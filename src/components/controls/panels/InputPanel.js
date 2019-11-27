@@ -60,6 +60,21 @@ class InputPanel extends React.Component {
     });
   }
 
+  /**
+   * Change the noise used in the training process.
+   *
+   * @memberof Input
+   *
+   * @param {object} event - the percentage of noise
+   * @param {number} value - the percentage of noise
+   */
+  changeBatchSize = (event, value) => {
+    this.props.actions.updateTraining({
+      ...this.props.training,
+      batchSize: value,
+    });
+  }
+
   // Some styles for better looks, TODO: clean up
   simplePaddingStyle = {
     width: '90%',
@@ -127,6 +142,33 @@ class InputPanel extends React.Component {
               step={0.1}
               min={0}
               max={100} onChange={this.changeNoise}
+            />
+          </Grid>
+          <Grid container item justify='center' alignItems="center">
+            <Typography variant="body1"
+              style={{
+                ...this.sliderPaddingStyle,
+                color: !this.props.ui.detail &&
+                  !this.props.training.running ?
+                  lightBlue[400] : grey[500],
+              }}>
+              <Box fontWeight="fontWeightBold"
+                fontSize={this.fontSize} m={1}>
+                 Batch Size:
+              </Box>
+              {this.props.training.batchSize}
+            </Typography>
+            <Slider
+              style={{...this.sliderPaddingStyle, color: 'white'}}
+              marks
+              disabled={
+                this.props.ui.detail || this.props.training.running
+              }
+              defaultValue={this.props.training.batchSize}
+              valueLabelDisplay="off"
+              step={1}
+              min={1}
+              max={50} onChange={this.changeBatchSize}
             />
           </Grid>
         </Paper>

@@ -6,7 +6,11 @@ export default {
     message: '',
   },
   network: {
-    data: Array(5).fill({}),
+    data: {
+      chartIn: [],
+      chartOut: [],
+      chartPred: [],
+    },
     layerSize: 10,
     layers: 3,
     learningRate: 0.05,
@@ -16,6 +20,7 @@ export default {
   },
   training: {
     running: false,
+    ready: true,
     speed: 1000,
     dataType: 'sin',
     dataVariant: 'random',
@@ -30,8 +35,10 @@ export default {
     step: false,
   },
   ui: {
+    running: false,
+    ready: true,
     detail: false,
-    data: null,
+    data: new Array(5).fill({}),
     speed: 850,
     anim: true,
     animStep: false,

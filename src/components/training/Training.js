@@ -37,6 +37,7 @@ class Training extends React.Component {
   onmessage = (e) => {
     const this_ = this;
     const buff = e.data.values;
+    let network = this.props.network;
     switch (e.data.cmd) {
       case 'init':
         this.props.actions.updateTraining({
@@ -47,6 +48,7 @@ class Training extends React.Component {
         this.props.actions.updateUI({...this.props.ui});
         break;
       case 'fit':
+
         if (this.props.training.running) {
           setTimeout(function() {
             this_.iterate();
@@ -54,11 +56,13 @@ class Training extends React.Component {
         }
         break;
       case 'data':
-        this.addDataToNetwork(this.props.network, buff.chartIn, buff.chartOut,
+        network = this.addDataToNetwork(this.props.network, buff.chartIn, buff.chartOut,
             buff.chartPred);
+        this.props.actions.updateNetwork(network);
         break;
       case 'pred':
-        this.addPredictionToNetwork(this.props.network, buff.pred);
+        network = this.addPredictionToNetwork(this.props.network, buff.pred);
+        this.props.actions.updateNetwork(network);
         break;
       default:
     }
@@ -76,7 +80,7 @@ class Training extends React.Component {
   componentDidUpdate(prevProps) {
     this.pause = 2000 - 2 * this.props.training.speed;
     if (this.props.training.running !== prevProps.training.running) {
-      if (this.props.training.running === true) {
+      if (this.props.training.running) {
         const this_ = this;
         setTimeout(function() {
           this_.iterate();
@@ -90,9 +94,6 @@ class Training extends React.Component {
       );
     }
     if (this.props.training.step) {
-      this.props.actions.updateTraining(
-          {...this.props.training, step: false}
-      );
       this.iterate();
     }
   }
@@ -114,13 +115,13 @@ class Training extends React.Component {
           },
         });
 
+    let ui = this.props.ui;
     let network = this.props.network;
     // this.model.model.summary();
     // reset the datasets and create the new data for the upcoming training
-    network = {...network, data: Array(5).fill({}), iteration: 0};
-    for (let i = 0; i < 5; i++) {
-      this.addDataToNetwork(network, [], [], []);
-    }
+    network = {...network, iteration: 0};
+    network = this.addDataToNetwork(network, [], [], []);
+    network = this.addPredictionToNetwork(network, []);
     for (let i = 0; i < 3; i++) {
       this.worker.postMessage(
           {
@@ -147,8 +148,9 @@ class Training extends React.Component {
             batchSize: this.props.training.batchSize,
           },
         });
+    ui = this.addDataToUI(ui, network);
     this.props.actions.updateNetwork(network);
-    this.props.actions.updateUI({...this.props.ui, data: this.props.network.data[2]});
+    this.props.actions.updateUI(ui);
   }
 
   /**
@@ -165,13 +167,11 @@ class Training extends React.Component {
    */
   addDataToNetwork(oldNetwork, chartInput, chartOutput,
       chartPrediction) {
-    const data = oldNetwork.data;
-    data.shift();
-    data.push({
+    const data = {
       chartInput: chartInput,
       chartOutput: chartOutput,
       chartPrediction: chartPrediction,
-    });
+    };
     const network = {...oldNetwork, data: data};
     return network;
   }
@@ -186,9 +186,26 @@ class Training extends React.Component {
    */
   addPredictionToNetwork(oldNetwork, prediction) {
     const data = oldNetwork.data;
-    data[2].prediction = prediction;
+    data.prediction = prediction;
     const network = {...oldNetwork, data: data};
     return network;
+  }
+
+  /**
+   * This funtion takes all current generated data values used for training
+   * the network and saves them in their right index position in the data
+   * arrays in the global state object
+   *
+   * @param {object} oldUI the previous ui object from the state
+   * @param {object} network the current network object from the state
+   * @return {object} the new network object with the updated data
+   */
+  addDataToUI(oldUI, network) {
+    const data = oldUI.data;
+    data.pop();
+    data.unshift(network.data);
+    const newUI = {...oldUI, data: data};
+    return newUI;
   }
 
   /**
@@ -198,8 +215,14 @@ class Training extends React.Component {
    * network is trained by comparing predicted output to actual output
    */
   async iterate() {
-    this.props.actions.updateUI({...this.props.ui, data: this.props.network.data[2]});
     let network = this.props.network;
+    let ui = this.props.ui;
+    console.log('UI', ui);
+    ui = this.addDataToUI(ui, network);
+    this.props.actions.updateUI(ui);
+    this.props.actions.updateTraining(
+        {...this.props.training, step: false, ready: false}
+    );
     // Prepare the data
     this.worker.postMessage(
         {
@@ -217,8 +240,7 @@ class Training extends React.Component {
         {
           cmd: 'pred',
         });
-    network = {...network, iteration: this.props.network.iteration + 1};
-    this.props.actions.updateNetwork(network);
+
     this.worker.postMessage(
         {
           cmd: 'fit',
@@ -227,6 +249,8 @@ class Training extends React.Component {
             batchSize: this.props.training.batchSize,
           },
         });
+    network = {...network, iteration: this.props.network.iteration + 1};
+    this.props.actions.updateNetwork(network);
   }
 
   /**

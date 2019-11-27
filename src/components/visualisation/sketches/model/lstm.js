@@ -195,12 +195,12 @@ export class LSTM {
     s.rectMode(s.CENTER);
     s.fill(0, 100);
     s.noStroke();
-    s.rect(s.width/2+20, s.height/2+20, s.ctrWidth * s.ctrRatio,
+    s.rect(s.ctrMidX+20, s.ctrMidY+20, s.ctrWidth * s.ctrRatio,
         s.height * s.ctrRatio);
     s.fill(255);
     s.stroke(100);
     s.strokeWeight(15);
-    s.rect(s.width/2, s.height/2, s.ctrWidth * s.ctrRatio,
+    s.rect(s.ctrMidX, s.ctrMidY, s.ctrWidth * s.ctrRatio,
         s.height * s.ctrRatio);
     for (const c of this.connections) {
       c.draw();
