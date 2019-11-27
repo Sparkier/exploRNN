@@ -29,7 +29,7 @@ class VisualWrapper extends React.Component {
   componentDidMount() {
     console.log('Wrapper Props', this.props);
     this.networkSketch.props = this.props;
-    this.networkSketch.updateMemory();
+    this.networkSketch.updateMemory(false);
   }
 
   /**
@@ -41,9 +41,12 @@ class VisualWrapper extends React.Component {
    */
   shouldComponentUpdate(nextProps) {
     console.log('UPDATING WRAPPER MEMORY');
+    const propsOld = this.props;
     this.props = nextProps;
     this.networkSketch.props = nextProps;
-    this.networkSketch.updateMemory();
+    this.networkSketch.updateMemory(
+        (propsOld.ui.running !== nextProps.ui.running) &&
+        nextProps.ui.running);
     return false;
   }
 

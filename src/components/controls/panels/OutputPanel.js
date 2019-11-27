@@ -90,9 +90,9 @@ class OutputPanel extends React.Component {
               }
               defaultValue={this.props.network.learningRate}
               valueLabelDisplay="off"
-              step={0.01}
+              step={0.005}
               min={0.01}
-              max={0.5} onChange={this.handleSliderChange}
+              max={0.25} onChange={this.handleSliderChange}
             />
           </Grid>
         </Paper>

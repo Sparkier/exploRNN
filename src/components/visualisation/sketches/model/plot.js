@@ -15,7 +15,6 @@ export class Plot {
     this.s = s;
     this.side = side;
     this.index = index;
-    this.scale = 0.7;
     this.vis = 255 - Math.abs(2-index) * 110;
     if (side === 'L') {
       this.l = s.inLeft;
@@ -25,7 +24,8 @@ export class Plot {
       this.r = s.outRight;
     }
     this.cx = this.l + s.sideWidthRight / 2;
-    this.cy = (index + 0.5) * (s.height / 5);
+    this.cy = ((index - 1) + 0.5) * (s.height / 3);
+    this.scale = 1 - 0.5 * (Math.abs(s.height/2 - this.cy) / (s.height/2));
     this.plotWidth = s.sideWidthRight * 0.8;
     this.plotHeight = s.height * 0.2;
     if (!s.props) {
@@ -37,6 +37,202 @@ export class Plot {
       this.total = s.props.training.values + s.props.training.predictions;
       this.stepWidth = this.plotWidth / this.total;
     }
+  }
+
+  /**
+   *
+   */
+  detail() {
+    let data;
+    const s = this.s;
+    if (this.index !== 2) {
+      // return;
+    }
+    let detailStepWidth = this.stepWidth;
+    s.push();
+    s.translate(this.cx, this.cy);
+    s.ellipseMode(s.CENTER);
+    s.stroke(200, this.vis);
+    s.strokeWeight(2 * this.scale);
+    if (this.index===2) {
+      s.rect(0, 0, this.plotWidth, this.plotHeight);
+    }
+    s.stroke(54, this.vis);
+    s.line(-this.plotWidth/2, 0, this.plotWidth / 2, 0);
+    if (this.side === 'L') {
+      s.line(this.halfW, -this.halfH, this.halfW, this.halfH);
+    } else {
+      s.line(-this.halfW, -this.halfH, -this.halfW, this.halfH);
+    }
+    s.strokeWeight(3 * this.scale);
+    if (this.side === 'L' && s.props.ui.data &&
+        s.props.ui.data[this.index].chartPrediction) {
+      detailStepWidth = this.plotWidth / this.in;
+      s.strokeWeight(2 * this.scale);
+      s.stroke(150, this.vis);
+      s.noFill();
+      s.beginShape();
+      for (let i = 0; i < this.in; i++) {
+        data = s.props.ui.data[this.index].chartPrediction[i];
+        s.vertex(-this.halfW + (i * detailStepWidth),
+            -this.halfH / 2 * data);
+      }
+      s.endShape();
+      if (this.index <= 2 ) {
+        s.strokeWeight(3 * this.scale);
+        s.stroke(50, 70, 250, this.vis);
+        s.noFill();
+        s.beginShape();
+        const max = this.index === 2 ? s.lstmStep : this.in;
+        for (let i = 0; i <= max; i++) {
+          data = s.props.ui.data[this.index].chartPrediction[i];
+          s.vertex(-this.halfW + (i * detailStepWidth),
+              -this.halfH / 2 * data);
+        }
+        s.endShape();
+        s.noStroke();
+        s.fill(50, 70, 250, this.vis);
+        for (let i = 0; i <= max; i++) {
+          data = s.props.ui.data[this.index].chartPrediction[i];
+          s.ellipse(-this.halfW + (i * detailStepWidth),
+              (-this.halfH / 2 * data), 5);
+        }
+        if (this.index === 2) {
+          const step = s.lstmStep;
+          data = s.props.ui.data[this.index].chartPrediction[step];
+          s.ellipse(-this.halfW + (s.lstmStep * detailStepWidth),
+              -this.halfH / 2 * data, 7);
+        }
+      }
+    }
+    if (this.side === 'R' && s.props.ui.data &&
+        s.props.ui.data[this.index].chartOutput) {
+      detailStepWidth = this.plotWidth / this.out;
+      let ratio = this.s.lstmStep / this.in;
+      if (this.index !== 2) {
+        ratio = 1;
+      }
+      if (s.props.ui.data[this.index].prediction) {
+        s.stroke(250, 50, 70, this.vis);
+        s.noFill();
+        s.beginShape();
+        for (let i = 0; i < s.props.training.predictions; i++) {
+          data = s.props.ui.data[this.index].prediction[i];
+          s.vertex((-this.halfW + (i * detailStepWidth)),
+              -this.halfH / 2 * data * ratio);
+        }
+        s.endShape();
+
+        s.noStroke();
+        s.fill(250, 50, 70, this.vis);
+        for (let i = 0; i < s.props.training.predictions; i++) {
+          data = s.props.ui.data[this.index].prediction[i];
+          s.ellipse((-this.halfW + (i * detailStepWidth)),
+              -this.halfH / 2 * data * ratio, 5);
+        }
+      }
+    }
+    s.pop();
+  }
+
+  /**
+   *
+   */
+  overview() {
+    let data;
+    const s = this.s;
+    let yOff = 0;
+    let showSteps = this.in + this.out;
+    if (s.plotAnim && s.plotFrame < s.plotMoveFrames) {
+      yOff = -s.height/3 * (1 - (s.plotFrame / s.plotMoveFrames));
+    }
+    if (s.plotAnim && s.plotFrame > s.plotMoveFrames &&
+        s.plotFrame < s.plotMoveFrames + s.plotScanFrames && this.index === 2) {
+      showSteps = ((s.plotFrame - s.plotMoveFrames) / s.plotMoveFrames) *
+        this.total;
+    }
+    if (showSteps > this.in + this.out) {
+      showSteps = this.in + this.out;
+    }
+
+    this.scale = 1 - 0.5 * (Math.abs(s.height/2 - this.cy - yOff) /
+      (s.height/2));
+    s.push();
+    s.translate(this.cx, this.cy);
+    s.ellipseMode(s.CENTER);
+    s.stroke(200, this.vis);
+    s.strokeWeight(2 * this.scale);
+    if (this.index===2) {
+      s.rect(0, 0, this.plotWidth, this.plotHeight);
+    }
+    s.translate(0, yOff);
+    s.stroke(54, this.vis);
+    s.line(-this.halfW * this.scale, 0, this.halfW * this.scale, 0);
+    s.line(this.scale * ((-this.halfW) + (this.in * this.stepWidth)),
+        -this.halfH * this.scale,
+        this.scale * (-this.halfW + (this.in * this.stepWidth)),
+        this.scale * this.halfH
+    );
+    if (s.plotAnim && s.plotFrame > s.plotMoveFrames &&
+      s.plotFrame < s.plotMoveFrames + s.plotScanFrames && this.index === 2) {
+      s.stroke(54, 150, 70, this.vis);
+      const right = (-this.halfW) + (showSteps * this.stepWidth);
+      let left = right - (this.in * this.stepWidth);
+      if (left < -this.halfW) {
+        left = -this.halfW;
+      }
+      s.fill(54, 150, 70, 20);
+      s.rect(left + (right - left) / 2, 0, this.scale * (right-left),
+          1.8 * this.scale * this.halfH);
+    }
+    s.strokeWeight(3 * this.scale);
+    if (s.props.ui.data &&
+          s.props.ui.data[this.index].chartPrediction) {
+      s.stroke(50, 70, 250, this.vis);
+      s.noFill();
+      s.beginShape();
+      for (let i = 0; i < this.in; i++) {
+        data = s.props.ui.data[this.index].chartPrediction[i];
+        s.vertex(this.scale * (-this.halfW + i * this.stepWidth),
+            this.scale * (-this.halfH / 2 * data));
+      }
+      s.endShape();
+    }
+    s.strokeWeight(1 * this.scale);
+    if (s.props.ui.data &&
+      s.props.ui.data[this.index].chartOutput && (this.index > 2 ||
+        (this.index === 2 && (s.plotAnim === false || (s.plotAnim === true &&
+          s.plotFrame > s.plotMoveFrames))))) {
+      s.stroke(150, this.vis);
+      s.noFill();
+      s.beginShape();
+      for (let i = 0; i < this.out && i < showSteps - this.in; i++) {
+        data = s.props.ui.data[this.index].chartOutput[i];
+        s.vertex(
+            this.scale * (-this.halfW + ((i + this.in) * this.stepWidth)),
+            this.scale * (-this.halfH / 2 * data));
+      }
+      s.endShape();
+    }
+    s.strokeWeight(3 * this.scale);
+    if (s.props.ui.data &&
+      s.props.ui.data[this.index].prediction && (this.index > 2 ||
+        (this.index === 2 && (s.plotAnim === false || (s.plotAnim === true &&
+          s.plotFrame > s.plotMoveFrames))))) {
+      s.stroke(250, 50, 70, this.vis);
+      s.noFill();
+      s.beginShape();
+      for (let i = 0; i < this.out && i < showSteps - this.in; i++) {
+        if (s.props.ui.data[this.index].prediction) {
+          data = s.props.ui.data[this.index].prediction[i];
+          s.vertex(
+              this.scale * (-this.halfW + ((i + this.in) * this.stepWidth)),
+              this.scale * (-this.halfH / 2 * data));
+        }
+      }
+      s.endShape();
+    }
+    s.pop();
   }
 
   /**
@@ -59,157 +255,13 @@ export class Plot {
     this.total = this.in + this.out;
     this.halfW = this.plotWidth / 2;
     this.halfH = this.plotHeight / 2;
-    let data;
     if (this.stepWidth === 2 && this.total !== 0) {
       this.stepWidth = this.plotWidth / this.total;
     }
     if (!s.props.ui.detail) {
-      s.push();
-      s.translate(this.cx, this.cy);
-      s.ellipseMode(s.CENTER);
-      s.stroke(200, this.vis);
-      s.strokeWeight(2 * this.scale);
-      if (this.index===2) {
-        s.rect(0, 0, this.scale * this.plotWidth,
-            this.scale * this.plotHeight);
-      }
-      s.stroke(54, this.vis);
-      s.line(-this.halfW * this.scale, 0, this.halfW * this.scale, 0);
-      s.line(this.scale * ((-this.halfW) + (this.in * this.stepWidth)),
-          -this.halfH * this.scale,
-          this.scale * (-this.halfW + (this.in * this.stepWidth)),
-          this.scale * this.halfH
-      );
-      s.strokeWeight(3 * this.scale);
-      if (s.props.ui.data &&
-          s.props.ui.data[this.index].chartPrediction) {
-        s.stroke(50, 70, 250, this.vis);
-        s.noFill();
-        s.beginShape();
-        for (let i = 0; i < this.in; i++) {
-          data = s.props.ui.data[this.index].chartPrediction[i];
-          s.vertex(this.scale * (-this.halfW + i * this.stepWidth),
-              this.scale * (-this.halfH / 2 * data));
-        }
-        s.endShape();
-      }
-      if (s.props.ui.data &&
-          s.props.ui.data[this.index].chartOutput) {
-        if (this.side === 'L') {
-          s.stroke(50, 250, 50, this.vis);
-        } else {
-          s.stroke(250, 50, 70, this.vis);
-        }
-        s.noFill();
-        s.beginShape();
-        for (let i = 0; i < this.out; i++) {
-          data = s.props.ui.data[this.index].chartPrediction[i];
-          if (this.side === 'L') {
-            data = s.props.ui.data[this.index].chartOutput[i];
-            s.vertex(
-                this.scale * (-this.halfW + ((i + this.in) * this.stepWidth)),
-                this.scale * (-this.halfH / 2 * data));
-          } else {
-            if (s.props.ui.data[this.index].prediction) {
-              data = s.props.ui.data[this.index].prediction[i];
-              s.vertex(
-                  this.scale * (-this.halfW + ((i + this.in) * this.stepWidth)),
-                  this.scale * (-this.halfH / 2 * data));
-            }
-          }
-        }
-        s.endShape();
-      }
-      s.pop();
+      this.overview();
     } else {
-      if (this.index !== 2) {
-        // return;
-      }
-      let detailStepWidth = this.stepWidth;
-      s.push();
-      s.translate(this.cx, this.cy);
-      s.ellipseMode(s.CENTER);
-      s.stroke(200, this.vis);
-      s.strokeWeight(2 * this.scale);
-      if (this.index===2) {
-        s.rect(0, 0, this.plotWidth, this.plotHeight);
-      }
-      s.stroke(54, this.vis);
-      s.line(-this.plotWidth/2, 0, this.plotWidth / 2, 0);
-      if (this.side === 'L') {
-        s.line(this.halfW, -this.halfH, this.halfW, this.halfH);
-      } else {
-        s.line(-this.halfW, -this.halfH, -this.halfW, this.halfH);
-      }
-      s.strokeWeight(3 * this.scale);
-      if (this.side === 'L' && s.props.ui.data &&
-          s.props.ui.data[this.index].chartPrediction) {
-        detailStepWidth = this.plotWidth / this.in;
-        s.strokeWeight(2 * this.scale);
-        s.stroke(150, this.vis);
-        s.noFill();
-        s.beginShape();
-        for (let i = 0; i < this.in; i++) {
-          data = s.props.ui.data[this.index].chartPrediction[i];
-          s.vertex(-this.halfW + (i * detailStepWidth),
-              -this.halfH / 2 * data);
-        }
-        s.endShape();
-        if (this.index <= 2 ) {
-          s.strokeWeight(3 * this.scale);
-          s.stroke(50, 70, 250, this.vis);
-          s.noFill();
-          s.beginShape();
-          const max = this.index === 2 ? s.lstmStep : this.in;
-          for (let i = 0; i <= max; i++) {
-            data = s.props.ui.data[this.index].chartPrediction[i];
-            s.vertex(-this.halfW + (i * detailStepWidth),
-                -this.halfH / 2 * data);
-          }
-          s.endShape();
-          s.noStroke();
-          s.fill(50, 70, 250, this.vis);
-          for (let i = 0; i <= max; i++) {
-            data = s.props.ui.data[this.index].chartPrediction[i];
-            s.ellipse(-this.halfW + (i * detailStepWidth),
-                (-this.halfH / 2 * data), 5);
-          }
-          if (this.index === 2) {
-            const step = s.lstmStep;
-            data = s.props.ui.data[this.index].chartPrediction[step];
-            s.ellipse(-this.halfW + (s.lstmStep * detailStepWidth),
-                -this.halfH / 2 * data, 7);
-          }
-        }
-      }
-      if (this.side === 'R' && s.props.ui.data &&
-          s.props.ui.data[this.index].chartOutput) {
-        detailStepWidth = this.plotWidth / this.out;
-        let ratio = this.s.lstmStep / this.in;
-        if (this.index !== 2) {
-          ratio = 1;
-        }
-        if (s.props.ui.data[this.index].prediction) {
-          s.stroke(250, 50, 70, this.vis);
-          s.noFill();
-          s.beginShape();
-          for (let i = 0; i < s.props.training.predictions; i++) {
-            data = s.props.ui.data[this.index].prediction[i];
-            s.vertex((-this.halfW + (i * detailStepWidth)),
-                -this.halfH / 2 * data * ratio);
-          }
-          s.endShape();
-
-          s.noStroke();
-          s.fill(250, 50, 70, this.vis);
-          for (let i = 0; i < s.props.training.predictions; i++) {
-            data = s.props.ui.data[this.index].prediction[i];
-            s.ellipse((-this.halfW + (i * detailStepWidth)),
-                -this.halfH / 2 * data * ratio, 5);
-          }
-        }
-      }
-      s.pop();
+      this.detail();
     }
   }
 }

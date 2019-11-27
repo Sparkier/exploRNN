@@ -216,10 +216,13 @@ class Training extends React.Component {
    */
   async iterate() {
     let network = this.props.network;
-    let ui = this.props.ui;
-    console.log('UI', ui);
-    ui = this.addDataToUI(ui, network);
-    this.props.actions.updateUI(ui);
+    if (this.props.ui.ready) {
+      let ui = this.props.ui;
+      console.log('UI', ui);
+      ui = this.addDataToUI(ui, network);
+      this.props.actions.updateUI({...ui, ready: false, running: true});
+    }
+
     this.props.actions.updateTraining(
         {...this.props.training, step: false, ready: false}
     );

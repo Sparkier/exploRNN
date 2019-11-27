@@ -141,7 +141,8 @@ class ControlPanel extends React.Component {
             <Grid item style={this.myPadding}>
               <MyButton properties={this.props}
                 disabled={(this.props.ui.detail && this.props.ui.anim) ||
-                (!this.props.ui.detail && this.props.training.running)}
+                (!this.props.ui.detail && this.props.training.running) ||
+                (!this.props.ui.detail && !this.props.ui.ready)}
                 action={this.nextStep}
                 icon={
                   <SkipNext fontSize="default" style={{color: 'white'}}/>

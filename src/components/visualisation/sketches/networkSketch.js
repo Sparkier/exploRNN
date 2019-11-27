@@ -49,6 +49,12 @@ export default function(s) {
     s.net = new Network(s);
     s.cell = new LSTM(s);
     s.pause = 0;
+    s.plotFrame = 0;
+    s.plotAnim = false;
+    s.plotMoveFrames = 50;
+    s.plotScanFrames = 75;
+    s.plotStayFrames = 25;
+    s.MAX_PLOT_FRAMES = s.plotMoveFrames + s.plotScanFrames + s.plotStayFrames;
     s.imageMode(s.CENTER);
     s.rectMode(s.CENTER);
     s.plotsLeft = [];
@@ -93,11 +99,15 @@ export default function(s) {
     s.losdesc = s.loadImage('./data/los_desc.png');
   };
 
-  s.updateMemory = () => {
+  s.updateMemory = (start) => {
     console.log('UPDATING SKETCH MEMORY');
     s.ready = (s.props !== undefined);
     if (!s.ready) {
       return;
+    }
+    if (start) {
+      s.plotFrame = 0;
+      s.plotAnim = true;
     }
     if (!s.props.training.running) {
       s.network = [];
@@ -139,10 +149,21 @@ export default function(s) {
     s.noStroke();
     s.fill(255, 150, 150);
     s.rect(s.inLeft + s.sideWidthLeft / 2, s.height / 2, s.sideWidthLeft, s.height);
+    s.fill(255);
     s.rect(s.outLeft + s.sideWidthRight / 2, s.height / 2, s.sideWidthRight, s.height);
     for (const plot of s.plotsRight) {
       plot.draw();
     }
+    if (s.plotAnim) {
+      s.plotFrame++;
+      if (s.plotFrame > s.MAX_PLOT_FRAMES) {
+        s.plotAnim = false;
+        s.plotFrame = 0;
+        s.props.actions.updateUI({...s.props.ui, running: false, ready: true});
+      }
+    }
+    s.text(s.plotAnim + ' animation', 20, 50);
+    s.text(s.plotFrame + ' frames', 20, 80);
   };
 
   s.drawCell = function() {
