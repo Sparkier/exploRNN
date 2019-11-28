@@ -191,7 +191,7 @@ export class Plot {
       s.stroke(50, 70, 250, this.vis);
       s.noFill();
       s.beginShape();
-      for (let i = 0; i < this.in; i++) {
+      for (let i = 0; i <= this.in; i++) {
         data = s.props.ui.data[this.index].chartPrediction[i];
         s.vertex(this.scale * (-this.halfW + i * this.stepWidth),
             this.scale * (-this.halfH / 2 * data));

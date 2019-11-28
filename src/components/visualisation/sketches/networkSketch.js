@@ -1,6 +1,7 @@
 import {LSTM} from './model/lstm';
 import {Network} from './model/net';
 import {Plot} from './model/plot';
+import {Input} from './model/input';
 
 /**
  * This function represents the sketch in which the network with user
@@ -48,6 +49,8 @@ export default function(s) {
     s.ctrMidY = s.height/2;
     s.net = new Network(s);
     s.cell = new LSTM(s);
+    s.input = new Input(s);
+    console.log('INPUT', s.input);
     s.pause = 0;
     s.plotFrame = 0;
     s.plotAnim = false;
@@ -79,6 +82,7 @@ export default function(s) {
     }
     s.drawNetwork();
     s.drawPlots();
+    s.drawInput();
     s.drawCell();
     s.fill(255);
   };
@@ -145,10 +149,15 @@ export default function(s) {
     }
   };
 
+  s.drawInput = function() {
+    s.noStroke();
+    s.fill(255);
+    s.rect(s.inLeft + s.sideWidthLeft / 2, s.height / 2, s.sideWidthLeft, s.height);
+    s.input.draw();
+  };
+
   s.drawPlots = function() {
     s.noStroke();
-    s.fill(255, 150, 150);
-    s.rect(s.inLeft + s.sideWidthLeft / 2, s.height / 2, s.sideWidthLeft, s.height);
     s.fill(255);
     s.rect(s.outLeft + s.sideWidthRight / 2, s.height / 2, s.sideWidthRight, s.height);
     for (const plot of s.plotsRight) {
@@ -239,6 +248,9 @@ export default function(s) {
       s.cell.mouseMoved(s.mouseX, s.mouseY);
     } else {
       s.net.update(s.mouseX, s.mouseY);
+      if (s.input) {
+        s.input.mouseMoved(s.mouseX, s.mouseY);
+      }
     }
   };
 
@@ -257,6 +269,7 @@ export default function(s) {
       }
     } else {
       s.net.checkClick();
+      s.input.checkClick();
     }
   };
 }
