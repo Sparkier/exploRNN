@@ -20,16 +20,21 @@ export class Input {
     this.buttons.push(new Button(s, 'saw', 2, this.dist, this.steps, this.noises));
     this.buttons.push(new Button(s, 'sqr', 3, this.dist, this.steps, this.noises));
     this.buttons.push(new Button(s, 'sinc', 4, this.dist, this.steps, this.noises));
-    console.log('BUTTONS', this.buttons);
   }
 
   /**
    * draw input options
    */
   draw() {
+    const s = this.s;
     for (const b of this.buttons) {
       b.draw();
     }
+    const dist = this.dist;
+    s.textAlign(s.CENTER);
+    s.fill(0);
+    s.noStroke();
+    s.text('Input', s.sideWidthLeft / 2, s.height / 2 - 2 * dist);
   }
 
   /**
@@ -108,8 +113,9 @@ class Button {
     for (let i = 0; i < this.steps; i++) {
       noiseVal = this.noises[i] * (this.s.props.training.noise/100);
       const x = i / this.steps * range;
-      const y = this.dataFunc(x, this.type) + noiseVal;
-      s.vertex(startX + x * ratio, startY + y * ratio);
+      const x_ = (i - s.frameCount/8) / this.steps * range;
+      const y = this.dataFunc((this.active && s.netAnim) ? x_ : x, this.type) + noiseVal;
+      s.vertex(startX + this.size - x * ratio, startY + y * this.size / 4);
     }
     s.endShape();
   }
@@ -125,16 +131,13 @@ class Button {
   dataFunc(x, type) {
     let y = Math.sin(x);
     if (type === 'sinc') {
-      if (x === Math.PI) {
-        return 1;
-      }
       y = Math.sin((x+Math.PI) % 4) / ((x+Math.PI) % 4);
     }
     if (type === 'saw') {
       y = -1 + x % 2;
     }
     if (type === 'sqr') {
-      y = Math.sin(x) >= 0 ? 1 : -1;
+      y = Math.sin(2*x) >= 0 ? 1 : -1;
     }
     return y;
   }

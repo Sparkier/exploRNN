@@ -14,12 +14,15 @@ export class Network {
     s.white = s.color(54);
     this.layers = [];
     this.fakeLayers = [];
+    this.loss = false;
+    this.rev = false;
     const layercount = s.network.length;
     if (layercount === 0) {
       return;
     }
     let nodes = s.network[0];
-    this.layers.push(new Layer(s, layercount, -1, nodes));
+    this.active = false;
+    this.layers.push(new Layer(s, layercount, 0, nodes));
     this.fakeLayers.push(new FakeLayer(s, layercount, 0.5));
     for (let i = 1; i < layercount - 1; i++) {
       nodes = s.network[i];
@@ -27,7 +30,7 @@ export class Network {
       this.fakeLayers.push(new FakeLayer(s, layercount, i + 0.5));
     }
     nodes = s.network[layercount-1];
-    this.layers.push(new Layer(s, layercount, -1, nodes));
+    this.layers.push(new Layer(s, layercount, layercount - 1, nodes));
   }
 
   /**
@@ -37,9 +40,9 @@ export class Network {
   draw() {
     const s = this.s;
     s.strokeWeight(2 * s.netScale);
-    if (s.props.training.running) {
+    if (s.netAnim) {
       s.stroke(s.blue);
-      s.drawingContext.lineDashOffset = -s.frameCount/2;
+      s.drawingContext.lineDashOffset = this.rev ? s.frameCount/2 : -s.frameCount/2;
       s.drawingContext.setLineDash([10, 10]);
     } else {
       s.stroke(s.white);
@@ -47,6 +50,19 @@ export class Network {
     this.s.noFill();
     this.s.line(s.ctrLeft, this.s.height/2, this.s.ctrRight, this.s.height/2);
     s.drawingContext.setLineDash([]);
+    this.updatePause = Math.round(s.netPredFrames /
+      (this.layers.length));
+    this.updatePauseRev = Math.round(s.netTrainFrames /
+      (this.layers.length));
+    this.rev = s.netFrame > s.netPredFrames + s.netLossFrames;
+
+    if (!this.rev && s.netAnim && s.netFrame % this.updatePause === 0) {
+      this.update();
+    }
+    if (this.rev && s.netAnim && (s.netFrame - (s.netPredFrames +
+        s.netLossFrames)) % this.updatePauseRev === 0) {
+      this.update();
+    }
     for (const l of this.layers) {
       l.draw();
     }
@@ -62,12 +78,12 @@ export class Network {
    * @param {number} x the x position of the mouse cursor
    * @param {number} y the y position of the mouse cursor
    */
-  update(x, y) {
+  mouseMoved(x, y) {
     for (const l of this.layers) {
-      l.update(x, y);
+      l.mouseMoved(x, y);
     }
     for (const l of this.fakeLayers) {
-      l.update(x, y);
+      l.mouseMoved(x, y);
     }
   }
 
@@ -81,6 +97,41 @@ export class Network {
     for (const l of this.fakeLayers) {
       l.checkClick();
     }
+  }
+
+  /**
+   * This function is being called as a means to create an animated network
+   */
+  update() {
+    const s = this.s;
+    let next = -1;
+    let buff = 0;
+    for (const l of this.layers) {
+      buff = l.update();
+      if (buff > next) {
+        next = buff;
+      }
+    }
+    console.log(next, s.netAnim, s.netFrame);
+    if (!this.rev && next >= 0 && next < this.layers.length) {
+      this.layers[next].activate();
+    } else if (this.rev && next >= 2 && next <= this.layers.length) {
+      this.layers[next - 2].activate();
+    } else {
+      this.layers[this.layers.length - 1].activate();
+    }
+  }
+
+  /**
+   * sets off the animation chain
+   */
+  start() {
+    for (const l of this.layers) {
+      l.deactivate();
+    }
+    this.rev = false;
+    this.layers[1].activate();
+    console.log('STARTED');
   }
 }
 
@@ -103,6 +154,7 @@ class Layer {
     this.layerwidth = nodes.size;
     this.nodes = [];
     this.layerType = nodes.type;
+    this.active = false;
     this.hover = false;
     this.hover_left = false;
     this.hover_right = false;
@@ -137,14 +189,19 @@ class Layer {
       if (this.hover) {
         s.stroke(100, this.s.netAlpha);
         s.cursor(s.HAND);
+      }
+      if (this.active) {
+        s.stroke(s.blue, this.s.netAlpha);
         w = 1.2 * this.w;
         h = 1.2 * this.h;
       }
       s.rect(this.x, this.y, w, h);
       // draw inside of layer block
       s.noStroke();
-      if (s.props.training.running || this.hover) {
+      if (s.props.training.running || this.active) {
         s.fill(s.blue, this.s.netAlpha);
+      } else if (this.hover) {
+        s.fill(100, this.s.netAlpha);
       } else {
         s.fill(s.white, this.s.netAlpha);
       }
@@ -190,7 +247,7 @@ class Layer {
    * @param {number} x the x position of the cursor
    * @param {number} y the y position of the cursor
    */
-  update(x, y) {
+  mouseMoved(x, y) {
     if (x > this.x - this.w/2 && x < this.x + this.w/2 &&
         y > this.y - this.h/2 && y < this.y + this.h/2) {
       this.hover = true;
@@ -222,6 +279,35 @@ class Layer {
       }
     }
     this.clicked = this.hover;
+  }
+
+  /**
+   * Deactivates the current layer if needed and reports back which index
+   * layer should be activated next
+   *
+   * @return {number} the next index
+   */
+  update() {
+    if (this.active) {
+      this.active = false;
+      return this.i + 1;
+    } else {
+      return -1;
+    }
+  }
+
+  /**
+   * sets this layer to be active
+   */
+  activate() {
+    this.active = true;
+  }
+
+  /**
+   * sets this layer to be active
+   */
+  deactivate() {
+    this.active = false;
   }
 }
 
@@ -292,7 +378,7 @@ class FakeLayer {
    * @param {number} x the x position of the cursor
    * @param {number} y the y position of the cursor
    */
-  update(x, y) {
+  mouseMoved(x, y) {
     if (x > this.x - this.w/2 && x < this.x + this.w/2 &&
         y > this.y - this.h/2 && y < this.y + this.h/2) {
       this.hover = true;

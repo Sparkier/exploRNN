@@ -148,7 +148,7 @@ export class Plot {
     }
     if (s.plotAnim && s.plotFrame > s.plotMoveFrames &&
         s.plotFrame < s.plotMoveFrames + s.plotScanFrames && this.index === 2) {
-      showSteps = ((s.plotFrame - s.plotMoveFrames) / s.plotMoveFrames) *
+      showSteps = ((s.plotFrame - s.plotMoveFrames) / s.plotScanFrames) *
         this.total;
     }
     if (showSteps > this.in + this.out) {

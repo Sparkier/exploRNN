@@ -48,7 +48,6 @@ class Training extends React.Component {
         this.props.actions.updateUI({...this.props.ui});
         break;
       case 'fit':
-
         if (this.props.training.running) {
           setTimeout(function() {
             this_.iterate();
@@ -79,13 +78,17 @@ class Training extends React.Component {
    */
   componentDidUpdate(prevProps) {
     this.pause = 2000 - 2 * this.props.training.speed;
+    const this_ = this;
     if (this.props.training.running !== prevProps.training.running) {
       if (this.props.training.running) {
-        const this_ = this;
         setTimeout(function() {
           this_.iterate();
-        }, 500);
+        }, 100);
       }
+    } else if (this.props.training.running && this.props.ui.ready) {
+      setTimeout(function() {
+        this_.iterate();
+      }, 100);
     }
     if (this.props.training.reset) {
       this.reset();
@@ -114,14 +117,6 @@ class Training extends React.Component {
             learningRate: this.props.network.learningRate,
           },
         });
-
-    let ui = this.props.ui;
-    let network = this.props.network;
-    // this.model.model.summary();
-    // reset the datasets and create the new data for the upcoming training
-    network = {...network, iteration: 0};
-    network = this.addDataToNetwork(network, [], [], []);
-    network = this.addPredictionToNetwork(network, []);
     for (let i = 0; i < 3; i++) {
       this.worker.postMessage(
           {
@@ -148,6 +143,13 @@ class Training extends React.Component {
             batchSize: this.props.training.batchSize,
           },
         });
+    let ui = this.props.ui;
+    let network = this.props.network;
+    // this.model.model.summary();
+    // reset the datasets and create the new data for the upcoming training
+    network = {...network, iteration: 0};
+    network = this.addDataToNetwork(network, [], [], []);
+    network = this.addPredictionToNetwork(network, []);
     ui = this.addDataToUI(ui, network);
     this.props.actions.updateNetwork(network);
     this.props.actions.updateUI(ui);
@@ -204,6 +206,8 @@ class Training extends React.Component {
     const data = oldUI.data;
     data.pop();
     data.unshift(network.data);
+    data[1] = network.data;
+    data[2] = network.data;
     const newUI = {...oldUI, data: data};
     return newUI;
   }
@@ -221,6 +225,8 @@ class Training extends React.Component {
       console.log('UI', ui);
       ui = this.addDataToUI(ui, network);
       this.props.actions.updateUI({...ui, ready: false, running: true});
+    } else {
+      return;
     }
 
     this.props.actions.updateTraining(

@@ -2,6 +2,7 @@ import {LSTM} from './model/lstm';
 import {Network} from './model/net';
 import {Plot} from './model/plot';
 import {Input} from './model/input';
+import {Loss} from './model/loss';
 
 /**
  * This function represents the sketch in which the network with user
@@ -24,7 +25,7 @@ export default function(s) {
   s.lstmAnim = true;
   s.currfps = 0;
   s.sideRatioLeft = 0.1;
-  s.sideRatioRight = 0.3;
+  s.sideRatioRight = 0.2;
   s.ctrRatio = 0.5;
   s.lstmStep = 0;
   s.ready = false;
@@ -42,21 +43,29 @@ export default function(s) {
     s.inRight = s.sideWidthLeft;
     s.outLeft = s.width - s.sideWidthRight;
     s.outRight = s.width;
-    s.ctrWidth = s.width * (1 - (s.sideRatioLeft + s.sideRatioRight));
+    s.ctrWidth = s.width * s.ctrRatio;
     s.ctrLeft = s.sideWidthLeft;
-    s.ctrRight = s.width - s.sideWidthRight;
+    s.ctrRight = s.ctrLeft + s.ctrWidth;
     s.ctrMidX = s.ctrLeft + s.ctrWidth/2;
     s.ctrMidY = s.height/2;
     s.net = new Network(s);
     s.cell = new LSTM(s);
     s.input = new Input(s);
+    s.loss = new Loss(s);
     console.log('INPUT', s.input);
     s.pause = 0;
+    s.netFrame = 0;
+    s.netAnim = false;
+    s.netPredFrames = 100;
+    s.netLossFrames = 50;
+    s.netTrainFrames = 100;
+    s.MAX_NET_FRAMES = s.netPredFrames + s.netLossFrames + s.netTrainFrames;
     s.plotFrame = 0;
     s.plotAnim = false;
-    s.plotMoveFrames = 50;
-    s.plotScanFrames = 75;
-    s.plotStayFrames = 25;
+    s.plotMoveFrames = 100;
+    s.plotScanFrames = 50;
+    s.plotStayFrames = 100;
+    s.netPause = s.plotMoveFrames / (s.props.network.layers + 2);
     s.MAX_PLOT_FRAMES = s.plotMoveFrames + s.plotScanFrames + s.plotStayFrames;
     s.imageMode(s.CENTER);
     s.rectMode(s.CENTER);
@@ -83,7 +92,9 @@ export default function(s) {
     s.drawNetwork();
     s.drawPlots();
     s.drawInput();
+    s.drawLoss();
     s.drawCell();
+    // draw cell input/output
     s.fill(255);
   };
 
@@ -109,10 +120,6 @@ export default function(s) {
     if (!s.ready) {
       return;
     }
-    if (start) {
-      s.plotFrame = 0;
-      s.plotAnim = true;
-    }
     if (!s.props.training.running) {
       s.network = [];
       s.network.push({size: 1, type: 'input'});
@@ -120,7 +127,6 @@ export default function(s) {
         s.network.push({size: s.props.network.layerSize, type: 'hidden'});
       }
       s.network.push({size: 1, type: 'output'});
-      s.net = new Network(s);
       if (s.props.ui.animStep) {
         s.props = {...s.props, ui: {...s.props.ui, animStep: false}};
         s.cell.update();
@@ -128,11 +134,19 @@ export default function(s) {
       if (s.props.training.step) {
         s.lstmStep = 0;
       }
-      // s.cell = new LSTM(s);
+      if (!s.netAnim) {
+        s.net = new Network(s);
+      }
     } else {
       s.detail = false;
-      console.log('HELP, WHY IS THIS NOT WORKING');
       s.cell.reset();
+    }
+    if (start) {
+      s.plotFrame = 0;
+      s.plotAnim = true;
+      s.netFrame = 0;
+      s.netAnim = true;
+      s.net.start();
     }
     s.update = true;
   };
@@ -156,6 +170,11 @@ export default function(s) {
     s.input.draw();
   };
 
+  s.drawLoss = function() {
+    s.noStroke();
+    s.loss.draw();
+  };
+
   s.drawPlots = function() {
     s.noStroke();
     s.fill(255);
@@ -171,14 +190,12 @@ export default function(s) {
         s.props.actions.updateUI({...s.props.ui, running: false, ready: true});
       }
     }
-    s.text(s.plotAnim + ' animation', 20, 50);
-    s.text(s.plotFrame + ' frames', 20, 80);
   };
 
   s.drawCell = function() {
     s.fill(s.bgval, s.cellAlpha);
     s.noStroke();
-    s.rect(s.ctrMidX, s.height/2, s.ctrWidth, s.height);
+    s.rect(s.width/2, s.height/2, s.width, s.height);
     if (s.detail) {
       if (s.transition < 100) {
         s.transition += s.transitionSpeed;
@@ -227,6 +244,13 @@ export default function(s) {
       const cy = cb.y + (cb.y - s.height / 2) * (s.transition / 100);
       s.translate(-cx, -cy);
     }
+    if (s.netAnim) {
+      s.netFrame++;
+      if (s.netFrame > s.MAX_NET_FRAMES) {
+        s.netAnim = false;
+        s.netFrame = 0;
+      }
+    }
     // s.netAlpha = 255 * (100 - s.transition) / 100
     s.netAlpha = 255;
     s.net.draw();
@@ -234,10 +258,6 @@ export default function(s) {
       s.update = false;
     }
     s.pop();
-    if (s.frameCount % 10 === 0) {
-      s.currfps = Math.round(s.frameRate());
-    }
-    s.text(s.currfps + ' fps', 20, 20);
   };
 
   s.mouseMoved = function() {
@@ -247,7 +267,7 @@ export default function(s) {
     if (this.detail) {
       s.cell.mouseMoved(s.mouseX, s.mouseY);
     } else {
-      s.net.update(s.mouseX, s.mouseY);
+      s.net.mouseMoved(s.mouseX, s.mouseY);
       if (s.input) {
         s.input.mouseMoved(s.mouseX, s.mouseY);
       }

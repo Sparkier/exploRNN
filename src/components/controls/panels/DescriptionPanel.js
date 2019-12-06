@@ -46,7 +46,7 @@ class DescriptionPanel extends React.Component {
     paddingTop: '20px',
     paddingLeft: '20px',
     paddingRight: '20px',
-    paddingBottom: '20px',
+    paddingBottom: '50px',
     background: grey[800],
   };
 

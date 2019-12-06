@@ -85,7 +85,7 @@ class InputPanel extends React.Component {
     paddingTop: '20px',
     paddingLeft: '20px',
     paddingRight: '20px',
-    paddingBottom: '20px',
+    paddingBottom: '50px',
     background: grey[800],
   };
 
@@ -170,6 +170,9 @@ class InputPanel extends React.Component {
               min={1}
               max={50} onChange={this.changeBatchSize}
             />
+          </Grid>
+          <Grid item >
+
           </Grid>
         </Paper>
       </Grid>

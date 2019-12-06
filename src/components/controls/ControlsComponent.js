@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
 import * as actions from '../../actions';
 
 /**
@@ -42,12 +40,7 @@ class Controls extends React.Component {
           </Typography>
           <div className='wrapper'>
             <div className='menu' align="right">
-              <Fab
-                color="primary"
-                aria-label="add"
-                onClick={this.toggleDrawer(true)}>
-                <AddIcon />
-              </Fab>
+
             </div>
           </div>
         </Toolbar>
