@@ -191,7 +191,8 @@ export default () => {
       const trainInputSequence = [];
       start = Math.random() * Math.PI;
       for (let j = 0; j < self.values; j++) {
-        noiseVal = (noise/100) * (-self.maxNoise + 2 *self.maxNoise * Math.random());
+        noiseVal = (noise/100) * (-self.maxNoise +
+            2 * self.maxNoise * Math.random());
         val = self.dataFunc(start + (i + j) * stepSize, func) + noiseVal;
         trainInputSequence.push([val]);
       }
@@ -209,7 +210,8 @@ export default () => {
     const testInputSequence = [];
     // test data
     for (let j = 0; j < self.values; j++) {
-      noiseVal = (noise/100) * (-self.maxNoise + 2 * self.maxNoise * Math.random());
+      noiseVal = (noise/100) * (-self.maxNoise +
+          2 * self.maxNoise * Math.random());
       val = self.dataFunc(j * stepSize, func) * rndAmp + noiseVal;
       testInputSequence.push([val]);
       self.chartDataInput.push(val);

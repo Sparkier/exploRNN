@@ -55,8 +55,8 @@ class Training extends React.Component {
         }
         break;
       case 'data':
-        network = this.addDataToNetwork(this.props.network, buff.chartIn, buff.chartOut,
-            buff.chartPred);
+        network = this.addDataToNetwork(this.props.network, buff.chartIn,
+            buff.chartOut, buff.chartPred);
         this.props.actions.updateNetwork(network);
         break;
       case 'pred':

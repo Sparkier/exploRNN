@@ -16,10 +16,14 @@ export class Input {
     for (let i = 0; i < this.steps; i++) {
       this.noises.push(-0.2 + 0.4 * Math.random());
     }
-    this.buttons.push(new Button(s, 'sin', 1, this.dist, this.steps, this.noises));
-    this.buttons.push(new Button(s, 'saw', 2, this.dist, this.steps, this.noises));
-    this.buttons.push(new Button(s, 'sqr', 3, this.dist, this.steps, this.noises));
-    this.buttons.push(new Button(s, 'sinc', 4, this.dist, this.steps, this.noises));
+    this.buttons.push(new Button(s, 'sin', 1,
+        this.dist, this.steps, this.noises));
+    this.buttons.push(new Button(s, 'saw', 2,
+        this.dist, this.steps, this.noises));
+    this.buttons.push(new Button(s, 'sqr', 3,
+        this.dist, this.steps, this.noises));
+    this.buttons.push(new Button(s, 'sinc', 4,
+        this.dist, this.steps, this.noises));
   }
 
   /**
@@ -114,7 +118,8 @@ class Button {
       noiseVal = this.noises[i] * (this.s.props.training.noise/100);
       const x = i / this.steps * range;
       const x_ = (i - s.frameCount/8) / this.steps * range;
-      const y = this.dataFunc((this.active && s.netAnim) ? x_ : x, this.type) + noiseVal;
+      const y = this.dataFunc((this.active && s.netAnim) ? x_ : x, this.type) +
+        noiseVal;
       s.vertex(startX + this.size - x * ratio, startY + y * this.size / 4);
     }
     s.endShape();
@@ -149,7 +154,9 @@ class Button {
     const mx = this.s.mouseX;
     const my = this.s.mouseY;
     if (mx > this.left && mx < this.right && my > this.top && my < this.bot) {
-      this.s.props.actions.updateTraining({...this.s.props.training, dataType: this.type});
+      this.s.props.actions.updateTraining(
+          {...this.s.props.training, dataType: this.type}
+      );
     }
   }
 

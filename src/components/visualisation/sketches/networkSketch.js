@@ -66,7 +66,7 @@ export default function(s) {
     s.plotAnim = false;
     s.plotMoveFrames = 100;
     s.plotScanFrames = 50;
-    s.plotStayFrames = 100;
+    s.plotStayFrames = 110;
     s.netPause = s.plotMoveFrames / (s.props.network.layers + 2);
     s.MAX_PLOT_FRAMES = s.plotMoveFrames + s.plotScanFrames + s.plotStayFrames;
     s.imageMode(s.CENTER);
@@ -177,7 +177,8 @@ export default function(s) {
   s.drawInput = function() {
     s.noStroke();
     s.fill(255);
-    s.rect(s.inLeft + s.sideWidthLeft / 2, s.height / 2, s.sideWidthLeft, s.height);
+    s.rect(s.inLeft + s.sideWidthLeft / 2, s.height / 2, s.sideWidthLeft,
+        s.height);
     s.input.draw();
   };
 
@@ -189,7 +190,8 @@ export default function(s) {
   s.drawPlots = function() {
     s.noStroke();
     s.fill(255);
-    s.rect(s.outLeft + s.sideWidthRight / 2, s.height / 2, s.sideWidthRight, s.height);
+    s.rect(s.outLeft + s.sideWidthRight / 2, s.height / 2, s.sideWidthRight,
+        s.height);
     for (const plot of s.plotsRight) {
       plot.draw();
     }

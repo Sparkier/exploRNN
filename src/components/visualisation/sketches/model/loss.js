@@ -43,14 +43,13 @@ export class Loss {
       s.stroke(255, 100, 50);
       s.beginShape();
       for (let i = 0; i < s.lossValues.length * ratio; i++) {
-        s.vertex(this.ctrX - this.size/2 + i / s.lossValues.length * this.size, this.ctrY - s.lossValues[i] * this.size / 4);
+        s.vertex(this.ctrX - this.size/2 + i / s.lossValues.length * this.size,
+            this.ctrY - s.lossValues[i] * this.size / 4);
       }
       s.endShape();
     }
     s.fill(0);
     s.noStroke();
     s.text('Error', this.ctrX, this.ctrY - 0.7 * this.size);
-
   }
 }
-

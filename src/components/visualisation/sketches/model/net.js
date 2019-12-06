@@ -42,7 +42,8 @@ export class Network {
     s.strokeWeight(2 * s.netScale);
     if (s.netAnim) {
       s.stroke(s.blue);
-      s.drawingContext.lineDashOffset = this.rev ? s.frameCount/2 : -s.frameCount/2;
+      s.drawingContext.lineDashOffset = this.rev ?
+        s.frameCount/2 : -s.frameCount/2;
       s.drawingContext.setLineDash([10, 10]);
     } else {
       s.stroke(s.white);
