@@ -15,6 +15,7 @@ export default function(s) {
   s.network = [];
   s.plotsLeft = [];
   s.plotsRight = [];
+  s.lossValues = [];
   s.update = false;
   s.scaleImage = 5;
   s.detail = false;
@@ -25,6 +26,7 @@ export default function(s) {
   s.lstmAnim = true;
   s.currfps = 0;
   s.sideRatioLeft = 0.1;
+  s.sideRatioLoss = 0.1;
   s.sideRatioRight = 0.2;
   s.ctrRatio = 0.5;
   s.lstmStep = 0;
@@ -146,6 +148,15 @@ export default function(s) {
       s.plotAnim = true;
       s.netFrame = 0;
       s.netAnim = true;
+      s.lossValues = [];
+      const pred = s.props.ui.data[2].prediction;
+      const out = s.props.ui.data[2].chartOutput;
+      if (pred) {
+        for (let i = 0; i < pred.length; i++) {
+          s.lossValues.push(pred[i] - out[i]);
+        }
+      }
+      console.log(s.lossValues);
       s.net.start();
     }
     s.update = true;
