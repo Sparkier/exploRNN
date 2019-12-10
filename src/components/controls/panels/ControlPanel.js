@@ -64,9 +64,9 @@ class ControlPanel extends React.Component {
   };
 
   myPadding = {
-    paddingTop: '20px',
     paddingLeft: '20px',
     paddingRight: '20px',
+    paddingTop: '20px',
     paddingBottom: '20px',
     background: grey[800],
   };
@@ -117,56 +117,74 @@ class ControlPanel extends React.Component {
   render() {
     return (
       <Grid container item xs={4} justify='center'>
-        <Paper style={{...this.myPadding, width: '80%'}}>
-          <Grid container item justify='center' alignItems="center">
-            <Grid item style={this.myPadding}>
-              <MyButton disabled={this.props.ui.detail}
-                properties={this.props}
-                action={this.resetButtonPressed}
-                icon={
-                  <Reset fontSize="default" style={{color: 'white'}} />
-                } />
-            </Grid>
-            <Grid item style={this.myPadding}>
-              <MyButton properties={this.props}
-                disabled = {!this.props.training.running &&
-                  !this.props.ui.ready}
-                action={this.toggleTraining}
-                icon={(this.props.ui.detail && this.props.ui.anim) ||
-                  (!this.props.ui.detail && this.props.training.running) ?
-                  <Pause fontSize="large" style={{color: 'white'}} /> :
-                  <Start fontSize="large" style={{color: 'white'}} />
-                }>
-              </MyButton>
-            </Grid>
-            <Grid item style={this.myPadding}>
-              <MyButton properties={this.props}
-                disabled={(this.props.ui.detail && this.props.ui.anim) ||
-                (!this.props.ui.detail && this.props.training.running) ||
-                (!this.props.ui.detail && !this.props.ui.ready)}
-                action={this.nextStep}
-                icon={
-                  <SkipNext fontSize="default" style={{color: 'white'}}/>
-                } />
-            </Grid>
-          </Grid>
-          <Grid container item xs={12} justify='center'>
-            <Grid item style={this.myPadding}>
-              <Typography
-                style={{
-                  color: !this.props.ui.detail ?
-                    lightBlue[400] : orange[500],
-                }}>
-                <Box fontWeight="fontWeightBold"
-                  fontSize={this.fontSize} m={1}>
-                  Epochs:
-                </Box>
-              </Typography>
-              <Typography style={{color: 'white'}}>
-                <Box fontSize={24} m={1}>
-                  {this.styledEpochs()}
-                </Box>
-              </Typography>
+        <Paper style={{...this.myPadding, width: '80%', height: '100%'}} >
+          <Grid container style= {{height: '100%'}} justify='center' alignItems= 'center'>
+            <Grid container justify='center'>
+              <Grid container item xs={12} justify='center'>
+                <Grid item>
+                  <Typography
+                    style={{
+                      color: !this.props.ui.detail ?
+                        lightBlue[400] : orange[500],
+                    }}>
+                    <Box fontWeight="fontWeightRegular"
+                      fontSize={24} m={1}>
+                      Controls
+                    </Box>
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid container item justify='center' alignItems='center'>
+                <Grid item style={this.myPadding}>
+                  <MyButton disabled={this.props.ui.detail}
+                    properties={this.props}
+                    action={this.resetButtonPressed}
+                    icon={
+                      <Reset fontSize="small" style={{color: 'white'}} />
+                    } />
+                </Grid>
+                <Grid item style={this.myPadding}>
+                  <MyButton properties={this.props}
+                    disabled = {!this.props.training.running &&
+                      !this.props.ui.ready}
+                    action={this.toggleTraining}
+                    icon={(this.props.ui.detail && this.props.ui.anim) ||
+                      (!this.props.ui.detail && this.props.training.running) ?
+                      <Pause fontSize="large" style={{color: 'white'}} /> :
+                      <Start fontSize="large" style={{color: 'white'}} />
+                    }>
+                  </MyButton>
+                </Grid>
+                <Grid item style={this.myPadding}>
+                  <MyButton properties={this.props}
+                    disabled={(this.props.ui.detail && this.props.ui.anim) ||
+                    (!this.props.ui.detail && this.props.training.running) ||
+                    (!this.props.ui.detail && !this.props.ui.ready)}
+                    action={this.nextStep}
+                    icon={
+                      <SkipNext fontSize="small" style={{color: 'white'}}/>
+                    } />
+                </Grid>
+              </Grid>
+              <Grid container item xs={12} justify='center'>
+                <Grid item style={this.myPadding}>
+                  <Typography
+                    style={{
+                      color: !this.props.ui.detail ?
+                        lightBlue[400] : orange[500],
+                    }}>
+                    <Box fontWeight="fontWeightBold"
+                      fontSize={this.fontSize} m={1}>
+                      Epochs:
+                    </Box>
+                  </Typography>
+                  <Typography style={{color: 'white'}}>
+                    <Box fontSize={24} m={1}>
+                      {this.styledEpochs()}
+                    </Box>
+                  </Typography>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Paper>

@@ -17,3 +17,9 @@ Data - Plan:
             whole interval of values step by step, while using the predicted
             values also as new input value 
         -> discuss the length of input and prediction intervals
+
+
+Quick thoughts:
+    - for the net description panel make an overview with all steps and
+    highlight the current step while training, so the user can easily follow
+    the training process without being overwhelmed by too much text

@@ -92,6 +92,13 @@ class OutputPanel extends React.Component {
     width: '80%',
   };
 
+  defaultSliderStyle = {
+    width: '80%',
+    markerLabel: {
+      color: lightBlue[500],
+    },
+  }
+
   /**
    * Readt render function controlling the look of the
    * AppBar of the Application
@@ -100,7 +107,7 @@ class OutputPanel extends React.Component {
    */
   render() {
     return (
-      <Grid container item xs={4} justify='center'>
+      <Grid container item xs={4} justify='space-between'>
         <Paper style={{...this.myPadding, width: '80%'}}>
           <Grid item>
             <Typography variant="body1"
@@ -109,15 +116,17 @@ class OutputPanel extends React.Component {
                 color: !this.props.ui.detail &&
                   !this.props.training.running ?
                   lightBlue[400] : grey[500],
-              }}>
+              }}
+              align='left'
+            >
               <Box fontWeight="fontWeightRegular"
-                fontSize={18} m={1}>
+                fontSize={14} m={1}>
                 Learning Rate [ ]
               </Box>
             </Typography>
-            <Slider
-              style={{...this.sliderPaddingStyle, color: 'white'}}
-              marks
+            <DefaultSlider
+              style={{...this.defaultSliderStyle, color: 'white'}}
+              marks={learningRateMarks}
               disabled={
                 this.props.ui.detail || this.props.training.running
               }
@@ -136,15 +145,17 @@ class OutputPanel extends React.Component {
                 color: !this.props.ui.detail &&
                   !this.props.training.running ?
                   lightBlue[400] : grey[500],
-              }}>
+              }}
+              align='left'
+            >
               <Box fontWeight="fontWeightRegular"
-                fontSize={18} m={1}>
+                fontSize={14} m={1}>
                 Noise [%]
               </Box>
             </Typography>
-            <Slider
-              style={{...this.sliderPaddingStyle, color: 'white'}}
-              marks
+            <DefaultSlider
+              style={{...this.defaultSliderStyle, color: 'white'}}
+              marks = {noiseMarks}
               disabled={
                 this.props.ui.detail || this.props.training.running
               }
@@ -163,15 +174,17 @@ class OutputPanel extends React.Component {
                 color: !this.props.ui.detail &&
                   !this.props.training.running ?
                   lightBlue[400] : grey[500],
-              }}>
+              }}
+              align='left'
+            >
               <Box fontWeight="fontWeightRegular"
-                fontSize={18} m={1}>
-                 Batch Size [# data points]
+                fontSize={14} m={1}>
+                 Batch Size [Data/Batch]
               </Box>
             </Typography>
-            <Slider
-              style={{...this.sliderPaddingStyle, color: 'white'}}
-              marks
+            <DefaultSlider
+              style={{...this.defaultSliderStyle, color: 'white'}}
+              marks = {batchMarks}
               disabled={
                 this.props.ui.detail || this.props.training.running
               }
@@ -183,13 +196,54 @@ class OutputPanel extends React.Component {
               max={50} onChange={this.changeBatchSize}
             />
           </Grid>
-          <Grid item >
-          </Grid>
         </Paper>
       </Grid>
     );
   }
 }
+
+const learningRateMarks = [
+  {
+    value: 0.01,
+    label: 0.01,
+  },
+  {
+    value: 0.125,
+    label: 0.125,
+  },
+  {
+    value: 0.25,
+    label: 0.25,
+  },
+];
+
+
+const noiseMarks = [
+  {
+    value: 0,
+    label: '0%',
+  },
+  {
+    value: 50,
+    label: '50%',
+  },
+  {
+    value: 100,
+    label: '100%',
+  },
+];
+
+
+const batchMarks = [
+  {
+    value: 1,
+    label: '1 d/b',
+  },
+  {
+    value: 50,
+    label: '50 d/b',
+  },
+];
 
 /**
  * The Value Label for the sliders
@@ -236,6 +290,15 @@ const LightTooltip = withStyles((theme) => ({
     fontSize: 11,
   },
 }))(Tooltip);
+
+const DefaultSlider = withStyles((theme) => ({
+  markLabel: {
+    color: grey[500],
+  },
+  markLabelActive: {
+    color: grey[200],
+  },
+}))(Slider);
 
 // Controls state of the Application
 OutputPanel.propTypes = {
