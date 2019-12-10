@@ -49,7 +49,8 @@ export class Network {
       s.stroke(s.white);
     }
     this.s.noFill();
-    this.s.line(s.ctrLeft, this.s.height/2, this.s.ctrRight, this.s.height/2);
+    this.s.line(s.netProps.left, s.netProps.midY, s.netProps.right,
+        s.netProps.midY);
     s.drawingContext.setLineDash([]);
     this.updatePause = Math.round(s.netPredFrames /
       (this.layers.length));
@@ -160,9 +161,9 @@ class Layer {
     this.hover_left = false;
     this.hover_right = false;
     this.clicked = false;
-    this.x = s.ctrLeft + s.ctrWidth * (this.i)/(this.layers + 1);
-    this.y = s.height/2;
-    this.w = s.ctrWidth/(2*this.layers + 1)*0.8;
+    this.x = s.netProps.left + s.netProps.width * (this.i)/(this.layers + 1);
+    this.y = s.netProps.midY;
+    this.w = s.netProps.width / (2 * this.layers + 1) * 0.8;
     this.h = this.w * 0.8;
     this.clSize = this.w * 0.3;
   }
@@ -177,7 +178,7 @@ class Layer {
       // draw shadow
       s.fill(0, 100);
       s.noStroke();
-      s.rect(this.x+5, this.y+5, this.w, this.h);
+      s.rect(this.x + 5, this.y + 5, this.w, this.h);
       // draw layer with correct parameters
       s.fill(250, this.s.netAlpha);
       let w = this.w;
@@ -249,14 +250,15 @@ class Layer {
    * @param {number} y the y position of the cursor
    */
   mouseMoved(x, y) {
-    if (x > this.x - this.w/2 && x < this.x + this.w/2 &&
-        y > this.y - this.h/2 && y < this.y + this.h/2) {
+    if (x > this.x - this.w / 2 && x < this.x + this.w / 2 &&
+        y > this.y - this.h / 2 && y < this.y + this.h / 2) {
       this.hover = true;
       const w = this.w;
       const h = this.h;
       this.hover_left = !(this.hover_right =
-          (x > this.x + w/2 - this.clSize && y < this.y - h/2 + this.clSize) &&
-            this.s.props.network.layers > 1 );
+          (x > this.x + w / 2 - this.clSize &&
+          y < this.y - h / 2 + this.clSize) &&
+          this.s.props.network.layers > 1 );
     } else {
       this.hover = this.hover_left = this.hover_right = false;
     }
@@ -333,9 +335,9 @@ class FakeLayer {
     this.nodes = [];
     this.hover = false;
     this.clicked = false;
-    this.x = s.ctrLeft + s.ctrWidth * (this.i)/(this.layers + 1);
-    this.y = s.height/2;
-    this.w = s.ctrWidth/(2*this.layers + 1)*0.25;
+    this.x = s.netProps.left + s.netProps.width * (this.i) / (this.layers + 1);
+    this.y = s.netProps.midY;
+    this.w = s.netProps.width / (2 * this.layers + 1) * 0.25;
     this.h = this.w;
   }
 
@@ -348,7 +350,7 @@ class FakeLayer {
     }
     const s = this.s;
     const d = s.dist(s.mouseX, s.mouseY, this.x, this.y);
-    let alpha = (2*this.w - d) / (this.w) * 255;
+    let alpha = (2 * this.w - d) / (this.w) * 255;
     if (alpha > 255) {
       alpha = 255;
     } else if (alpha <= 0) {
@@ -365,7 +367,7 @@ class FakeLayer {
       s.textAlign(s.CENTER, s.CENTER);
       s.fill(0, 150);
       s.noStroke();
-      s.rect(s.mouseX, s.mouseY+40, 85, 25);
+      s.rect(s.mouseX, s.mouseY + 40, 85, 25);
       s.fill(255);
       s.text('Add Layer', s.mouseX, s.mouseY + 40);
     }
@@ -380,8 +382,8 @@ class FakeLayer {
    * @param {number} y the y position of the cursor
    */
   mouseMoved(x, y) {
-    if (x > this.x - this.w/2 && x < this.x + this.w/2 &&
-        y > this.y - this.h/2 && y < this.y + this.h/2) {
+    if (x > this.x - this.w / 2 && x < this.x + this.w / 2 &&
+        y > this.y - this.h / 2 && y < this.y + this.h / 2) {
       this.hover = true;
     } else {
       this.hover = false;

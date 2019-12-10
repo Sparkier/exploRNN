@@ -9,7 +9,7 @@ export class Input {
   */
   constructor(s) {
     this.s = s;
-    this.dist = 0.15 * s.height;
+    this.dist = 0.15 * s.inProps.height;
     this.buttons = [];
     this.steps = 30;
     this.noises = [];
@@ -38,7 +38,7 @@ export class Input {
     s.textAlign(s.CENTER);
     s.fill(0);
     s.noStroke();
-    s.text('Input', s.sideWidthLeft / 2, s.height / 2 - 2 * dist);
+    s.text('Input', s.inProps.midX, s.inProps.midY - 2 * dist);
   }
 
   /**
@@ -78,8 +78,8 @@ class Button {
     this.s = s;
     this.type = type;
     this.pos = pos;
-    this.x = s.sideWidthLeft / 2;
-    this.y = s.height / 2 - 1.5 * dist + (pos - 1) * dist;
+    this.x = s.inProps.midX;
+    this.y = s.inProps.midY - 1.5 * dist + (pos - 1) * dist;
     this.size = dist * 0.8;
     this.left = this.x - this.size / 2;
     this.right = this.x + this.size/2;

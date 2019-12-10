@@ -16,18 +16,11 @@ export class Plot {
     this.side = side;
     this.index = index;
     this.vis = 255 - Math.abs(2-index) * 110;
-    if (side === 'L') {
-      this.l = s.inLeft;
-      this.r = s.inRight;
-    } else {
-      this.l = s.outLeft;
-      this.r = s.outRight;
-    }
-    this.cx = this.l + s.sideWidthRight / 2;
-    this.cy = ((index - 1) + 0.5) * (s.height / 3);
+    this.cx = s.outProps.midX;
+    this.cy = ((index - 1) + 0.5) * (s.outProps.height / 3);
     this.scale = 1 - 0.5 * (Math.abs(s.height/2 - this.cy) / (s.height/2));
-    this.plotWidth = s.sideWidthRight * 0.8;
-    this.plotHeight = s.height * 0.2;
+    this.plotWidth = s.outProps.width * 0.8;
+    this.plotHeight = s.outProps.height * 0.2;
     if (!s.props) {
       return;
     }
@@ -144,10 +137,12 @@ export class Plot {
     let yOff = 0;
     let showSteps = this.in + this.out;
     if (s.plotAnim && s.plotFrame < s.plotMoveFrames) {
-      yOff = -s.height/3 * (1 - (s.plotFrame / s.plotMoveFrames));
+      // calc the position of a moving plot
+      yOff = -s.outProps.height/3 * (1 - (s.plotFrame / s.plotMoveFrames));
     }
     if (s.plotAnim && s.plotFrame > s.plotMoveFrames &&
         s.plotFrame < s.plotMoveFrames + s.plotScanFrames && this.index === 2) {
+      // calc the amount of plot values to show
       showSteps = ((s.plotFrame - s.plotMoveFrames) / s.plotScanFrames) *
         this.total;
     }
@@ -155,14 +150,14 @@ export class Plot {
       showSteps = this.in + this.out;
     }
 
-    this.scale = 1 - 0.5 * (Math.abs(s.height/2 - this.cy - yOff) /
-      (s.height/2));
+    this.scale = 1 - 0.5 * (Math.abs(s.outProps.midY - this.cy - yOff) /
+        s.outProps.midY);
     s.push();
     s.translate(this.cx, this.cy);
     s.ellipseMode(s.CENTER);
     s.stroke(200, this.vis);
     s.strokeWeight(2 * this.scale);
-    if (this.index===2) {
+    if (this.index === 2) {
       s.rect(0, 0, this.plotWidth, this.plotHeight);
     }
     s.translate(0, yOff);
@@ -173,6 +168,7 @@ export class Plot {
         this.scale * (-this.halfW + (this.in * this.stepWidth)),
         this.scale * this.halfH
     );
+    // draw the scan box while animating
     if (s.plotAnim && s.plotFrame > s.plotMoveFrames &&
       s.plotFrame < s.plotMoveFrames + s.plotScanFrames && this.index === 2) {
       s.stroke(54, 150, 70, this.vis);
@@ -186,6 +182,7 @@ export class Plot {
           1.8 * this.scale * this.halfH);
     }
     s.strokeWeight(3 * this.scale);
+    // draw input for validation
     if (s.props.ui.data &&
           s.props.ui.data[this.index].chartPrediction) {
       s.stroke(50, 70, 250, this.vis);
@@ -198,6 +195,7 @@ export class Plot {
       }
       s.endShape();
     }
+    // draw the test output for validation
     s.strokeWeight(1 * this.scale);
     if (s.props.ui.data &&
       s.props.ui.data[this.index].chartOutput && (this.index > 2 ||
@@ -214,6 +212,7 @@ export class Plot {
       }
       s.endShape();
     }
+    // draw net prediction for validation
     s.strokeWeight(3 * this.scale);
     if (s.props.ui.data &&
       s.props.ui.data[this.index].prediction && (this.index > 2 ||

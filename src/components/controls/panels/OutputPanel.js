@@ -8,6 +8,8 @@ import {lightBlue, grey} from '@material-ui/core/colors';
 import {Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Slider from '@material-ui/core/Slider';
+import Tooltip from '@material-ui/core/Tooltip';
+import {withStyles} from '@material-ui/core/styles';
 
 /**
  * Controls at bottom of the Application
@@ -25,6 +27,38 @@ class OutputPanel extends React.Component {
     this.props.actions.updateNetwork({
       ...this.props.network,
       learningRate: value,
+    });
+  }
+
+
+  /**
+   * Change the noise used in the training process.
+   *
+   * @memberof Input
+   *
+   * @param {object} event - the percentage of noise
+   * @param {number} value - the percentage of noise
+   */
+  changeNoise = (event, value) => {
+    const newNoise = value;
+    this.props.actions.updateTraining({
+      ...this.props.training,
+      noise: newNoise,
+    });
+  }
+
+  /**
+   * Change the noise used in the training process.
+   *
+   * @memberof Input
+   *
+   * @param {object} event - the percentage of noise
+   * @param {number} value - the percentage of noise
+   */
+  changeBatchSize = (event, value) => {
+    this.props.actions.updateTraining({
+      ...this.props.training,
+      batchSize: value,
     });
   }
 
@@ -76,11 +110,10 @@ class OutputPanel extends React.Component {
                   !this.props.training.running ?
                   lightBlue[400] : grey[500],
               }}>
-              <Box fontWeight="fontWeightBold"
-                fontSize={20} m={1}>
-                Learning Rate:
+              <Box fontWeight="fontWeightRegular"
+                fontSize={18} m={1}>
+                Learning Rate [ ]
               </Box>
-              {this.props.network.learningRate}
             </Typography>
             <Slider
               style={{...this.sliderPaddingStyle, color: 'white'}}
@@ -89,17 +122,120 @@ class OutputPanel extends React.Component {
                 this.props.ui.detail || this.props.training.running
               }
               defaultValue={this.props.network.learningRate}
-              valueLabelDisplay="off"
+              valueLabelDisplay="auto"
+              ValueLabelComponent={ValueLabelComponent}
               step={0.005}
               min={0.01}
               max={0.25} onChange={this.handleSliderChange}
             />
+          </Grid>
+          <Grid container item justify='center' alignItems="center">
+            <Typography variant="body1"
+              style={{
+                ...this.sliderPaddingStyle,
+                color: !this.props.ui.detail &&
+                  !this.props.training.running ?
+                  lightBlue[400] : grey[500],
+              }}>
+              <Box fontWeight="fontWeightRegular"
+                fontSize={18} m={1}>
+                Noise [%]
+              </Box>
+            </Typography>
+            <Slider
+              style={{...this.sliderPaddingStyle, color: 'white'}}
+              marks
+              disabled={
+                this.props.ui.detail || this.props.training.running
+              }
+              defaultValue={this.props.training.noise}
+              valueLabelDisplay="auto"
+              ValueLabelComponent={ValueLabelComponent}
+              step={0.1}
+              min={0}
+              max={100} onChange={this.changeNoise}
+            />
+          </Grid>
+          <Grid container item justify='center' alignItems="center">
+            <Typography variant="body1"
+              style={{
+                ...this.sliderPaddingStyle,
+                color: !this.props.ui.detail &&
+                  !this.props.training.running ?
+                  lightBlue[400] : grey[500],
+              }}>
+              <Box fontWeight="fontWeightRegular"
+                fontSize={18} m={1}>
+                 Batch Size [# data points]
+              </Box>
+            </Typography>
+            <Slider
+              style={{...this.sliderPaddingStyle, color: 'white'}}
+              marks
+              disabled={
+                this.props.ui.detail || this.props.training.running
+              }
+              defaultValue={this.props.training.batchSize}
+              valueLabelDisplay="auto"
+              ValueLabelComponent={ValueLabelComponent}
+              step={1}
+              min={1}
+              max={50} onChange={this.changeBatchSize}
+            />
+          </Grid>
+          <Grid item >
           </Grid>
         </Paper>
       </Grid>
     );
   }
 }
+
+/**
+ * The Value Label for the sliders
+ *
+ * @param {object} props the properties of the label
+ * @return {object} the rendering for the label
+ */
+function ValueLabelComponent(props) {
+  const {children, open, value} = props;
+
+  const popperRef = React.useRef(null);
+  React.useEffect(() => {
+    if (popperRef.current) {
+      popperRef.current.update();
+    }
+  });
+
+  return (
+    <LightTooltip
+      PopperProps={{
+        popperRef,
+      }}
+      open={open}
+      enterTouchDelay={0}
+      placement="top"
+      title={value}
+    >
+      {children}
+    </LightTooltip>
+  );
+}
+
+ValueLabelComponent.propTypes = {
+  children: PropTypes.element.isRequired,
+  open: PropTypes.bool.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+const LightTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}))(Tooltip);
 
 // Controls state of the Application
 OutputPanel.propTypes = {

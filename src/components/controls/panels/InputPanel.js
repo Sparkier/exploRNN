@@ -117,63 +117,6 @@ class InputPanel extends React.Component {
         xs={4}
         justify='center'>
         <Paper style={{...this.myPadding, height: '100%', width: '80%'}}>
-          <Grid container item justify='center' alignItems="center">
-            <Typography variant="body1"
-              style={{
-                ...this.sliderPaddingStyle,
-                color: !this.props.ui.detail &&
-                  !this.props.training.running ?
-                  lightBlue[400] : grey[500],
-              }}>
-              <Box fontWeight="fontWeightBold"
-                fontSize={this.fontSize} m={1}>
-                Noise:
-              </Box>
-              {this.props.training.noise} %
-            </Typography>
-            <Slider
-              style={{...this.sliderPaddingStyle, color: 'white'}}
-              marks
-              disabled={
-                this.props.ui.detail || this.props.training.running
-              }
-              defaultValue={this.props.training.noise}
-              valueLabelDisplay="off"
-              step={0.1}
-              min={0}
-              max={100} onChange={this.changeNoise}
-            />
-          </Grid>
-          <Grid container item justify='center' alignItems="center">
-            <Typography variant="body1"
-              style={{
-                ...this.sliderPaddingStyle,
-                color: !this.props.ui.detail &&
-                  !this.props.training.running ?
-                  lightBlue[400] : grey[500],
-              }}>
-              <Box fontWeight="fontWeightBold"
-                fontSize={this.fontSize} m={1}>
-                 Batch Size:
-              </Box>
-              {this.props.training.batchSize}
-            </Typography>
-            <Slider
-              style={{...this.sliderPaddingStyle, color: 'white'}}
-              marks
-              disabled={
-                this.props.ui.detail || this.props.training.running
-              }
-              defaultValue={this.props.training.batchSize}
-              valueLabelDisplay="off"
-              step={1}
-              min={1}
-              max={50} onChange={this.changeBatchSize}
-            />
-          </Grid>
-          <Grid item >
-
-          </Grid>
         </Paper>
       </Grid>
     );

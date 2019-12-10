@@ -13,7 +13,6 @@ import {Loss} from './model/loss';
 export default function(s) {
   s.props = {};
   s.network = [];
-  s.plotsLeft = [];
   s.plotsRight = [];
   s.lossValues = [];
   s.update = false;
@@ -31,16 +30,42 @@ export default function(s) {
   s.ctrRatio = 0.5;
   s.lstmStep = 0;
   s.ready = false;
+  s.setupDone = false;
 
   s.setup = function() {
     const netDiv = document.getElementById('networkDiv');
     const valDiv = document.getElementById('valueDiv');
     s.createCanvas(netDiv.offsetWidth,
-        window.innerHeight - valDiv.offsetHeight - 25);
+        window.innerHeight - valDiv.offsetHeight - 50);
     s.frameRate(60);
     // s.drawingContext.setLineDash([5,5])
     s.sideWidthLeft = s.sideRatioLeft * s.width;
     s.sideWidthRight = s.sideRatioRight * s.width;
+    s.inProps = {
+      left: 0,
+      right: s.sideRatioLeft * s.width,
+      width: s.sideRatioLeft * s.width,
+      midX: s.sideRatioLeft * s.width / 2,
+      midY: s.height/2,
+      height: s.height,
+    };
+    s.outProps = {
+      left: s.width - s.sideRatioRight * s.width,
+      right: s.width,
+      midX: s.width - s.sideRatioRight * s.width + (s.sideRatioRight *
+          s.width) / 2,
+      midY: s.height/2,
+      width: s.sideRatioRight * s.width,
+      height: s.height,
+    };
+    s.netProps = {
+      left: s.inProps.right,
+      right: s.inProps.right + s.width * s.ctrRatio,
+      midX: s.width - s.sideRatioRight * s.width + s.ctrWidth/2,
+      midY: s.height/2,
+      width: s.width * s.ctrRatio,
+      height: s.height,
+    };
     s.inLeft = 0;
     s.inRight = s.sideWidthLeft;
     s.outLeft = s.width - s.sideWidthRight;
@@ -54,7 +79,6 @@ export default function(s) {
     s.cell = new LSTM(s);
     s.input = new Input(s);
     s.loss = new Loss(s);
-    console.log('INPUT', s.input);
     s.pause = 0;
     s.netFrame = 0;
     s.netAnim = false;
@@ -71,11 +95,12 @@ export default function(s) {
     s.MAX_PLOT_FRAMES = s.plotMoveFrames + s.plotScanFrames + s.plotStayFrames;
     s.imageMode(s.CENTER);
     s.rectMode(s.CENTER);
-    s.plotsLeft = [];
     s.plotsRight = [];
     for (let i = 0; i < 5; i++) {
       s.plotsRight.push(new Plot(i, 'R', s));
     }
+    s.setupDone = true;
+    s.updateMemory();
   };
 
   s.draw = function() {
@@ -118,7 +143,7 @@ export default function(s) {
 
   s.updateMemory = (start) => {
     console.log('UPDATING SKETCH MEMORY');
-    s.ready = (s.props !== undefined);
+    s.ready = (s.props !== undefined && s.setupDone);
     if (!s.ready) {
       return;
     }
@@ -166,7 +191,7 @@ export default function(s) {
     const netDiv = document.getElementById('networkDiv');
     const valDiv = document.getElementById('valueDiv');
     s.resizeCanvas(netDiv.offsetWidth,
-        window.innerHeight - valDiv.offsetHeight - 25);
+        window.innerHeight - valDiv.offsetHeight - 50);
     s.plotsLeft = [];
     s.plotsRight = [];
     for (let i = 0; i < 5; i++) {
