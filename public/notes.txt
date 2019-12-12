@@ -23,3 +23,11 @@ Quick thoughts:
     - for the net description panel make an overview with all steps and
     highlight the current step while training, so the user can easily follow
     the training process without being overwhelmed by too much text
+
+    - maybe make the visual components more "flächiger", more modern to 
+    adjust the look and feel 
+
+    - maybe add an animated background, with small, soft animations for 
+    a nicer look of the window itself
+
+    - maybe consider adjusting widths and heights when the window is resized

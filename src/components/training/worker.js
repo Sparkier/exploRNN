@@ -255,7 +255,7 @@ export default () => {
       y = -1 + x % 2;
     }
     if (type === 'sqr') {
-      y = Math.sin(x) >= 0 ? 1 : -1;
+      y = Math.sin(2*x) >= 0 ? 1 : -1;
     }
     return y;
   };

@@ -27,6 +27,7 @@ export default function(s) {
   s.sideRatioLeft = 0.1;
   s.sideRatioLoss = 0.1;
   s.sideRatioRight = 0.2;
+  s.detailRatio = 0.67;
   s.ctrRatio = 0.5;
   s.lstmStep = 0;
   s.ready = false;
@@ -66,6 +67,16 @@ export default function(s) {
       width: s.width * s.ctrRatio,
       height: s.height,
     };
+    s.detailProps = {
+      left: 0,
+      right: s.width * s.detailRatio,
+      midX: s.detailRatio * s.width / 2,
+      midY: s.height/2,
+      width: s.width * s.detailRatio,
+      height: s.height,
+      verRatio: 0.7,
+      horRatio: 0.5,
+    };
     s.inLeft = 0;
     s.inRight = s.sideWidthLeft;
     s.outLeft = s.width - s.sideWidthRight;
@@ -79,6 +90,7 @@ export default function(s) {
     s.cell = new LSTM(s);
     s.input = new Input(s);
     s.loss = new Loss(s);
+    console.log('CELLCELLCELLCELL', s.cell);
     s.pause = 0;
     s.netFrame = 0;
     s.netAnim = false;

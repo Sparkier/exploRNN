@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import * as actions from '../../../actions';
 import {Grid, Paper} from '@material-ui/core';
-import {lightBlue, grey} from '@material-ui/core/colors';
+import {lightBlue, grey, orange} from '@material-ui/core/colors';
 import Slider from '@material-ui/core/Slider';
 import {Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
@@ -14,67 +14,13 @@ import Box from '@material-ui/core/Box';
  */
 class InputPanel extends React.Component {
   /**
-   * The constructor for the Input Panel class
+   * the constructor
    */
   constructor() {
     super();
-    this.fontSize = 20;
-    this.data = ['saw', 'sin', 'sqr', 'sinc'];
+    this.fontSizeTitle = 16;
+    this.fontSizeText = 14;
   }
-
-  /**
-   * Change the type of data for the training input.
-   *
-   * @memberof Input
-   *
-   * @param {number} dir either 1 or -1 depending on which direction
-   * the user has pressed
-   */
-  changeType = (dir) => {
-    let i = 0;
-    for (; i < this.data.length; i++) {
-      if (this.data[i] === this.props.training.dataType) {
-        break;
-      }
-    }
-    i = (i + this.data.length + dir) % this.data.length;
-    this.props.actions.updateTraining({
-      ...this.props.training,
-      dataType: this.data[i],
-    });
-  }
-
-  /**
-   * Change the noise used in the training process.
-   *
-   * @memberof Input
-   *
-   * @param {object} event - the percentage of noise
-   * @param {number} value - the percentage of noise
-   */
-  changeNoise = (event, value) => {
-    const newNoise = value;
-    this.props.actions.updateTraining({
-      ...this.props.training,
-      noise: newNoise,
-    });
-  }
-
-  /**
-   * Change the noise used in the training process.
-   *
-   * @memberof Input
-   *
-   * @param {object} event - the percentage of noise
-   * @param {number} value - the percentage of noise
-   */
-  changeBatchSize = (event, value) => {
-    this.props.actions.updateTraining({
-      ...this.props.training,
-      batchSize: value,
-    });
-  }
-
   // Some styles for better looks, TODO: clean up
   simplePaddingStyle = {
     width: '90%',
@@ -85,7 +31,7 @@ class InputPanel extends React.Component {
     paddingTop: '20px',
     paddingLeft: '20px',
     paddingRight: '20px',
-    paddingBottom: '50px',
+    paddingBottom: '20px',
     background: grey[800],
   };
 
@@ -100,9 +46,15 @@ class InputPanel extends React.Component {
     paddingBottom: '10px',
   }
 
-  sliderPaddingStyle = {
-    ...this.buttonPadding,
-    width: '80%',
+  titlePaddingStyle = {
+    paddingTop: '10px',
+    paddingLeft: '10px',
+    paddingRight: '10px',
+    width: '100%',
+  };
+
+  descripionPaddingStyle = {
+    width: '90%',
   };
 
   /**
@@ -117,6 +69,96 @@ class InputPanel extends React.Component {
         xs={4}
         justify='center'>
         <Paper style={{...this.myPadding, height: '100%', width: '80%'}}>
+          <Grid item>
+            <Typography variant="body1"
+              style={{
+                ...this.titlePaddingStyle,
+                color: !this.props.ui.detail &&
+                  !this.props.training.running ?
+                  grey[400] : lightBlue[500],
+              }}
+              align='left'
+            >
+              <Box fontWeight="fontWeightRegular"
+                fontSize={!this.props.ui.detail &&
+                  !this.props.training.running ?
+                  this.fontsizeDef : this.fontsizeAct} m={1}>
+                Forward Prop
+              </Box>
+            </Typography>
+            <Typography variant="body1"
+              style={{
+                ...this.descripionPaddingStyle,
+                color: 'white',
+              }}
+              align='left'
+            >
+              <Box fontWeight="fontWeightRegular"
+                fontSize={this.fontsizeDef} m={1}>
+                An Description of forward Prop
+              </Box>
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant="body1"
+              style={{
+                ...this.titlePaddingStyle,
+                color: !this.props.ui.detail &&
+                  !this.props.training.running ?
+                  grey[400] : lightBlue[500],
+              }}
+              align='left'
+            >
+              <Box fontWeight="fontWeightRegular"
+                fontSize={!this.props.ui.detail &&
+                  !this.props.training.running ?
+                  this.fontsizeDef : this.fontsizeAct} m={1}>
+                Validation
+              </Box>
+            </Typography>
+            <Typography variant="body1"
+              style={{
+                ...this.descripionPaddingStyle,
+                color: 'white',
+              }}
+              align='left'
+            >
+              <Box fontWeight="fontWeightRegular"
+                fontSize={this.fontsizeDef} m={1}>
+                An Description of Validation
+              </Box>
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant="body1"
+              style={{
+                ...this.titlePaddingStyle,
+                color: !this.props.ui.detail &&
+                  !this.props.training.running ?
+                  grey[400] : lightBlue[500],
+              }}
+              align='left'
+            >
+              <Box fontWeight="fontWeightRegular"
+                fontSize={!this.props.ui.detail &&
+                  !this.props.training.running ?
+                  this.fontsizeDef : this.fontsizeAct} m={1}>
+                Backprop
+              </Box>
+            </Typography>
+            <Typography variant="body1"
+              style={{
+                ...this.descripionPaddingStyle,
+                color: 'white',
+              }}
+              align='left'
+            >
+              <Box fontWeight="fontWeightRegular"
+                fontSize={this.fontsizeDef} m={1}>
+                An Description of Backprop TT
+              </Box>
+            </Typography>
+          </Grid>
         </Paper>
       </Grid>
     );

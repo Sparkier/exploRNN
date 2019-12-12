@@ -92,6 +92,11 @@ class OutputPanel extends React.Component {
     width: '80%',
   };
 
+  titlePaddingStyle = {
+    ...this.buttonPadding,
+    width: '100%',
+  };
+
   defaultSliderStyle = {
     width: '80%',
     markerLabel: {
@@ -112,7 +117,7 @@ class OutputPanel extends React.Component {
           <Grid item>
             <Typography variant="body1"
               style={{
-                ...this.sliderPaddingStyle,
+                ...this.titlePaddingStyle,
                 color: !this.props.ui.detail &&
                   !this.props.training.running ?
                   lightBlue[400] : grey[500],
@@ -141,7 +146,7 @@ class OutputPanel extends React.Component {
           <Grid container item justify='center' alignItems="center">
             <Typography variant="body1"
               style={{
-                ...this.sliderPaddingStyle,
+                ...this.titlePaddingStyle,
                 color: !this.props.ui.detail &&
                   !this.props.training.running ?
                   lightBlue[400] : grey[500],
@@ -170,7 +175,7 @@ class OutputPanel extends React.Component {
           <Grid container item justify='center' alignItems="center">
             <Typography variant="body1"
               style={{
-                ...this.sliderPaddingStyle,
+                ...this.titlePaddingStyle,
                 color: !this.props.ui.detail &&
                   !this.props.training.running ?
                   lightBlue[400] : grey[500],

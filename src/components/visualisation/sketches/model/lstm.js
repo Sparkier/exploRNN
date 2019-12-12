@@ -18,10 +18,13 @@ export class LSTM {
     this.connections = [];
     this.hasPrev = hasPrev;
     this.hasNext = hasNext;
-    const left = s.ctrLeft + s.ctrRatio / 2 * s.ctrWidth;
-    const top = s.ctrRatio / 2 * s.height;
-    const horBuf = (1/6) * s.ctrRatio * s.ctrWidth;
-    const verBuf = (1/3) * s.ctrRatio * s.height;
+    this.height = s.detailProps.height * s.detailProps.verRatio;
+    this.width = s.detailProps.width * s.detailProps.horRatio;
+    const left = s.detailProps.left +
+        ((1 - s.detailProps.horRatio) * s.detailProps.width) / 2;
+    const top = ((1 - s.detailProps.verRatio) * s.detailProps.height) / 2;
+    const horBuf = (1/6) * this.width;
+    const verBuf = (1/3) * this.height;
     s.clickedItem = undefined;
     this.anim = 0;
     this.animMax = 5;
@@ -36,6 +39,8 @@ export class LSTM {
       verBuf: verBuf,
       left: left,
       top: top,
+      height: this.height,
+      width: this.width,
     };
 
     // creating the cell components of the lstm cell
@@ -195,13 +200,15 @@ export class LSTM {
     s.rectMode(s.CENTER);
     s.fill(0, 100);
     s.noStroke();
-    s.rect(s.ctrMidX+20, s.ctrMidY+20, s.ctrWidth * s.ctrRatio,
-        s.height * s.ctrRatio);
+    s.rect(s.detailProps.midX+20, s.detailProps.midY+20,
+        s.detailProps.width * s.detailProps.horRatio,
+        s.detailProps.height * s.detailProps.verRatio);
     s.fill(255);
     s.stroke(100);
     s.strokeWeight(15);
-    s.rect(s.ctrMidX, s.ctrMidY, s.ctrWidth * s.ctrRatio,
-        s.height * s.ctrRatio);
+    s.rect(s.detailProps.midX, s.detailProps.midY,
+        s.detailProps.width * s.detailProps.horRatio,
+        s.detailProps.height * s.detailProps.verRatio);
     for (const c of this.connections) {
       c.draw();
     }
@@ -462,17 +469,17 @@ class Item {
       case 'lst':
       case 'sav':
       case 'rec':
-        this.r = (cell.s.ctrRatio * cell.s.height)/12;
+        this.r = (cell.height)/12;
         break;
       case 'glt':
       case 'gft':
-        this.r = (cell.s.ctrRatio * cell.s.height)/12;
+        this.r = (cell.height)/12;
         break;
       case 'crs':
-        this.r = (cell.s.ctrRatio * cell.s.height)/40;
+        this.r = (cell.height)/40;
         break;
       default:
-        this.r = (cell.s.ctrRatio * cell.s.height)/6;
+        this.r = (cell.height)/6;
     }
   }
 
