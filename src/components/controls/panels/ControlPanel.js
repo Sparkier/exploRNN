@@ -118,7 +118,8 @@ class ControlPanel extends React.Component {
     return (
       <Grid container item xs={4} justify='center'>
         <Paper style={{...this.myPadding, width: '80%', height: '100%'}} >
-          <Grid container style= {{height: '100%'}} justify='center' alignItems= 'center'>
+          <Grid container style= {{height: '100%'}} justify='center'
+            alignItems= 'center'>
             <Grid container justify='center'>
               <Grid container item xs={12} justify='center'>
                 <Grid item>

@@ -59,8 +59,8 @@ export class CellPlot {
     s.stroke(54, 150, 70);
     const left = (-this.halfW) + (s.lstmPred * this.stepWidth);
     s.fill(54, 150, 70, 20);
-    s.rect(left + ((this.in - 1) * this.stepWidth) / 2, 0, ((this.in - 1) * this.stepWidth),
-        1.8 * this.halfH);
+    s.rect(left + ((this.in - 1) * this.stepWidth) / 2, 0,
+        ((this.in - 1) * this.stepWidth), 1.8 * this.halfH);
     s.strokeWeight(3 * this.scale);
     s.stroke(200);
     s.strokeWeight(2);
