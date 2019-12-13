@@ -35,102 +35,6 @@ export class Plot {
   /**
    *
    */
-  detail() {
-    let data;
-    const s = this.s;
-    if (this.index !== 2) {
-      // return;
-    }
-    let detailStepWidth = this.stepWidth;
-    s.push();
-    s.translate(this.cx, this.cy);
-    s.ellipseMode(s.CENTER);
-    s.stroke(200, this.vis);
-    s.strokeWeight(2 * this.scale);
-    if (this.index===2) {
-      s.rect(0, 0, this.plotWidth, this.plotHeight);
-    }
-    s.stroke(54, this.vis);
-    s.line(-this.plotWidth/2, 0, this.plotWidth / 2, 0);
-    if (this.side === 'L') {
-      s.line(this.halfW, -this.halfH, this.halfW, this.halfH);
-    } else {
-      s.line(-this.halfW, -this.halfH, -this.halfW, this.halfH);
-    }
-    s.strokeWeight(3 * this.scale);
-    if (this.side === 'L' && s.props.ui.data &&
-        s.props.ui.data[this.index].chartPrediction) {
-      detailStepWidth = this.plotWidth / this.in;
-      s.strokeWeight(2 * this.scale);
-      s.stroke(150, this.vis);
-      s.noFill();
-      s.beginShape();
-      for (let i = 0; i < this.in; i++) {
-        data = s.props.ui.data[this.index].chartPrediction[i];
-        s.vertex(-this.halfW + (i * detailStepWidth),
-            -this.halfH / 2 * data);
-      }
-      s.endShape();
-      if (this.index <= 2 ) {
-        s.strokeWeight(3 * this.scale);
-        s.stroke(50, 70, 250, this.vis);
-        s.noFill();
-        s.beginShape();
-        const max = this.index === 2 ? s.lstmStep : this.in;
-        for (let i = 0; i <= max; i++) {
-          data = s.props.ui.data[this.index].chartPrediction[i];
-          s.vertex(-this.halfW + (i * detailStepWidth),
-              -this.halfH / 2 * data);
-        }
-        s.endShape();
-        s.noStroke();
-        s.fill(50, 70, 250, this.vis);
-        for (let i = 0; i <= max; i++) {
-          data = s.props.ui.data[this.index].chartPrediction[i];
-          s.ellipse(-this.halfW + (i * detailStepWidth),
-              (-this.halfH / 2 * data), 5);
-        }
-        if (this.index === 2) {
-          const step = s.lstmStep;
-          data = s.props.ui.data[this.index].chartPrediction[step];
-          s.ellipse(-this.halfW + (s.lstmStep * detailStepWidth),
-              -this.halfH / 2 * data, 7);
-        }
-      }
-    }
-    if (this.side === 'R' && s.props.ui.data &&
-        s.props.ui.data[this.index].chartOutput) {
-      detailStepWidth = this.plotWidth / this.out;
-      let ratio = this.s.lstmStep / this.in;
-      if (this.index !== 2) {
-        ratio = 1;
-      }
-      if (s.props.ui.data[this.index].prediction) {
-        s.stroke(250, 50, 70, this.vis);
-        s.noFill();
-        s.beginShape();
-        for (let i = 0; i < s.props.training.predictions; i++) {
-          data = s.props.ui.data[this.index].prediction[i];
-          s.vertex((-this.halfW + (i * detailStepWidth)),
-              -this.halfH / 2 * data * ratio);
-        }
-        s.endShape();
-
-        s.noStroke();
-        s.fill(250, 50, 70, this.vis);
-        for (let i = 0; i < s.props.training.predictions; i++) {
-          data = s.props.ui.data[this.index].prediction[i];
-          s.ellipse((-this.halfW + (i * detailStepWidth)),
-              -this.halfH / 2 * data * ratio, 5);
-        }
-      }
-    }
-    s.pop();
-  }
-
-  /**
-   *
-   */
   overview() {
     let data;
     const s = this.s;
@@ -257,10 +161,6 @@ export class Plot {
     if (this.stepWidth === 2 && this.total !== 0) {
       this.stepWidth = this.plotWidth / this.total;
     }
-    if (!s.props.ui.detail) {
-      this.overview();
-    } else {
-      this.detail();
-    }
+    this.overview();
   }
 }

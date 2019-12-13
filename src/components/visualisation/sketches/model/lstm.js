@@ -282,6 +282,7 @@ export class LSTM {
    */
   reset() {
     this.s.lstmStep = 0;
+    this.s.lstmPred = 0;
     for (const c of this.connections) {
       c.deactivate();
     }
@@ -606,8 +607,12 @@ class Item {
         this.s.lstmStep++;
         if (this.s.lstmStep === this.s.props.training.values) {
           this.s.lstmStep = 0;
-          this.s.props.actions.updateTraining(
-              {...this.s.props.training, step: true});
+          this.s.lstmPred++;
+          if (this.s.lstmPred === this.s.props.training.predictions) {
+            this.s.lstmPred = 0;
+            this.s.props.actions.updateTraining(
+                {...this.s.props.training, step: true});
+          }
         }
       }
       for (const c of this.connections) {

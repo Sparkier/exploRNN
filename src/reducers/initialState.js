@@ -44,6 +44,7 @@ export default {
     animStep: false,
     lstmStep: 0,
     plotStep: 0,
+    trainingStep: 0,
   },
   firstcall: true,
 };

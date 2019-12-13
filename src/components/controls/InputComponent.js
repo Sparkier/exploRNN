@@ -26,8 +26,8 @@ class Input extends React.Component {
 
   // Some styles for better looks, TODO: clean up
   simplePaddingStyle = {
-    width: '90%',
-    background: '#FFFFFF',
+    width: '100%',
+    background: '#00000000',
   };
 
   myPadding = {
@@ -67,8 +67,6 @@ class Input extends React.Component {
           style={this.simplePaddingStyle}
           justify='center'>
           {
-            this.props.ui.detail ?
-            <ControlPanel/>:
             <ControlPanel/>
           }
           {

@@ -112,14 +112,14 @@ class OutputPanel extends React.Component {
    */
   render() {
     return (
-      <Grid container item xs={4} justify='space-between'>
+      <Grid container item xs={4} justify='center'>
         <Paper style={{...this.myPadding, width: '80%'}}>
           <Grid item>
             <Typography variant="body1"
               style={{
                 ...this.titlePaddingStyle,
                 color: !this.props.ui.detail &&
-                  !this.props.training.running ?
+                  this.props.ui.ready ?
                   lightBlue[400] : grey[500],
               }}
               align='left'
@@ -148,7 +148,7 @@ class OutputPanel extends React.Component {
               style={{
                 ...this.titlePaddingStyle,
                 color: !this.props.ui.detail &&
-                  !this.props.training.running ?
+                  this.props.ui.ready ?
                   lightBlue[400] : grey[500],
               }}
               align='left'
@@ -177,7 +177,7 @@ class OutputPanel extends React.Component {
               style={{
                 ...this.titlePaddingStyle,
                 color: !this.props.ui.detail &&
-                  !this.props.training.running ?
+                  this.props.ui.ready ?
                   lightBlue[400] : grey[500],
               }}
               align='left'

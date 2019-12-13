@@ -4,8 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import * as actions from '../../../actions';
 import {Grid, Paper} from '@material-ui/core';
-import {lightBlue, grey, orange} from '@material-ui/core/colors';
-import Slider from '@material-ui/core/Slider';
+import {lightBlue, grey} from '@material-ui/core/colors';
 import {Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 
@@ -74,15 +73,14 @@ class InputPanel extends React.Component {
               style={{
                 ...this.titlePaddingStyle,
                 color: !this.props.ui.detail &&
-                  !this.props.training.running ?
-                  grey[400] : lightBlue[500],
+                  !this.props.ui.ready &&
+                  this.props.ui.trainingStep === 1?
+                  lightBlue[500] : grey[400],
               }}
               align='left'
             >
               <Box fontWeight="fontWeightRegular"
-                fontSize={!this.props.ui.detail &&
-                  !this.props.training.running ?
-                  this.fontsizeDef : this.fontsizeAct} m={1}>
+                fontSize={this.fontSizeTitle} m={1}>
                 Forward Prop
               </Box>
             </Typography>
@@ -94,8 +92,9 @@ class InputPanel extends React.Component {
               align='left'
             >
               <Box fontWeight="fontWeightRegular"
-                fontSize={this.fontsizeDef} m={1}>
-                An Description of forward Prop
+                fontSize={this.fontSizeText} m={1}>
+                The Training Data is send through the network batch after batch
+                and timestep after timestep to get a prediction
               </Box>
             </Typography>
           </Grid>
@@ -104,15 +103,14 @@ class InputPanel extends React.Component {
               style={{
                 ...this.titlePaddingStyle,
                 color: !this.props.ui.detail &&
-                  !this.props.training.running ?
-                  grey[400] : lightBlue[500],
+                  !this.props.ui.ready &&
+                  this.props.ui.trainingStep === 2?
+                  lightBlue[500] : grey[400],
               }}
               align='left'
             >
               <Box fontWeight="fontWeightRegular"
-                fontSize={!this.props.ui.detail &&
-                  !this.props.training.running ?
-                  this.fontsizeDef : this.fontsizeAct} m={1}>
+                fontSize={this.fontSizeTitle} m={1}>
                 Validation
               </Box>
             </Typography>
@@ -124,8 +122,9 @@ class InputPanel extends React.Component {
               align='left'
             >
               <Box fontWeight="fontWeightRegular"
-                fontSize={this.fontsizeDef} m={1}>
-                An Description of Validation
+                fontSize={this.fontSizeText} m={1}>
+                The prediction is compared to the real output values and a loss
+                is calculated
               </Box>
             </Typography>
           </Grid>
@@ -134,15 +133,14 @@ class InputPanel extends React.Component {
               style={{
                 ...this.titlePaddingStyle,
                 color: !this.props.ui.detail &&
-                  !this.props.training.running ?
-                  grey[400] : lightBlue[500],
+                  !this.props.ui.ready &&
+                  this.props.ui.trainingStep === 3?
+                  lightBlue[500] : grey[400],
               }}
               align='left'
             >
               <Box fontWeight="fontWeightRegular"
-                fontSize={!this.props.ui.detail &&
-                  !this.props.training.running ?
-                  this.fontsizeDef : this.fontsizeAct} m={1}>
+                fontSize={this.fontSizeTitle} m={1}>
                 Backprop
               </Box>
             </Typography>
@@ -154,8 +152,9 @@ class InputPanel extends React.Component {
               align='left'
             >
               <Box fontWeight="fontWeightRegular"
-                fontSize={this.fontsizeDef} m={1}>
-                An Description of Backprop TT
+                fontSize={this.fontSizeText} m={1}>
+                The loss is sent backward through the net so the weights of
+                the cells can be adjusted for better predictions
               </Box>
             </Typography>
           </Grid>

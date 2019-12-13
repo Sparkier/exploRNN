@@ -3,6 +3,7 @@ import {Network} from './model/net';
 import {Plot} from './model/plot';
 import {Input} from './model/input';
 import {Loss} from './model/loss';
+import {CellPlot} from './model/cellplot';
 
 /**
  * This function represents the sketch in which the network with user
@@ -30,6 +31,7 @@ export default function(s) {
   s.detailRatio = 0.67;
   s.ctrRatio = 0.5;
   s.lstmStep = 0;
+  s.lstmPred = 0;
   s.ready = false;
   s.setupDone = false;
 
@@ -77,6 +79,16 @@ export default function(s) {
       verRatio: 0.7,
       horRatio: 0.5,
     };
+    s.cellPlotProps = {
+      left: s.detailProps.right,
+      right: s.width,
+      midX: s.width - s.width * (1 - s.detailRatio) / 2,
+      midY: s.height/2,
+      width: s.width * (1 - s.detailRatio),
+      height: s.height,
+      verRatio: 0.4,
+      horRatio: 0.7,
+    };
     s.inLeft = 0;
     s.inRight = s.sideWidthLeft;
     s.outLeft = s.width - s.sideWidthRight;
@@ -90,7 +102,7 @@ export default function(s) {
     s.cell = new LSTM(s);
     s.input = new Input(s);
     s.loss = new Loss(s);
-    console.log('CELLCELLCELLCELL', s.cell);
+    s.cellPlot = new CellPlot(s);
     s.pause = 0;
     s.netFrame = 0;
     s.netAnim = false;
@@ -125,7 +137,10 @@ export default function(s) {
     if (s.props) {
       s.pause = Math.round((1010 - s.props.ui.speed) / 10);
     }
-    if (s.detail && s.props.ui.anim && s.frameCount % s.pause === 0) {
+    // if (s.detail && s.props.ui.anim && s.frameCount % s.pause === 0) {
+    //  s.cell.update();
+    // }
+    if (s.detail && s.props.ui.anim) {
       s.cell.update();
     }
     s.drawNetwork();
@@ -134,6 +149,7 @@ export default function(s) {
     s.drawLoss();
     s.drawCell();
     // draw cell input/output
+    s.drawCellPlot();
     s.fill(255);
   };
 
@@ -172,6 +188,7 @@ export default function(s) {
       }
       if (s.props.training.step) {
         s.lstmStep = 0;
+        s.lstmPred = 0;
       }
       if (!s.netAnim) {
         s.net = new Network(s);
@@ -273,10 +290,17 @@ export default function(s) {
     s.cell.draw();
     s.pop();
     s.fill(255);
-    if (s.frameCount % 10 === 0) {
-      s.currfps = Math.round(s.frameRate());
-    }
-    s.text(s.currfps + ' fps', 20, 20);
+  };
+
+  s.drawCellPlot = function() {
+    s.push();
+    // TODO: combine if statements with cx = cy = 0,
+
+    s.translate(s.cellPlotProps.midX, s.cellPlotProps.midY);
+    s.scale(s.transition >= 100 ? 1 : s.transition / 100);
+    s.translate(-s.cellPlotProps.midX, -s.cellPlotProps.midY);
+    s.cellPlot.draw();
+    s.pop();
   };
 
   s.drawNetwork = function() {
@@ -294,12 +318,22 @@ export default function(s) {
       const cy = cb.y + (cb.y - s.height / 2) * (s.transition / 100);
       s.translate(-cx, -cy);
     }
+    let sendTrainStep = 0;
     if (s.netAnim) {
       s.netFrame++;
       if (s.netFrame > s.MAX_NET_FRAMES) {
         s.netAnim = false;
         s.netFrame = 0;
+      } else if (s.netFrame < s.netPredFrames) {
+        sendTrainStep = 1;
+      } else if (s.netFrame < s.netLossFrames + s.netPredFrames) {
+        sendTrainStep = 2;
+      } else {
+        sendTrainStep = 3;
       }
+    }
+    if (sendTrainStep !== s.props.ui.trainingStep) {
+      s.props.actions.updateUI({...this.props.ui, trainingStep: sendTrainStep});
     }
     // s.netAlpha = 255 * (100 - s.transition) / 100
     s.netAlpha = 255;
@@ -317,7 +351,9 @@ export default function(s) {
     if (this.detail) {
       s.cell.mouseMoved(s.mouseX, s.mouseY);
     } else {
-      s.net.mouseMoved(s.mouseX, s.mouseY);
+      if (s.props.ui.ready) {
+        s.net.mouseMoved(s.mouseX, s.mouseY);
+      }
       if (s.input) {
         s.input.mouseMoved(s.mouseX, s.mouseY);
       }
@@ -338,7 +374,9 @@ export default function(s) {
         s.props.actions.updateUI({...s.props.ui, detail: false});
       }
     } else {
-      s.net.checkClick();
+      if (s.props.ui.ready) {
+        s.net.checkClick();
+      }
       s.input.checkClick();
     }
   };
