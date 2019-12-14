@@ -22,8 +22,8 @@ class Main extends React.Component {
    */
   render() {
     return (
-      <Grid container direction='row' className='mainGrid'>
-        <Grid item xs className='full'>
+      <Grid container className='mainGrid'>
+        <Grid item xs={12} alignContent='stretch' justify='flex-end'>
           <Training/>
           <VisualWrapper/>
           <Input/>

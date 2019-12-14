@@ -112,7 +112,7 @@ class OutputPanel extends React.Component {
    */
   render() {
     return (
-      <Grid container item xs={4} justify='center'>
+      <Grid id="outpan" container item xs={4} justify='center'>
         <Paper style={{...this.myPadding, width: '80%'}}>
           <Grid item>
             <Typography variant="body1"

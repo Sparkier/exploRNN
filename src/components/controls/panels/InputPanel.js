@@ -20,6 +20,16 @@ class InputPanel extends React.Component {
     this.fontSizeTitle = 16;
     this.fontSizeText = 14;
   }
+
+  /**
+   *
+   */
+  componentDidMount() {
+    const height = document.getElementById('inppan');
+    if (this.props.ui.panelHeight < height) {
+      this.props.actions.updateUI({...this.props.ui, panelHeight: height});
+    }
+  }
   // Some styles for better looks, TODO: clean up
   simplePaddingStyle = {
     width: '90%',
@@ -64,7 +74,7 @@ class InputPanel extends React.Component {
    */
   render() {
     return (
-      <Grid container item
+      <Grid id="inppan" container item
         xs={4}
         justify='center'>
         <Paper style={{...this.myPadding, height: '100%', width: '80%'}}>

@@ -28,7 +28,7 @@ export default function(s) {
   s.sideRatioLeft = 0.1;
   s.sideRatioLoss = 0.1;
   s.sideRatioRight = 0.2;
-  s.detailRatio = 0.5;
+  s.detailRatio = 0.6;
   s.ctrRatio = 0.5;
   s.cellAnimStep = 0;
   s.MAX_CELL_STEPS = 11;
@@ -79,7 +79,7 @@ export default function(s) {
       width: s.width * s.detailRatio,
       height: s.height,
       verRatio: 0.7,
-      horRatio: 0.5,
+      horRatio: 0.55,
     };
     s.cellPlotProps = {
       left: s.detailProps.right,
@@ -88,8 +88,8 @@ export default function(s) {
       midY: s.height/2,
       width: s.width * (1 - s.detailRatio),
       height: s.height,
-      verRatio: 0.4,
-      horRatio: 0.7,
+      verRatio: 0.6,
+      horRatio: 0.9,
     };
     s.inLeft = 0;
     s.inRight = s.sideWidthLeft;

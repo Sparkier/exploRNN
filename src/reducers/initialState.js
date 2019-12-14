@@ -46,6 +46,7 @@ export default {
     plotStep: 0,
     trainingStep: 0,
     cellAnimStep: 0,
+    panelHeight: 0,
   },
   firstcall: true,
 };

@@ -74,7 +74,7 @@ class DescriptionPanel extends React.Component {
    */
   render() {
     return (
-      <Grid container item
+      <Grid id="dscpan" container item
         xs={4}
         justify='center'>
         <Paper style={{...this.myPadding, height: '100%', width: '80%'}}>
