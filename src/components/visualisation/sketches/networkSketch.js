@@ -135,12 +135,14 @@ export default function(s) {
       return;
     }
     if (s.props) {
-      s.pause = Math.round((1010 - s.props.ui.speed) / 10);
+      const timeDist = Math.abs(s.lstmStep - (s.props.training.values / 2));
+      const pauseMult = timeDist / (s.props.training.values / 2);
+      s.pause = Math.round((1010 - s.props.ui.speed) / 10 * pauseMult) + 1;
     }
     // if (s.detail && s.props.ui.anim && s.frameCount % s.pause === 0) {
     //  s.cell.update();
     // }
-    if (s.detail && s.props.ui.anim) {
+    if (s.detail && s.props.ui.anim && s.frameCount % s.pause === 0) {
       s.cell.update();
     }
     s.drawNetwork();
@@ -216,6 +218,22 @@ export default function(s) {
     s.update = true;
   };
 
+  s.reset = function() {
+    s.plotFrame = 0;
+    s.plotAnim = false;
+    s.netFrame = 0;
+    s.lstmStep = 0;
+    s.lstmPred = 0;
+    s.netAnim = false;
+    s.cell.reset();
+    s.lossValues = [];
+    s.net = new Network(s);
+    s.cell = new LSTM(s);
+    s.input = new Input(s);
+    s.loss = new Loss(s);
+    s.cellPlot = new CellPlot(s);
+  };
+
   s.windowResized = function() {
     const netDiv = document.getElementById('networkDiv');
     const valDiv = document.getElementById('valueDiv');
@@ -249,7 +267,7 @@ export default function(s) {
     for (const plot of s.plotsRight) {
       plot.draw();
     }
-    if (s.plotAnim) {
+    if (s.plotAnim && s.props.training.running) {
       s.plotFrame++;
       if (s.plotFrame > s.MAX_PLOT_FRAMES) {
         s.plotAnim = false;
@@ -319,7 +337,7 @@ export default function(s) {
       s.translate(-cx, -cy);
     }
     let sendTrainStep = 0;
-    if (s.netAnim) {
+    if (s.netAnim && s.props.training.running) {
       s.netFrame++;
       if (s.netFrame > s.MAX_NET_FRAMES) {
         s.netAnim = false;

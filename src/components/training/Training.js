@@ -50,7 +50,7 @@ class Training extends React.Component {
       case 'fit':
         if (this.props.training.running) {
           setTimeout(function() {
-            this_.iterate();
+            this_.iterate(true);
           }, this.pause);
         }
         break;
@@ -82,22 +82,43 @@ class Training extends React.Component {
     if (this.props.training.running !== prevProps.training.running) {
       if (this.props.training.running) {
         setTimeout(function() {
-          this_.iterate();
+          this_.iterate(true);
         }, 100);
       }
     } else if (this.props.training.running && this.props.ui.ready) {
       setTimeout(function() {
-        this_.iterate();
+        this_.iterate(true);
       }, 100);
     }
     if (this.props.training.reset) {
       this.reset();
       this.props.actions.updateTraining(
-          {...this.props.training, reset: false}
+          {...this.props.training, reset: false, running: false}
+      );
+      this.props.actions.updateUI(
+          {...this.props.ui, reset: true,
+            ready: true,
+            running: false,
+            animStep: false,
+            lstmStep: 0,
+            plotStep: 0,
+            trainingStep: 0}
       );
     }
     if (this.props.training.step) {
-      this.iterate();
+      this.iterate(false);
+      this.props.actions.updateUI(
+          {...this.props.ui, reset: true,
+            ready: true,
+            running: false,
+            animStep: false,
+            lstmStep: 0,
+            plotStep: 0,
+            trainingStep: 0}
+      );
+      this.props.actions.updateTraining(
+          {...this.props.training, reset: false, step: false, running: false}
+      );
     }
   }
 
@@ -217,14 +238,16 @@ class Training extends React.Component {
    * for the current time step are generated according to the user input
    * values, a prediction for the current input is computed and then the
    * network is trained by comparing predicted output to actual output
+   *
+   * @param {boolean} animate
    */
-  async iterate() {
+  async iterate(animate) {
     let network = this.props.network;
     if (this.props.ui.ready) {
       let ui = this.props.ui;
       console.log('UI', ui);
       ui = this.addDataToUI(ui, network);
-      this.props.actions.updateUI({...ui, ready: false, running: true});
+      this.props.actions.updateUI({...ui, ready: false, running: animate});
     } else {
       return;
     }

@@ -56,9 +56,9 @@ export class CellPlot {
     s.translate(s.cellPlotProps.midX, s.cellPlotProps.midY);
     s.ellipseMode(s.CENTER);
     // draw the scan box while animating
-    s.stroke(54, 150, 70);
+    s.stroke(250, 150, 70);
     const left = (-this.halfW) + (s.lstmPred * this.stepWidth);
-    s.fill(54, 150, 70, 20);
+    s.fill(250, 150, 70, 20);
     s.rect(left + ((this.in - 1) * this.stepWidth) / 2, 0,
         ((this.in - 1) * this.stepWidth), 1.8 * this.halfH);
     s.strokeWeight(3 * this.scale);
@@ -121,7 +121,7 @@ export class CellPlot {
     }
 
 
-    const ratio = 1;
+    const ratio = 1; // remove?
     s.stroke(50, 250, 70);
     s.noFill();
     s.beginShape();

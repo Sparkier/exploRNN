@@ -119,7 +119,7 @@ class OutputPanel extends React.Component {
               style={{
                 ...this.titlePaddingStyle,
                 color: !this.props.ui.detail &&
-                  this.props.ui.ready ?
+                  !this.props.training.running ?
                   lightBlue[400] : grey[500],
               }}
               align='left'
@@ -148,7 +148,7 @@ class OutputPanel extends React.Component {
               style={{
                 ...this.titlePaddingStyle,
                 color: !this.props.ui.detail &&
-                  this.props.ui.ready ?
+                !this.props.training.running ?
                   lightBlue[400] : grey[500],
               }}
               align='left'
@@ -177,7 +177,7 @@ class OutputPanel extends React.Component {
               style={{
                 ...this.titlePaddingStyle,
                 color: !this.props.ui.detail &&
-                  this.props.ui.ready ?
+                !this.props.training.running ?
                   lightBlue[400] : grey[500],
               }}
               align='left'

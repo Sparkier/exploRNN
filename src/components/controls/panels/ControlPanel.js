@@ -146,8 +146,7 @@ class ControlPanel extends React.Component {
                 </Grid>
                 <Grid item style={this.myPadding}>
                   <MyButton properties={this.props}
-                    disabled = {!this.props.training.running &&
-                      !this.props.ui.ready}
+                    disabled = {false}
                     action={this.toggleTraining}
                     icon={(this.props.ui.detail && this.props.ui.anim) ||
                       (!this.props.ui.detail && this.props.training.running) ?
@@ -159,8 +158,7 @@ class ControlPanel extends React.Component {
                 <Grid item style={this.myPadding}>
                   <MyButton properties={this.props}
                     disabled={(this.props.ui.detail && this.props.ui.anim) ||
-                    (!this.props.ui.detail && this.props.training.running) ||
-                    (!this.props.ui.detail && !this.props.ui.ready)}
+                    (!this.props.ui.detail && this.props.training.running)}
                     action={this.nextStep}
                     icon={
                       <SkipNext fontSize="small" style={{color: 'white'}}/>

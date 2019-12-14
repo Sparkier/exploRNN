@@ -75,13 +75,13 @@ export class Plot {
     // draw the scan box while animating
     if (s.plotAnim && s.plotFrame > s.plotMoveFrames &&
       s.plotFrame < s.plotMoveFrames + s.plotScanFrames && this.index === 2) {
-      s.stroke(54, 150, 70, this.vis);
+      s.stroke(54, 150, 250, this.vis);
       const right = (-this.halfW) + (showSteps * this.stepWidth);
       let left = right - (this.in * this.stepWidth);
       if (left < -this.halfW) {
         left = -this.halfW;
       }
-      s.fill(54, 150, 70, 20);
+      s.fill(54, 150, 250, 20);
       s.rect(left + (right - left) / 2, 0, this.scale * (right-left),
           1.8 * this.scale * this.halfH);
     }

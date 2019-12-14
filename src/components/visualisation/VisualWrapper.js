@@ -47,6 +47,10 @@ class VisualWrapper extends React.Component {
     this.networkSketch.updateMemory(
         (propsOld.ui.running !== nextProps.ui.running) &&
         nextProps.ui.running);
+    if (nextProps.ui.reset) {
+      this.networkSketch.reset();
+      this.props.actions.updateUI({...nextProps.ui, reset: false});
+    }
     return false;
   }
 
