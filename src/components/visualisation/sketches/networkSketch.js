@@ -28,7 +28,7 @@ export default function(s) {
   s.sideRatioLeft = 0.1;
   s.sideRatioLoss = 0.1;
   s.sideRatioRight = 0.2;
-  s.detailRatio = 0.67;
+  s.detailRatio = 0.5;
   s.ctrRatio = 0.5;
   s.cellAnimStep = 0;
   s.MAX_CELL_STEPS = 11;

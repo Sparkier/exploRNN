@@ -98,7 +98,8 @@ class DescriptionPanel extends React.Component {
                 }} align='left'>
                 <Box fontWeight='fontWeightRegular'
                   fontSize={this.descSize} m={1}>
-                  {this.descriptions[this.props.ui.lstmStep]}
+                  {this.props.ui.anim ? '[pause for descriptoin]' :
+                    this.descriptions[this.props.ui.lstmStep]}
                 </Box>
               </Typography>
             </Grid>

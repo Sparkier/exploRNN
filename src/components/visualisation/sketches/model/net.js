@@ -58,11 +58,13 @@ export class Network {
       (this.layers.length));
     this.rev = s.netFrame > s.netPredFrames + s.netLossFrames;
 
-    if (!this.rev && s.netAnim && s.netFrame % this.updatePause === 0) {
+    if (!this.rev && s.netAnim && s.props.training.running &&
+        s.netFrame % this.updatePause === 0) {
       this.update();
     }
-    if (this.rev && s.netAnim && (s.netFrame - (s.netPredFrames +
-        s.netLossFrames)) % this.updatePauseRev === 0) {
+    if (this.rev && s.netAnim && s.props.training.running &&
+        (s.netFrame - (s.netPredFrames + s.netLossFrames)) %
+        this.updatePauseRev === 0) {
       this.update();
     }
     for (const l of this.layers) {
@@ -200,7 +202,7 @@ class Layer {
       s.rect(this.x, this.y, w, h);
       // draw inside of layer block
       s.noStroke();
-      if (s.props.training.running || this.active) {
+      if (!s.props.ui.ready || this.active) {
         s.fill(s.blue, this.s.netAlpha);
       } else if (this.hover) {
         s.fill(100, this.s.netAlpha);

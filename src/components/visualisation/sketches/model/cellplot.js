@@ -104,16 +104,21 @@ export class CellPlot {
       }
       s.endShape();
       s.noStroke();
-      s.stroke(250, 180, 50);
+      s.fill(210, 130, 30);
       for (let i = s.lstmPred; i <= s.lstmPred + s.lstmStep; i++) {
         data = scanPlot[i];
         s.ellipse(-this.halfW + (i * detailStepWidth),
-            (-this.halfH / 2 * data), 4);
+            (-this.halfH / 2 * data), 6);
       }
       if (s.lstmPred > 0) {
         data = scanPlot[this.in + (s.lstmPred - 1)];
-        s.ellipse(-this.halfW + ((this.in + s.lstmPred - 1) * detailStepWidth),
-            (-this.halfH / 2 * data), 4);
+        if (s.lstmStep === this.in - 1) {
+          s.ellipse(-this.halfW + ((this.in + s.lstmPred - 1) * detailStepWidth),
+              (-this.halfH / 2 * data), 12);
+        } else {
+          s.ellipse(-this.halfW + ((this.in + s.lstmPred - 1) * detailStepWidth),
+              (-this.halfH / 2 * data), 10);
+        }
       }
     }
 
@@ -129,6 +134,7 @@ export class CellPlot {
     s.fill(100 + error * 100, 200 - error * 80, 50);
     s.ellipse(-this.halfW + ((s.lstmPred + this.in) * detailStepWidth),
         -this.halfH / 2 * data, 8);
+
     for (let i = (s.lstmPred + this.in + 1); i < this.total; i++) {
       error = Math.abs(-2 - scanPlot[i]);
       s.noStroke();
