@@ -15,6 +15,68 @@ class Controls extends React.Component {
   drawer = false;
 
   /**
+   *
+   */
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  /**
+   * dadawd
+   *
+   @param {obect} event
+   */
+  handleKeyDown = (event) => {
+    console.log('KEYPRESSED', event);
+    if (!this.props) {
+      return;
+    }
+    if (!this.props.ui.detail && event.key === ' ') {
+      this.props.actions.toggleTraining(this.props.training);
+    } else if (this.props.ui.detail && event.key === ' ') {
+      this.props.actions.updateUI({
+        ...this.props.ui,
+        anim: !this.props.ui.anim,
+      });
+    } else if (event.key === 'Enter') {
+      if (this.props.ui.detail) {
+        this.props.actions.updateUI({...this.props.ui, animStep: true});
+      } else if (!this.props.training.running) {
+        this.props.actions.updateTraining({...this.props.training, step: true});
+      }
+    } else if (event.key === 'Backspace' && !this.props.ui.detail) {
+      this.props.actions.updateTraining({...this.props.training, reset: true});
+    } else if (event.key === '1' && !this.props.ui.detail &&
+          !this.props.training.running) {
+      this.props.actions.updateTraining({...this.props.training,
+        dataType: 'sin'});
+    } else if (event.key === '2' && !this.props.ui.detail &&
+          !this.props.training.running) {
+      this.props.actions.updateTraining({...this.props.training,
+        dataType: 'saw'});
+    } else if (event.key === '3' && !this.props.ui.detail &&
+          !this.props.training.running) {
+      this.props.actions.updateTraining({...this.props.training,
+        dataType: 'sqr'});
+    } else if (event.key === '4' && !this.props.ui.detail &&
+          !this.props.training.running) {
+      this.props.actions.updateTraining({...this.props.training,
+        dataType: 'sinc'});
+    } else if (event.key === '+' && !this.props.ui.detail &&
+    !this.props.training.running && this.props.network.layers <= 6) {
+      this.props.actions.updateNetwork({...this.props.network,
+        layers: this.props.network.layers + 1});
+    } else if (event.key === '-' && !this.props.ui.detail &&
+    !this.props.training.running && this.props.network.layers > 1) {
+      this.props.actions.updateNetwork({...this.props.network,
+        layers: this.props.network.layers - 1});
+    } else if (event.key === 'Tab') {
+      this.props.actions.updateUI({...this.props.ui,
+        detail: !this.props.ui.detail});
+      event.preventDefault();
+    }
+  }
+  /**
    * Handles the opening and closing of the side drawer
    *
    * @param {boolean} open true, if the drawer should now be opened
@@ -54,6 +116,7 @@ Controls.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
 };
 
 /**
@@ -66,6 +129,7 @@ function mapStateToProps(state) {
     training: state.training,
     network: state.network,
     ui: state.ui,
+    actions: state.actions,
   };
 }
 

@@ -154,7 +154,6 @@ export default function(s) {
     s.drawCell();
     // draw cell input/output
     s.drawCellPlot();
-    s.fill(255);
   };
 
   s.preload = function() {
@@ -201,6 +200,9 @@ export default function(s) {
     } else {
       s.detail = false;
       s.cell.reset();
+    }
+    if (s.props.ui.detail !== s.detail) {
+      s.detail = s.props.ui.detail;
     }
     if (start) {
       s.plotFrame = 0;
@@ -294,7 +296,10 @@ export default function(s) {
       }
     }
     s.push();
-    const cb = s.clickedBlock;
+    let cb = s.clickedBlock;
+    if (!cb) {
+      cb = s.net.layers[1];
+    }
     // TODO: combine if statements with cx = cy = 0,
     if (cb) {
       const cx = cb.x + (cb.x - s.width / 2) * (s.transition / 100);
