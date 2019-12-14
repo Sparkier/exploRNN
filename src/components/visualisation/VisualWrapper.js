@@ -82,6 +82,7 @@ VisualWrapper.propTypes = {
   network: PropTypes.object.isRequired,
   training: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
 };
 
 /**

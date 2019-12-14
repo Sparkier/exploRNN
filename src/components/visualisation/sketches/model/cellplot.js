@@ -113,11 +113,11 @@ export class CellPlot {
       if (s.lstmPred > 0) {
         data = scanPlot[this.in + (s.lstmPred - 1)];
         if (s.lstmStep === this.in - 1) {
-          s.ellipse(-this.halfW + ((this.in + s.lstmPred - 1) * detailStepWidth),
-              (-this.halfH / 2 * data), 12);
+          s.ellipse(-this.halfW + ((this.in + s.lstmPred - 1) *
+              detailStepWidth), (-this.halfH / 2 * data), 12);
         } else {
-          s.ellipse(-this.halfW + ((this.in + s.lstmPred - 1) * detailStepWidth),
-              (-this.halfH / 2 * data), 10);
+          s.ellipse(-this.halfW + ((this.in + s.lstmPred - 1) *
+              detailStepWidth), (-this.halfH / 2 * data), 10);
         }
       }
     }

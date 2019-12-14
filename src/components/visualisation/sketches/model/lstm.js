@@ -643,7 +643,6 @@ class Item {
         } else {
           this.s.cellAnimStep++;
         }
-        console.log('DEBUG',this.s.cellAnimStep);
       }
     }
   }
