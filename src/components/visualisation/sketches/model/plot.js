@@ -53,18 +53,15 @@ export class Plot {
     if (showSteps > this.in + this.out) {
       showSteps = this.in + this.out;
     }
-
     this.scale = 1 - 0.5 * (Math.abs(s.outProps.midY - this.cy - yOff) /
         s.outProps.midY);
+    this.vis = 255 - 255 * Math.abs(this.cy + yOff - s.outProps.midY) /
+      (s.height/4);
     s.push();
-    s.translate(this.cx, this.cy);
+    s.translate(this.cx, this.cy + yOff);
     s.ellipseMode(s.CENTER);
     s.stroke(200, this.vis);
     s.strokeWeight(2 * this.scale);
-    if (this.index === 2) {
-      s.rect(0, 0, this.plotWidth, this.plotHeight);
-    }
-    s.translate(0, yOff);
     s.stroke(54, this.vis);
     s.line(-this.halfW * this.scale, 0, this.halfW * this.scale, 0);
     s.line(this.scale * ((-this.halfW) + (this.in * this.stepWidth)),

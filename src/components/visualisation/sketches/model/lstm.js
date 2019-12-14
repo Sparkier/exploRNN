@@ -46,7 +46,7 @@ export class LSTM {
     // creating the cell components of the lstm cell
     this.items.push(
         this.receive =
-          new Item(cell, 'rec', 'Layer Input', 1, 1, 2, 1, s)
+          new Item(cell, 'rec', 'Layer Input', 1, 1, 2, 1)
     );
     this.items.push(
         this.add =
@@ -638,6 +638,12 @@ class Item {
           this.s.props = {...this.s.props, ui: {...this.s.props.ui,
             lstmStep: this.step}};
         }
+        if (this.type === 'gft') {
+          this.s.cellAnimStep = 0;
+        } else {
+          this.s.cellAnimStep++;
+        }
+        console.log('DEBUG',this.s.cellAnimStep);
       }
     }
   }

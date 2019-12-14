@@ -50,7 +50,12 @@ export class CellPlot {
     }
 
     const detailStepWidth = this.stepWidth;
-
+    const groundTruth = s.props.ui.data[this.dataIndex].chartPrediction.concat(
+        s.props.ui.data[this.dataIndex].chartOutput
+    );
+    const scanPlot = s.props.ui.data[this.dataIndex].chartPrediction.concat(
+        s.props.ui.data[this.dataIndex].prediction
+    );
     // draw plot structure
     s.push();
     s.translate(s.cellPlotProps.midX, s.cellPlotProps.midY);
@@ -65,109 +70,73 @@ export class CellPlot {
     s.stroke(200);
     s.strokeWeight(2);
     s.noFill();
-    s.rect(0, 0, this.plotWidth, this.plotHeight);
+    // s.rect(0, 0, this.plotWidth, this.plotHeight);
 
     s.stroke(54);
     s.line(-this.halfW, 0, this.halfW, 0);
     s.line((-this.halfW) + (this.in * this.stepWidth), -this.halfH,
         -this.halfW + (this.in * this.stepWidth), this.halfH
     );
-    s.strokeWeight(3);
     if (s.props.ui.data &&
         s.props.ui.data[this.dataIndex].chartPrediction &&
         s.props.ui.data[this.dataIndex].chartOutput &&
         s.props.ui.data[this.dataIndex].prediction) {
-      s.strokeWeight(2);
+      s.strokeWeight(1);
       s.stroke(150);
       s.noFill();
 
       s.beginShape();
-      for (let i = 0; i < this.in; i++) {
-        data = s.props.ui.data[this.dataIndex].chartPrediction[i];
+      for (let i = 0; i < this.total; i++) {
+        data = groundTruth[i];
         s.vertex(-this.halfW + (i * detailStepWidth),
-            -this.halfH / 2 * data);
-      }
-      if (s.lstmPred > 0) {
-        data = s.props.ui.data[this.dataIndex].chartOutput[0];
-        s.vertex(-this.halfW + (this.in * detailStepWidth),
             -this.halfH / 2 * data);
       }
       s.endShape();
 
-      s.strokeWeight(3);
-      s.stroke(50, 70, 250);
+      s.strokeWeight(2);
+      s.stroke(250, 180, 50);
       s.noFill();
       s.beginShape();
-      for (let i = 0; i <= s.lstmPred + s.lstmStep && i <= this.in; i++) {
-        data = s.props.ui.data[this.dataIndex].chartPrediction[i];
+      for (let i = s.lstmPred; i < s.lstmPred + this.in; i++) {
+        data = scanPlot[i];
         s.vertex(-this.halfW + (i * detailStepWidth),
             -this.halfH / 2 * data);
       }
       s.endShape();
       s.noStroke();
-      s.fill(50, 70, 250);
-      for (let i = s.lstmPred; i <= s.lstmPred + s.lstmStep &&
-            i <= this.in; i++) {
-        data = s.props.ui.data[this.dataIndex].chartPrediction[i];
+      s.stroke(250, 180, 50);
+      for (let i = s.lstmPred; i <= s.lstmPred + s.lstmStep; i++) {
+        data = scanPlot[i];
         s.ellipse(-this.halfW + (i * detailStepWidth),
-            (-this.halfH / 2 * data), 5);
+            (-this.halfH / 2 * data), 4);
       }
-      if (s.lstmStep + s.lstmPred < this.in) {
-        const step = s.lstmStep + s.lstmPred;
-        data = s.props.ui.data[this.dataIndex].chartPrediction[step];
-        s.ellipse(-this.halfW + (step * detailStepWidth),
-            -this.halfH / 2 * data, 7);
+      if (s.lstmPred > 0) {
+        data = scanPlot[this.in + (s.lstmPred - 1)];
+        s.ellipse(-this.halfW + ((this.in + s.lstmPred - 1) * detailStepWidth),
+            (-this.halfH / 2 * data), 4);
       }
     }
 
+    const tween = (s.cellAnimStep + s.lstmStep * s.MAX_CELL_STEPS) /
+      (s.MAX_CELL_STEPS * this.in);
 
-    const ratio = 1; // remove?
-    s.stroke(50, 250, 70);
-    s.noFill();
-    s.beginShape();
-    for (let i = 0; i < s.lstmPred; i++) {
-      data = s.props.ui.data[this.dataIndex].chartOutput[i];
-      s.vertex((-this.halfW + ((i + this.in) * detailStepWidth)),
-          -this.halfH / 2 * data * ratio);
-    }
-    s.endShape();
-
+    data = s.props.ui.data[this.dataIndex].prediction[(s.lstmPred)];
+    data = -2 + 2 * tween + (tween) * data;
+    let error = Math.abs(data - s.props.ui.data[this.dataIndex].chartOutput[
+        (s.lstmPred)
+    ]);
     s.noStroke();
-    s.fill(50, 250, 70);
-    if (s.lstmPred > 0) {
-      data = s.props.ui.data[this.dataIndex].chartOutput[(s.lstmPred - 1)];
-      s.ellipse(-this.halfW + ((s.lstmPred - 1 + this.in) * detailStepWidth),
-          -this.halfH / 2 * data, 9);
+    s.fill(100 + error * 100, 200 - error * 80, 50);
+    s.ellipse(-this.halfW + ((s.lstmPred + this.in) * detailStepWidth),
+        -this.halfH / 2 * data, 8);
+    for (let i = (s.lstmPred + this.in + 1); i < this.total; i++) {
+      error = Math.abs(-2 - scanPlot[i]);
+      s.noStroke();
+      s.fill(100 + error * 100, 200 - error * 80, 50);
+      s.ellipse(-this.halfW + (i * detailStepWidth),
+          -this.halfH / 2 * (-2), 4);
     }
 
-    s.stroke(250, 50, 70);
-    s.noFill();
-    s.beginShape();
-    for (let i = 0; i < s.lstmPred; i++) {
-      data = s.props.ui.data[this.dataIndex].prediction[i];
-      s.vertex((-this.halfW + ((i + this.in) * detailStepWidth)),
-          -this.halfH / 2 * data * ratio);
-    }
-    s.endShape();
-
-    s.noStroke();
-    s.fill(250, 50, 70);
-    for (let i = 0; i < s.lstmPred; i++) {
-      data = s.props.ui.data[this.dataIndex].prediction[i];
-      s.ellipse((-this.halfW + ((i + this.in) * detailStepWidth)),
-          -this.halfH / 2 * data * ratio, 5);
-    }
-    if (s.lstmStep + s.lstmPred >= this.in) {
-      const step = s.lstmStep + s.lstmPred - this.in;
-      data = s.props.ui.data[this.dataIndex].prediction[step];
-      s.ellipse(-this.halfW + ((step + this.in) * detailStepWidth),
-          -this.halfH / 2 * data, 7);
-    }
-    if (s.lstmPred > 0) {
-      data = s.props.ui.data[this.dataIndex].prediction[(s.lstmPred - 1)];
-      s.ellipse(-this.halfW + ((s.lstmPred - 1 + this.in) * detailStepWidth),
-          -this.halfH / 2 * data, 9);
-    }
     s.pop();
   }
 }

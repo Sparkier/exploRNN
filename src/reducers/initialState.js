@@ -45,6 +45,7 @@ export default {
     lstmStep: 0,
     plotStep: 0,
     trainingStep: 0,
+    cellAnimStep: 0,
   },
   firstcall: true,
 };

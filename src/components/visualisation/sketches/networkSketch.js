@@ -30,6 +30,8 @@ export default function(s) {
   s.sideRatioRight = 0.2;
   s.detailRatio = 0.67;
   s.ctrRatio = 0.5;
+  s.cellAnimStep = 0;
+  s.MAX_CELL_STEPS = 11;
   s.lstmStep = 0;
   s.lstmPred = 0;
   s.ready = false;
@@ -135,8 +137,8 @@ export default function(s) {
       return;
     }
     if (s.props) {
-      const timeDist = Math.abs(s.lstmStep - (s.props.training.values / 2));
-      const pauseMult = timeDist / (s.props.training.values / 2);
+      const timeDist = s.lstmStep / s.props.training.values * Math.PI;
+      const pauseMult = 1 - Math.sin(timeDist);
       s.pause = Math.round((1010 - s.props.ui.speed) / 10 * pauseMult) + 1;
     }
     // if (s.detail && s.props.ui.anim && s.frameCount % s.pause === 0) {
@@ -191,6 +193,7 @@ export default function(s) {
       if (s.props.training.step) {
         s.lstmStep = 0;
         s.lstmPred = 0;
+        s.cellAnimStep = 0;
       }
       if (!s.netAnim) {
         s.net = new Network(s);
@@ -369,9 +372,9 @@ export default function(s) {
     if (this.detail) {
       s.cell.mouseMoved(s.mouseX, s.mouseY);
     } else {
-      if (s.props.ui.ready) {
-        s.net.mouseMoved(s.mouseX, s.mouseY);
-      }
+      // if (s.props.ui.ready) {
+      s.net.mouseMoved(s.mouseX, s.mouseY);
+      // }
       if (s.input) {
         s.input.mouseMoved(s.mouseX, s.mouseY);
       }
@@ -392,9 +395,9 @@ export default function(s) {
         s.props.actions.updateUI({...s.props.ui, detail: false});
       }
     } else {
-      if (s.props.ui.ready) {
-        s.net.checkClick();
-      }
+      // if (s.props.ui.ready) {
+      s.net.checkClick();
+      // }
       s.input.checkClick();
     }
   };

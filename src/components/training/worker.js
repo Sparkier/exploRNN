@@ -226,8 +226,8 @@ export default () => {
       currentOutSequence.push(val);
       self.chartDataOutput.push(val);
     }
-    self.chartDataInput.push(self.chartDataOutput[0]);
-    self.chartPredictionInput.push(self.chartDataOutput[0]);
+    self.chartDataInput.push();
+    self.chartPredictionInput.push();
     self.trainInput = tf.tensor3d(self.trainInputBuff);
     self.trainOutput = tf.tensor2d(self.trainOutputBuff);
     // self.testInput = tf.tensor3d(self.testInputBuff);
