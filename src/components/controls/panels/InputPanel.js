@@ -77,7 +77,7 @@ class InputPanel extends React.Component {
       <Grid id="inppan" container item
         xs={4}
         justify='center'>
-        <Paper style={{...this.myPadding, height: '100%', width: '80%'}}>
+        <Paper style={{...this.myPadding, width: '80%'}}>
           <Grid item>
             <Typography variant="body1"
               style={{
@@ -103,8 +103,10 @@ class InputPanel extends React.Component {
             >
               <Box fontWeight="fontWeightRegular"
                 fontSize={this.fontSizeText} m={1}>
-                The Training Data is send through the network batch after batch
-                and timestep after timestep to get a prediction
+                { !this.props.training.running || this.props.ui.trainingStep === 1 ?
+                ('The Training Data is send through the network batch after' +
+                'batch and timestep after timestep to get a prediction') :
+                '[---]'}
               </Box>
             </Typography>
           </Grid>
@@ -133,8 +135,10 @@ class InputPanel extends React.Component {
             >
               <Box fontWeight="fontWeightRegular"
                 fontSize={this.fontSizeText} m={1}>
-                The prediction is compared to the real output values and a loss
-                is calculated
+                {!this.props.training.running || this.props.ui.trainingStep === 2 ? 'The prediction is' +
+                ' compared to the real output values and a loss' +
+                'is calculated' : '[---]'}
+
               </Box>
             </Typography>
           </Grid>
@@ -163,8 +167,9 @@ class InputPanel extends React.Component {
             >
               <Box fontWeight="fontWeightRegular"
                 fontSize={this.fontSizeText} m={1}>
-                The loss is sent backward through the net so the weights of
-                the cells can be adjusted for better predictions
+                {!this.props.training.running || this.props.ui.trainingStep === 3 ? 'The loss is sent ' +
+                  'backward through the net so the weights of ' +
+                  'the cells can be adjusted for better predictions' : '[---]'}
               </Box>
             </Typography>
           </Grid>

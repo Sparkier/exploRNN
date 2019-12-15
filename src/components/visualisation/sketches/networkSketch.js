@@ -43,6 +43,26 @@ export default function(s) {
     s.createCanvas(netDiv.offsetWidth,
         window.innerHeight - valDiv.offsetHeight - 50);
     s.frameRate(60);
+    s.palette = {
+      primary: s.color(255),
+      secondary: s.color(210),
+      contrast: s.color(54),
+      secondaryContrast: s.color(85),
+      error: s.color(255, 50, 50),
+      bg: s.color(255),
+      bgNet: s.color(255),
+      bgCell: s.color(255),
+      bgIn: s.color(255),
+      bgLoss: s.color(255),
+      bgOut: s.color(255),
+      bgCellplot: s.color(255),
+      ovPrimary: s.color(50, 150, 255),
+      ovSecondary: s.color(50, 100, 200),
+      ovContrast: s.color(0, 50, 200),
+      cvPrimary: s.color(255, 150, 50),
+      cvSecondary: s.color(210, 100, 50),
+      cvContrast: s.color(250, 40, 0),
+    };
     // s.drawingContext.setLineDash([5,5])
     s.sideWidthLeft = s.sideRatioLeft * s.width;
     s.sideWidthRight = s.sideRatioRight * s.width;
@@ -130,7 +150,7 @@ export default function(s) {
   };
 
   s.draw = function() {
-    s.background(255);
+    s.background(s.palette.bg);
     s.cursor(s.ARROW);
     s.fill(0);
     if (!s.props) {
@@ -173,7 +193,6 @@ export default function(s) {
   };
 
   s.updateMemory = (start) => {
-    console.log('UPDATING SKETCH MEMORY');
     s.ready = (s.props !== undefined && s.setupDone);
     if (!s.ready) {
       return;
@@ -253,7 +272,7 @@ export default function(s) {
 
   s.drawInput = function() {
     s.noStroke();
-    s.fill(255);
+    s.fill(s.palette.bgIn);
     s.rect(s.inLeft + s.sideWidthLeft / 2, s.height / 2, s.sideWidthLeft,
         s.height);
     s.input.draw();
@@ -266,7 +285,7 @@ export default function(s) {
 
   s.drawPlots = function() {
     s.noStroke();
-    s.fill(255);
+    s.fill(s.palette.bgOut);
     s.rect(s.outLeft + s.sideWidthRight / 2, s.height / 2, s.sideWidthRight,
         s.height);
     for (const plot of s.plotsRight) {
@@ -283,7 +302,8 @@ export default function(s) {
   };
 
   s.drawCell = function() {
-    s.fill(s.bgval, s.cellAlpha);
+    s.palette.bgCell.setAlpha( s.cellAlpha);
+    s.fill(s.palette.bgCell);
     s.noStroke();
     s.rect(s.width/2, s.height/2, s.width, s.height);
     if (s.detail) {
@@ -315,13 +335,10 @@ export default function(s) {
     s.cellAlpha = 255 * s.transition / 100;
     s.cell.draw();
     s.pop();
-    s.fill(255);
   };
 
   s.drawCellPlot = function() {
     s.push();
-    // TODO: combine if statements with cx = cy = 0,
-
     s.translate(s.cellPlotProps.midX, s.cellPlotProps.midY);
     s.scale(s.transition >= 100 ? 1 : s.transition / 100);
     s.translate(-s.cellPlotProps.midX, -s.cellPlotProps.midY);
@@ -350,15 +367,16 @@ export default function(s) {
       if (s.netFrame > s.MAX_NET_FRAMES) {
         s.netAnim = false;
         s.netFrame = 0;
-      } else if (s.netFrame < s.netPredFrames) {
-        sendTrainStep = 1;
-      } else if (s.netFrame < s.netLossFrames + s.netPredFrames) {
-        sendTrainStep = 2;
-      } else {
-        sendTrainStep = 3;
       }
     }
-    if (sendTrainStep !== s.props.ui.trainingStep) {
+    if (s.netFrame < s.netPredFrames) {
+      sendTrainStep = 1;
+    } else if (s.netFrame < s.netLossFrames + s.netPredFrames) {
+      sendTrainStep = 2;
+    } else {
+      sendTrainStep = 3;
+    }
+    if (s.props.training.running && sendTrainStep !== s.props.ui.trainingStep) {
       s.props.actions.updateUI({...this.props.ui, trainingStep: sendTrainStep});
     }
     // s.netAlpha = 255 * (100 - s.transition) / 100

@@ -29,8 +29,7 @@ export class CellPlot {
   draw() {
     let data;
     const s = this.s;
-
-    if (!s.props) {
+    if (!s.props || !s.props.ui.data) {
       return;
     }
     // prepare plot parameters
@@ -61,18 +60,16 @@ export class CellPlot {
     s.translate(s.cellPlotProps.midX, s.cellPlotProps.midY);
     s.ellipseMode(s.CENTER);
     // draw the scan box while animating
-    s.stroke(250, 150, 70);
+    s.stroke(s.palette.cvContrast);
     const left = (-this.halfW) + (s.lstmPred * this.stepWidth);
-    s.fill(250, 150, 70, 20);
+    s.palette.cvPrimary.setAlpha(40);
+    s.fill(s.palette.cvPrimary);
+    s.palette.cvPrimary.setAlpha(255);
     s.rect(left + ((this.in - 1) * this.stepWidth) / 2, 0,
         ((this.in - 1) * this.stepWidth), 1.8 * this.halfH);
-    s.strokeWeight(3 * this.scale);
-    s.stroke(200);
     s.strokeWeight(2);
     s.noFill();
-    // s.rect(0, 0, this.plotWidth, this.plotHeight);
-
-    s.stroke(54);
+    s.stroke(s.palette.contrast);
     s.line(-this.halfW, 0, this.halfW, 0);
     s.line((-this.halfW) + (this.in * this.stepWidth), -this.halfH,
         -this.halfW + (this.in * this.stepWidth), this.halfH
@@ -82,9 +79,10 @@ export class CellPlot {
         s.props.ui.data[this.dataIndex].chartOutput &&
         s.props.ui.data[this.dataIndex].prediction) {
       s.strokeWeight(1);
-      s.stroke(150);
+      s.palette.contrast.setAlpha(100);
+      s.stroke(s.palette.contrast);
+      s.palette.contrast.setAlpha(255);
       s.noFill();
-
       s.beginShape();
       for (let i = 0; i < this.total; i++) {
         data = groundTruth[i];
@@ -92,9 +90,8 @@ export class CellPlot {
             -this.halfH / 2 * data);
       }
       s.endShape();
-
       s.strokeWeight(2);
-      s.stroke(250, 180, 50);
+      s.stroke(s.palette.cvPrimary);
       s.noFill();
       s.beginShape();
       for (let i = s.lstmPred; i < s.lstmPred + this.in; i++) {
@@ -104,7 +101,7 @@ export class CellPlot {
       }
       s.endShape();
       s.noStroke();
-      s.fill(210, 130, 30);
+      s.fill(s.palette.cvSecondary);
       for (let i = s.lstmPred; i <= s.lstmPred + s.lstmStep; i++) {
         data = scanPlot[i];
         s.ellipse(-this.halfW + (i * detailStepWidth),

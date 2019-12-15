@@ -180,7 +180,7 @@ class Layer {
       // draw shadow
       s.fill(0, 100);
       s.noStroke();
-      s.rect(this.x + 5, this.y + 5, this.w, this.h);
+      // s.rect(this.x + 5, this.y + 5, this.w, this.h);
       // draw layer with correct parameters
       s.fill(250, this.s.netAlpha);
       let w = this.w;

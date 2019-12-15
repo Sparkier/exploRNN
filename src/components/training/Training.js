@@ -52,6 +52,8 @@ class Training extends React.Component {
           setTimeout(function() {
             this_.iterate(true);
           }, this.pause);
+        } else if (e.data.reset) {
+          this.iterate(false);
         }
         break;
       case 'data':
@@ -162,6 +164,7 @@ class Training extends React.Component {
           params: {
             epochs: 1,
             batchSize: this.props.training.batchSize,
+            reset: true,
           },
         });
     let ui = this.props.ui;
@@ -247,7 +250,7 @@ class Training extends React.Component {
       let ui = this.props.ui;
       console.log('UI', ui);
       ui = this.addDataToUI(ui, network);
-      this.props.actions.updateUI({...ui, ready: false, running: animate});
+      this.props.actions.updateUI({...ui, ready: !animate, running: animate});
     } else {
       return;
     }
@@ -279,6 +282,7 @@ class Training extends React.Component {
           params: {
             epochs: 1,
             batchSize: this.props.training.batchSize,
+            reset: false,
           },
         });
     network = {...network, iteration: this.props.network.iteration + 1};

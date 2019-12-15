@@ -61,18 +61,18 @@ class Input extends React.Component {
    */
   render() {
     return (
-      <div id="valueDiv" align="center">
+      <div id="valueDiv" align="center" style={{height: '35vh'}}>
         <Grid container
           spacing={3}
           style={this.simplePaddingStyle}
           justify='center'>
           {
-            <ControlPanel/>
-          }
-          {
             this.props.ui.detail ?
             <DescriptionPanel/>:
             <InputPanel/>
+          }
+          {
+            <ControlPanel/>
           }
           {
             this.props.ui.detail ?

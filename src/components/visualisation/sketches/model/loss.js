@@ -22,16 +22,16 @@ export class Loss {
    */
   draw() {
     const s = this.s;
+    s.noStroke();
     if (s.netAnim && s.netFrame > s.netPredFrames &&
         s.netFrame < s.netPredFrames + s.netLossFrames) {
-      s.fill(255);
-      s.stroke(50, 150, 255);
+      s.fill(s.palette.secondaryContrast);
     } else {
-      s.fill(255);
-      s.stroke(0);
+      s.fill(s.palette.contrast);
     }
     s.rect(this.ctrX, this.ctrY, this.size, this.size);
-    s.stroke(0);
+    s.stroke(s.palette.secondary);
+    s.strokeWeight(1);
     s.line(this.ctrX - this.size/2, this.ctrY,
         this.ctrX + this.size/2, this.ctrY);
     if (!s.netAnim || s.netFrame > s.netPredFrames) {
@@ -40,7 +40,8 @@ export class Loss {
         ratio = 1;
       }
       s.noFill();
-      s.stroke(255, 100, 50);
+      s.strokeWeight(2);
+      s.stroke(s.palette.error);
       s.beginShape();
       for (let i = 0; i < s.lossValues.length * ratio; i++) {
         s.vertex(this.ctrX - this.size/2 + i / s.lossValues.length * this.size,

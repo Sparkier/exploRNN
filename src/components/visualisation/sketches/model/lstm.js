@@ -200,9 +200,9 @@ export class LSTM {
     s.rectMode(s.CENTER);
     s.fill(0, 100);
     s.noStroke();
-    s.rect(s.detailProps.midX+20, s.detailProps.midY+20,
-        s.detailProps.width * s.detailProps.horRatio,
-        s.detailProps.height * s.detailProps.verRatio);
+    // s.rect(s.detailProps.midX+20, s.detailProps.midY+20,
+    //    s.detailProps.width * s.detailProps.horRatio,
+    //    s.detailProps.height * s.detailProps.verRatio);
     s.fill(255);
     s.stroke(100);
     s.strokeWeight(15);
@@ -470,17 +470,17 @@ class Item {
       case 'lst':
       case 'sav':
       case 'rec':
-        this.r = (cell.height)/12;
+        this.r = (cell.width)/20;
         break;
       case 'glt':
       case 'gft':
-        this.r = (cell.height)/12;
+        this.r = (cell.width)/30;
         break;
       case 'crs':
-        this.r = (cell.height)/40;
+        this.r = (cell.width)/50;
         break;
       default:
-        this.r = (cell.height)/6;
+        this.r = (cell.width)/10;
     }
   }
 

@@ -25,7 +25,7 @@ export default () => {
             }
         ).then(() => {
           self.fitting = false;
-          postMessage({cmd: 'fit'});
+          postMessage({cmd: 'fit', reset: e.data.params.reset});
         }
         );
         break;
@@ -42,9 +42,12 @@ export default () => {
         self.createModel(e.data.params);
         break;
       case 'pred':
+        if (self.predicting) return;
+        self.predicting = true;
         postMessage({cmd: 'pred', values: {
           pred: self.createPrediction(),
         }});
+        self.predicting = false;
         break;
       default:
         break;
@@ -55,6 +58,7 @@ export default () => {
     self.model = undefined;
     self.mem = [];
     self.fitting = false;
+    self.predicting = false;
     self.generateDataWith({start: 0});
   };
 

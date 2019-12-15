@@ -95,15 +95,18 @@ class Button {
    */
   draw() {
     const s = this.s;
-    s.fill(255);
-    s.stroke(0);
+    s.fill(s.palette.contrast);
+    s.noStroke();
     s.strokeWeight(2);
     this.active = (this.type === s.props.training.dataType);
     if (this.active) {
-      s.stroke(100, 255, 150);
+      s.fill(s.palette.ovPrimary);
     }
     if (this.hover) {
-      s.stroke(150);
+      s.fill(s.palette.secondaryContrast);
+      if (this.active) {
+        s.fill(s.palette.ovSecondary);
+      }
     }
     s.rect(this.x, this.y, this.size, this.size);
     const range = Math.PI * 2;
@@ -111,7 +114,7 @@ class Button {
     const startX = this.x - this.size/2;
     const startY = this.y;
     s.noFill();
-    s.stroke(50, 150, 255);
+    s.stroke(s.palette.primary);
     s.beginShape();
     let noiseVal;
     for (let i = 0; i < this.steps; i++) {

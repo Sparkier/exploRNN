@@ -82,11 +82,11 @@ export class Plot {
       s.rect(left + (right - left) / 2, 0, this.scale * (right-left),
           1.8 * this.scale * this.halfH);
     }
-    s.strokeWeight(3 * this.scale);
+    s.strokeWeight(1 * this.scale);
     // draw input for validation
     if (s.props.ui.data &&
           s.props.ui.data[this.index].chartPrediction) {
-      s.stroke(50, 70, 250, this.vis);
+      s.stroke(150, this.vis);
       s.noFill();
       s.beginShape();
       for (let i = 0; i <= this.in; i++) {
@@ -94,18 +94,42 @@ export class Plot {
         s.vertex(this.scale * (-this.halfW + i * this.stepWidth),
             this.scale * (-this.halfH / 2 * data));
       }
+      data = s.props.ui.data[this.index].chartOutput[0];
+      s.vertex(
+          this.scale * (-this.halfW + ((this.in) * this.stepWidth)),
+          this.scale * (-this.halfH / 2 * data));
       s.endShape();
+      s.strokeWeight(3 * this.scale);
+      if (s.plotAnim === true && s.plotFrame > s.plotMoveFrames) {
+        s.palette.ovPrimary.setAlpha(this.vis);
+        s.stroke(s.palette.ovPrimary);
+        s.palette.ovPrimary.setAlpha(255);
+        s.beginShape();
+        for (let i = Math.round(showSteps) - this.in; i <= showSteps && i <= this.in; i++) {
+          if (i < 0) {
+            i = 0;
+          }
+          data = s.props.ui.data[this.index].chartPrediction[i];
+          s.vertex(this.scale * (-this.halfW + i * this.stepWidth),
+              this.scale * (-this.halfH / 2 * data));
+        }
+        if (showSteps > this.in) {
+          data = s.props.ui.data[this.index].prediction[0];
+          s.vertex(
+              this.scale * (-this.halfW + ((this.in) * this.stepWidth)),
+              this.scale * (-this.halfH / 2 * data));
+        }
+        s.endShape();
+      }
     }
     // draw the test output for validation
     s.strokeWeight(1 * this.scale);
     if (s.props.ui.data &&
-      s.props.ui.data[this.index].chartOutput && (this.index > 2 ||
-        (this.index === 2 && (s.plotAnim === false || (s.plotAnim === true &&
-          s.plotFrame > s.plotMoveFrames))))) {
+      s.props.ui.data[this.index].chartOutput) {
       s.stroke(150, this.vis);
       s.noFill();
       s.beginShape();
-      for (let i = 0; i < this.out && i < showSteps - this.in; i++) {
+      for (let i = 0; i < this.out; i++) {
         data = s.props.ui.data[this.index].chartOutput[i];
         s.vertex(
             this.scale * (-this.halfW + ((i + this.in) * this.stepWidth)),
@@ -119,7 +143,9 @@ export class Plot {
       s.props.ui.data[this.index].prediction && (this.index > 2 ||
         (this.index === 2 && (s.plotAnim === false || (s.plotAnim === true &&
           s.plotFrame > s.plotMoveFrames))))) {
-      s.stroke(250, 50, 70, this.vis);
+      s.palette.ovPrimary.setAlpha(this.vis);
+      s.stroke(s.palette.ovPrimary);
+      s.palette.ovPrimary.setAlpha(255);
       s.noFill();
       s.beginShape();
       for (let i = 0; i < this.out && i < showSteps - this.in; i++) {

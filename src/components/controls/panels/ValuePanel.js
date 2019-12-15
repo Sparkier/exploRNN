@@ -66,7 +66,7 @@ class ValuePanel extends React.Component {
       <Grid id="valpan" container item
         xs={4}
         justify='center'>
-        <Paper style={{...this.myPadding, height: '100%', width: '80%'}}>
+        <Paper style={{...this.myPadding, width: '80%'}}>
           <Grid container item justify='center' alignItems='center'>
             <Grid item container style={{height: '80%', paddingTop: '10px'}}
               justify = 'space-between' alignItems='center'>
