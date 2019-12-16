@@ -8,7 +8,6 @@ import Pause from '@material-ui/icons/Pause';
 import Reset from '@material-ui/icons/Replay';
 import SkipNext from '@material-ui/icons/SkipNext';
 import {Grid, Paper} from '@material-ui/core';
-import {lightBlue, grey, orange} from '@material-ui/core/colors';
 import {Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import MyButton from './StyledButton';
@@ -27,7 +26,7 @@ class ControlPanel extends React.Component {
    */
   toggleTraining = () => {
     if (this.props.ui.detail) {
-      actions.updateUI({
+      this.props.actions.updateUI({
         ...this.props.ui,
         anim: !this.props.ui.anim,
       });
@@ -58,13 +57,6 @@ class ControlPanel extends React.Component {
       this.props.actions.updateTraining({...this.props.training, step: true});
     }
   }
-
-  // Some styles for better looks, TODO: clean up
-
-  myPadding = {
-    padding: '20px',
-    background: grey[800],
-  };
 
   /**
    * creates a formatted string representation of the number

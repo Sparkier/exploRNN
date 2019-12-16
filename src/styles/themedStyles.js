@@ -1,7 +1,10 @@
 const styles = (theme) => ({
   root: {
     padding: '20px',
-    background: theme.palette.secondary.dark,
+    background: theme.palette.primary.dark,
+  },
+  header: {
+    background: theme.palette.primary.dark,
   },
   typoOv: {
     color: theme.palette.overview.light,

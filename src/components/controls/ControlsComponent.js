@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {withStyles} from '@material-ui/core/styles';
+import styles from '../../styles/themedStyles';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -94,10 +96,13 @@ class Controls extends React.Component {
    * @return {object} the react components rendered look
    */
   render() {
+    const {classes} = this.props;
     return (
-      <AppBar>
+      <AppBar className={classes.header}>
         <Toolbar>
-          <Typography variant="h6" color="inherit">
+          <Typography variant="h6" className = {
+            this.props.ui.detail ? classes.typoCv : classes.typoOv
+          }>
               leaRNN
           </Typography>
           <div className='wrapper'>
@@ -117,6 +122,7 @@ Controls.propTypes = {
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 /**
@@ -143,4 +149,6 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Controls);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    withStyles(styles)(Controls)
+);

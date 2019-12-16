@@ -36,6 +36,7 @@ export default function(s) {
   s.lstmPred = 0;
   s.ready = false;
   s.setupDone = false;
+  s.globalScale = 1;
 
   s.setup = function() {
     const netDiv = document.getElementById('networkDiv');
@@ -155,6 +156,11 @@ export default function(s) {
     s.fill(0);
     if (!s.props) {
       return;
+    }
+    if (s.globalScale !== 1) {
+      s.translate(s.mouseX, s.mouseY);
+      s.scale(s.globalScale);
+      s.translate(-s.mouseX, -s.mouseY);
     }
     if (s.props) {
       const timeDist = s.lstmStep / s.props.training.values * Math.PI;
@@ -423,5 +429,15 @@ export default function(s) {
       // }
       s.input.checkClick();
     }
+  };
+
+  s.mouseWheel = function(event) {
+    s.globalScale -= event.delta/1000;
+    if (s.globalScale > 4) {
+      s.globalScale = 4;
+    } else if (s.globalScale < 1) {
+      s.globalScale = 1;
+    }
+    return false;
   };
 }
