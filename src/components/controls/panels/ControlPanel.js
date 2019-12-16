@@ -12,6 +12,8 @@ import {lightBlue, grey, orange} from '@material-ui/core/colors';
 import {Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import MyButton from './StyledButton';
+import {withStyles} from '@material-ui/core/styles';
+import styles from '../../../styles/themedStyles';
 
 /**
  * Controls at bottom of the Application
@@ -25,7 +27,7 @@ class ControlPanel extends React.Component {
    */
   toggleTraining = () => {
     if (this.props.ui.detail) {
-      this.props.actions.updateUI({
+      actions.updateUI({
         ...this.props.ui,
         anim: !this.props.ui.anim,
       });
@@ -58,33 +60,10 @@ class ControlPanel extends React.Component {
   }
 
   // Some styles for better looks, TODO: clean up
-  simplePaddingStyle = {
-    width: '90%',
-    background: '#FFFFFF',
-  };
 
   myPadding = {
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    paddingTop: '20px',
-    paddingBottom: '20px',
+    padding: '20px',
     background: grey[800],
-  };
-
-  mySecondPadding = {
-    background: grey[100],
-  };
-
-  buttonPadding = {
-    paddingTop: '10px',
-    paddingLeft: '10px',
-    paddingRight: '10px',
-    paddingBottom: '10px',
-  }
-
-  sliderPaddingStyle = {
-    ...this.buttonPadding,
-    width: '80%',
   };
 
   /**
@@ -115,19 +94,19 @@ class ControlPanel extends React.Component {
    * @return {object} the react components rendered look
    */
   render() {
+    const {classes} = this.props;
     return (
       <Grid container item xs={4} justify='center' style={{height: '35vh'}}>
-        <Paper style={{...this.myPadding, width: '80%', height: '100%'}} >
+        <Paper className={classes.root} style={{width: '80%', height: '100%'}} >
           <Grid container style= {{height: '100%'}} justify='center'
             alignItems= 'center'>
             <Grid container justify='center'>
               <Grid container item xs={12} justify='center'>
                 <Grid item>
                   <Typography
-                    style={{
-                      color: !this.props.ui.detail ?
-                        lightBlue[400] : orange[500],
-                    }}>
+                    className =
+                      {this.props.ui.detail ? classes.typoCv : classes.typoOv}
+                  >
                     <Box fontWeight="fontWeightRegular"
                       fontSize={24} m={1}>
                       Controls
@@ -136,7 +115,7 @@ class ControlPanel extends React.Component {
                 </Grid>
               </Grid>
               <Grid container item justify='center' alignItems='center'>
-                <Grid item style={this.myPadding}>
+                <Grid item className={classes.root}>
                   <MyButton disabled={this.props.ui.detail}
                     properties={this.props}
                     action={this.resetButtonPressed}
@@ -144,7 +123,7 @@ class ControlPanel extends React.Component {
                       <Reset fontSize="small" style={{color: 'white'}} />
                     } />
                 </Grid>
-                <Grid item style={this.myPadding}>
+                <Grid item className={classes.root}>
                   <MyButton properties={this.props}
                     disabled = {false}
                     action={this.toggleTraining}
@@ -155,7 +134,7 @@ class ControlPanel extends React.Component {
                     }>
                   </MyButton>
                 </Grid>
-                <Grid item style={this.myPadding}>
+                <Grid item className={classes.root}>
                   <MyButton properties={this.props}
                     disabled={(this.props.ui.detail && this.props.ui.anim) ||
                     (!this.props.ui.detail && this.props.training.running)}
@@ -166,13 +145,12 @@ class ControlPanel extends React.Component {
                 </Grid>
               </Grid>
               <Grid container item xs={12} justify='center'>
-                <Grid item style={this.myPadding}>
+                <Grid item className={classes.root}>
                   <Typography
-                    style={{
-                      color: !this.props.ui.detail ?
-                        lightBlue[400] : orange[500],
-                    }}>
-                    <Box fontWeight="fontWeightBold"
+                    className =
+                      {this.props.ui.detail ? classes.typoCv : classes.typoOv}
+                  >
+                    <Box fontWeight="fontWeightRegular"
                       fontSize={this.fontSize} m={1}>
                       Epochs:
                     </Box>
@@ -198,6 +176,7 @@ ControlPanel.propTypes = {
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 /**
@@ -224,4 +203,6 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ControlPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    withStyles(styles)(ControlPanel)
+);

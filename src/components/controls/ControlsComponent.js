@@ -95,7 +95,7 @@ class Controls extends React.Component {
    */
   render() {
     return (
-      <AppBar >
+      <AppBar>
         <Toolbar>
           <Typography variant="h6" color="inherit">
               leaRNN

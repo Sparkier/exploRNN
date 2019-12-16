@@ -1,67 +1,8 @@
 import * as React from 'react';
 import {withStyles} from '@material-ui/core/styles';
+import styles from '../../../styles/themedStyles';
 import IconButton from '@material-ui/core/IconButton';
-import {lightBlue, grey, orange} from '@material-ui/core/colors';
 import PropTypes from 'prop-types';
-
-const styles = {
-  root: {
-    border: 1,
-    borderRadius: 3,
-    color: 'white',
-  },
-  select_net: {
-    '&:before': {
-      borderColor: grey[500],
-    },
-    '&:after': {
-      borderColor: lightBlue[500],
-    },
-    'width': '150px',
-    'color': 'white',
-  }, select_detail: {
-    '&:before': {
-      borderColor: grey[500],
-    },
-    '&:after': {
-      borderColor: orange[500],
-    },
-    'width': '150px',
-    'color': 'white',
-  },
-  disabled: {
-    '&:before': {
-      borderColor: grey[100],
-    },
-    '&:after': {
-      borderColor: grey[100],
-    },
-    'width': '150px',
-    'color': 'white',
-  },
-  button_cell: {
-    'paddingLeft': '12px',
-    'paddingRight': '12px',
-    'color': 'white',
-    'borderRadius': '50%',
-    'background': orange[500],
-    '&:hover': {
-      background: orange[800],
-    },
-  }, button_net: {
-    'paddingLeft': '12px',
-    'paddingRight': '12px',
-    'color': 'white',
-    'borderRadius': '50%',
-    'background': lightBlue[500],
-    '&:hover': {
-      background: lightBlue[800],
-    },
-  },
-  icon: {
-    fill: 'white',
-  },
-};
 
 /**
  * Generating function for the individual styled buttons

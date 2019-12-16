@@ -7,9 +7,8 @@ import AppRouter from './AppRouter';
 import Controls from './components/controls/ControlsComponent';
 import combinedReducers from './reducers';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
-import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
-import {grey, blue} from '@material-ui/core/colors';
+import {MuiThemeProvider} from '@material-ui/core/styles';
+import theme from './theme/globalTheme';
 
 // Create the Store using all the Reducers and applying the Middleware
 const store = createStore(
@@ -17,17 +16,6 @@ const store = createStore(
     applyMiddleware(thunk)
 );
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: grey[800],
-    },
-    secondary: blue,
-  },
-  typography: {
-    useNextVariants: true,
-  },
-});
 
 // Render the App
 // The App provides the Store to the following components.
