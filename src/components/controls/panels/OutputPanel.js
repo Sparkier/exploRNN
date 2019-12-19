@@ -10,6 +10,8 @@ import Box from '@material-ui/core/Box';
 import Slider from '@material-ui/core/Slider';
 import Tooltip from '@material-ui/core/Tooltip';
 import {withStyles} from '@material-ui/core/styles';
+import styles from '../../../styles/themedStyles';
+
 
 /**
  * Controls at bottom of the Application
@@ -113,14 +115,16 @@ class OutputPanel extends React.Component {
   render() {
     return (
       <Grid id="outpan" container item xs={4} justify='center'>
-        <Paper style={{...this.myPadding, width: '80%'}}>
+        <Paper className={this.props.classes.panelOv}
+          style={{width: '80%'}}>
           <Grid item>
             <Typography variant="body1"
+              className={!this.props.ui.detail &&
+                !this.props.training.running ?
+                this.props.classes.typoOv : this.props.classes.typoOvOff
+              }
               style={{
                 ...this.titlePaddingStyle,
-                color: !this.props.ui.detail &&
-                  !this.props.training.running ?
-                  lightBlue[400] : grey[500],
               }}
               align='left'
             >
@@ -145,11 +149,12 @@ class OutputPanel extends React.Component {
           </Grid>
           <Grid container item justify='center' alignItems="center">
             <Typography variant="body1"
+              className={!this.props.ui.detail &&
+                !this.props.training.running ?
+                this.props.classes.typoOv : this.props.classes.typoOvOff
+              }
               style={{
                 ...this.titlePaddingStyle,
-                color: !this.props.ui.detail &&
-                !this.props.training.running ?
-                  lightBlue[400] : grey[500],
               }}
               align='left'
             >
@@ -174,11 +179,12 @@ class OutputPanel extends React.Component {
           </Grid>
           <Grid container item justify='center' alignItems="center">
             <Typography variant="body1"
+              className={!this.props.ui.detail &&
+                !this.props.training.running ?
+                this.props.classes.typoOv : this.props.classes.typoOvOff
+              }
               style={{
                 ...this.titlePaddingStyle,
-                color: !this.props.ui.detail &&
-                !this.props.training.running ?
-                  lightBlue[400] : grey[500],
               }}
               align='left'
             >
@@ -311,6 +317,7 @@ OutputPanel.propTypes = {
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 /**
@@ -337,4 +344,6 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OutputPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    withStyles(styles)(OutputPanel)
+);

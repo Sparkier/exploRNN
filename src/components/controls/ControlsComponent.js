@@ -98,7 +98,8 @@ class Controls extends React.Component {
   render() {
     const {classes} = this.props;
     return (
-      <AppBar className={classes.header}>
+      <AppBar className={this.props.ui.detail ? classes.headerCv :
+        classes.headerOv}>
         <Toolbar>
           <Typography variant="h6" className = {
             this.props.ui.detail ? classes.typoCv : classes.typoOv

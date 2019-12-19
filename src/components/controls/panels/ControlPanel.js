@@ -89,7 +89,8 @@ class ControlPanel extends React.Component {
     const {classes} = this.props;
     return (
       <Grid container item xs={4} justify='center' style={{height: '35vh'}}>
-        <Paper className={classes.root} style={{width: '80%', height: '100%'}} >
+        <Paper className={this.props.ui.detail ? classes.panelCv :
+          classes.panelOv} style={{width: '80%', height: '100%'}} >
           <Grid container style= {{height: '100%'}} justify='center'
             alignItems= 'center'>
             <Grid container justify='center'>
@@ -107,7 +108,8 @@ class ControlPanel extends React.Component {
                 </Grid>
               </Grid>
               <Grid container item justify='center' alignItems='center'>
-                <Grid item className={classes.root}>
+                <Grid item className={this.props.ui.detail ? classes.panelCv :
+                    classes.panelOv}>
                   <MyButton disabled={this.props.ui.detail}
                     properties={this.props}
                     action={this.resetButtonPressed}
@@ -115,7 +117,8 @@ class ControlPanel extends React.Component {
                       <Reset fontSize="small" style={{color: 'white'}} />
                     } />
                 </Grid>
-                <Grid item className={classes.root}>
+                <Grid item className={this.props.ui.detail ? classes.panelCv :
+                  classes.panelOv}>
                   <MyButton properties={this.props}
                     disabled = {false}
                     action={this.toggleTraining}
@@ -126,7 +129,8 @@ class ControlPanel extends React.Component {
                     }>
                   </MyButton>
                 </Grid>
-                <Grid item className={classes.root}>
+                <Grid item className={this.props.ui.detail ? classes.panelCv :
+                  classes.panelOv}>
                   <MyButton properties={this.props}
                     disabled={(this.props.ui.detail && this.props.ui.anim) ||
                     (!this.props.ui.detail && this.props.training.running)}
@@ -137,7 +141,8 @@ class ControlPanel extends React.Component {
                 </Grid>
               </Grid>
               <Grid container item xs={12} justify='center'>
-                <Grid item className={classes.root}>
+                <Grid item className={this.props.ui.detail ? classes.panelCv :
+                  classes.panelOv}>
                   <Typography
                     className =
                       {this.props.ui.detail ? classes.typoCv : classes.typoOv}

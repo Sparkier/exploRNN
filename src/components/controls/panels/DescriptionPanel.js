@@ -7,6 +7,8 @@ import {Grid, Paper} from '@material-ui/core';
 import {orange, grey} from '@material-ui/core/colors';
 import {Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import {withStyles} from '@material-ui/core/styles';
+import styles from '../../../styles/themedStyles';
 
 /**
  * Controls at bottom of the Application
@@ -77,7 +79,7 @@ class DescriptionPanel extends React.Component {
       <Grid id="dscpan" container item
         xs={4}
         justify='center'>
-        <Paper style={{...this.myPadding, height: '100%', width: '80%'}}>
+        <Paper className={this.props.classes.panelCv} style={{width: '80%'}}>
           <Grid container item justify='center' alignItems='top'>
             <Grid item xs={12}>
               <Typography
@@ -115,6 +117,7 @@ DescriptionPanel.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 /**
@@ -141,4 +144,6 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DescriptionPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    withStyles(styles)(DescriptionPanel)
+);

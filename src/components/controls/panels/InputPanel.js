@@ -7,6 +7,8 @@ import {Grid, Paper} from '@material-ui/core';
 import {lightBlue, grey} from '@material-ui/core/colors';
 import {Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import {withStyles} from '@material-ui/core/styles';
+import styles from '../../../styles/themedStyles';
 
 /**
  * Controls at bottom of the Application
@@ -77,15 +79,17 @@ class InputPanel extends React.Component {
       <Grid id="inppan" container item
         xs={4}
         justify='center'>
-        <Paper style={{...this.myPadding, width: '80%'}}>
+        <Paper className={this.props.classes.panelOv}
+          style={{width: '80%'}}>
           <Grid item>
             <Typography variant="body1"
+              className = {!this.props.ui.detail &&
+                !this.props.ui.ready &&
+                this.props.ui.trainingStep === 1 ?
+                this.props.classes.typoOv : this.props.classes.typoOvOff
+              }
               style={{
                 ...this.titlePaddingStyle,
-                color: !this.props.ui.detail &&
-                  !this.props.ui.ready &&
-                  this.props.ui.trainingStep === 1?
-                  lightBlue[500] : grey[400],
               }}
               align='left'
             >
@@ -112,12 +116,13 @@ class InputPanel extends React.Component {
           </Grid>
           <Grid item>
             <Typography variant="body1"
+              className = {!this.props.ui.detail &&
+                !this.props.ui.ready &&
+                this.props.ui.trainingStep === 2 ?
+                this.props.classes.typoOv : this.props.classes.typoOvOff
+              }
               style={{
                 ...this.titlePaddingStyle,
-                color: !this.props.ui.detail &&
-                  !this.props.ui.ready &&
-                  this.props.ui.trainingStep === 2?
-                  lightBlue[500] : grey[400],
               }}
               align='left'
             >
@@ -144,12 +149,13 @@ class InputPanel extends React.Component {
           </Grid>
           <Grid item>
             <Typography variant="body1"
+              className = {!this.props.ui.detail &&
+                !this.props.ui.ready &&
+                this.props.ui.trainingStep === 3 ?
+                this.props.classes.typoOv : this.props.classes.typoOvOff
+              }
               style={{
                 ...this.titlePaddingStyle,
-                color: !this.props.ui.detail &&
-                  !this.props.ui.ready &&
-                  this.props.ui.trainingStep === 3?
-                  lightBlue[500] : grey[400],
               }}
               align='left'
             >
@@ -185,6 +191,7 @@ InputPanel.propTypes = {
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 /**
@@ -211,4 +218,6 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    withStyles(styles)(InputPanel)
+);

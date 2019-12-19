@@ -504,7 +504,8 @@ class Item {
       s.fill(s.half_orange);
     }
     if (this.hover && !this.clicked &&
-        !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs')) {
+        !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs' ||
+        this.type === 'gft' || this.type === 'glst')) {
       s.fill(s.green);
       s.cursor(s.HAND);
     }
@@ -571,7 +572,8 @@ class Item {
       default:
     }
     if (this.hover && !this.clicked &&
-        !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs')) {
+        !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs' ||
+        this.type === 'gft' || this.type === 'glt')) {
       s.textAlign(s.CENTER, s.CENTER);
       s.fill(0, 150);
       s.rect(s.mouseX, s.mouseY+40, 100, 30);
@@ -608,7 +610,9 @@ class Item {
         if (this.s.lstmStep === this.s.props.training.values) {
           this.s.lstmStep = 0;
           this.s.lstmPred++;
-          if (this.s.lstmPred === this.s.props.training.predictions) {
+          console.log('SEND', this.s.lstmStep, this.s.lstmPred,
+              this.s.props.training.predictions);
+          if (this.s.lstmPred >= this.s.props.training.predictions) {
             this.s.lstmPred = 0;
             this.s.props.actions.updateTraining(
                 {...this.s.props.training, step: true});

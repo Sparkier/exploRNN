@@ -11,6 +11,8 @@ import MyButton from './StyledButton';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import SendIcon from '@material-ui/icons/Send';
 import Box from '@material-ui/core/Box';
+import {withStyles} from '@material-ui/core/styles';
+import styles from '../../../styles/themedStyles';
 
 /**
  * Controls at bottom of the Application
@@ -66,7 +68,7 @@ class ValuePanel extends React.Component {
       <Grid id="valpan" container item
         xs={4}
         justify='center'>
-        <Paper style={{...this.myPadding, width: '80%'}}>
+        <Paper className={this.props.classes.panelCv} style={{width: '80%'}}>
           <Grid container item justify='center' alignItems='center'>
             <Grid item container style={{height: '80%', paddingTop: '10px'}}
               justify = 'space-between' alignItems='center'>
@@ -267,6 +269,7 @@ ValuePanel.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 /**
@@ -293,4 +296,6 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ValuePanel);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    withStyles(styles)(ValuePanel)
+);

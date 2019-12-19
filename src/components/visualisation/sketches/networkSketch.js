@@ -242,7 +242,6 @@ export default function(s) {
           s.lossValues.push(pred[i] - out[i]);
         }
       }
-      console.log(s.lossValues);
       s.net.start();
     }
     s.update = true;
@@ -253,7 +252,7 @@ export default function(s) {
     s.plotAnim = false;
     s.netFrame = 0;
     s.lstmStep = 0;
-    s.lstmPred = 0;
+    s.lstmPred = 15;
     s.netAnim = false;
     s.cell.reset();
     s.lossValues = [];
@@ -428,6 +427,7 @@ export default function(s) {
       s.net.checkClick();
       // }
       s.input.checkClick();
+      s.net.mouseMoved(s.mouseX, s.mouseY);
     }
   };
 
