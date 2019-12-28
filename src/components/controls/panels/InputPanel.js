@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import * as actions from '../../../actions';
 import {Grid, Paper} from '@material-ui/core';
-import {lightBlue, grey} from '@material-ui/core/colors';
+import {grey} from '@material-ui/core/colors';
 import {Typography} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import {withStyles} from '@material-ui/core/styles';
@@ -107,7 +107,8 @@ class InputPanel extends React.Component {
             >
               <Box fontWeight="fontWeightRegular"
                 fontSize={this.fontSizeText} m={1}>
-                { !this.props.training.running || this.props.ui.trainingStep === 1 ?
+                { !this.props.training.running ||
+                  this.props.ui.trainingStep === 1 ?
                 ('The Training Data is send through the network batch after' +
                 'batch and timestep after timestep to get a prediction') :
                 '[---]'}
@@ -140,10 +141,13 @@ class InputPanel extends React.Component {
             >
               <Box fontWeight="fontWeightRegular"
                 fontSize={this.fontSizeText} m={1}>
-                {!this.props.training.running || this.props.ui.trainingStep === 2 ? 'The prediction is' +
-                ' compared to the real output values and a loss' +
-                'is calculated' : '[---]'}
-
+                {
+                  !this.props.training.running ||
+                  this.props.ui.trainingStep === 2 ?
+                  'The prediction is' +
+                  ' compared to the real output values and a loss' +
+                  'is calculated' : '[---]'
+                }
               </Box>
             </Typography>
           </Grid>
@@ -173,9 +177,12 @@ class InputPanel extends React.Component {
             >
               <Box fontWeight="fontWeightRegular"
                 fontSize={this.fontSizeText} m={1}>
-                {!this.props.training.running || this.props.ui.trainingStep === 3 ? 'The loss is sent ' +
+                {
+                  !this.props.training.running ||
+                  this.props.ui.trainingStep === 3 ? 'The loss is sent ' +
                   'backward through the net so the weights of ' +
-                  'the cells can be adjusted for better predictions' : '[---]'}
+                  'the cells can be adjusted for better predictions' : '[---]'
+                }
               </Box>
             </Typography>
           </Grid>

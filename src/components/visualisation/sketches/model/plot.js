@@ -105,7 +105,10 @@ export class Plot {
         s.stroke(s.palette.ovPrimary);
         s.palette.ovPrimary.setAlpha(255);
         s.beginShape();
-        for (let i = Math.round(showSteps) - this.in; i <= showSteps && i <= this.in; i++) {
+        for (let i = Math.round(showSteps) - this.in;
+          i <= showSteps && i <= this.in;
+          i++
+        ) {
           if (i < 0) {
             i = 0;
           }
