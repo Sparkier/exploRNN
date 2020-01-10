@@ -49,8 +49,10 @@ export class Loss {
       }
       s.endShape();
     }
+    s.textAlign(s.CENTER, s.BOTTOM);
+    s.textSize(16);
     s.fill(0);
     s.noStroke();
-    s.text('Error', this.ctrX, this.ctrY - 0.7 * this.size);
+    s.text('Loss', this.ctrX, this.ctrY - 0.55 * this.size);
   }
 }

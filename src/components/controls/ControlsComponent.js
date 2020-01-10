@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import MenuItem from '@material-ui/core/MenuItem';
+import StyledSelect from './comps/StyledSelect';
 import * as actions from '../../actions';
 
 /**
@@ -78,6 +80,7 @@ class Controls extends React.Component {
       event.preventDefault();
     }
   }
+
   /**
    * Handles the opening and closing of the side drawer
    *
@@ -87,6 +90,17 @@ class Controls extends React.Component {
    */
   toggleDrawer = (open) => (event) => {
     this.drawer = open;
+  };
+
+  /**
+   * Handles the opening and closing of the side drawer
+   *
+   * @param {object} event desc
+   * @return {undefined}
+   */
+  typeSelect = (event) => {
+    this.props.actions.updateNetwork({...this.props.network,
+      type: event.target.value});
   };
 
   /**
@@ -106,11 +120,12 @@ class Controls extends React.Component {
           }>
               leaRNN
           </Typography>
-          <div className='wrapper'>
-            <div className='menu' align="right">
-
-            </div>
-          </div>
+          <StyledSelect value={this.props.network.type}
+            onChange={ this.typeSelect }
+          >
+            <MenuItem value="LSTM">LSTM</MenuItem>
+            <MenuItem value="GRU">GRU</MenuItem>
+          </StyledSelect>
         </Toolbar>
       </AppBar>
     );

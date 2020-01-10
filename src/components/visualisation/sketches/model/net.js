@@ -73,6 +73,11 @@ export class Network {
     for (const l of this.fakeLayers) {
       l.draw();
     }
+    s.textAlign(s.CENTER, s.BOTTOM);
+    s.textSize(16);
+    s.fill(0);
+    s.noStroke();
+    s.text('Network', s.netProps.midX, 100);
   }
 
   /**

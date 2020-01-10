@@ -7,7 +7,7 @@ import {Grid, Paper} from '@material-ui/core';
 import {orange, grey} from '@material-ui/core/colors';
 import {Typography} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import MyButton from './StyledButton';
+import MyButton from '../comps/StyledButton';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import SendIcon from '@material-ui/icons/Send';
 import Box from '@material-ui/core/Box';
@@ -65,12 +65,10 @@ class ValuePanel extends React.Component {
    */
   render() {
     return (
-      <Grid id="valpan" container item
-        xs={4}
-        justify='center'>
-        <Paper className={this.props.classes.panelCv} style={{width: '80%'}}>
+      <Grid id="valpan" container item xs={4} justify='center'>
+        <Paper className={this.props.classes.panelCv}>
           <Grid container item justify='center' alignItems='center'>
-            <Grid item container style={{height: '80%', paddingTop: '10px'}}
+            <Grid item container
               justify = 'space-between' alignItems='center'>
               <Grid item xs = {2}>
                 <MyButton properties={this.props}
@@ -122,7 +120,6 @@ class ValuePanel extends React.Component {
               <Grid item xs = {2}>
                 <MyButton properties={this.props}
                   disabled = {true}
-                  action={this.toggleTraining}
                   icon={<DeleteForeverIcon fontSize='small'
                     style={{color: 'white'}} />
                   }
@@ -170,7 +167,6 @@ class ValuePanel extends React.Component {
               <Grid item xs = {2}>
                 <MyButton properties={this.props}
                   disabled = {true}
-                  action={this.toggleTraining}
                   icon={<AddIcon fontSize='small' style={{color: 'white'}} />
                   }
                 />
@@ -216,7 +212,6 @@ class ValuePanel extends React.Component {
               <Grid item xs = {2}>
                 <MyButton properties={this.props}
                   disabled = {true}
-                  action={this.toggleTraining}
                   icon={<SendIcon fontSize='small' style={{color: 'white'}} />
                   }
                 />

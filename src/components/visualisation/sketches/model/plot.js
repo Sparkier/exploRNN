@@ -188,5 +188,12 @@ export class Plot {
       this.stepWidth = this.plotWidth / this.total;
     }
     this.overview();
+    if (this.index === 2) {
+      s.textAlign(s.CENTER, s.BOTTOM);
+      s.textSize(16);
+      s.fill(0);
+      s.noStroke();
+      s.text('Predictions', this.cx, 100);
+    }
   }
 }

@@ -1,18 +1,19 @@
 import {createMuiTheme} from '@material-ui/core/styles';
-import {grey, orange, cyan} from '@material-ui/core/colors';
+import {grey, orange, cyan, blueGrey} from '@material-ui/core/colors';
 
 export default createMuiTheme({
   palette: {
     primary: {
-      main: '#37474f',
-      dark: '#102027',
-      light: '#62727b',
-      contrastText: 'white',
+      main: blueGrey[800],
+      dark: blueGrey[900],
+      light: blueGrey[700],
+      off: blueGrey[400],
     },
     secondary: {
       main: grey[800],
       dark: grey[900],
       light: grey[700],
+      off: grey[700],
     },
     overview: {
       main: cyan[600],

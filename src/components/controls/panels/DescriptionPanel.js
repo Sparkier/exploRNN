@@ -4,9 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import * as actions from '../../../actions';
 import {Grid, Paper} from '@material-ui/core';
-import {orange, grey} from '@material-ui/core/colors';
 import {Typography} from '@material-ui/core';
-import Box from '@material-ui/core/Box';
 import {withStyles} from '@material-ui/core/styles';
 import styles from '../../../styles/themedStyles';
 
@@ -19,8 +17,8 @@ class DescriptionPanel extends React.Component {
    */
   constructor() {
     super();
-    this.titles = ['0 - Wait for next Input', '1 - Layer Input',
-      '2 - Gate Activation', '3 - Cell Update', '4 - Cell State', '5 - Output'];
+    this.titles = ['Wait for next Input', 'Layer Input',
+      'Gate Activation', 'Cell Update', 'Cell State', 'Output'];
     this.descriptions = ['Zelle wartet auf nächsten Input',
       'Der Output aus der Ebene vor dieser Ebene wird mit dem Output dieser ' +
         'Ebene aus dem letzten Zeitschritt vereint und weiter geleitet',
@@ -38,35 +36,6 @@ class DescriptionPanel extends React.Component {
     this.titleSize = 20;
     this.descSize = 14;
   }
-  // Some styles for better looks, TODO: clean up
-  simplePaddingStyle = {
-    width: '90%',
-    background: '#FFFFFF',
-  };
-
-  myPadding = {
-    paddingTop: '20px',
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    paddingBottom: '50px',
-    background: grey[800],
-  };
-
-  mySecondPadding = {
-    background: grey[100],
-  };
-
-  buttonPadding = {
-    paddingTop: '10px',
-    paddingLeft: '10px',
-    paddingRight: '10px',
-    paddingBottom: '10px',
-  }
-
-  sliderPaddingStyle = {
-    ...this.buttonPadding,
-    width: '80%',
-  };
 
   /**
    * Readt render function controlling the look of the
@@ -76,33 +45,37 @@ class DescriptionPanel extends React.Component {
    */
   render() {
     return (
-      <Grid id="dscpan" container item
-        xs={4}
-        justify='center'>
-        <Paper className={this.props.classes.panelCv} style={{width: '80%'}}>
-          <Grid container item justify='center' alignItems='top'>
+      <Grid id="dscpan" container item xs={4} justify='center'>
+        <Paper className={this.props.classes.panelCv}>
+          <Grid container item justify='center' alignItems='top'
+            style={{margin: '10px'}}
+          >
             <Grid item xs={12}>
-              <Typography
-                style={{
-                  color: orange[500],
-                }} align='left'>
-                <Box fontWeight='fontWeightBold'
-                  fontSize={this.titleSize} m={1}>
-                  {this.titles[this.props.ui.lstmStep]}
-                </Box>
+              <Typography className={this.props.classes.typoCv} align='left'>
+                {this.titles[this.props.ui.lstmStep]}
               </Typography>
             </Grid>
             <Grid item xs={12}>
               <Typography
-                style={{
-                  color: 'white',
-                  paddingLeft: '10px',
-                }} align='left'>
-                <Box fontWeight='fontWeightRegular'
-                  fontSize={this.descSize} m={1}>
-                  {this.props.ui.anim ? '[pause for descriptoin]' :
+                className={this.props.classes.typoStd} align='left'>
+                {this.props.ui.anim ? '[pause for description]' :
                     this.descriptions[this.props.ui.lstmStep]}
-                </Box>
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container item justify='center' alignItems='top'
+            style={{margin: '10px'}}
+          >
+            <Grid item xs={12}>
+              <Typography className={this.props.classes.typoCv} align='left'>
+                {this.titles[this.props.ui.lstmStep]}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                className={this.props.classes.typoStd} align='left'>
+                {this.props.ui.anim ? '[pause for description]' :
+                    this.descriptions[this.props.ui.lstmStep]}
               </Typography>
             </Grid>
           </Grid>

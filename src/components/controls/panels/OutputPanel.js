@@ -4,9 +4,8 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import * as actions from '../../../actions';
 import {Grid, Paper} from '@material-ui/core';
-import {lightBlue, grey} from '@material-ui/core/colors';
+import {grey} from '@material-ui/core/colors';
 import {Typography} from '@material-ui/core';
-import Box from '@material-ui/core/Box';
 import Slider from '@material-ui/core/Slider';
 import Tooltip from '@material-ui/core/Tooltip';
 import {withStyles} from '@material-ui/core/styles';
@@ -64,48 +63,6 @@ class OutputPanel extends React.Component {
     });
   }
 
-  // Some styles for better looks, TODO: clean up
-  simplePaddingStyle = {
-    width: '90%',
-    background: '#FFFFFF',
-  };
-
-  myPadding = {
-    paddingTop: '20px',
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    paddingBottom: '20px',
-    background: grey[800],
-  };
-
-  mySecondPadding = {
-    background: grey[100],
-  };
-
-  buttonPadding = {
-    paddingTop: '10px',
-    paddingLeft: '10px',
-    paddingRight: '10px',
-    paddingBottom: '10px',
-  }
-
-  sliderPaddingStyle = {
-    ...this.buttonPadding,
-    width: '80%',
-  };
-
-  titlePaddingStyle = {
-    ...this.buttonPadding,
-    width: '100%',
-  };
-
-  defaultSliderStyle = {
-    width: '80%',
-    markerLabel: {
-      color: lightBlue[500],
-    },
-  }
-
   /**
    * Readt render function controlling the look of the
    * AppBar of the Application
@@ -115,97 +72,82 @@ class OutputPanel extends React.Component {
   render() {
     return (
       <Grid id="outpan" container item xs={4} justify='center'>
-        <Paper className={this.props.classes.panelOv}
-          style={{width: '80%'}}>
-          <Grid item>
-            <Typography variant="body1"
-              className={!this.props.ui.detail &&
+        <Paper className={this.props.classes.panelOv}>
+          <Grid container xs={12} alignItems='center'>
+            <Grid container justify='center'>
+              <Grid item xs={12} style={{margin: '10px'}}>
+                <Typography variant="body1"
+                  className={!this.props.ui.detail &&
                 !this.props.training.running ?
                 this.props.classes.typoOv : this.props.classes.typoOvOff
-              }
-              style={{
-                ...this.titlePaddingStyle,
-              }}
-              align='left'
-            >
-              <Box fontWeight="fontWeightRegular"
-                fontSize={14} m={1}>
-                Learning Rate [ ]
-              </Box>
-            </Typography>
-            <DefaultSlider
-              style={{...this.defaultSliderStyle, color: 'white'}}
-              marks={learningRateMarks}
-              disabled={
-                this.props.ui.detail || this.props.training.running
-              }
-              defaultValue={this.props.network.learningRate}
-              valueLabelDisplay="auto"
-              ValueLabelComponent={ValueLabelComponent}
-              step={0.005}
-              min={0.01}
-              max={0.25} onChange={this.handleSliderChange}
-            />
-          </Grid>
-          <Grid container item justify='center' alignItems="center">
-            <Typography variant="body1"
-              className={!this.props.ui.detail &&
+                  }
+                  align='left'
+                >
+                Learning Rate
+                </Typography>
+                <DefaultSlider
+                  className={this.props.classes.defSlider}
+                  marks={learningRateMarks}
+                  disabled={
+                    this.props.ui.detail || this.props.training.running
+                  }
+                  defaultValue={this.props.network.learningRate}
+                  valueLabelDisplay="auto"
+                  ValueLabelComponent={ValueLabelComponent}
+                  step={0.005}
+                  min={0.01}
+                  max={0.25} onChange={this.handleSliderChange}
+                />
+              </Grid>
+              <Grid item xs={12} style={{margin: '10px'}}>
+                <Typography variant="body1"
+                  className={!this.props.ui.detail &&
                 !this.props.training.running ?
                 this.props.classes.typoOv : this.props.classes.typoOvOff
-              }
-              style={{
-                ...this.titlePaddingStyle,
-              }}
-              align='left'
-            >
-              <Box fontWeight="fontWeightRegular"
-                fontSize={14} m={1}>
-                Noise [%]
-              </Box>
-            </Typography>
-            <DefaultSlider
-              style={{...this.defaultSliderStyle, color: 'white'}}
-              marks = {noiseMarks}
-              disabled={
-                this.props.ui.detail || this.props.training.running
-              }
-              defaultValue={this.props.training.noise}
-              valueLabelDisplay="auto"
-              ValueLabelComponent={ValueLabelComponent}
-              step={0.1}
-              min={0}
-              max={100} onChange={this.changeNoise}
-            />
-          </Grid>
-          <Grid container item justify='center' alignItems="center">
-            <Typography variant="body1"
-              className={!this.props.ui.detail &&
+                  }
+                  align='left'
+                >
+                Noise
+                </Typography>
+                <DefaultSlider
+                  className={this.props.classes.defSlider}
+                  marks = {noiseMarks}
+                  disabled={
+                    this.props.ui.detail || this.props.training.running
+                  }
+                  defaultValue={this.props.training.noise}
+                  valueLabelDisplay="auto"
+                  ValueLabelComponent={ValueLabelComponent}
+                  step={0.1}
+                  min={0}
+                  max={100} onChange={this.changeNoise}
+                />
+              </Grid>
+              <Grid item xs={12} style={{margin: '10px'}}>
+                <Typography variant="body1"
+                  className={!this.props.ui.detail &&
                 !this.props.training.running ?
                 this.props.classes.typoOv : this.props.classes.typoOvOff
-              }
-              style={{
-                ...this.titlePaddingStyle,
-              }}
-              align='left'
-            >
-              <Box fontWeight="fontWeightRegular"
-                fontSize={14} m={1}>
-                 Batch Size [Data/Batch]
-              </Box>
-            </Typography>
-            <DefaultSlider
-              style={{...this.defaultSliderStyle, color: 'white'}}
-              marks = {batchMarks}
-              disabled={
-                this.props.ui.detail || this.props.training.running
-              }
-              defaultValue={this.props.training.batchSize}
-              valueLabelDisplay="auto"
-              ValueLabelComponent={ValueLabelComponent}
-              step={1}
-              min={1}
-              max={50} onChange={this.changeBatchSize}
-            />
+                  }
+                  align='left'
+                >
+                 Batch Size
+                </Typography>
+                <DefaultSlider
+                  className={this.props.classes.defSlider}
+                  marks = {batchMarks}
+                  disabled={
+                    this.props.ui.detail || this.props.training.running
+                  }
+                  defaultValue={this.props.training.batchSize}
+                  valueLabelDisplay="auto"
+                  ValueLabelComponent={ValueLabelComponent}
+                  step={1}
+                  min={1}
+                  max={50} onChange={this.changeBatchSize}
+                />
+              </Grid>
+            </Grid>
           </Grid>
         </Paper>
       </Grid>
@@ -219,8 +161,12 @@ const learningRateMarks = [
     label: 0.01,
   },
   {
-    value: 0.125,
-    label: 0.125,
+    value: 0.1,
+    label: 0.1,
+  },
+  {
+    value: 0.2,
+    label: 0.2,
   },
   {
     value: 0.25,
@@ -248,11 +194,15 @@ const noiseMarks = [
 const batchMarks = [
   {
     value: 1,
-    label: '1 d/b',
+    label: '1',
+  },
+  {
+    value: 25,
+    label: '25',
   },
   {
     value: 50,
-    label: '50 d/b',
+    label: '50',
   },
 ];
 

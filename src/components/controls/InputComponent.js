@@ -2,7 +2,6 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {grey} from '@material-ui/core/colors';
 import {Grid} from '@material-ui/core';
 import InputPanel from './panels/InputPanel';
 import ControlPanel from './panels/ControlPanel';
@@ -10,6 +9,8 @@ import OutputPanel from './panels/OutputPanel';
 import * as actions from '../../actions';
 import DescriptionPanel from './panels/DescriptionPanel';
 import ValuePanel from './panels/ValuePanel';
+import {withStyles} from '@material-ui/core/styles';
+import styles from '../../styles/themedStyles';
 /**
  * The current Component holding all the input elements to change the Network
  * for Training.
@@ -24,36 +25,6 @@ class Input extends React.Component {
     this.data = ['saw', 'sin', 'sqr', 'sinc'];
   }
 
-  // Some styles for better looks, TODO: clean up
-  simplePaddingStyle = {
-    width: '100%',
-    background: '#00000000',
-  };
-
-  myPadding = {
-    paddingTop: '20px',
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    paddingBottom: '20px',
-    background: grey[800],
-  };
-
-  mySecondPadding = {
-    background: grey[100],
-  };
-
-  buttonPadding = {
-    paddingTop: '10px',
-    paddingLeft: '10px',
-    paddingRight: '10px',
-    paddingBottom: '10px',
-  }
-
-  sliderPaddingStyle = {
-    ...this.buttonPadding,
-    width: '80%',
-  };
-
   /**
    * The render function for this react component
    *
@@ -61,11 +32,12 @@ class Input extends React.Component {
    */
   render() {
     return (
-      <div id="valueDiv" align="center" style={{height: '35vh'}}>
+      <div id="valueDiv" className={this.props.classes.panelWrapper}
+        align="center"
+      >
         <Grid container
           spacing={3}
-          style={this.simplePaddingStyle}
-          justify='center'>
+          justify='space-evenly'>
           {
             this.props.ui.detail ?
             <DescriptionPanel/>:
@@ -92,6 +64,7 @@ Input.propTypes = {
   training: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 /**
@@ -119,4 +92,6 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Input);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    withStyles(styles)(Input)
+);

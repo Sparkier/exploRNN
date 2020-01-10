@@ -35,7 +35,8 @@ export class Input {
       b.draw();
     }
     const dist = this.dist;
-    s.textAlign(s.CENTER);
+    s.textAlign(s.CENTER, s.BOTTOM);
+    s.textSize(16);
     s.fill(0);
     s.noStroke();
     s.text('Input', s.inProps.midX, s.inProps.midY - 2 * dist);
@@ -120,7 +121,7 @@ class Button {
     for (let i = 0; i < this.steps; i++) {
       noiseVal = this.noises[i] * (this.s.props.training.noise/100);
       const x = i / this.steps * range;
-      const x_ = (i - s.frameCount/8) / this.steps * range;
+      const x_ = (i + s.frameCount/8) / this.steps * range;
       const y = this.dataFunc((this.active && s.netAnim) ? x_ : x, this.type) +
         noiseVal;
       s.vertex(startX + this.size - x * ratio, startY + y * this.size / 4);
@@ -142,7 +143,7 @@ class Button {
       y = Math.sin((x+Math.PI) % 4) / ((x+Math.PI) % 4);
     }
     if (type === 'saw') {
-      y = -1 + x % 2;
+      y = 1 - x % 2;
     }
     if (type === 'sqr') {
       y = Math.sin(2*x) >= 0 ? 1 : -1;

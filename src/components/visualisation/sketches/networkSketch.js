@@ -44,25 +44,42 @@ export default function(s) {
     s.createCanvas(netDiv.offsetWidth,
         window.innerHeight - valDiv.offsetHeight - 50);
     s.frameRate(60);
+    s.textAlign(s.CENTER, s.BOTTOM);
+    s.textSize(16);
+    s.colors = {
+      white: s.color(255),
+      lightgrey: s.color(210),
+      black: s.color(0),
+      darkgrey: s.color(51),
+      darkbluegrey: s.color('#263238'),
+      bluegrey: s.color('#455a64'),
+      red: s.color(255, 50, 50),
+      cyan: s.color('#00acc1'),
+      cyanlight: s.color('#26c6da'),
+      cyandark: s.color('#00838f'),
+      orange: s.color('#fb8c00'),
+      orangelight: s.color('#ffa726'),
+      orangedark: s.color('#ef6c00'),
+    };
     s.palette = {
-      primary: s.color(255),
-      secondary: s.color(210),
-      contrast: s.color(54),
-      secondaryContrast: s.color(85),
-      error: s.color(255, 50, 50),
-      bg: s.color(255),
-      bgNet: s.color(255),
-      bgCell: s.color(255),
-      bgIn: s.color(255),
-      bgLoss: s.color(255),
-      bgOut: s.color(255),
-      bgCellplot: s.color(255),
-      ovPrimary: s.color(50, 150, 255),
-      ovSecondary: s.color(50, 100, 200),
-      ovContrast: s.color(0, 50, 200),
-      cvPrimary: s.color(255, 150, 50),
-      cvSecondary: s.color(210, 100, 50),
-      cvContrast: s.color(250, 40, 0),
+      primary: s.colors.white,
+      secondary: s.colors.lightgrey,
+      contrast: s.colors.darkbluegrey,
+      secondaryContrast: s.colors.bluegrey,
+      error: s.colors.red,
+      bg: s.colors.white,
+      bgNet: s.colors.white,
+      bgIn: s.colors.white,
+      bgLoss: s.colors.white,
+      bgOut: s.colors.white,
+      bgCell: s.colors.white,
+      bgCellplot: s.colors.white,
+      ovPrimary: s.colors.cyan,
+      ovSecondary: s.colors.cyandark,
+      ovContrast: s.colors.cyanlight,
+      cvPrimary: s.colors.orange,
+      cvSecondary: s.colors.orangedark,
+      cvContrast: s.colors.orangelight,
     };
     // s.drawingContext.setLineDash([5,5])
     s.sideWidthLeft = s.sideRatioLeft * s.width;
@@ -87,7 +104,7 @@ export default function(s) {
     s.netProps = {
       left: s.inProps.right,
       right: s.inProps.right + s.width * s.ctrRatio,
-      midX: s.width - s.sideRatioRight * s.width + s.ctrWidth/2,
+      midX: s.sideWidthLeft + s.width * s.ctrRatio * 0.5,
       midY: s.height/2,
       width: s.width * s.ctrRatio,
       height: s.height,
@@ -307,7 +324,7 @@ export default function(s) {
   };
 
   s.drawCell = function() {
-    s.palette.bgCell.setAlpha( s.cellAlpha);
+    s.palette.bgCell.setAlpha(s.cellAlpha);
     s.fill(s.palette.bgCell);
     s.noStroke();
     s.rect(s.width/2, s.height/2, s.width, s.height);
@@ -340,6 +357,7 @@ export default function(s) {
     s.cellAlpha = 255 * s.transition / 100;
     s.cell.draw();
     s.pop();
+    s.palette.bgCell.setAlpha(255);
   };
 
   s.drawCellPlot = function() {

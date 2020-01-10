@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import networkSketch from './sketches/networkSketch';
+import helperSketch from './sketches/helperSketch';
+import helperSketchTwo from './sketches/helperSketchTwo';
 import {Grid} from '@material-ui/core';
 
 import * as actions from '../../actions';
@@ -21,6 +23,10 @@ class VisualWrapper extends React.Component {
     super();
     // eslint-disable-next-line new-cap
     this.networkSketch = new window.p5(networkSketch, 'networkDiv');
+    // eslint-disable-next-line new-cap
+    this.helperSketch = new window.p5(helperSketch, 'helperDiv');
+    // eslint-disable-next-line new-cap
+    this.helperSketchTwo = new window.p5(helperSketchTwo, 'helperDivTwo');
   }
 
   /**
@@ -30,6 +36,8 @@ class VisualWrapper extends React.Component {
     console.log('Wrapper Props', this.props);
     this.networkSketch.props = this.props;
     this.networkSketch.updateMemory(false);
+    this.helperSketch.update(false);
+    this.helperSketchTwo.update(false);
   }
 
   /**
@@ -51,6 +59,8 @@ class VisualWrapper extends React.Component {
       this.networkSketch.reset();
       this.props.actions.updateUI({...nextProps.ui, reset: false});
     }
+    this.helperSketch.update(nextProps.ui.detail);
+    this.helperSketchTwo.update(nextProps.ui.detail);
     return false;
   }
 
@@ -60,6 +70,8 @@ class VisualWrapper extends React.Component {
    */
   componentWillUnmount() {
     this.networkSketch.remove();
+    this.helperSketch.remove();
+    this.helperSketchTwo.remove();
   }
 
   /**
@@ -69,9 +81,15 @@ class VisualWrapper extends React.Component {
    */
   render() {
     return (
-      <Grid container spacing ={0} direction="row" justify='center'>
+      <Grid container direction="row" justify='space-between'>
+        <Grid item xs={1}>
+          <div id = "helperDiv"/>
+        </Grid>
         <Grid item xs={10}>
           <div id = "networkDiv"/>
+        </Grid>
+        <Grid item xs={1}>
+          <div id = "helperDivTwo"/>
         </Grid>
       </Grid>
     );
