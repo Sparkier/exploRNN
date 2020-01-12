@@ -45,11 +45,13 @@ export default function(s) {
   };
   s.colors = {
     white: s.color(255),
-    lightgrey: s.color(210),
+    grey: s.color('#9e9e9e'),
+    lightgrey: s.color('#eeeeee'),
+    darkgrey: s.color('#212121'),
     black: s.color(0),
-    darkgrey: s.color(51),
-    darkbluegrey: s.color('#263238'),
     bluegrey: s.color('#455a64'),
+    lightbluegrey: s.color('#b0bec5'),
+    darkbluegrey: s.color('#263238'),
     red: s.color(255, 50, 50),
     cyan: s.color('#00acc1'),
     cyanlight: s.color('#26c6da'),
@@ -196,10 +198,10 @@ export default function(s) {
     if (s.detail && s.props.ui.anim && s.frameCount % s.pause === 0) {
       s.cell.update();
     }
-    s.drawNetwork();
+    s.drawLoss();
     s.drawPlots();
     s.drawInput();
-    s.drawLoss();
+    s.drawNetwork();
     s.drawCell();
     // draw cell input/output
     s.drawCellPlot();

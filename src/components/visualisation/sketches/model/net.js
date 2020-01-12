@@ -12,7 +12,7 @@ export class Network {
     this.layers = [];
     this.fakeLayers = [];
     this.loss = false;
-    this.rev = false;
+    this.s.rev = false;
     const layercount = s.network.length;
     if (layercount === 0) {
       return;
@@ -39,11 +39,11 @@ export class Network {
     s.strokeWeight(2 * s.netScale);
     if (s.netAnim) {
       s.stroke(s.colors.cyan);
-      s.drawingContext.lineDashOffset = this.rev ?
+      s.drawingContext.lineDashOffset = this.s.rev ?
         s.frameCount/2 : -s.frameCount/2;
       s.drawingContext.setLineDash([10, 10]);
     } else {
-      s.stroke(s.colors.darkbluegrey);
+      s.stroke(s.colors.bluegrey);
     }
     this.s.noFill();
     this.s.line(s.netProps.left, s.netProps.midY, s.netProps.right,
@@ -53,13 +53,13 @@ export class Network {
       (this.layers.length));
     this.updatePauseRev = Math.round(s.netTrainFrames /
       (this.layers.length));
-    this.rev = s.netFrame > s.netPredFrames + s.netLossFrames;
+    this.s.rev = s.netFrame > s.netPredFrames + s.netLossFrames;
 
-    if (!this.rev && s.netAnim && s.props.training.running &&
+    if (!this.s.rev && s.netAnim && s.props.training.running &&
         s.netFrame % this.updatePause === 0) {
       this.update();
     }
-    if (this.rev && s.netAnim && s.props.training.running &&
+    if (this.s.rev && s.netAnim && s.props.training.running &&
         (s.netFrame - (s.netPredFrames + s.netLossFrames)) %
         this.updatePauseRev === 0) {
       this.update();
@@ -119,9 +119,9 @@ export class Network {
       }
     }
     console.log(next, s.netAnim, s.netFrame);
-    if (!this.rev && next >= 0 && next < this.layers.length) {
+    if (!this.s.rev && next >= 0 && next < this.layers.length) {
       this.layers[next].activate();
-    } else if (this.rev && next >= 2 && next <= this.layers.length) {
+    } else if (this.s.rev && next >= 2 && next <= this.layers.length) {
       this.layers[next - 2].activate();
     } else {
       this.layers[this.layers.length - 1].activate();
@@ -135,7 +135,7 @@ export class Network {
     for (const l of this.layers) {
       l.deactivate();
     }
-    this.rev = false;
+    this.s.rev = false;
     this.layers[1].activate();
     console.log('STARTED');
   }
@@ -183,6 +183,16 @@ class Layer {
       let w = this.w;
       let h = this.h;
       s.textAlign(s.CENTER, s.CENTER);
+      s.noFill();
+      s.stroke(s.colors.bluegrey);
+      if (s.netAnim) {
+        s.stroke(s.colors.cyan);
+        s.drawingContext.lineDashOffset = this.s.rev ?
+          -s.frameCount/2 : s.frameCount/2;
+        s.drawingContext.setLineDash([10, 10]);
+      }
+      s.rect(this.x, this.y-h/2, w * 1.4, h, 20);
+      s.drawingContext.setLineDash([]);
       s.noStroke();
       s.fill(s.colors.darkbluegrey);
       if (this.hover) {

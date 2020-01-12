@@ -28,9 +28,6 @@ export class LSTM {
     s.clickedItem = undefined;
     this.anim = 0;
     this.animMax = 5;
-    s.orange = s.color(255, 150, 40);
-    s.half_orange = s.color(200, 150, 80);
-    s.green = s.color(50, 175, 80);
     const cell = {
       s: s,
       hasPrev: hasPrev,
@@ -198,17 +195,12 @@ export class LSTM {
   draw() {
     const s = this.s;
     s.rectMode(s.CENTER);
-    s.fill(0, 100);
-    s.noStroke();
-    // s.rect(s.detailProps.midX+20, s.detailProps.midY+20,
-    //    s.detailProps.width * s.detailProps.horRatio,
-    //    s.detailProps.height * s.detailProps.verRatio);
-    s.fill(255);
-    s.stroke(100);
+    s.fill(s.colors.white);
+    s.stroke(s.colors.lightgrey);
     s.strokeWeight(15);
     s.rect(s.detailProps.midX, s.detailProps.midY,
         s.detailProps.width * s.detailProps.horRatio,
-        s.detailProps.height * s.detailProps.verRatio);
+        s.detailProps.height * s.detailProps.verRatio, 20);
     for (const c of this.connections) {
       c.draw();
     }
@@ -369,13 +361,13 @@ class Connection {
     s.stroke(54);
     s.strokeWeight(1);
     if (this.active) {
-      s.stroke(s.orange);
+      s.stroke(s.colors.orange);
       s.strokeWeight(4);
       s.drawingContext.lineDashOffset = -s.frameCount/2;
       s.drawingContext.setLineDash([10, 10]);
     }
     if (this.hover) {
-      s.stroke(s.green);
+      s.stroke(s.colors.cyan);
       s.drawingContext.lineDashOffset = -s.frameCount/2;
       s.drawingContext.setLineDash([10, 10]);
     }
@@ -499,14 +491,14 @@ class Item {
     this.s.fill(54);
     this.s.noStroke();
     if (this.active) {
-      s.fill(s.orange);
+      s.fill(s.colors.orange);
     } else if (this.currentActivatedConnecions !== 0) {
-      s.fill(s.half_orange);
+      s.fill(s.colors.orange);
     }
     if (this.hover && !this.clicked &&
         !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs' ||
         this.type === 'gft' || this.type === 'glst')) {
-      s.fill(s.green);
+      s.fill(s.colors.cyan);
       s.cursor(s.HAND);
     }
     const layer = s.clickedBlock;
@@ -522,9 +514,9 @@ class Item {
       s.strokeWeight(2);
       s.fill(250, this.s.netAlpha);
       if (s.props.training.running) {
-        s.stroke(s.white, this.s.netAlpha);
+        s.stroke(s.colors.white, this.s.netAlpha);
       } else {
-        s.stroke(s.white, this.s.netAlpha);
+        s.stroke(s.colors.white, this.s.netAlpha);
       }
       if (this.hover) {
         s.stroke(100, this.s.netAlpha);
@@ -533,9 +525,9 @@ class Item {
       s.rect(this.x, this.y, w, h);
       s.noStroke();
       if (this.active) {
-        s.fill(s.orange, this.s.netAlpha);
+        s.fill(s.colors.orange, this.s.netAlpha);
       } else {
-        s.fill(s.white, this.s.netAlpha);
+        s.fill(s.colors.white, this.s.netAlpha);
       }
       s.strokeWeight(2);
       const left = this.x - w/2;
