@@ -108,6 +108,7 @@ class Button {
       if (this.active) {
         s.fill(s.palette.ovSecondary);
       }
+      s.cursor(s.HAND);
     }
     s.rect(this.x, this.y, this.size, this.size);
     const range = Math.PI * 2;
@@ -143,7 +144,7 @@ class Button {
       y = Math.sin((x+Math.PI) % 4) / ((x+Math.PI) % 4);
     }
     if (type === 'saw') {
-      y = 1 - x % 2;
+      y = -1 + x % 2;
     }
     if (type === 'sqr') {
       y = Math.sin(2*x) >= 0 ? 1 : -1;

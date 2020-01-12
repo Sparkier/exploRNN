@@ -37,6 +37,41 @@ export default function(s) {
   s.ready = false;
   s.setupDone = false;
   s.globalScale = 1;
+  s.colors = {
+    white: s.color(255),
+    lightgrey: s.color(210),
+    black: s.color(0),
+    darkgrey: s.color(51),
+    darkbluegrey: s.color('#263238'),
+    bluegrey: s.color('#455a64'),
+    red: s.color(255, 50, 50),
+    cyan: s.color('#00acc1'),
+    cyanlight: s.color('#26c6da'),
+    cyandark: s.color('#00838f'),
+    orange: s.color('#fb8c00'),
+    orangelight: s.color('#ffa726'),
+    orangedark: s.color('#ef6c00'),
+  };
+  s.palette = {
+    primary: s.colors.white,
+    secondary: s.colors.darkbluegrey,
+    contrast: s.colors.lightgrey,
+    secondaryContrast: s.colors.bluegrey,
+    error: s.colors.red,
+    bg: s.colors.white,
+    bgNet: s.colors.white,
+    bgIn: s.colors.white,
+    bgLoss: s.colors.white,
+    bgOut: s.colors.white,
+    bgCell: s.colors.white,
+    bgCellplot: s.colors.white,
+    ovPrimary: s.colors.cyan,
+    ovSecondary: s.colors.cyandark,
+    ovContrast: s.colors.cyanlight,
+    cvPrimary: s.colors.orange,
+    cvSecondary: s.colors.orangedark,
+    cvContrast: s.colors.orangelight,
+  };
 
   s.setup = function() {
     const netDiv = document.getElementById('networkDiv');
@@ -46,41 +81,6 @@ export default function(s) {
     s.frameRate(60);
     s.textAlign(s.CENTER, s.BOTTOM);
     s.textSize(16);
-    s.colors = {
-      white: s.color(255),
-      lightgrey: s.color(210),
-      black: s.color(0),
-      darkgrey: s.color(51),
-      darkbluegrey: s.color('#263238'),
-      bluegrey: s.color('#455a64'),
-      red: s.color(255, 50, 50),
-      cyan: s.color('#00acc1'),
-      cyanlight: s.color('#26c6da'),
-      cyandark: s.color('#00838f'),
-      orange: s.color('#fb8c00'),
-      orangelight: s.color('#ffa726'),
-      orangedark: s.color('#ef6c00'),
-    };
-    s.palette = {
-      primary: s.colors.white,
-      secondary: s.colors.lightgrey,
-      contrast: s.colors.darkbluegrey,
-      secondaryContrast: s.colors.bluegrey,
-      error: s.colors.red,
-      bg: s.colors.white,
-      bgNet: s.colors.white,
-      bgIn: s.colors.white,
-      bgLoss: s.colors.white,
-      bgOut: s.colors.white,
-      bgCell: s.colors.white,
-      bgCellplot: s.colors.white,
-      ovPrimary: s.colors.cyan,
-      ovSecondary: s.colors.cyandark,
-      ovContrast: s.colors.cyanlight,
-      cvPrimary: s.colors.orange,
-      cvSecondary: s.colors.orangedark,
-      cvContrast: s.colors.orangelight,
-    };
     // s.drawingContext.setLineDash([5,5])
     s.sideWidthLeft = s.sideRatioLeft * s.width;
     s.sideWidthRight = s.sideRatioRight * s.width;

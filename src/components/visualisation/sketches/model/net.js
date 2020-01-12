@@ -191,16 +191,16 @@ class Layer {
       let w = this.w;
       let h = this.h;
       if (s.props.training.running) {
-        s.stroke(s.white, this.s.netAlpha);
+        // s.stroke(s.white, this.s.netAlpha);
       } else {
-        s.stroke(s.white, this.s.netAlpha);
+        // s.stroke(s.white, this.s.netAlpha);
       }
       if (this.hover) {
-        s.stroke(100, this.s.netAlpha);
+        // s.stroke(100, this.s.netAlpha);
         s.cursor(s.HAND);
       }
       if (this.active) {
-        s.stroke(s.blue, this.s.netAlpha);
+        // s.stroke(s.blue, this.s.netAlpha);
         w = 1.2 * this.w;
         h = 1.2 * this.h;
       }
