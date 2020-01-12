@@ -20,7 +20,7 @@ export class Plot {
     this.cy = ((index - 1) + 0.5) * (s.outProps.height / 3);
     this.scale = 1 - 0.5 * (Math.abs(s.height/2 - this.cy) / (s.height/2));
     this.plotWidth = s.outProps.width * 0.8;
-    this.plotHeight = s.outProps.height * 0.2;
+    this.plotHeight = s.outProps.height * 0.3;
     if (!s.props) {
       return;
     }

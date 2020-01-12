@@ -25,25 +25,32 @@ export class Loss {
     s.noStroke();
     if (s.netAnim && s.netFrame > s.netPredFrames &&
         s.netFrame < s.netPredFrames + s.netLossFrames) {
-      s.fill(s.palette.secondaryContrast);
+      s.fill(s.colors.bluegrey);
     } else {
-      s.fill(s.palette.contrast);
+      s.fill(s.colors.lightgrey);
     }
     s.rect(this.ctrX, this.ctrY, this.size, this.size);
-    s.stroke(s.palette.secondary);
-    s.strokeWeight(1);
-    s.line(this.ctrX - this.size/2, this.ctrY,
-        this.ctrX + this.size/2, this.ctrY);
     if (!s.netAnim || s.netFrame > s.netPredFrames) {
       let ratio = (s.netFrame - s.netPredFrames) / s.netLossFrames;
+      let ratioTwo = (s.netFrame - s.netPredFrames - s.netLossFrames) /
+          s.netTrainFrames;
       if (!s.netAnim) {
         ratio = 1;
+        ratioTwo = 1;
       }
       s.noFill();
       s.strokeWeight(2);
-      s.stroke(s.palette.error);
+      if (s.netAnim && s.netFrame > s.netPredFrames &&
+        s.netFrame < s.netPredFrames + s.netLossFrames) {
+        s.stroke(s.colors.lightgrey);
+        s.fill(s.colors.lightgrey);
+      } else {
+        s.stroke(s.colors.bluegrey);
+        s.fill(s.colors.bluegrey);
+      }
       s.beginShape();
-      for (let i = 0; i < s.lossValues.length * ratio; i++) {
+      let i = s.round(s.lossValues.length * ratioTwo);
+      for (; i < s.lossValues.length * ratio; i++) {
         s.vertex(this.ctrX - this.size/2 + i / s.lossValues.length * this.size,
             this.ctrY - s.lossValues[i] * this.size / 4);
       }
