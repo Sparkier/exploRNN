@@ -59,10 +59,10 @@ export class Plot {
       (s.height/4);
     s.push();
     s.translate(this.cx, this.cy + yOff);
-    s.ellipseMode(s.CENTER);
-    s.stroke(200, this.vis);
     s.strokeWeight(2 * this.scale);
-    s.stroke(54, this.vis);
+    s.colors.darkbluegrey.setAlpha(this.vis);
+    s.stroke(s.colors.darkbluegrey);
+    s.colors.darkbluegrey.setAlpha(255);
     s.line(-this.halfW * this.scale, 0, this.halfW * this.scale, 0);
     s.line(this.scale * ((-this.halfW) + (this.in * this.stepWidth)),
         -this.halfH * this.scale,
@@ -72,21 +72,25 @@ export class Plot {
     // draw the scan box while animating
     if (s.plotAnim && s.plotFrame > s.plotMoveFrames &&
       s.plotFrame < s.plotMoveFrames + s.plotScanFrames && this.index === 2) {
-      s.stroke(54, 150, 250, this.vis);
       const right = (-this.halfW) + (showSteps * this.stepWidth);
       let left = right - (this.in * this.stepWidth);
       if (left < -this.halfW) {
         left = -this.halfW;
       }
-      s.fill(54, 150, 250, 20);
+      s.noStroke();
+      s.colors.lightgrey.setAlpha(100);
+      s.fill(s.colors.lightgrey);
+      s.colors.lightgrey.setAlpha(255);
       s.rect(left + (right - left) / 2, 0, this.scale * (right-left),
-          1.8 * this.scale * this.halfH);
+          1.8 * this.scale * this.halfH, 10);
     }
     s.strokeWeight(1 * this.scale);
     // draw input for validation
     if (s.props.ui.data &&
           s.props.ui.data[this.index].chartPrediction) {
-      s.stroke(150, this.vis);
+      s.colors.bluegrey.setAlpha(this.vis);
+      s.stroke(s.colors.bluegrey);
+      s.colors.bluegrey.setAlpha(255);
       s.noFill();
       s.beginShape();
       for (let i = 0; i <= this.in; i++) {
@@ -129,7 +133,9 @@ export class Plot {
     s.strokeWeight(1 * this.scale);
     if (s.props.ui.data &&
       s.props.ui.data[this.index].chartOutput) {
-      s.stroke(150, this.vis);
+      s.colors.bluegrey.setAlpha(this.vis);
+      s.stroke(s.colors.bluegrey);
+      s.colors.bluegrey.setAlpha(255);
       s.noFill();
       s.beginShape();
       for (let i = 0; i < this.out; i++) {
