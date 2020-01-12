@@ -37,6 +37,12 @@ export default function(s) {
   s.ready = false;
   s.setupDone = false;
   s.globalScale = 1;
+  s.typography = {
+    fontsize: 16,
+    fontsizelarge: 20,
+    fontsizesmall: 12,
+    tooltipoffset: 60,
+  };
   s.colors = {
     white: s.color(255),
     lightgrey: s.color(210),
@@ -402,8 +408,6 @@ export default function(s) {
     if (s.props.training.running && sendTrainStep !== s.props.ui.trainingStep) {
       s.props.actions.updateUI({...this.props.ui, trainingStep: sendTrainStep});
     }
-    // s.netAlpha = 255 * (100 - s.transition) / 100
-    s.netAlpha = 255;
     s.net.draw();
     if (s.update) {
       s.update = false;

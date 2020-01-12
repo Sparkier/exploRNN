@@ -9,9 +9,6 @@ export class Network {
    */
   constructor(s) {
     this.s = s;
-    s.blue = s.color(100, 150, 255);
-    s.orange = s.color(255, 200, 100);
-    s.white = s.color(54);
     this.layers = [];
     this.fakeLayers = [];
     this.loss = false;
@@ -41,12 +38,12 @@ export class Network {
     const s = this.s;
     s.strokeWeight(2 * s.netScale);
     if (s.netAnim) {
-      s.stroke(s.blue);
+      s.stroke(s.colors.cyan);
       s.drawingContext.lineDashOffset = this.rev ?
         s.frameCount/2 : -s.frameCount/2;
       s.drawingContext.setLineDash([10, 10]);
     } else {
-      s.stroke(s.white);
+      s.stroke(s.colors.darkbluegrey);
     }
     this.s.noFill();
     this.s.line(s.netProps.left, s.netProps.midY, s.netProps.right,
@@ -182,38 +179,25 @@ class Layer {
   draw() {
     if (!(this.layerType === 'input' || this.layerType === 'output')) {
       const s = this.s;
-      // draw shadow
-      s.fill(0, 100);
-      s.noStroke();
-      // s.rect(this.x + 5, this.y + 5, this.w, this.h);
       // draw layer with correct parameters
-      s.fill(250, this.s.netAlpha);
       let w = this.w;
       let h = this.h;
-      if (s.props.training.running) {
-        // s.stroke(s.white, this.s.netAlpha);
-      } else {
-        // s.stroke(s.white, this.s.netAlpha);
-      }
+      s.textAlign(s.CENTER, s.CENTER);
+      s.noStroke();
+      s.fill(s.colors.darkbluegrey);
       if (this.hover) {
-        // s.stroke(100, this.s.netAlpha);
+        s.fill(s.colors.bluegrey);
         s.cursor(s.HAND);
       }
       if (this.active) {
-        // s.stroke(s.blue, this.s.netAlpha);
+        s.fill(s.colors.cyan);
         w = 1.2 * this.w;
         h = 1.2 * this.h;
       }
       s.rect(this.x, this.y, w, h);
       // draw inside of layer block
       s.noStroke();
-      if (!s.props.ui.ready || this.active) {
-        s.fill(s.blue, this.s.netAlpha);
-      } else if (this.hover) {
-        s.fill(100, this.s.netAlpha);
-      } else {
-        s.fill(s.white, this.s.netAlpha);
-      }
+      s.fill(s.colors.white);
       s.strokeWeight(2);
       const left = this.x - w/2;
       const top = this.y - h/2;
@@ -226,25 +210,37 @@ class Layer {
       if (this.hover_left) {
         s.noStroke();
         if (this.s.props.network.layers > 1) {
-          s.fill(150, 20, 20, 100);
-          s.rect(this.x + w/2 - this.clSize / 2, this.y - h/2 + this.clSize / 2,
-              this.clSize, this.clSize);
+          s.stroke(s.colors.red);
+          s.fill(s.colors.red);
+          s.textSize(this.clSize/2);
+          s.text('X', this.x + w/2 - this.clSize / 2,
+              this.y - h/2 + this.clSize / 2);
+          s.textSize(s.typography.fontsize);
         }
-        s.textAlign(s.CENTER, s.CENTER);
-        s.fill(0, 150);
-        s.rect(s.mouseX, s.mouseY+40, 85, 25);
+        s.noStroke();
+        s.colors.bluegrey.setAlpha(170);
+        s.fill(s.colors.bluegrey);
+        s.colors.bluegrey.setAlpha(255);
+        s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 110, 25);
         s.fill(255);
-        s.text('Click for detail', s.mouseX, s.mouseY + 40);
+        s.text('Click for detail', s.mouseX,
+            s.mouseY + s.typography.tooltipoffset);
       } else if (this.hover_right && this.s.props.network.layers > 1 ) {
         s.noStroke();
-        s.fill(225, 50, 50, 240);
+        s.fill(s.colors.red);
         s.rect(this.x + w/2 - this.clSize / 2, this.y - h/2 + this.clSize / 2,
             this.clSize, this.clSize);
         s.textAlign(s.CENTER, s.CENTER);
-        s.fill(0, 150);
-        s.rect(s.mouseX, s.mouseY+40, 85, 25);
+        s.colors.bluegrey.setAlpha(170);
+        s.fill(s.colors.bluegrey);
+        s.colors.bluegrey.setAlpha(255);
+        s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 110, 25);
         s.fill(255);
-        s.text('Remove Layer', s.mouseX, s.mouseY + 40);
+        s.textSize(this.clSize/2);
+        s.text('X', this.x + w/2 - this.clSize / 2,
+            this.y - h/2 + this.clSize / 2);
+        s.textSize(s.typography.fontsize);
+        s.text('Remove Layer', s.mouseX, s.mouseY + s.typography.tooltipoffset);
       }
     }
   }
@@ -356,6 +352,7 @@ class FakeLayer {
       return;
     }
     const s = this.s;
+    s.textAlign(s.CENTER, s.CENTER);
     const d = s.dist(s.mouseX, s.mouseY, this.x, this.y);
     let alpha = (2 * this.w - d) / (this.w) * 255;
     if (alpha > 255) {
@@ -363,20 +360,34 @@ class FakeLayer {
     } else if (alpha <= 0) {
       alpha = 0;
     }
-    s.fill(250, alpha);
-    s.stroke(54, alpha);
+    s.fill(255, alpha);
     if (this.hover) {
-      s.stroke(50, 150, 200, alpha);
+      s.fill(s.colors.bluegrey);
       s.cursor(s.HAND);
     }
     s.ellipse(this.x, this.y, this.w, this.h);
     if (this.hover) {
-      s.textAlign(s.CENTER, s.CENTER);
-      s.fill(0, 150);
+      s.fill(s.colors.white);
+      s.textSize(this.w);
+      s.text('+', this.x, this.y);
+      s.cursor(s.HAND);
+    } else {
+      s.colors.darkbluegrey.setAlpha(alpha);
+      s.fill(s.colors.darkbluegrey);
+      s.textSize(this.w);
+      s.text('+', this.x, this.y);
+    }
+    s.noStroke();
+    s.textSize(s.typography.fontsize);
+    s.colors.darkbluegrey.setAlpha(255);
+    if (this.hover) {
+      s.colors.bluegrey.setAlpha(170);
+      s.fill(s.colors.bluegrey);
+      s.colors.bluegrey.setAlpha(255);
       s.noStroke();
-      s.rect(s.mouseX, s.mouseY + 40, 85, 25);
+      s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 85, 25);
       s.fill(255);
-      s.text('Add Layer', s.mouseX, s.mouseY + 40);
+      s.text('Add Layer', s.mouseX, s.mouseY + s.typography.tooltipoffset);
     }
   }
 

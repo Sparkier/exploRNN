@@ -113,16 +113,17 @@ class ControlPanel extends React.Component {
                 justify='space-evenly' alignItems='center'
               >
                 <Grid item>
-                  <MyButton disabled={this.props.ui.detail}
-                    properties={this.props}
-                    action={this.resetButtonPressed}
-                    icon={
-                      <Reset fontSize="small" style={{color: 'white'}} />
-                    } />
+                  <MyButton disabled={this.props.ui.detail ||
+                      !this.props.training.workerReady}
+                  properties={this.props}
+                  action={this.resetButtonPressed}
+                  icon={
+                    <Reset fontSize="small" style={{color: 'white'}} />
+                  } />
                 </Grid>
                 <Grid item>
                   <MyButton properties={this.props}
-                    disabled = {false}
+                    disabled = {!this.props.training.workerReady}
                     action={this.toggleTraining}
                     icon={(this.props.ui.detail && this.props.ui.anim) ||
                       (!this.props.ui.detail && this.props.training.running) ?
@@ -134,7 +135,8 @@ class ControlPanel extends React.Component {
                 <Grid item>
                   <MyButton properties={this.props}
                     disabled={(this.props.ui.detail && this.props.ui.anim) ||
-                    (!this.props.ui.detail && this.props.training.running)}
+                    (!this.props.ui.detail && this.props.training.running) ||
+                    !this.props.training.workerReady}
                     action={this.nextStep}
                     icon={
                       <SkipNext fontSize="small" style={{color: 'white'}}/>

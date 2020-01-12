@@ -33,6 +33,7 @@ export default {
     stepSize: 0.1,
     reset: false,
     step: false,
+    workerReady: true,
   },
   ui: {
     running: false,

@@ -55,6 +55,10 @@ class Training extends React.Component {
         } else if (e.data.reset) {
           this.iterate(false);
         }
+        this.props.actions.updateTraining({
+          ...this.props.training,
+          workerReady: true,
+        });
         break;
       case 'data':
         network = this.addDataToNetwork(this.props.network, buff.chartIn,
@@ -95,7 +99,8 @@ class Training extends React.Component {
     if (this.props.training.reset) {
       this.reset();
       this.props.actions.updateTraining(
-          {...this.props.training, reset: false, running: false}
+          {...this.props.training, reset: false, running: false,
+            workerReady: false}
       );
       this.props.actions.updateUI(
           {...this.props.ui, reset: true,
@@ -119,7 +124,9 @@ class Training extends React.Component {
             trainingStep: 0}
       );
       this.props.actions.updateTraining(
-          {...this.props.training, reset: false, step: false, running: false}
+          {...this.props.training, reset: false, step: false, running: false,
+            workerReady: !this.props.ui.ready,
+          }
       );
     }
   }
@@ -169,6 +176,7 @@ class Training extends React.Component {
         });
     let ui = this.props.ui;
     let network = this.props.network;
+    const training = {...this.props.training, workerReady: false};
     // this.model.model.summary();
     // reset the datasets and create the new data for the upcoming training
     network = {...network, iteration: 0};
@@ -177,6 +185,7 @@ class Training extends React.Component {
     ui = this.addDataToUI(ui, network);
     this.props.actions.updateNetwork(network);
     this.props.actions.updateUI(ui);
+    this.props.actions.updateTraining(training);
   }
 
   /**
@@ -254,9 +263,8 @@ class Training extends React.Component {
     } else {
       return;
     }
-
     this.props.actions.updateTraining(
-        {...this.props.training, step: false, ready: false}
+        {...this.props.training, step: false, ready: false, workerReady: false}
     );
     // Prepare the data
     this.worker.postMessage(
