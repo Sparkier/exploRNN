@@ -10,6 +10,17 @@ import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import StyledSelect from './comps/StyledSelect';
 import * as actions from '../../actions';
+import IconButton from '@material-ui/core/IconButton';
+import HelpIcon from '@material-ui/icons/Help';
+import HelpOutlined from '@material-ui/icons/HelpOutline';
+import Close from '@material-ui/icons/Cancel';
+import Info from '@material-ui/icons/Info';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 /**
  * Controls at top of the Application
@@ -88,8 +99,10 @@ class Controls extends React.Component {
    * @memberof Controls
    * @return {undefined}
    */
-  toggleDrawer = (open) => (event) => {
-    this.drawer = open;
+  toggleDrawer = (open) =>{
+    if (open !== this.props.ui.help) {
+      this.props.actions.updateUI({...this.props.ui, help: open});
+    }
   };
 
   /**
@@ -104,6 +117,14 @@ class Controls extends React.Component {
   };
 
   /**
+   * @param {object} event
+   */
+  helperMenu = (event) => {
+    console.log('DRAWER', !this.props.ui.help);
+    this.toggleDrawer(!this.props.ui.help);
+  };
+
+  /**
    * Readt render function controlling the look of the
    * AppBar of the Application
    *
@@ -115,8 +136,8 @@ class Controls extends React.Component {
       <AppBar className={this.props.ui.detail ? classes.headerCv :
         classes.headerOv}>
         <Toolbar>
-          <Typography variant="h6" className = {
-            this.props.ui.detail ? classes.typoCv : classes.typoOv
+          <Typography variant="h3" className = {
+            this.props.ui.detail ? classes.typoCvHeader : classes.typoOvHeader
           }>
               leaRNN
           </Typography>
@@ -126,6 +147,38 @@ class Controls extends React.Component {
             <MenuItem value="LSTM">LSTM</MenuItem>
             <MenuItem value="GRU">GRU</MenuItem>
           </StyledSelect>
+          <IconButton disabled={false} variant="outlined"
+            className={this.props.classes.headerIcon}
+            onClick={this.helperMenu}>
+            {<HelpIcon fontSize="large"/>}
+          </IconButton>
+          <Drawer
+            anchor="right"
+            open={this.props.ui.help} >
+            <div
+              className={classes.list}
+              role="presentation"
+              onClick={this.helperMenu}
+              onKeyDown={this.helperMenu}
+            >
+              <List>
+                <ListItem button key={'close'}>
+                  <ListItemIcon>{<Close fontSize="large"/>}</ListItemIcon>
+                  <ListItemText primary={''} />
+                </ListItem>
+                <Divider />
+                <ListItem button key={'faq'}>
+                  <ListItemIcon>{<HelpOutlined fontSize="large"/>}</ListItemIcon>
+                  <ListItemText primary={'FAQ'} />
+                </ListItem>
+                <ListItem button key={'impressum'}>
+                  <ListItemIcon>{<Info fontSize="large"/>}</ListItemIcon>
+                  <ListItemText primary={'Impressum'} />
+                </ListItem>
+              </List>
+              <Divider />
+            </div>
+          </Drawer>
         </Toolbar>
       </AppBar>
     );

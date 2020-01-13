@@ -51,6 +51,14 @@ const styles = (theme) => ({
     marginTop: '5px',
     fontSize: '16px',
   },
+  typoOvHeader: {
+    color: theme.palette.overview.main,
+    fontSize: '20px',
+  },
+  typoCvHeader: {
+    color: theme.palette.detail.main,
+    fontSize: '20px',
+  },
   button_cell: {
     'paddingLeft': '12px',
     'paddingRight': '12px',
@@ -114,9 +122,16 @@ const styles = (theme) => ({
     },
     'minWidth': 120,
     'color': 'white',
+    'align': 'left',
   },
   selectIcon: {
     fill: 'white',
+  },
+  headerIcon: {
+    color: 'white',
+  },
+  list: {
+    width: '250',
   },
 });
 

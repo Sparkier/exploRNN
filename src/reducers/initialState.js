@@ -48,6 +48,7 @@ export default {
     trainingStep: 0,
     cellAnimStep: 0,
     panelHeight: 0,
+    help: false,
   },
   firstcall: true,
 };

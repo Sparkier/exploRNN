@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 function StyledSelectRaw(props) {
   const {classes, ...other} = props;
   return (
-    <div style={{display: 'inline-block', marginRight: '12px'}}>
+    <div style={{display: 'inline-flex', marginRight: '12px', flexGrow: '1'}}>
       <Select className={classes.select} inputProps={{
         classes: {
           icon: classes.selectIcon,

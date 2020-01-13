@@ -421,6 +421,9 @@ export default function(s) {
     if (!s.ready) {
       return;
     }
+    if(s.props.ui.help) {
+      return;
+    }
     if (this.detail) {
       s.cell.mouseMoved(s.mouseX, s.mouseY);
     } else {
@@ -435,6 +438,9 @@ export default function(s) {
 
   s.mouseClicked = function() {
     if (!s.ready) {
+      return;
+    }
+    if(s.props.ui.help) {
       return;
     }
     if (s.mouseX < 0 || s.mouseY < 0 ||
@@ -456,6 +462,9 @@ export default function(s) {
   };
 
   s.mouseWheel = function(event) {
+    if(s.props.ui.help) {
+      return;
+    }
     s.globalScale -= event.delta/1000;
     if (s.globalScale > 4) {
       s.globalScale = 4;
