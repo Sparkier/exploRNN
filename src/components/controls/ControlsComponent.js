@@ -144,6 +144,7 @@ class Controls extends React.Component {
           <StyledSelect value={this.props.network.type}
             onChange={ this.typeSelect }
           >
+            <MenuItem value="RNN">RNN</MenuItem>
             <MenuItem value="LSTM">LSTM</MenuItem>
             <MenuItem value="GRU">GRU</MenuItem>
           </StyledSelect>
@@ -168,7 +169,9 @@ class Controls extends React.Component {
                 </ListItem>
                 <Divider />
                 <ListItem button key={'faq'}>
-                  <ListItemIcon>{<HelpOutlined fontSize="large"/>}</ListItemIcon>
+                  <ListItemIcon>
+                    {<HelpOutlined fontSize="large"/>}
+                  </ListItemIcon>
                   <ListItemText primary={'FAQ'} />
                 </ListItem>
                 <ListItem button key={'impressum'}>

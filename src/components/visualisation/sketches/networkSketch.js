@@ -411,7 +411,9 @@ export default function(s) {
     if (s.props.training.running &&
         (sendTrainStep !== s.props.ui.trainingStep ||
         s.netAnim !== s.props.ui.netAnim)) {
-      s.props.actions.updateUI({...s.props.ui, trainingStep: sendTrainStep, netAnim: s.netAnim});
+      s.props.actions.updateUI(
+          {...s.props.ui, trainingStep: sendTrainStep, netAnim: s.netAnim}
+      );
     }
     s.net.draw();
     if (s.update) {

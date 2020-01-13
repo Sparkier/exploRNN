@@ -22,7 +22,7 @@ export default {
     running: false,
     ready: true,
     speed: 1000,
-    dataType: 'sin',
+    dataTypes: ['sin'],
     dataVariant: 'random',
     noise: 50,
     values: 0,

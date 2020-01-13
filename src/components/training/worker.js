@@ -142,7 +142,7 @@ export default () => {
    * The actual function for generating the data sets used for training
    *
    * @param {number} start the time step to start the data from
-   * @param {string} func the type of function the network should be trained on
+   * @param {string} funcs the type of function the network should be trained on
    * @param {number} plotLength the size of the interval of the input values
    * @param {number} predLength the number of values that should be predicted
    * @param {number} stepSize the distance between two values in the data set
@@ -153,7 +153,7 @@ export default () => {
    * @param {number} noise the amount of noise that should be added onto
    *  the training data (0-2)
    */
-  self.generateData = (start, func, plotLength,
+  self.generateData = (start, funcs, plotLength,
       predLength, stepSize, setSize, variant, noise = 0) => {
     self.trainInputBuff = [];
     self.trainOutputBuff = [];
@@ -166,7 +166,7 @@ export default () => {
     self.chartDataInput = [];
     self.chartDataOutput = [];
     self.maxNoise = 0.2;
-    if (func === undefined || variant === undefined) {
+    if (funcs === undefined || funcs.length === 0 || variant === undefined) {
       return;
     }
     // let rndOff = Math.random() * 20 * Math.PI;
@@ -190,35 +190,18 @@ export default () => {
       default:
     }
 
-    // train data
-    const setOffsetRatio = (2 * Math.PI) / setSize;
-    for (let i = 0; i < setSize; i++) {
-      const trainInputSequence = [];
-      start = i * setOffsetRatio;
-      for (let j = 0; j < self.values; j++) {
-        noiseVal = (noise/100) * (-self.maxNoise +
-            2 * self.maxNoise * Math.random());
-        val = self.dataFunc(start + (j * stepSize), func) + noiseVal;
-        trainInputSequence.push([val]);
-      }
-      self.trainInputBuff.push(trainInputSequence);
-      const currentOutSequence = [];
-      let x;
-      for (let j = 0; j < self.predictions; j++) {
-        x = (self.values + j) * stepSize + start;
-        val = self.dataFunc(x, func) * rndAmp;
-        currentOutSequence.push(val);
-      }
-      self.trainOutputBuff.push(currentOutSequence);
+    const partialSetSize = setSize / funcs.length;
+    for (const f of funcs) {
+      self.trainData(stepSize, partialSetSize, f, noise);
     }
-
+    const testFunc = funcs[Math.floor(Math.random() * funcs.length)];
     const testInputSequence = [];
     // test data
     const offset = Math.random() * Math.PI;
     for (let j = 0; j < self.values; j++) {
       noiseVal = (noise/100) * (-self.maxNoise +
           2 * self.maxNoise * Math.random());
-      val = self.dataFunc(j * stepSize + offset, func) * rndAmp + noiseVal;
+      val = self.dataFunc(j * stepSize + offset, testFunc) * rndAmp + noiseVal;
       testInputSequence.push([val]);
       self.chartDataInput.push(val);
       self.chartPredictionInput.push(val);
@@ -228,17 +211,42 @@ export default () => {
     let x;
     for (let j = 0; j < self.testOutputs; j++) {
       x = (self.values + j) * stepSize;
-      val = self.dataFunc(x + offset, func) * rndAmp;
+      val = self.dataFunc(x + offset, testFunc) * rndAmp;
       currentOutSequence.push(val);
       self.chartDataOutput.push(val);
     }
     self.chartDataInput.push();
     self.chartPredictionInput.push();
-    self.trainInput = tf.tensor3d(self.trainInputBuff);
-    self.trainOutput = tf.tensor2d(self.trainOutputBuff);
     // self.testInput = tf.tensor3d(self.testInputBuff);
     self.testInput = testInputSequence;
     console.log(self.testInput);
+  };
+
+  self.trainData = (stepSize, partialSetSize, func, noise) => {
+    // train data
+    const setOffsetRatio = (2 * Math.PI) / partialSetSize;
+    const startOffset = 2 * Math.PI * Math.random();
+    for (let i = 0; i < partialSetSize; i++) {
+      const trainInputSequence = [];
+      const start = i * setOffsetRatio + startOffset;
+      for (let j = 0; j < self.values; j++) {
+        const noiseVal = (noise/100) * (-self.maxNoise +
+            2 * self.maxNoise * Math.random());
+        const val = self.dataFunc(start + (j * stepSize), func) + noiseVal;
+        trainInputSequence.push([val]);
+      }
+      self.trainInputBuff.push(trainInputSequence);
+      const currentOutSequence = [];
+      let x;
+      for (let j = 0; j < self.predictions; j++) {
+        x = (self.values + j) * stepSize + start;
+        const val = self.dataFunc(x, func);
+        currentOutSequence.push(val);
+      }
+      self.trainOutputBuff.push(currentOutSequence);
+    }
+    self.trainInput = tf.tensor3d(self.trainInputBuff);
+    self.trainOutput = tf.tensor2d(self.trainOutputBuff);
   };
 
   /**
@@ -255,13 +263,13 @@ export default () => {
       if (x === Math.PI) {
         return 1;
       }
-      y = Math.sin((x+Math.PI) % 4) / ((x+Math.PI) % 4);
+      y = Math.sin((x+Math.PI) % Math.PI) / ((x+Math.PI) % Math.PI);
     }
     if (type === 'saw') {
-      y = -1 + x % 2;
+      y = -1 + x % (Math.PI / 2);
     }
     if (type === 'sqr') {
-      y = Math.sin(2*x) >= 0 ? 1 : -1;
+      y = Math.sin((Math.PI/2)*x) >= 0 ? 1 : -1;
     }
     return y;
   };

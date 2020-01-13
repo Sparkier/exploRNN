@@ -155,7 +155,7 @@ class Training extends React.Component {
             cmd: 'data',
             params: {
               start: i,
-              type: this.props.training.dataType,
+              type: this.props.training.dataTypes,
               var: this.props.training.dataVariant,
               noise: this.props.training.noise,
               size: this.props.training.dataSetSize,
@@ -273,7 +273,7 @@ class Training extends React.Component {
           cmd: 'data',
           params: {
             start: this.props.training.iteration,
-            type: this.props.training.dataType,
+            type: this.props.training.dataTypes,
             var: this.props.training.dataVariant,
             noise: this.props.training.noise,
             size: this.props.training.dataSetSize,

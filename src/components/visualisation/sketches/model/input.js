@@ -86,7 +86,7 @@ class Button {
     this.right = this.x + this.size/2;
     this.top = this.y - this.size / 2;
     this.bot = this.y + this.size/2;
-    this.active = (type === s.props.training.dataType);
+    this.active = (s.props.training.dataTypes.includes(type));
     this.steps = steps;
     this.noises = noises;
   }
@@ -99,7 +99,7 @@ class Button {
     s.fill(s.palette.contrast);
     s.noStroke();
     s.strokeWeight(2);
-    this.active = (this.type === s.props.training.dataType);
+    this.active = (s.props.training.dataTypes.includes(this.type));
     if (this.active) {
       s.fill(s.palette.ovPrimary);
     }
@@ -159,9 +159,24 @@ class Button {
     const mx = this.s.mouseX;
     const my = this.s.mouseY;
     if (mx > this.left && mx < this.right && my > this.top && my < this.bot) {
+      const oldTypes = this.s.props.training.dataTypes;
+      let newTypes = [];
+      console.log('CLICKED ON BUTTOn', oldTypes);
+      if (oldTypes.includes(this.type) && oldTypes.length > 1
+      ) {
+        for (const item of oldTypes) {
+          if (item !== this.type) {
+            newTypes.push(item);
+          }
+        }
+      } else {
+        oldTypes.push(this.type);
+        newTypes = oldTypes;
+      }
       this.s.props.actions.updateTraining(
-          {...this.s.props.training, dataType: this.type}
+          {...this.s.props.training, dataTypes: newTypes}
       );
+      console.log('CLICKED ON BUTTOn', newTypes);
     }
   }
 

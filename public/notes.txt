@@ -6,6 +6,7 @@ IMPROTANT:
     - adjust the key bindings with the correlating buttons and disable them accordingly
     - consider to give user the option to chose multiple functions at once,
     then the network really needs to learn timed correlations
+    - fix font settings
 
 TODO:
     - Rearrange data creation to support one by one prediction of
