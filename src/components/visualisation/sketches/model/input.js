@@ -141,13 +141,13 @@ class Button {
   dataFunc(x, type) {
     let y = Math.sin(x);
     if (type === 'sinc') {
-      y = Math.sin((x+Math.PI) % 4) / ((x+Math.PI) % 4);
+      y = (Math.sin(1.5*x) + Math.sin(4.5 * x)) / 1.5;
     }
     if (type === 'saw') {
-      y = -1 + x % 2;
+      y = -1 + 2 * ((x % Math.PI) / Math.PI);
     }
     if (type === 'sqr') {
-      y = Math.sin(2*x) >= 0 ? 1 : -1;
+      y = Math.sin((Math.PI/2)*x) >= 0 ? 1 : -1;
     }
     return y;
   }
