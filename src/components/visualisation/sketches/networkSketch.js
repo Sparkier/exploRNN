@@ -268,6 +268,7 @@ export default function(s) {
         }
       }
       s.net.start();
+      s.props.actions.updateUI({...s.props.ui, netAnim: true});
     }
     s.update = true;
   };
@@ -407,8 +408,10 @@ export default function(s) {
     } else {
       sendTrainStep = 3;
     }
-    if (s.props.training.running && sendTrainStep !== s.props.ui.trainingStep) {
-      s.props.actions.updateUI({...this.props.ui, trainingStep: sendTrainStep});
+    if (s.props.training.running &&
+        (sendTrainStep !== s.props.ui.trainingStep ||
+        s.netAnim !== s.props.ui.netAnim)) {
+      s.props.actions.updateUI({...s.props.ui, trainingStep: sendTrainStep, netAnim: s.netAnim});
     }
     s.net.draw();
     if (s.update) {
@@ -421,7 +424,7 @@ export default function(s) {
     if (!s.ready) {
       return;
     }
-    if(s.props.ui.help) {
+    if (s.props.ui.help || s.netAnim) {
       return;
     }
     if (this.detail) {
@@ -440,7 +443,7 @@ export default function(s) {
     if (!s.ready) {
       return;
     }
-    if(s.props.ui.help) {
+    if (s.props.ui.help || s.netAnim) {
       return;
     }
     if (s.mouseX < 0 || s.mouseY < 0 ||
@@ -462,7 +465,7 @@ export default function(s) {
   };
 
   s.mouseWheel = function(event) {
-    if(s.props.ui.help) {
+    if (s.props.ui.help || s.netAnim) {
       return;
     }
     s.globalScale -= event.delta/1000;

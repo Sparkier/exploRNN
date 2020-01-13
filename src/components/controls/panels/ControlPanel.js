@@ -123,7 +123,8 @@ class ControlPanel extends React.Component {
                 </Grid>
                 <Grid item>
                   <MyButton properties={this.props}
-                    disabled = {!this.props.training.workerReady}
+                    disabled = {!this.props.training.workerReady &&
+                      !this.props.ui.netAnim}
                     action={this.toggleTraining}
                     icon={(this.props.ui.detail && this.props.ui.anim) ||
                       (!this.props.ui.detail && this.props.training.running) ?
@@ -150,10 +151,7 @@ class ControlPanel extends React.Component {
                     className =
                       {this.props.ui.detail ? classes.typoCv : classes.typoOv}
                   >
-                    <Box fontWeight="fontWeightRegular"
-                      fontSize={this.fontSize} m={1}>
-                      Epochs:
-                    </Box>
+                    Epochs:
                   </Typography>
                   <Typography style={{color: 'white'}}>
                     <Box fontSize={24} m={1}>

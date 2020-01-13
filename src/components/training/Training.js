@@ -107,6 +107,7 @@ class Training extends React.Component {
             ready: true,
             running: false,
             animStep: false,
+            netAnim: false,
             lstmStep: 0,
             plotStep: 0,
             trainingStep: 0}
@@ -119,6 +120,7 @@ class Training extends React.Component {
             ready: true,
             running: false,
             animStep: false,
+            netAnim: false,
             lstmStep: 0,
             plotStep: 0,
             trainingStep: 0}
