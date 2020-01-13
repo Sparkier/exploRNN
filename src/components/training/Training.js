@@ -239,7 +239,6 @@ class Training extends React.Component {
     const data = oldUI.data;
     data.pop();
     data.unshift(network.data);
-    data[1] = network.data;
     data[2] = network.data;
     const newUI = {...oldUI, data: data};
     return newUI;

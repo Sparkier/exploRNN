@@ -191,20 +191,21 @@ export default () => {
     }
 
     // train data
+    const setOffsetRatio = (2 * Math.PI) / setSize;
     for (let i = 0; i < setSize; i++) {
       const trainInputSequence = [];
-      start = Math.random() * Math.PI;
+      start = i * setOffsetRatio;
       for (let j = 0; j < self.values; j++) {
         noiseVal = (noise/100) * (-self.maxNoise +
             2 * self.maxNoise * Math.random());
-        val = self.dataFunc(start + (i + j) * stepSize, func) + noiseVal;
+        val = self.dataFunc(start + (j * stepSize), func) + noiseVal;
         trainInputSequence.push([val]);
       }
       self.trainInputBuff.push(trainInputSequence);
       const currentOutSequence = [];
       let x;
       for (let j = 0; j < self.predictions; j++) {
-        x = (i + self.values + j) * stepSize + start;
+        x = (self.values + j) * stepSize + start;
         val = self.dataFunc(x, func) * rndAmp;
         currentOutSequence.push(val);
       }
@@ -213,10 +214,11 @@ export default () => {
 
     const testInputSequence = [];
     // test data
+    const offset = Math.random() * Math.PI;
     for (let j = 0; j < self.values; j++) {
       noiseVal = (noise/100) * (-self.maxNoise +
           2 * self.maxNoise * Math.random());
-      val = self.dataFunc(j * stepSize, func) * rndAmp + noiseVal;
+      val = self.dataFunc(j * stepSize + offset, func) * rndAmp + noiseVal;
       testInputSequence.push([val]);
       self.chartDataInput.push(val);
       self.chartPredictionInput.push(val);
@@ -226,7 +228,7 @@ export default () => {
     let x;
     for (let j = 0; j < self.testOutputs; j++) {
       x = (self.values + j) * stepSize;
-      val = self.dataFunc(x, func) * rndAmp;
+      val = self.dataFunc(x + offset, func) * rndAmp;
       currentOutSequence.push(val);
       self.chartDataOutput.push(val);
     }
