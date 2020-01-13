@@ -60,16 +60,16 @@ export class CellPlot {
     s.translate(s.cellPlotProps.midX, s.cellPlotProps.midY);
     s.ellipseMode(s.CENTER);
     // draw the scan box while animating
-    s.stroke(s.palette.cvContrast);
+    s.noStroke();
     const left = (-this.halfW) + (s.lstmPred * this.stepWidth);
-    s.palette.cvPrimary.setAlpha(40);
-    s.fill(s.palette.cvPrimary);
-    s.palette.cvPrimary.setAlpha(255);
+    s.colors.lightgrey.setAlpha(180);
+    s.fill(s.colors.lightgrey);
+    s.colors.lightgrey.setAlpha(255);
     s.rect(left + ((this.in - 1) * this.stepWidth) / 2, 0,
         ((this.in - 1) * this.stepWidth), 1.8 * this.halfH);
     s.strokeWeight(2);
     s.noFill();
-    s.stroke(s.palette.contrast);
+    s.stroke(s.colors.darkgrey);
     s.line(-this.halfW, 0, this.halfW, 0);
     s.line((-this.halfW) + (this.in * this.stepWidth), -this.halfH,
         -this.halfW + (this.in * this.stepWidth), this.halfH
@@ -79,9 +79,7 @@ export class CellPlot {
         s.props.ui.data[this.dataIndex].chartOutput &&
         s.props.ui.data[this.dataIndex].prediction) {
       s.strokeWeight(1);
-      s.palette.contrast.setAlpha(100);
-      s.stroke(s.palette.contrast);
-      s.palette.contrast.setAlpha(255);
+      s.stroke(s.colors.grey);
       s.noFill();
       s.beginShape();
       for (let i = 0; i < this.total; i++) {
@@ -91,17 +89,27 @@ export class CellPlot {
       }
       s.endShape();
       s.strokeWeight(2);
-      s.stroke(s.palette.cvPrimary);
+      s.stroke(s.colors.orange);
       s.noFill();
       s.beginShape();
-      for (let i = s.lstmPred; i < s.lstmPred + this.in; i++) {
+      for (let i = this.in; i <= (this.in + s.lstmPred - 1); i++) {
+        data = scanPlot[i];
+        s.vertex(-this.halfW + (i * detailStepWidth),
+            -this.halfH / 2 * data);
+      }
+      s.endShape();
+      s.strokeWeight(2);
+      s.stroke(s.colors.orange);
+      s.noFill();
+      s.beginShape();
+      for (let i = s.lstmPred; i <= s.lstmPred + s.lstmStep; i++) {
         data = scanPlot[i];
         s.vertex(-this.halfW + (i * detailStepWidth),
             -this.halfH / 2 * data);
       }
       s.endShape();
       s.noStroke();
-      s.fill(s.palette.cvSecondary);
+      s.fill(s.colors.orangedark);
       for (let i = s.lstmPred; i <= s.lstmPred + s.lstmStep; i++) {
         data = scanPlot[i];
         s.ellipse(-this.halfW + (i * detailStepWidth),
@@ -118,28 +126,6 @@ export class CellPlot {
         }
       }
     }
-
-    const tween = (s.cellAnimStep + s.lstmStep * s.MAX_CELL_STEPS) /
-      (s.MAX_CELL_STEPS * this.in);
-
-    data = s.props.ui.data[this.dataIndex].prediction[(s.lstmPred)];
-    data = -2 + 2 * tween + (tween) * data;
-    let error = Math.abs(data - s.props.ui.data[this.dataIndex].chartOutput[
-        (s.lstmPred)
-    ]);
-    s.noStroke();
-    s.fill(100 + error * 100, 200 - error * 80, 50);
-    s.ellipse(-this.halfW + ((s.lstmPred + this.in) * detailStepWidth),
-        -this.halfH / 2 * data, 8);
-
-    for (let i = (s.lstmPred + this.in + 1); i < this.total; i++) {
-      error = Math.abs(-2 - scanPlot[i]);
-      s.noStroke();
-      s.fill(100 + error * 100, 200 - error * 80, 50);
-      s.ellipse(-this.halfW + (i * detailStepWidth),
-          -this.halfH / 2 * (-2), 4);
-    }
-
     s.pop();
   }
 }

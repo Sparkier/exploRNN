@@ -208,12 +208,20 @@ export default function(s) {
   };
 
   s.preload = function() {
+    /* Change if icons should be white
     s.receive = s.loadImage('./data/rec_white.png');
     s.add = s.loadImage('./data/save_white.png');
     s.save = s.loadImage('./data/rec_white.png');
     s.forget = s.loadImage('./data/del_white.png');
     s.cellImage = s.loadImage('./data/memory_white.png');
     s.output = s.loadImage('./data/output_white.png');
+    */
+    s.receive = s.loadImage('./data/rec_black.png');
+    s.add = s.loadImage('./data/save_black.png');
+    s.save = s.loadImage('./data/rec_black.png');
+    s.forget = s.loadImage('./data/del_black.png');
+    s.cellImage = s.loadImage('./data/memory_black.png');
+    s.output = s.loadImage('./data/output_black.png');
     s.desc = s.loadImage('./data/desc.png');
     s.recdesc = s.loadImage('./data/rec_desc.png');
     s.adddesc = s.loadImage('./data/add_desc.png');

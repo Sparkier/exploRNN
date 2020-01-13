@@ -195,12 +195,10 @@ export class LSTM {
   draw() {
     const s = this.s;
     s.rectMode(s.CENTER);
-    s.fill(s.colors.white);
-    s.stroke(s.colors.lightgrey);
-    s.strokeWeight(15);
+    s.fill(s.colors.darkgrey);
     s.rect(s.detailProps.midX, s.detailProps.midY,
         s.detailProps.width * s.detailProps.horRatio,
-        s.detailProps.height * s.detailProps.verRatio, 20);
+        s.detailProps.height * s.detailProps.verRatio, 10);
     for (const c of this.connections) {
       c.draw();
     }
@@ -358,7 +356,7 @@ class Connection {
   draw() {
     const s = this.s;
     s.noFill();
-    s.stroke(54);
+    s.stroke(s.colors.grey);
     s.strokeWeight(1);
     if (this.active) {
       s.stroke(s.colors.orange);
@@ -371,13 +369,13 @@ class Connection {
       s.drawingContext.lineDashOffset = -s.frameCount/2;
       s.drawingContext.setLineDash([10, 10]);
     }
+    s.strokeJoin(s.ROUND);
     s.beginShape();
     for (const v of this.verts) {
       s.vertex(v.x, v.y);
     }
     s.endShape();
     s.drawingContext.setLineDash([]);
-    this.s.fill(0);
   }
 
   /**
@@ -488,7 +486,10 @@ class Item {
       size = this.r * 1.2;
       imgSize = 0.6 * this.r * 1.2;
     }
-    this.s.fill(54);
+    this.s.fill(s.colors.lightgrey);
+    if (this.type === 'gft' || this.type === 'glt') {
+      this.s.fill(s.colors.grey);
+    }
     this.s.noStroke();
     if (this.active) {
       s.fill(s.colors.orange);
@@ -497,7 +498,7 @@ class Item {
     }
     if (this.hover && !this.clicked &&
         !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs' ||
-        this.type === 'gft' || this.type === 'glst')) {
+        this.type === 'gft' || this.type === 'glt')) {
       s.fill(s.colors.cyan);
       s.cursor(s.HAND);
     }
@@ -508,15 +509,11 @@ class Item {
         (this.type === 'glt' && hasNext)) {
       const w = 0.05 * s.width;
       const h = 0.8 * w;
-      s.fill(0, 100);
       s.noStroke();
-      s.rect(this.x+5, this.y+5, w, h);
-      s.strokeWeight(2);
-      s.fill(250, this.s.netAlpha);
-      if (s.props.training.running) {
-        s.stroke(s.colors.white, this.s.netAlpha);
+      if (this.active) {
+        s.fill(s.colors.orange, this.s.netAlpha);
       } else {
-        s.stroke(s.colors.white, this.s.netAlpha);
+        s.fill(s.colors.darkgrey);
       }
       if (this.hover) {
         s.stroke(100, this.s.netAlpha);
@@ -524,12 +521,7 @@ class Item {
       }
       s.rect(this.x, this.y, w, h);
       s.noStroke();
-      if (this.active) {
-        s.fill(s.colors.orange, this.s.netAlpha);
-      } else {
-        s.fill(s.colors.white, this.s.netAlpha);
-      }
-      s.strokeWeight(2);
+      s.fill(s.colors.white, this.s.netAlpha);
       const left = this.x - w/2;
       const top = this.y - h/2;
       for (let i = 0; i < 5; i++) {
@@ -654,6 +646,9 @@ class Item {
     if (this.s.dist(x, y, this.x, this.y) < this.r/2) {
       this.hover = true;
     } else {
+      this.hover = false;
+    }
+    if (this.type === 'gft' || this.type === 'glt') {
       this.hover = false;
     }
     for (const c of this.connections) {
