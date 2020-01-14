@@ -9,7 +9,7 @@ const global = {
     trainSteps: [
       {
         id: 0,
-        title: 'Input',
+        title: '/[test x/] Input',
         description: 'An example of input is given to the net which presents ' +
           'a prediction',
       },

@@ -19,7 +19,8 @@
     "react-scripts": "^3.0.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "sloc": "^0.2.1"
+    "sloc": "^0.2.1",
+    "react-mathjax": "^1.0.1"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
