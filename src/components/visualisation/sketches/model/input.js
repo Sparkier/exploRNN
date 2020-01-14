@@ -169,9 +169,13 @@ class Button {
             newTypes.push(item);
           }
         }
+        console.log('CLICKED ON BUTTOn', oldTypes);
+      } else if (oldTypes.includes(this.type) && oldTypes.length === 1) {
+        newTypes = oldTypes;
       } else {
         oldTypes.push(this.type);
         newTypes = oldTypes;
+        console.log('CLICKED ON BUTTOn', oldTypes);
       }
       this.s.props.actions.updateTraining(
           {...this.s.props.training, dataTypes: newTypes}
