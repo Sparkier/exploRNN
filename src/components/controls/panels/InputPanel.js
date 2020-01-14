@@ -2,11 +2,11 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import * as actions from '../../../actions';
-import {Grid, Paper} from '@material-ui/core';
-import {Typography} from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
+import {Grid, Paper, Typography} from '@material-ui/core';
+import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
+import global from '../../constants/global';
 
 /**
  * Controls at bottom of the Application
@@ -41,71 +41,29 @@ class InputPanel extends React.Component {
     return (
       <Grid id="inppan" container item xs={4} justify='center'>
         <Paper className={this.props.classes.panelOv} >
-          <Grid container xs={12} alignItems='center'>
-            <Grid item style={{margin: '10px'}}>
-              <Typography variant="body1"
-                className = {!this.props.ui.detail &&
-                !this.props.ui.ready &&
-                this.props.ui.trainingStep === 1 ?
-                this.props.classes.typoOv : this.props.classes.typoOvOff
-                }
-                align='left'
-              >
-                Forward Prop
-              </Typography>
-              <Typography variant="body1"
-                className={this.props.classes.typoStd}
-                align='left'
-              >
-                {
-                  'The Training Data is send through the network batch after' +
-                  'batch and timestep after timestep to get a prediction'
-                }
-              </Typography>
-            </Grid>
-            <Grid item style={{margin: '10px'}}>
-              <Typography variant="body1"
-                className = {!this.props.ui.detail &&
-                !this.props.ui.ready &&
-                this.props.ui.trainingStep === 2 ?
-                this.props.classes.typoOv : this.props.classes.typoOvOff
-                }
-                align='left'
-              >
-                Validation
-              </Typography>
-              <Typography variant="body1"
-                className={this.props.classes.typoStd}
-                align='left'
-              >
-                {
-                  'The prediction is' +
-                  ' compared to the real output values and a loss' +
-                  'is calculated'
-                }
-              </Typography>
-            </Grid>
-            <Grid item style={{margin: '10px'}}>
-              <Typography variant="body1"
-                className = {!this.props.ui.detail &&
-                !this.props.ui.ready &&
-                this.props.ui.trainingStep === 3 ?
-                this.props.classes.typoOv : this.props.classes.typoOvOff
-                }
-                align='left'
-              >
-                Backprop
-              </Typography>
-              <Typography variant="body1"
-                className={this.props.classes.typoStd}
-                align='left'
-              >
-                { 'The loss is sent ' +
-                  'backward through the net so the weights of ' +
-                  'the cells can be adjusted for better predictions'
-                }
-              </Typography>
-            </Grid>
+          <Grid container style={{height: '100%'}}xs={12}>
+            {
+              global.strings.trainSteps.map((step) => (
+                <Grid item xs={12} key={step.id} style={{margin: '10px'}}>
+                  <Typography variant="body1"
+                    className = {!this.props.ui.detail &&
+                    !this.props.ui.ready &&
+                    this.props.ui.trainingStep === (step.id + 1) ?
+                    this.props.classes.typoOv : this.props.classes.typoOvOff
+                    }
+                    align='left'
+                  >
+                    {step.title}
+                  </Typography>
+                  <Typography variant="body1"
+                    className={this.props.classes.typoStd}
+                    align='left'
+                  >
+                    {step.description}
+                  </Typography>
+                </Grid>
+              ))
+            }
           </Grid>
         </Paper>
       </Grid>

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {withStyles} from '@material-ui/core/styles';
-import styles from '../../../styles/themedStyles';
-import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
+import {withStyles} from '@material-ui/core/styles';
+import Select from '@material-ui/core/Select';
+import styles from '../../../styles/themedStyles';
 
 /**
  *

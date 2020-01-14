@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
-import * as actions from '../actions';
+import PropTypes from 'prop-types';
 import {Grid} from '@material-ui/core';
+import * as actions from '../actions';
 import AlertSnack from './AlertSnack';
 import Training from './training/Training';
 import VisualWrapper from './visualisation/VisualWrapper';

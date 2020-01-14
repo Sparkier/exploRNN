@@ -28,7 +28,7 @@ export default {
     values: 0,
     predictions: 0,
     dataSetSize: 100,
-    batchSize: 10,
+    batchSize: 25,
     testOffset: 0,
     stepSize: 0.1,
     reset: false,

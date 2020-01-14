@@ -54,6 +54,9 @@ export default () => {
     }
   });
 
+  /**
+   * Initializes the worker thread with all necessary values and objects
+   */
   self.initialize = () => {
     self.model = undefined;
     self.mem = [];
@@ -62,14 +65,21 @@ export default () => {
     self.generateDataWith({start: 0});
   };
 
+  /**
+   * Create the network model and compile it
+   *
+   * @param {object} params The model parameters from the received message
+   */
   self.createModel = (params) => {
-    // Create the network model and compile it
     self.createComplexModel(self.values, 1, self.predictions,
         params.layers, params.cells);
     const optimizer = tf.train.rmsprop(params.learningRate);
     self.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
   };
 
+  /**
+   * Adds the previously generated data to the worker memory
+   */
   self.addDataToMemory = () => {
     const add = {in: self.trainInput,
       out: self.trainOutput,
@@ -99,7 +109,6 @@ export default () => {
    */
   self.createComplexModel = (timeSteps, vocab, labels, layers, blockSize) => {
     self.model = tf.sequential();
-    // blockSize = 128;
     self.model.add(
         tf.layers.lstm({
           units: blockSize,
@@ -115,7 +124,7 @@ export default () => {
             units: blockSize,
             returnSequence: true,
           })
-      ); // should self be done with individual cells?
+      );
     }
     self.model.add(
         tf.layers.dense({
@@ -124,7 +133,6 @@ export default () => {
           activation: 'tanh',
         })
     );
-    // self.model.summary();
     return self.model;
   };
 
@@ -169,39 +177,23 @@ export default () => {
     if (funcs === undefined || funcs.length === 0 || variant === undefined) {
       return;
     }
-    // let rndOff = Math.random() * 20 * Math.PI;
-    let rndAmp = 0.2 + Math.random() * 0.8;
+
+    // train data
     let val = 0;
     let noiseVal = 0;
-    switch (variant) {
-      case 'basic':
-        start = 0;
-        // rndOff = 0;
-        rndAmp = 1;
-        break;
-      case 'linear':
-        // rndOff = 0;
-        rndAmp = 1;
-        break;
-      case 'random':
-        rndAmp = 1;
-        start = 0;
-        break;
-      default:
-    }
-
     const partialSetSize = setSize / funcs.length;
     for (const f of funcs) {
       self.trainData(stepSize, partialSetSize, f, noise);
     }
+
+    // test data
     const testFunc = funcs[Math.floor(Math.random() * funcs.length)];
     const testInputSequence = [];
-    // test data
     const offset = Math.random() * Math.PI;
     for (let j = 0; j < self.values; j++) {
       noiseVal = (noise/100) * (-self.maxNoise +
           2 * self.maxNoise * Math.random());
-      val = self.dataFunc(j * stepSize + offset, testFunc) * rndAmp + noiseVal;
+      val = self.dataFunc(j * stepSize + offset, testFunc) + noiseVal;
       testInputSequence.push([val]);
       self.chartDataInput.push(val);
       self.chartPredictionInput.push(val);
@@ -211,19 +203,28 @@ export default () => {
     let x;
     for (let j = 0; j < self.testOutputs; j++) {
       x = (self.values + j) * stepSize;
-      val = self.dataFunc(x + offset, testFunc) * rndAmp;
+      val = self.dataFunc(x + offset, testFunc);
       currentOutSequence.push(val);
       self.chartDataOutput.push(val);
     }
     self.chartDataInput.push();
     self.chartPredictionInput.push();
-    // self.testInput = tf.tensor3d(self.testInputBuff);
     self.testInput = testInputSequence;
     console.log(self.testInput);
   };
 
+  /**
+   * A helper function that creates a specific amount of training data
+   * for a certain input function
+   *
+   * @param {number} stepSize the distance between two values in the data set
+   * @param {number} partialSetSize the size of the current part of the
+   * training set
+   * @param {string} func the function to be used for calculating the input
+   * values
+   * @param {number} noise the percentage of noise to be added to the input
+   */
   self.trainData = (stepSize, partialSetSize, func, noise) => {
-    // train data
     const setOffsetRatio = (2 * Math.PI) / partialSetSize;
     const startOffset = 2 * Math.PI * Math.random();
     for (let i = 0; i < partialSetSize; i++) {

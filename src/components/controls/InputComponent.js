@@ -2,29 +2,20 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Grid} from '@material-ui/core';
+import {withStyles} from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import * as actions from '../../actions';
+import styles from '../../styles/themedStyles';
 import InputPanel from './panels/InputPanel';
 import ControlPanel from './panels/ControlPanel';
 import OutputPanel from './panels/OutputPanel';
-import * as actions from '../../actions';
 import DescriptionPanel from './panels/DescriptionPanel';
 import ValuePanel from './panels/ValuePanel';
-import {withStyles} from '@material-ui/core/styles';
-import styles from '../../styles/themedStyles';
 /**
  * The current Component holding all the input elements to change the Network
  * for Training.
  */
 class Input extends React.Component {
-  /**
-   * The constructor for the Input class
-   */
-  constructor() {
-    super();
-    this.fontSize = 20;
-    this.data = ['saw', 'sin', 'sqr', 'sinc'];
-  }
-
   /**
    * The render function for this react component
    *

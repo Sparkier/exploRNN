@@ -1,34 +1,32 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {withStyles} from '@material-ui/core/styles';
-import styles from '../../styles/themedStyles';
 import PropTypes from 'prop-types';
+import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
-import StyledSelect from './comps/StyledSelect';
-import * as actions from '../../actions';
 import IconButton from '@material-ui/core/IconButton';
-import HelpIcon from '@material-ui/icons/Help';
-import HelpOutlined from '@material-ui/icons/HelpOutline';
-import Close from '@material-ui/icons/Cancel';
-import Info from '@material-ui/icons/Info';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import HelpIcon from '@material-ui/icons/Help';
+import HelpOutlined from '@material-ui/icons/HelpOutline';
+import Close from '@material-ui/icons/Cancel';
+import Info from '@material-ui/icons/Info';
+import * as actions from '../../actions';
+import styles from '../../styles/themedStyles';
+import global from '../constants/global';
+import StyledSelect from './comps/StyledSelect';
 
 /**
  * Controls at top of the Application
  */
 class Controls extends React.Component {
-  // stores the state of the drawer
-  drawer = false;
-
   /**
    *
    */
@@ -42,7 +40,6 @@ class Controls extends React.Component {
    @param {obect} event
    */
   handleKeyDown = (event) => {
-    console.log('KEYPRESSED', event);
     if (!this.props) {
       return;
     }
@@ -120,7 +117,6 @@ class Controls extends React.Component {
    * @param {object} event
    */
   helperMenu = (event) => {
-    console.log('DRAWER', !this.props.ui.help);
     this.toggleDrawer(!this.props.ui.help);
   };
 
@@ -139,14 +135,16 @@ class Controls extends React.Component {
           <Typography variant="h3" className = {
             this.props.ui.detail ? classes.typoCvHeader : classes.typoOvHeader
           }>
-              leaRNN
+            {global.title}
           </Typography>
           <StyledSelect value={this.props.network.type}
             onChange={ this.typeSelect }
           >
-            <MenuItem value="RNN">RNN</MenuItem>
-            <MenuItem value="LSTM">LSTM</MenuItem>
-            <MenuItem value="GRU">GRU</MenuItem>
+            {
+              global.types.map((x) => (
+                <MenuItem key={x.name} value={x.name}>{x.name}</MenuItem>
+              ))
+            }
           </StyledSelect>
           <IconButton disabled={false} variant="outlined"
             className={this.props.classes.headerIcon}

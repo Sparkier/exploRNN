@@ -1,6 +1,7 @@
 import {createMuiTheme} from '@material-ui/core/styles';
 import {grey, orange, cyan, blueGrey} from '@material-ui/core/colors';
 
+// The color palette of the application
 export default createMuiTheme({
   palette: {
     primary: {
@@ -25,8 +26,5 @@ export default createMuiTheme({
       light: orange[400],
       dark: orange[800],
     },
-  },
-  typography: {
-    useNextVariants: true,
   },
 });

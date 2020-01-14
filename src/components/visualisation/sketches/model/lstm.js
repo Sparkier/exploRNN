@@ -51,7 +51,7 @@ export class LSTM {
     );
     this.items.push(
         this.save =
-          new Item(cell, 'sav', 'Cell State Update', 3, 1, 2, 3)
+          new Item(cell, 'sav', 'State Update', 3, 1, 2, 3)
     );
     this.items.push(
         this.forget =
@@ -560,9 +560,9 @@ class Item {
         this.type === 'gft' || this.type === 'glt')) {
       s.textAlign(s.CENTER, s.CENTER);
       s.fill(0, 150);
-      s.rect(s.mouseX, s.mouseY+40, 100, 30);
+      s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 110, 30);
       s.fill(255);
-      s.text(this.name, s.mouseX, s.mouseY + 40);
+      s.text(this.name, s.mouseX, s.mouseY + s.typography.tooltipoffset);
     }
   }
 

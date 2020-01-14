@@ -2,14 +2,12 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import * as actions from '../../../actions';
-import {Grid, Paper} from '@material-ui/core';
+import {Grid, Paper, Typography, Slider, Tooltip} from '@material-ui/core';
 import {grey} from '@material-ui/core/colors';
-import {Typography} from '@material-ui/core';
-import Slider from '@material-ui/core/Slider';
-import Tooltip from '@material-ui/core/Tooltip';
 import {withStyles} from '@material-ui/core/styles';
+import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
+import global from '../../constants/global';
 
 
 /**
@@ -17,50 +15,36 @@ import styles from '../../../styles/themedStyles';
  */
 class OutputPanel extends React.Component {
   /**
-   * Handles the interaction with the learning rate slider
+   * Handles the interaction with the sliders
    *
    * @memberof Input
    *
-   * @param {object} event - the direction in which to change the noise.
+   * @param {number} sliderId - the id of the changed slider
    * @param {number} value - the new value of the learning rate
    */
-  handleSliderChange = (event, value) => {
-    this.props.actions.updateNetwork({
-      ...this.props.network,
-      learningRate: value,
-    });
-  }
-
-
-  /**
-   * Change the noise used in the training process.
-   *
-   * @memberof Input
-   *
-   * @param {object} event - the percentage of noise
-   * @param {number} value - the percentage of noise
-   */
-  changeNoise = (event, value) => {
-    const newNoise = value;
-    this.props.actions.updateTraining({
-      ...this.props.training,
-      noise: newNoise,
-    });
-  }
-
-  /**
-   * Change the noise used in the training process.
-   *
-   * @memberof Input
-   *
-   * @param {object} event - the percentage of noise
-   * @param {number} value - the percentage of noise
-   */
-  changeBatchSize = (event, value) => {
-    this.props.actions.updateTraining({
-      ...this.props.training,
-      batchSize: value,
-    });
+  handleSliderChange = (sliderId, value) => {
+    console.log('HELPPPP', sliderId, value);
+    switch (sliderId) {
+      case global.sliders[0].key:
+        this.props.actions.updateNetwork({
+          ...this.props.network,
+          learningRate: value,
+        });
+        break;
+      case global.sliders[1].key:
+        this.props.actions.updateTraining({
+          ...this.props.training,
+          noise: value,
+        });
+        break;
+      case global.sliders[2].key:
+        this.props.actions.updateTraining({
+          ...this.props.training,
+          batchSize: value,
+        });
+        break;
+      default:
+    }
   }
 
   /**
@@ -75,78 +59,42 @@ class OutputPanel extends React.Component {
         <Paper className={this.props.classes.panelOv}>
           <Grid container xs={12} alignItems='center'>
             <Grid container justify='center'>
-              <Grid item xs={12} style={{margin: '10px'}}>
-                <Typography variant="body1"
-                  className={!this.props.ui.detail &&
-                !this.props.training.running ?
-                this.props.classes.typoOv : this.props.classes.typoOvOff
-                  }
-                  align='left'
-                >
-                Learning Rate
-                </Typography>
-                <DefaultSlider
-                  className={this.props.classes.defSlider}
-                  marks={learningRateMarks}
-                  disabled={
-                    this.props.ui.detail || this.props.training.running
-                  }
-                  defaultValue={this.props.network.learningRate}
-                  valueLabelDisplay="auto"
-                  ValueLabelComponent={ValueLabelComponent}
-                  step={0.005}
-                  min={0.01}
-                  max={0.25} onChange={this.handleSliderChange}
-                />
-              </Grid>
-              <Grid item xs={12} style={{margin: '10px'}}>
-                <Typography variant="body1"
-                  className={!this.props.ui.detail &&
-                !this.props.training.running ?
-                this.props.classes.typoOv : this.props.classes.typoOvOff
-                  }
-                  align='left'
-                >
-                Noise
-                </Typography>
-                <DefaultSlider
-                  className={this.props.classes.defSlider}
-                  marks = {noiseMarks}
-                  disabled={
-                    this.props.ui.detail || this.props.training.running
-                  }
-                  defaultValue={this.props.training.noise}
-                  valueLabelDisplay="auto"
-                  ValueLabelComponent={ValueLabelComponent}
-                  step={0.1}
-                  min={0}
-                  max={100} onChange={this.changeNoise}
-                />
-              </Grid>
-              <Grid item xs={12} style={{margin: '10px'}}>
-                <Typography variant="body1"
-                  className={!this.props.ui.detail &&
-                !this.props.training.running ?
-                this.props.classes.typoOv : this.props.classes.typoOvOff
-                  }
-                  align='left'
-                >
-                 Batch Size
-                </Typography>
-                <DefaultSlider
-                  className={this.props.classes.defSlider}
-                  marks = {batchMarks}
-                  disabled={
-                    this.props.ui.detail || this.props.training.running
-                  }
-                  defaultValue={this.props.training.batchSize}
-                  valueLabelDisplay="auto"
-                  ValueLabelComponent={ValueLabelComponent}
-                  step={1}
-                  min={1}
-                  max={50} onChange={this.changeBatchSize}
-                />
-              </Grid>
+              {
+                global.sliders.map((slider) => (
+                  <Grid item key={slider.key} xs={12} style={{margin: '10px'}}>
+                    <Typography variant="body1"
+                      className={!this.props.ui.detail &&
+                    !this.props.training.running ?
+                    this.props.classes.typoOv : this.props.classes.typoOvOff
+                      }
+                      align='left'
+                    >
+                      {slider.title}
+                    </Typography>
+                    <DefaultSlider
+                      className={this.props.classes.defSlider}
+                      marks={slider.marks}
+                      disabled={
+                        this.props.ui.detail || this.props.training.running
+                      }
+                      defaultValue={
+                        slider.key === 0 ? this.props.network.learningRate :
+                        (slider.key === 1 ? this.props.training.noise :
+                          this.props.training.batchSize)
+                      }
+                      valueLabelDisplay="auto"
+                      ValueLabelComponent={ValueLabelComponent}
+                      step={slider.step}
+                      min={slider.min}
+                      max={slider.max}
+                      onChange={
+                        (event, value) =>
+                          this.handleSliderChange(slider.key, value)
+                      }
+                    />
+                  </Grid>
+                ))
+              }
             </Grid>
           </Grid>
         </Paper>
@@ -154,57 +102,6 @@ class OutputPanel extends React.Component {
     );
   }
 }
-
-const learningRateMarks = [
-  {
-    value: 0.01,
-    label: 0.01,
-  },
-  {
-    value: 0.1,
-    label: 0.1,
-  },
-  {
-    value: 0.2,
-    label: 0.2,
-  },
-  {
-    value: 0.25,
-    label: 0.25,
-  },
-];
-
-
-const noiseMarks = [
-  {
-    value: 0,
-    label: '0%',
-  },
-  {
-    value: 50,
-    label: '50%',
-  },
-  {
-    value: 100,
-    label: '100%',
-  },
-];
-
-
-const batchMarks = [
-  {
-    value: 1,
-    label: '1',
-  },
-  {
-    value: 25,
-    label: '25',
-  },
-  {
-    value: 50,
-    label: '50',
-  },
-];
 
 /**
  * The Value Label for the sliders

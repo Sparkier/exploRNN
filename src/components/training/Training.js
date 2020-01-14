@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import PropTypes from 'prop-types';
 import * as tf from '@tensorflow/tfjs';
 import * as actions from '../../actions';
 import worker from './worker.js';
@@ -20,19 +20,17 @@ class Training extends React.Component {
     tf.setBackend('cpu');
     this.worker = new TrainingWorker(worker);
     this.worker.onmessage = this.onmessage;
-    console.log(window.location.href);
     this.worker.postMessage(
         {cmd: 'init'}
     );
     this.pause = 1000;
     this.reset();
-    console.log('MY NETWORK', this.props.network);
   }
 
   /**
-   * sfsef
+   * Handles messages from the worker thread
    *
-   * @param {event} e efsf
+   * @param {event} e the event that sends the message
    */
   onmessage = (e) => {
     const this_ = this;
@@ -71,8 +69,6 @@ class Training extends React.Component {
         break;
       default:
     }
-    console.log(e);
-    console.log('MY NETWORK', this.props.network);
   };
 
 
@@ -133,7 +129,6 @@ class Training extends React.Component {
     }
   }
 
-  // TODO: Create one new Network Object and send it to the state
   /**
    * This method will currently create a new model with all new network
    * values and also reset all saved data in the input, output and
@@ -179,7 +174,6 @@ class Training extends React.Component {
     let ui = this.props.ui;
     let network = this.props.network;
     const training = {...this.props.training, workerReady: false};
-    // this.model.model.summary();
     // reset the datasets and create the new data for the upcoming training
     network = {...network, iteration: 0};
     network = this.addDataToNetwork(network, [], [], []);
@@ -192,8 +186,7 @@ class Training extends React.Component {
 
   /**
    * This funtion takes all current generated data values used for training
-   * the network and saves them in their right index position in the data
-   * arrays in the global state object
+   * the network and saves them in the global state object
    *
    * @param {object} oldNetwork the previous network object from the state
    * @param {number[]} chartInput the input values to be drawn on the screen
@@ -229,13 +222,12 @@ class Training extends React.Component {
   }
 
   /**
-   * This funtion takes all current generated data values used for training
-   * the network and saves them in their right index position in the data
-   * arrays in the global state object
+   * This funtion adds the current training values with the current prediction
+   * to the ui object, so the plots can be drawn accurately
    *
    * @param {object} oldUI the previous ui object from the state
    * @param {object} network the current network object from the state
-   * @return {object} the new network object with the updated data
+   * @return {object} the new ui object with the updated data
    */
   addDataToUI(oldUI, network) {
     const data = oldUI.data;
@@ -252,13 +244,12 @@ class Training extends React.Component {
    * values, a prediction for the current input is computed and then the
    * network is trained by comparing predicted output to actual output
    *
-   * @param {boolean} animate
+   * @param {boolean} animate true, if the output should be animated
    */
   async iterate(animate) {
     let network = this.props.network;
     if (this.props.ui.ready) {
       let ui = this.props.ui;
-      console.log('UI', ui);
       ui = this.addDataToUI(ui, network);
       this.props.actions.updateUI({...ui, ready: !animate, running: animate});
     } else {
@@ -298,38 +289,9 @@ class Training extends React.Component {
     this.props.actions.updateNetwork(network);
   }
 
-  /**
-   * This function creates a continous array of single prediction values
-   * for the current test input values. The predicted values are being added
-   * to the values so that the model needs to predict the function with its
-   * own previous predictions
-   *
-   * @param {number[]} testInput the input values for testing the model
-   * @return {number[]} the predicition array
-   */
-  createPrediction(testInput) {
-    const output = [];
-    let preds;
-    let prediction;
-    let inputBuff;
-    const newInput = [];
-    for (const step of testInput) {
-      newInput.push([step[0]]);
-    }
-    for (let i = 0; i < this.data.values; i++) {
-      inputBuff = tf.tensor3d([newInput]);
-      prediction =
-        this.model.model.predict(inputBuff);
-      preds = Array.from(prediction.arraySync());
-      output.push(preds[0]);
-      newInput.shift();
-      newInput.push([preds[0]]);
-    }
-    return output;
-  }
 
   /**
-   * An empty render function needed for react.js (?)
+   * An empty render function needed for react
    *
    * @return {object} null
    */

@@ -67,17 +67,13 @@ class ValuePanel extends React.Component {
     return (
       <Grid id="valpan" container item xs={4} justify='center'>
         <Paper className={this.props.classes.panelCv}>
-          <Grid container item justify='center' alignItems='center'>
+          <Grid container item justify='center' alignItems='center'
+            style={{height: '100%'}}
+          >
             <Grid item container
               justify = 'space-between' alignItems='center'>
               <Grid item xs = {2}>
-                <MyButton properties={this.props}
-                  disabled = {true}
-                  action={this.toggleTraining}
-                  icon={
-                    <AddIcon fontSize='small' style={{color: 'white'}} />
-                  }
-                />
+                <AddIcon className={this.props.classes.iconDefault}></AddIcon>
               </Grid>
               <Grid item xs = {3}>
                 <Typography

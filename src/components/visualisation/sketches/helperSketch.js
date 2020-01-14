@@ -7,7 +7,7 @@
 export default function(s) {
   s.detail = false;
   s.cyan = s.color('#00838f');
-  s.orange = s.color('#fb8c00');
+  s.orange = s.color('#ef6c00');
 
   s.setup = function() {
     const helpDiv = document.getElementById('helperDiv');

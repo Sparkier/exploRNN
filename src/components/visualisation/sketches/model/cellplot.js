@@ -28,6 +28,7 @@ export class CellPlot {
    */
   draw() {
     let data;
+    let truth;
     const s = this.s;
     if (!s.props || !s.props.ui.data) {
       return;
@@ -62,11 +63,16 @@ export class CellPlot {
     // draw the scan box while animating
     s.noStroke();
     const left = (-this.halfW) + (s.lstmPred * this.stepWidth);
-    s.colors.lightgrey.setAlpha(180);
+    s.colors.lightgrey.setAlpha(120);
     s.fill(s.colors.lightgrey);
     s.colors.lightgrey.setAlpha(255);
     s.rect(left + ((this.in - 1) * this.stepWidth) / 2, 0,
         ((this.in - 1) * this.stepWidth), 1.8 * this.halfH);
+    const tween = (s.cellAnimStep + s.lstmStep * s.MAX_CELL_STEPS) /
+      (s.MAX_CELL_STEPS * this.in);
+
+    s.rect(left + (((this.in) * this.stepWidth) * tween / 2), 0,
+        ((this.in) * this.stepWidth) * tween, 1.8 * this.halfH);
     s.strokeWeight(2);
     s.noFill();
     s.stroke(s.colors.darkgrey);
@@ -78,6 +84,7 @@ export class CellPlot {
         s.props.ui.data[this.dataIndex].chartPrediction &&
         s.props.ui.data[this.dataIndex].chartOutput &&
         s.props.ui.data[this.dataIndex].prediction) {
+      // draw input and ground truth output
       s.strokeWeight(1);
       s.stroke(s.colors.grey);
       s.noFill();
@@ -88,9 +95,21 @@ export class CellPlot {
             -this.halfH / 2 * data);
       }
       s.endShape();
+
+      // draw current prediction
       s.strokeWeight(2);
-      s.stroke(s.colors.orange);
       s.noFill();
+      s.stroke(s.colors.grey);
+      for (let i = this.in; i <= (this.in + s.lstmPred - 1); i++) {
+        data = scanPlot[i];
+        truth = groundTruth[i];
+        s.line(-this.halfW + (i * detailStepWidth),
+            -this.halfH / 2 * data, -this.halfW + (i * detailStepWidth),
+            -this.halfH / 2 * truth);
+        s.ellipse(-this.halfW + (i * detailStepWidth),
+            (-this.halfH / 2 * truth), 4);
+      }
+      s.stroke(s.colors.orange);
       s.beginShape();
       for (let i = this.in; i <= (this.in + s.lstmPred - 1); i++) {
         data = scanPlot[i];
@@ -98,16 +117,8 @@ export class CellPlot {
             -this.halfH / 2 * data);
       }
       s.endShape();
-      s.strokeWeight(2);
-      s.stroke(s.colors.orange);
-      s.noFill();
-      s.beginShape();
-      for (let i = s.lstmPred; i <= s.lstmPred + s.lstmStep; i++) {
-        data = scanPlot[i];
-        s.vertex(-this.halfW + (i * detailStepWidth),
-            -this.halfH / 2 * data);
-      }
-      s.endShape();
+
+      // draw scanned points
       s.noStroke();
       s.fill(s.colors.orangedark);
       for (let i = s.lstmPred; i <= s.lstmPred + s.lstmStep; i++) {

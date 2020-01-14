@@ -1,3 +1,4 @@
+// The globally used styles for the application
 const styles = (theme) => ({
   root: {
     padding: '20px',
@@ -79,6 +80,10 @@ const styles = (theme) => ({
     '&:hover': {
       'background': theme.palette.overview.main,
     },
+  },
+  iconDefault: {
+    'color': 'white',
+    'background': theme.palette.overview.light,
   },
   defSlider: {
     width: '90%',

@@ -1,13 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import PropTypes from 'prop-types';
+import {Grid} from '@material-ui/core';
+import * as actions from '../../actions';
 import networkSketch from './sketches/networkSketch';
 import helperSketch from './sketches/helperSketch';
 import helperSketchTwo from './sketches/helperSketchTwo';
-import {Grid} from '@material-ui/core';
-
-import * as actions from '../../actions';
 
 /**
  * This class handles the initialization and updating of the drawing
@@ -30,7 +29,7 @@ class VisualWrapper extends React.Component {
   }
 
   /**
-   *
+   *  As soon as the component is mounted the sketches can be initialized
    */
   componentDidMount() {
     console.log('Wrapper Props', this.props);

@@ -2,17 +2,16 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import * as actions from '../../../actions';
+import {Grid, Paper, Typography, Box} from '@material-ui/core';
 import Start from '@material-ui/icons/PlayArrow';
 import Pause from '@material-ui/icons/Pause';
 import Reset from '@material-ui/icons/Replay';
 import SkipNext from '@material-ui/icons/SkipNext';
-import {Grid, Paper} from '@material-ui/core';
-import {Typography} from '@material-ui/core';
-import Box from '@material-ui/core/Box';
-import MyButton from '../comps/StyledButton';
 import {withStyles} from '@material-ui/core/styles';
+import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
+import global from '../../constants/global';
+import MyButton from '../comps/StyledButton';
 
 /**
  * Controls at bottom of the Application
@@ -104,7 +103,7 @@ class ControlPanel extends React.Component {
                   >
                     <Box fontWeight="fontWeightRegular"
                       fontSize={24} m={1}>
-                      Controls
+                      {global.strings.controlsTitle}
                     </Box>
                   </Typography>
                 </Grid>
@@ -151,7 +150,7 @@ class ControlPanel extends React.Component {
                     className =
                       {this.props.ui.detail ? classes.typoCv : classes.typoOv}
                   >
-                    Epochs:
+                    {global.strings.epochTitle}
                   </Typography>
                   <Typography style={{color: 'white'}}>
                     <Box fontSize={24} m={1}>

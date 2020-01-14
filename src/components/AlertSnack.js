@@ -2,11 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
-
+import {IconButton, Snackbar} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import * as actions from '../actions';
 
-import CloseIcon from '@material-ui/icons/Close';
-import {IconButton, Snackbar} from '@material-ui/core';
 
 /**
  * AlertSnack component that can be used to display alert snacks in the app.
