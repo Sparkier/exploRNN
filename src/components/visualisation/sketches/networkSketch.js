@@ -326,6 +326,14 @@ export default function(s) {
   };
 
   s.drawPlots = function() {
+    s.push();
+    const cb = {x: s.outProps.midX, y: s.outProps.midY};
+    s.netScale = (100 + s.transition) / 100;
+    const cx = cb.x + (cb.x - s.cellPlotProps.midX) * (s.transition / 100);
+    const cy = cb.y + (cb.y - s.cellPlotProps.midY) * (s.transition / 100);
+    s.translate(cx, cy);
+    s.scale(s.netScale);
+    s.translate(-cx, -cy);
     s.noStroke();
     s.fill(s.palette.bgOut);
     s.rect(s.outLeft + s.sideWidthRight / 2, s.height / 2, s.sideWidthRight,
@@ -341,6 +349,7 @@ export default function(s) {
         s.props.actions.updateUI({...s.props.ui, running: false, ready: true});
       }
     }
+    s.pop();
   };
 
   s.drawCell = function() {
@@ -381,9 +390,12 @@ export default function(s) {
 
   s.drawCellPlot = function() {
     s.push();
-    s.translate(s.cellPlotProps.midX, s.cellPlotProps.midY);
+    const cb = {x: s.outProps.midX, y: s.outProps.midY};
+    const cx = cb.x + (cb.x - s.cellPlotProps.midX) * (s.transition / 100);
+    const cy = cb.y + (cb.y - s.cellPlotProps.midY) * (s.transition / 100);
+    s.translate(cx, cy);
     s.scale(s.transition >= 100 ? 1 : s.transition / 100);
-    s.translate(-s.cellPlotProps.midX, -s.cellPlotProps.midY);
+    s.translate(-cx, -cy);
     s.cellPlot.draw();
     s.pop();
   };
