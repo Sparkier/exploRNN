@@ -42,8 +42,7 @@ class DescriptionPanel extends React.Component {
                       className={this.props.classes.typoStd}
                       align='left'
                     >
-                      {this.props.ui.anim ? global.strings.defaultDescription :
-                      step.description}
+                      {step.description}
                     </Typography>
                   </Grid>
                 </Grid>

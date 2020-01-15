@@ -359,16 +359,15 @@ export default function(s) {
     if (!cb) {
       cb = s.net.layers[1];
     }
-    // TODO: combine if statements with cx = cy = 0,
     if (cb) {
-      const cx = cb.x + (cb.x - s.width / 2) * (s.transition / 100);
-      const cy = cb.y + (cb.y - s.height / 2) * (s.transition / 100);
+      const cx = cb.x + (cb.x - s.detailProps.midX) * (s.transition / 100);
+      const cy = cb.y + (cb.y - s.detailProps.midY) * (s.transition / 100);
       s.translate(cx, cy);
     }
     s.scale(s.transition >= 100 ? 1 : s.transition / 100);
     if (cb) {
-      const cx = cb.x + (cb.x - s.width / 2) * (s.transition / 100);
-      const cy = cb.y + (cb.y - s.height / 2) * (s.transition / 100);
+      const cx = cb.x + (cb.x - s.detailProps.midX) * (s.transition / 100);
+      const cy = cb.y + (cb.y - s.detailProps.midY) * (s.transition / 100);
       s.translate(-cx, -cy);
     }
     s.cellAlpha = 255 * s.transition / 100;
@@ -391,14 +390,14 @@ export default function(s) {
     const cb = s.clickedBlock;
     s.netScale = (100 + s.transition) / 100;
     if (s.clickedBlock) {
-      const cx = cb.x + (cb.x - s.width / 2) * (s.transition / 100);
-      const cy = cb.y + (cb.y - s.height / 2) * (s.transition / 100);
+      const cx = cb.x + (cb.x - s.detailProps.midX) * (s.transition / 100);
+      const cy = cb.y + (cb.y - s.detailProps.midY) * (s.transition / 100);
       s.translate(cx, cy);
     }
     s.scale(s.netScale);
     if (cb) {
-      const cx = cb.x + (cb.x - s.width / 2) * (s.transition / 100);
-      const cy = cb.y + (cb.y - s.height / 2) * (s.transition / 100);
+      const cx = cb.x + (cb.x - s.detailProps.midX) * (s.transition / 100);
+      const cy = cb.y + (cb.y - s.detailProps.midY) * (s.transition / 100);
       s.translate(-cx, -cy);
     }
     let sendTrainStep = 0;

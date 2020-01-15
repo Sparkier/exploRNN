@@ -1,4 +1,4 @@
-const global = {
+export default {
   title: 'leaRNN',
   strings: {
     controlsTitle: 'Controls',
@@ -9,7 +9,7 @@ const global = {
     trainSteps: [
       {
         id: 0,
-        title: '/[test x/] Input',
+        title: 'Input',
         description: 'An example of input is given to the net which presents ' +
           'a prediction',
       },
@@ -142,5 +142,3 @@ const global = {
     },
   ],
 };
-
-export default global;
