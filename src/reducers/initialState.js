@@ -55,6 +55,7 @@ export default {
     language: 'ENG',
     inputDialog: [false, false, false],
     sliderDialog: [false, false, false],
+    cellDialog: [false, false, false, false, false, false],
     epochDialog: false,
   },
   firstcall: true,

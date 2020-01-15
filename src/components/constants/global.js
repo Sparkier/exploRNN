@@ -2,6 +2,13 @@ const globalENG = {
   title: 'leaRNN',
   strings: {
     controlsTitle: 'Controls',
+    inputTitle: 'Input',
+    networkTitle: 'Network',
+    lossTitle: 'Error',
+    predictionTitle: 'Prediction',
+    plotInput: 'Input',
+    plotOutput: 'Target',
+    plotPrediction: 'Prediction',
     epoch: {
       title: 'Epochs',
       description: 'This is a description',
@@ -160,6 +167,13 @@ const globalGER = {
   title: 'leaRNN',
   strings: {
     controlsTitle: 'Steuerung',
+    inputTitle: 'Eingabe',
+    networkTitle: 'Netz',
+    lossTitle: 'Fehler',
+    predictionTitle: 'Ausgabe',
+    plotInput: 'Vorgabe',
+    plotOutput: 'Referenz',
+    plotPrediction: 'Vorhersage',
     epoch: {
       title: 'Epochen',
       description: 'Das ist eine Beschreibung',

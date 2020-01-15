@@ -7,6 +7,7 @@ import * as actions from '../../actions';
 import networkSketch from './sketches/networkSketch';
 import leftSide from './sketches/leftSidedSketch';
 import rightSide from './sketches/rightSidedSketch';
+import globalConstants from '../constants/global';
 
 /**
  * This class handles the initialization and updating of the drawing
@@ -34,6 +35,7 @@ class VisualWrapper extends React.Component {
   componentDidMount() {
     console.log('Wrapper Props', this.props);
     this.networkSketch.props = this.props;
+    this.networkSketch.constants = globalConstants;
     this.networkSketch.updateMemory(false);
     this.leftSide.update(false);
     this.rightSide.update(false);
@@ -99,6 +101,7 @@ VisualWrapper.propTypes = {
   network: PropTypes.object.isRequired,
   training: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
+  appState: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
 };
 
@@ -114,6 +117,7 @@ function mapStateToProps(state, ownProps) {
     network: state.network,
     training: state.training,
     ui: state.ui,
+    appState: state.appState,
   };
 }
 /**

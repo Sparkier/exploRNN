@@ -70,11 +70,17 @@ export class Network {
     for (const l of this.fakeLayers) {
       l.draw();
     }
-    s.textAlign(s.CENTER, s.BOTTOM);
-    s.textSize(16);
-    s.fill(0);
+    const offset = s.height * s.typography.titleOffsetRatio;
+    const titleH = s.typography.fontsize * 2;
+    s.textAlign(s.CENTER, s.CENTER);
+    s.rectMode(s.CENTER);
+    s.fill(s.colors.bluegrey);
     s.noStroke();
-    s.text('Network', s.netProps.midX, 100);
+    s.rect(s.netProps.midX, offset / 2, 0.15 * s.netProps.height, titleH, 5);
+    s.textSize(s.typography.fontsize);
+    s.fill(s.colors.white);
+    s.noStroke();
+    s.text(s.global.strings.networkTitle, s.netProps.midX, offset / 2);
   }
 
   /**

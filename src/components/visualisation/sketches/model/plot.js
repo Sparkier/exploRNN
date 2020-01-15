@@ -195,11 +195,17 @@ export class Plot {
     }
     this.overview();
     if (this.index === 2) {
-      s.textAlign(s.CENTER, s.BOTTOM);
-      s.textSize(16);
-      s.fill(0);
+      const offset = s.height * s.typography.titleOffsetRatio;
+      const titleH = s.typography.fontsize * 2;
+      s.textAlign(s.CENTER, s.CENTER);
+      s.rectMode(s.CENTER);
+      s.fill(s.colors.bluegrey);
       s.noStroke();
-      s.text('Predictions', this.cx, 100);
+      s.rect(this.cx, offset / 2, 0.2 * s.netProps.height, titleH, 5);
+      s.textSize(s.typography.fontsize);
+      s.fill(s.colors.white);
+      s.noStroke();
+      s.text(s.global.strings.predictionTitle, this.cx, offset / 2);
     }
   }
 }

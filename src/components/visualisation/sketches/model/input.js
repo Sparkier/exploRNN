@@ -35,12 +35,17 @@ export class Input {
     for (const b of this.buttons) {
       b.draw();
     }
-    const dist = this.dist;
-    s.textAlign(s.CENTER, s.BOTTOM);
-    s.textSize(16);
-    s.fill(0);
+    const offset = s.height * s.typography.titleOffsetRatio;
+    const titleH = s.typography.fontsize * 2;
+    s.textAlign(s.CENTER, s.CENTER);
+    s.rectMode(s.CENTER);
+    s.fill(s.colors.bluegrey);
     s.noStroke();
-    s.text('Input', s.inProps.midX, s.inProps.midY - 2 * dist);
+    s.rect(s.inProps.midX, offset / 2, 0.15 * s.inProps.height, titleH, 5);
+    s.textSize(s.typography.fontsize);
+    s.fill(s.colors.white);
+    s.noStroke();
+    s.text(s.global.strings.inputTitle, s.inProps.midX, offset / 2);
   }
 
   /**

@@ -16,6 +16,7 @@ export default function(s) {
   s.network = [];
   s.plotsRight = [];
   s.lossValues = [];
+  s.constants = {};
   s.update = false;
   s.scaleImage = 5;
   s.detail = false;
@@ -42,6 +43,7 @@ export default function(s) {
     fontsizelarge: 20,
     fontsizesmall: 12,
     tooltipoffset: 60,
+    titleOffsetRatio: 0.1,
   };
   s.colors = {
     white: s.color(255),
@@ -279,6 +281,7 @@ export default function(s) {
       s.props.actions.updateUI({...s.props.ui, netAnim: true});
     }
     s.update = true;
+    s.global = s.constants[s.props.appState.language];
   };
 
   s.reset = function() {

@@ -57,10 +57,16 @@ export class Loss {
       }
       s.endShape();
     }
-    s.textAlign(s.CENTER, s.BOTTOM);
-    s.textSize(16);
-    s.fill(0);
+    const offset = s.height * s.typography.titleOffsetRatio;
+    const titleH = s.typography.fontsize * 2;
+    s.textAlign(s.CENTER, s.CENTER);
+    s.rectMode(s.CENTER);
+    s.fill(s.colors.bluegrey);
     s.noStroke();
-    s.text('Loss', this.ctrX, this.ctrY - 0.55 * this.size);
+    s.rect(this.ctrX, offset / 2, 0.15 * s.height, titleH, 5);
+    s.textSize(s.typography.fontsize);
+    s.fill(s.colors.white);
+    s.noStroke();
+    s.text(s.global.strings.lossTitle, this.ctrX, offset / 2);
   }
 }

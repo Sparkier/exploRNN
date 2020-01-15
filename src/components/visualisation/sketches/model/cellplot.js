@@ -63,18 +63,24 @@ export class CellPlot {
     // draw the scan box while animating
     s.noStroke();
     const left = (-this.halfW) + (s.lstmPred * this.stepWidth);
+    const right = left + ((this.in - 1) * this.stepWidth);
     s.colors.lightgrey.setAlpha(120);
     s.fill(s.colors.lightgrey);
     s.colors.lightgrey.setAlpha(255);
     s.rect(left + ((this.in - 1) * this.stepWidth) / 2, 0,
-        ((this.in - 1) * this.stepWidth), 1.8 * this.halfH);
+        ((this.in - 1) * this.stepWidth), 1.2 * this.halfH);
     const tween = (s.cellAnimStep + s.lstmStep * s.MAX_CELL_STEPS) /
       (s.MAX_CELL_STEPS * this.in);
-
-    s.rect(left + (((this.in) * this.stepWidth) * tween / 2), 0,
-        ((this.in) * this.stepWidth) * tween, 1.8 * this.halfH);
-    s.strokeWeight(2);
+    s.stroke(s.colors.darkgrey);
     s.noFill();
+    let buffX = left + (this.in * this.stepWidth * tween);
+    if (buffX > right) {
+      buffX = right;
+    }
+    s.strokeWeight(1);
+    s.line(buffX, -0.6 * this.halfH, buffX, 0.6 * this.halfH);
+    s.noFill();
+    s.strokeWeight(2);
     s.stroke(s.colors.darkgrey);
     s.line(-this.halfW, 0, this.halfW, 0);
     s.line((-this.halfW) + (this.in * this.stepWidth), -this.halfH,
@@ -86,30 +92,51 @@ export class CellPlot {
         s.props.ui.data[this.dataIndex].prediction) {
       // draw input and ground truth output
       s.strokeWeight(1);
-      s.stroke(s.colors.grey);
+      s.stroke(s.colors.darkgrey);
       s.noFill();
       s.beginShape();
-      for (let i = 0; i < this.total; i++) {
+      for (let i = 0; i <= this.in; i++) {
         data = groundTruth[i];
         s.vertex(-this.halfW + (i * detailStepWidth),
             -this.halfH / 2 * data);
       }
       s.endShape();
-
-      // draw current prediction
-      s.strokeWeight(2);
-      s.noFill();
       s.stroke(s.colors.grey);
+      s.beginShape();
+      for (let i = this.in; i < this.total; i++) {
+        data = groundTruth[i];
+        s.vertex(-this.halfW + (i * detailStepWidth),
+            -this.halfH / 2 * data);
+      }
+      s.endShape();
+      s.noStroke();
+      s.fill(s.colors.darkgrey);
+      for (let i = 0; i < this.in; i++) {
+        data = groundTruth[i];
+        s.ellipse(-this.halfW + (i * detailStepWidth),
+            -this.halfH / 2 * data, 4);
+      }
+
+      // draw current prediction with error bars
+      s.strokeWeight(1);
+      s.noFill();
+      s.stroke(s.colors.orangelight);
       for (let i = this.in; i <= (this.in + s.lstmPred - 1); i++) {
         data = scanPlot[i];
         truth = groundTruth[i];
         s.line(-this.halfW + (i * detailStepWidth),
             -this.halfH / 2 * data, -this.halfW + (i * detailStepWidth),
             -this.halfH / 2 * truth);
+      }
+      s.noStroke();
+      s.fill(s.colors.grey);
+      for (let i = this.in; i <= (this.in + s.lstmPred - 1); i++) {
+        data = groundTruth[i];
         s.ellipse(-this.halfW + (i * detailStepWidth),
-            (-this.halfH / 2 * truth), 4);
+            -this.halfH / 2 * data, 4);
       }
       s.stroke(s.colors.orange);
+      s.strokeWeight(3);
       s.beginShape();
       for (let i = this.in; i <= (this.in + s.lstmPred - 1); i++) {
         data = scanPlot[i];
@@ -123,20 +150,52 @@ export class CellPlot {
       s.fill(s.colors.orangedark);
       for (let i = s.lstmPred; i <= s.lstmPred + s.lstmStep; i++) {
         data = scanPlot[i];
+        if (i < this.in) {
+          s.fill(s.colors.darkgrey);
+        } else {
+          s.fill(s.colors.orangedark);
+        }
         s.ellipse(-this.halfW + (i * detailStepWidth),
             (-this.halfH / 2 * data), 6);
       }
       if (s.lstmPred > 0) {
         data = scanPlot[this.in + (s.lstmPred - 1)];
         if (s.lstmStep === this.in - 1) {
+          s.fill(s.colors.orangedark);
           s.ellipse(-this.halfW + ((this.in + s.lstmPred - 1) *
               detailStepWidth), (-this.halfH / 2 * data), 12);
         } else {
+          s.fill(s.colors.orange);
           s.ellipse(-this.halfW + ((this.in + s.lstmPred - 1) *
               detailStepWidth), (-this.halfH / 2 * data), 10);
         }
       }
     }
+
+    // legend
+    s.noStroke();
+    s.rectMode(s.CORNER);
+    s.textAlign(s.CENTER, s.CENTER);
+    s.fill(s.colors.darkgrey);
+    s.rect(-this.halfW, -this.halfH, this.in * this.stepWidth * 0.6,
+        this.halfH * 0.2, 5);
+    s.fill(s.colors.orange);
+    s.rect(-this.halfW + this.in * this.stepWidth, -this.halfH,
+        this.in * this.stepWidth * 0.6, this.halfH * 0.2, 5);
+    s.fill(s.colors.grey);
+    s.rect(-this.halfW + this.in * this.stepWidth,
+        -this.halfH + this.halfH * 0.2, this.in * this.stepWidth * 0.6,
+        this.halfH * 0.2, 5);
+    s.fill(s.colors.white);
+    s.text(s.global.strings.plotInput,
+        -this.halfW + this.in * this.stepWidth * 0.3,
+        -this.halfH + this.halfH * 0.1);
+    s.text(s.global.strings.plotPrediction,
+        -this.halfW + this.in * this.stepWidth * 1.3,
+        -this.halfH + this.halfH * 0.1);
+    s.text(s.global.strings.plotOutput,
+        -this.halfW + this.in * this.stepWidth * 1.3,
+        -this.halfH + this.halfH * 0.3);
     s.pop();
   }
 }
