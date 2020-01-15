@@ -10,9 +10,9 @@ export class Loss {
   */
   constructor(s) {
     this.s = s;
-    this.width = s.width * s.sideRatioLoss;
-    this.left = s.ctrRight;
-    this.right = s.ctrRight + this.width;
+    this.width = s.lossProps.width;
+    this.left = s.lossProps.left;
+    this.right = s.lossProps.right;
     this.ctrX = this.left + this.width / 2;
     this.ctrY = s.height / 2;
     this.size = this.width / 2;

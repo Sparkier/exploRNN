@@ -23,7 +23,6 @@ export default function(s) {
   s.transition = 0;
   s.transitionSpeed = 7;
   s.clickedBlock = undefined;
-  s.bgval = 255;
   s.lstmAnim = true;
   s.currfps = 0;
   s.sideRatioLeft = 0.1;
@@ -31,13 +30,23 @@ export default function(s) {
   s.sideRatioRight = 0.2;
   s.detailRatio = 0.6;
   s.ctrRatio = 0.5;
-  s.cellAnimStep = 0;
-  s.MAX_CELL_STEPS = 11;
-  s.lstmStep = 0;
-  s.lstmPred = 0;
+  s.globalScale = 1;
   s.ready = false;
   s.setupDone = false;
-  s.globalScale = 1;
+  s.netAnim = {};
+
+  // the new format of the cell animation values
+  s.cellAnim = {
+    maxSteps: 11,
+    maxErrorSteps: 20,
+    step: 0,
+    inputStep: 0,
+    predictionStep: 0,
+    errorStep: 0,
+    forward: true,
+    error: false,
+    backward: false,
+  };
   s.typography = {
     fontsize: 16,
     fontsizelarge: 20,
@@ -119,6 +128,14 @@ export default function(s) {
       width: s.width * s.ctrRatio,
       height: s.height,
     };
+    s.lossProps = {
+      left: s.netProps.right,
+      right: s.netProps.right + s.width * s.sideRatioLoss,
+      midX: s.sideWidthLeft + s.width * s.ctrRatio * 0.5,
+      midY: s.height/2,
+      width: s.width * s.sideRatioLoss,
+      height: s.height,
+    };
     s.detailProps = {
       left: 0,
       right: s.width * s.detailRatio,
@@ -139,15 +156,6 @@ export default function(s) {
       verRatio: 0.6,
       horRatio: 0.9,
     };
-    s.inLeft = 0;
-    s.inRight = s.sideWidthLeft;
-    s.outLeft = s.width - s.sideWidthRight;
-    s.outRight = s.width;
-    s.ctrWidth = s.width * s.ctrRatio;
-    s.ctrLeft = s.sideWidthLeft;
-    s.ctrRight = s.ctrLeft + s.ctrWidth;
-    s.ctrMidX = s.ctrLeft + s.ctrWidth/2;
-    s.ctrMidY = s.height/2;
     s.net = new Network(s);
     s.cell = new LSTM(s);
     s.input = new Input(s);
@@ -190,7 +198,7 @@ export default function(s) {
       s.translate(-s.mouseX, -s.mouseY);
     }
     if (s.props) {
-      const timeDist = s.lstmStep / s.props.training.values * Math.PI;
+      const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
       const pauseMult = 1 - Math.sin(timeDist);
       s.pause = Math.round((1010 - s.props.ui.speed) / 10 * pauseMult) + 1;
     }
@@ -250,9 +258,17 @@ export default function(s) {
         s.cell.update();
       }
       if (s.props.training.step) {
-        s.lstmStep = 0;
-        s.lstmPred = 0;
-        s.cellAnimStep = 0;
+        s.cellAnim = {
+          maxSteps: 11,
+          maxErrorSteps: 20,
+          step: 0,
+          inputStep: 0,
+          predictionStep: 0,
+          errorStep: 0,
+          forward: true,
+          error: false,
+          backward: false,
+        };
       }
       if (!s.netAnim) {
         s.net = new Network(s);
@@ -282,17 +298,29 @@ export default function(s) {
     }
     s.update = true;
     s.global = s.constants[s.props.appState.language];
+    if(s.props.ui.error != s.cellAnim.error && s.props.ui.error) {
+      s.cell.prepareError();
+      s.props.actions.updateUI({...s.props.ui, error: false});
+    }
   };
 
   s.reset = function() {
     s.plotFrame = 0;
     s.plotAnim = false;
     s.netFrame = 0;
-    s.lstmStep = 0;
-    s.lstmPred = 15;
     s.netAnim = false;
-    s.cell.reset();
     s.lossValues = [];
+    s.cellAnim = {
+      maxSteps: 11,
+      maxErrorSteps: 20,
+      step: 0,
+      inputStep: 0,
+      predictionStep: 0,
+      errorStep: 0,
+      forward: true,
+      error: false,
+      backward: false,
+    };
     s.net = new Network(s);
     s.cell = new LSTM(s);
     s.input = new Input(s);

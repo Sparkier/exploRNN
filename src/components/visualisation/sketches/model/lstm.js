@@ -26,8 +26,6 @@ export class LSTM {
     const horBuf = (1/6) * this.width;
     const verBuf = (1/3) * this.height;
     s.clickedItem = undefined;
-    this.anim = 0;
-    this.animMax = 5;
     const cell = {
       s: s,
       hasPrev: hasPrev,
@@ -205,46 +203,6 @@ export class LSTM {
     for (const i of this.items) {
       i.draw();
     }
-    if (s.clickedItem) {
-      this.anim++;
-      if (this.anim >= this.animMax) {
-        this.anim = this.animMax;
-      }
-      s.tint(255, 245);
-      let img = undefined;
-      switch (s.clickedItem.type) {
-        case 'rec':
-          img = s.recdesc;
-          break;
-        case 'add':
-          img = s.adddesc;
-          break;
-        case 'sav':
-          img = s.savdesc;
-          break;
-        case 'los':
-          img = s.losdesc;
-          break;
-        case 'cel':
-          img = s.celdesc;
-          break;
-        case 'out':
-          img = s.outdesc;
-          break;
-        default:
-      }
-      if (!img) {
-        return;
-      }
-      const ratio = img.width / img.height;
-      const newW = s.width * 0.5 * (this.anim/this.animMax);
-      const newH = newW / ratio;
-      const newX = s.clickedItem.x;
-      const newY = s.clickedItem.y;
-      s.image(img, newX, newY, newW, newH);
-    } else {
-      this.anim = 0;
-    }
   }
 
   /**
@@ -252,11 +210,54 @@ export class LSTM {
    * to check if one of them needs to forward their activation
    */
   update() {
+    const s = this.s;
+    if(s.cellAnim.forward) {
+      for (const c of this.connections) {
+        c.sendActivations();
+      }
+      for (const i of this.items) {
+        i.sendActivations();
+      }
+      for (const c of this.connections) {
+        c.updateActivation();
+      }
+      for (const i of this.items) {
+        i.updateActivation();
+      }
+    } else if(s.cellAnim.error) {
+      // animate error calculation
+      s.cellAnim.errorStep++;
+      if(s.cellAnim.errorStep >= this.s.cellAnim.maxErrorSteps) {
+        s.cellAnim.errorStep = 0;
+        s.cellAnim.error = false;
+        s.cellAnim.backward = true;
+      }
+    } else if(s.cellAnim.backward) {
+      // animate BPTT
+    }
+    
+    this.s.props.actions.updateUI({...this.s.props.ui});
+  }
+
+  prepareError() {
+    const s = this.s;
+    s.cellAnim = {
+      maxSteps: 11,
+      maxErrorSteps: 50,
+      step: 0,
+      inputStep: 0,
+      predictionStep: 0,
+      errorStep: 0,
+      forward: false,
+      error: true,
+      backward: false,
+    };
+    s.pause = 1;
     for (const c of this.connections) {
-      c.sendActivations();
+      c.deactivate();
     }
     for (const i of this.items) {
-      i.sendActivations();
+      i.deactivate();
     }
     for (const c of this.connections) {
       c.updateActivation();
@@ -264,15 +265,12 @@ export class LSTM {
     for (const i of this.items) {
       i.updateActivation();
     }
-    this.s.props.actions.updateUI({...this.s.props.ui});
   }
 
   /**
    * Resets all activations to 0 and sets the starting items to 1
    */
   reset() {
-    this.s.lstmStep = 0;
-    this.s.lstmPred = 0;
     for (const c of this.connections) {
       c.deactivate();
     }
@@ -496,7 +494,7 @@ class Item {
     } else if (this.currentActivatedConnecions !== 0) {
       s.fill(s.colors.orange);
     }
-    if (this.hover && !this.clicked &&
+    if (this.hover &&
         !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs' ||
         this.type === 'gft' || this.type === 'glt')) {
       s.fill(s.colors.cyan);
@@ -555,7 +553,7 @@ class Item {
         break;
       default:
     }
-    if (this.hover && !this.clicked &&
+    if (this.hover &&
         !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs' ||
         this.type === 'gft' || this.type === 'glt')) {
       s.textAlign(s.CENTER, s.CENTER);
@@ -588,16 +586,17 @@ class Item {
    * if the item has enough activation inputs
    */
   sendActivations() {
+    const s = this.s;
     if (this.active && this.connections && this.connections.length > 0) {
       if (this.type === 'glt') {
-        this.s.lstmStep++;
-        if (this.s.lstmStep === this.s.props.training.values) {
-          this.s.lstmStep = 0;
-          this.s.lstmPred++;
-          if (this.s.lstmPred >= this.s.props.training.predictions) {
-            this.s.lstmPred = 0;
-            this.s.props.actions.updateTraining(
-                {...this.s.props.training, step: true});
+        s.cellAnim.inputStep++;
+        if (s.cellAnim.inputStep === this.s.props.training.values) {
+          s.cellAnim.inputStep = 0;
+          s.cellAnim.predictionStep++;
+          if (s.cellAnim.predictionStep >= this.s.props.training.predictions) {
+            s.cellAnim.predictionStep = 0;
+            s.cellAnim.error = true;
+            s.cellAnim.forward = false;
           }
         }
       }
@@ -614,6 +613,7 @@ class Item {
    * active or inactive and gets called at the end of each update cycle
    */
   updateActivation() {
+    const s = this.s;
     if (this.active) {
       this.active = false;
       this.currentActivatedConnecions = 0;
@@ -625,9 +625,9 @@ class Item {
             lstmStep: this.step}};
         }
         if (this.type === 'gft') {
-          this.s.cellAnimStep = 0;
+          s.cellAnim.step = 0;
         } else {
-          this.s.cellAnimStep++;
+          s.cellAnim.step++;
         }
       }
     }
