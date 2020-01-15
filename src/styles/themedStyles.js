@@ -32,15 +32,28 @@ const styles = (theme) => ({
     width: '90%',
     fontSize: '14px',
   },
+  typoStdBig: {
+    color: 'white',
+    width: '90%',
+    margin: '5px',
+    fontSize: '20px',
+  },
   typoOv: {
     color: theme.palette.overview.main,
     marginTop: '5px',
     fontSize: '16px',
+    width: 'auto',
   },
   typoOvOff: {
     color: theme.palette.primary.off,
     marginTop: '5px',
     fontSize: '16px',
+    width: 'auto',
+  },
+  typoOvBig: {
+    color: theme.palette.overview.main,
+    marginTop: '5px',
+    fontSize: '24px',
   },
   typoCv: {
     color: theme.palette.detail.main,
@@ -51,6 +64,11 @@ const styles = (theme) => ({
     color: theme.palette.secondary.off,
     marginTop: '5px',
     fontSize: '16px',
+  },
+  typoCvBig: {
+    color: theme.palette.detail.main,
+    marginTop: '5px',
+    fontSize: '24px',
   },
   typoOvHeader: {
     color: theme.palette.overview.main,

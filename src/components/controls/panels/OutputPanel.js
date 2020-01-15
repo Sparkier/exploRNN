@@ -3,11 +3,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {Grid, Paper, Typography, Slider, Tooltip} from '@material-ui/core';
+import {Dialog, DialogContent, DialogTitle, Link} from '@material-ui/core';
 import {grey} from '@material-ui/core/colors';
 import {withStyles} from '@material-ui/core/styles';
 import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
-import global from '../../constants/global';
+import globalConstants from '../../constants/global';
 
 
 /**
@@ -23,7 +24,7 @@ class OutputPanel extends React.Component {
    * @param {number} value - the new value of the learning rate
    */
   handleSliderChange = (sliderId, value) => {
-    console.log('HELPPPP', sliderId, value);
+    const global = globalConstants[this.props.appState.language];
     switch (sliderId) {
       case global.sliders[0].key:
         this.props.actions.updateNetwork({
@@ -48,12 +49,37 @@ class OutputPanel extends React.Component {
   }
 
   /**
+   *
+   * @param {*} id
+   */
+  onClick(id) {
+    const dialog = this.props.appState.sliderDialog;
+    dialog[id] = !dialog[id];
+    this.props.actions.updateAppState({
+      ...this.props.appState,
+      sliderDialog: dialog,
+    });
+  }
+
+  /**
+   *
+   * @param {*} id
+   */
+  handleClose() {
+    this.props.actions.updateAppState({
+      ...this.props.appState,
+      sliderDialog: [false, false, false],
+    });
+  }
+
+  /**
    * Readt render function controlling the look of the
    * AppBar of the Application
    *
    * @return {object} the react components rendered look
    */
   render() {
+    const global = globalConstants[this.props.appState.language];
     return (
       <Grid id="outpan" container item xs={4} justify='center'>
         <Paper className={this.props.classes.panelOv}>
@@ -62,15 +88,27 @@ class OutputPanel extends React.Component {
               {
                 global.sliders.map((slider) => (
                   <Grid item key={slider.key} xs={12} style={{margin: '10px'}}>
-                    <Typography variant="body1"
-                      className={!this.props.ui.detail &&
-                    !this.props.training.running ?
-                    this.props.classes.typoOv : this.props.classes.typoOvOff
-                      }
-                      align='left'
+                    <Typography align='left'
                     >
-                      {slider.title}
+                      <Link href={'#'} onClick={() => this.onClick(slider.key)}
+                        className={!this.props.ui.detail &&
+                        !this.props.training.running ?
+                             this.props.classes.typoOv : this.props.classes.typoOvOff
+                        }>
+                        {slider.title}
+                      </Link>
                     </Typography>
+                    <Dialog onClose={() => this.handleClose()}
+                      open={this.props.appState.sliderDialog[slider.key]}>
+                      <DialogTitle>
+                        {slider.title}
+                      </DialogTitle>
+                      <DialogContent dividers>
+                        <Typography gutterBottom>
+                          {slider.description}
+                        </Typography>
+                      </DialogContent>
+                    </Dialog>
                     <DefaultSlider
                       className={this.props.classes.defSlider}
                       marks={slider.marks}
@@ -163,6 +201,7 @@ OutputPanel.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
+  appState: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
@@ -178,6 +217,7 @@ function mapStateToProps(state) {
     training: state.training,
     network: state.network,
     ui: state.ui,
+    appState: state.appState,
   };
 }
 

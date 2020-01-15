@@ -186,10 +186,10 @@ class Layer {
       if (s.netAnim) {
         s.stroke(s.colors.cyan);
         s.drawingContext.lineDashOffset = this.s.rev ?
-          -s.frameCount/2 : s.frameCount/2;
+          s.frameCount/2 : -s.frameCount/2;
         s.drawingContext.setLineDash([10, 10]);
       }
-      s.rect(this.x, this.y-h/2, w * 1.4, h, 20);
+      s.rect(this.x, this.y+h/2, w * 1.4, h, 20);
       s.drawingContext.setLineDash([]);
       s.noStroke();
       s.fill(s.colors.darkbluegrey);

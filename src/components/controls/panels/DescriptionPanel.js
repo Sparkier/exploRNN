@@ -6,7 +6,7 @@ import {withStyles} from '@material-ui/core/styles';
 import {Grid, Paper, Typography} from '@material-ui/core';
 import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
-import global from '../../constants/global';
+import globalConstants from '../../constants/global';
 
 /**
  * Controls at bottom of the Application
@@ -19,6 +19,7 @@ class DescriptionPanel extends React.Component {
    * @return {object} the react components rendered look
    */
   render() {
+    const global = globalConstants[this.props.appState.language];
     return (
       <Grid id="dscpan" container item xs={4} justify='center'>
         <Paper className={this.props.classes.panelCv}>
@@ -60,6 +61,7 @@ DescriptionPanel.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
+  appState: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
@@ -74,6 +76,7 @@ function mapStateToProps(state) {
     training: state.training,
     network: state.network,
     ui: state.ui,
+    appState: state.appState,
   };
 }
 

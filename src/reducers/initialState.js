@@ -49,7 +49,13 @@ export default {
     trainingStep: 0,
     cellAnimStep: 0,
     panelHeight: 0,
+  },
+  appState: {
     help: false,
+    language: 'ENG',
+    inputDialog: [false, false, false],
+    sliderDialog: [false, false, false],
+    epochDialog: false,
   },
   firstcall: true,
 };

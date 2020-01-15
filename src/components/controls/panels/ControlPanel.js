@@ -2,7 +2,8 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Grid, Paper, Typography, Box} from '@material-ui/core';
+import {Grid, Paper, Typography, Link} from '@material-ui/core';
+import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
 import Start from '@material-ui/icons/PlayArrow';
 import Pause from '@material-ui/icons/Pause';
 import Reset from '@material-ui/icons/Replay';
@@ -10,7 +11,7 @@ import SkipNext from '@material-ui/icons/SkipNext';
 import {withStyles} from '@material-ui/core/styles';
 import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
-import global from '../../constants/global';
+import globalConstants from '../../constants/global';
 import MyButton from '../comps/StyledButton';
 
 /**
@@ -79,6 +80,30 @@ class ControlPanel extends React.Component {
   }
 
   /**
+   *
+   * @param {*} id
+   */
+  onClick() {
+    let dialog = this.props.appState.epochDialog;
+    dialog = !dialog;
+    this.props.actions.updateAppState({
+      ...this.props.appState,
+      epochDialog: dialog,
+    });
+  }
+
+  /**
+   *
+   * @param {*} id
+   */
+  handleClose() {
+    this.props.actions.updateAppState({
+      ...this.props.appState,
+      epochDialog: false,
+    });
+  }
+
+  /**
    * Readt render function controlling the look of the
    * AppBar of the Application
    *
@@ -86,6 +111,7 @@ class ControlPanel extends React.Component {
    */
   render() {
     const {classes} = this.props;
+    const global = globalConstants[this.props.appState.language];
     return (
       <Grid container className={this.props.classes.panelWrapper}
         item xs={3} justify='center'
@@ -99,12 +125,11 @@ class ControlPanel extends React.Component {
                 <Grid item>
                   <Typography
                     className =
-                      {this.props.ui.detail ? classes.typoCv : classes.typoOv}
+                      {this.props.ui.detail ?
+                        classes.typoCvBig : classes.typoOvBig
+                      }
                   >
-                    <Box fontWeight="fontWeightRegular"
-                      fontSize={24} m={1}>
-                      {global.strings.controlsTitle}
-                    </Box>
+                    {global.strings.controlsTitle}
                   </Typography>
                 </Grid>
               </Grid>
@@ -144,19 +169,29 @@ class ControlPanel extends React.Component {
                 </Grid>
               </Grid>
               <Grid container item xs={12} justify='center'>
-                <Grid item className={this.props.ui.detail ? classes.panelCv :
-                  classes.panelOv}>
-                  <Typography
-                    className =
-                      {this.props.ui.detail ? classes.typoCv : classes.typoOv}
-                  >
-                    {global.strings.epochTitle}
+                <Grid item>
+                  <Typography>
+                    <Link href={'#'} className =
+                      {this.props.ui.detail ?
+                        classes.typoCvBig : classes.typoOvBig}
+                    onClick={() => this.onClick()}>
+                      {global.strings.epoch.title}
+                    </Link>
                   </Typography>
-                  <Typography style={{color: 'white'}}>
-                    <Box fontSize={24} m={1}>
-                      {this.styledEpochs()}
-                    </Box>
+                  <Typography className={this.props.classes.typoStdBig}>
+                    {this.styledEpochs()}
                   </Typography>
+                  <Dialog onClose={() => this.handleClose()}
+                    open={this.props.appState.epochDialog}>
+                    <DialogTitle>
+                      {global.strings.epoch.title}
+                    </DialogTitle>
+                    <DialogContent dividers>
+                      <Typography gutterBottom>
+                        {global.strings.epoch.description}
+                      </Typography>
+                    </DialogContent>
+                  </Dialog>
                 </Grid>
               </Grid>
             </Grid>
@@ -172,6 +207,7 @@ ControlPanel.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
+  appState: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
@@ -187,6 +223,7 @@ function mapStateToProps(state) {
     training: state.training,
     network: state.network,
     ui: state.ui,
+    appState: state.appState,
   };
 }
 

@@ -20,7 +20,7 @@ import Close from '@material-ui/icons/Cancel';
 import Info from '@material-ui/icons/Info';
 import * as actions from '../../actions';
 import styles from '../../styles/themedStyles';
-import global from '../constants/global';
+import globalConstants from '../constants/global';
 import StyledSelect from './comps/StyledSelect';
 
 /**
@@ -114,6 +114,17 @@ class Controls extends React.Component {
   };
 
   /**
+   * Handles the opening and closing of the side drawer
+   *
+   * @param {object} event desc
+   * @return {undefined}
+   */
+  languageSelect = (event) => {
+    this.props.actions.updateAppState({...this.props.appState,
+      language: event.target.value});
+  };
+
+  /**
    * @param {object} event
    */
   helperMenu = (event) => {
@@ -128,6 +139,7 @@ class Controls extends React.Component {
    */
   render() {
     const {classes} = this.props;
+    const global = globalConstants[this.props.appState.language];
     return (
       <AppBar className={this.props.ui.detail ? classes.headerCv :
         classes.headerOv}>
@@ -139,9 +151,20 @@ class Controls extends React.Component {
           </Typography>
           <StyledSelect value={this.props.network.type}
             onChange={ this.typeSelect }
+            main={true}
           >
             {
               global.types.map((x) => (
+                <MenuItem key={x.name} value={x.name}>{x.name}</MenuItem>
+              ))
+            }
+          </StyledSelect>
+          <StyledSelect value={this.props.appState.language}
+            onChange={ this.languageSelect }
+            main={false}
+          >
+            {
+              global.languages.map((x) => (
                 <MenuItem key={x.name} value={x.name}>{x.name}</MenuItem>
               ))
             }
@@ -191,6 +214,7 @@ Controls.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
+  appState: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
@@ -205,6 +229,7 @@ function mapStateToProps(state) {
     training: state.training,
     network: state.network,
     ui: state.ui,
+    appState: state.appState,
     actions: state.actions,
   };
 }

@@ -31,6 +31,16 @@ export function updateUI(ui) {
 }
 
 /**
+ * Updates the internal appState values
+ *
+ * @param {object} appState the object holding the new appState values
+ * @return {object} a redux state update
+ */
+export function updateAppState(appState) {
+  return {type: types.UPDATE_APP_STATE, appState};
+}
+
+/**
  * Updates the network values of the RNN model
  *
  * @param {object} network the object holding the new network values

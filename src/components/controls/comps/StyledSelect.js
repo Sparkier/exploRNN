@@ -12,7 +12,10 @@ import styles from '../../../styles/themedStyles';
 function StyledSelectRaw(props) {
   const {classes, ...other} = props;
   return (
-    <div style={{display: 'inline-flex', marginRight: '12px', flexGrow: '1'}}>
+    <div style={ props.main ?
+      {display: 'inline-flex', marginRight: '12px', flexGrow: '1'} :
+      {marginRight: '12px'}}
+    >
       <Select className={classes.select} inputProps={{
         classes: {
           icon: classes.selectIcon,
@@ -26,10 +29,9 @@ function StyledSelectRaw(props) {
 
 StyledSelectRaw.propTypes = {
   properties: PropTypes.object.isRequired,
-  icon: PropTypes.object.isRequired,
   action: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
+  main: PropTypes.object.isRequired,
 };
 
 // const StyledSelect = withStyles(styles)(StyledSelectRaw);
