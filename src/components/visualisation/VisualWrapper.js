@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import {Grid} from '@material-ui/core';
 import * as actions from '../../actions';
 import networkSketch from './sketches/networkSketch';
-import helperSketch from './sketches/helperSketch';
-import helperSketchTwo from './sketches/helperSketchTwo';
+import leftSide from './sketches/leftSidedSketch';
+import rightSide from './sketches/rightSidedSketch';
 
 /**
  * This class handles the initialization and updating of the drawing
@@ -23,9 +23,9 @@ class VisualWrapper extends React.Component {
     // eslint-disable-next-line new-cap
     this.networkSketch = new window.p5(networkSketch, 'networkDiv');
     // eslint-disable-next-line new-cap
-    this.helperSketch = new window.p5(helperSketch, 'helperDiv');
+    this.leftSide = new window.p5(leftSide, 'leftDiv');
     // eslint-disable-next-line new-cap
-    this.helperSketchTwo = new window.p5(helperSketchTwo, 'helperDivTwo');
+    this.rightSide = new window.p5(rightSide, 'rightDiv');
   }
 
   /**
@@ -35,8 +35,8 @@ class VisualWrapper extends React.Component {
     console.log('Wrapper Props', this.props);
     this.networkSketch.props = this.props;
     this.networkSketch.updateMemory(false);
-    this.helperSketch.update(false);
-    this.helperSketchTwo.update(false);
+    this.leftSide.update(false);
+    this.rightSide.update(false);
   }
 
   /**
@@ -58,8 +58,8 @@ class VisualWrapper extends React.Component {
       this.networkSketch.reset();
       this.props.actions.updateUI({...nextProps.ui, reset: false});
     }
-    this.helperSketch.update(nextProps.ui.detail);
-    this.helperSketchTwo.update(nextProps.ui.detail);
+    this.leftSide.update(nextProps.ui.detail);
+    this.rightSide.update(nextProps.ui.detail);
     return false;
   }
 
@@ -69,8 +69,8 @@ class VisualWrapper extends React.Component {
    */
   componentWillUnmount() {
     this.networkSketch.remove();
-    this.helperSketch.remove();
-    this.helperSketchTwo.remove();
+    this.leftSide.remove();
+    this.rightSide.remove();
   }
 
   /**
@@ -82,13 +82,13 @@ class VisualWrapper extends React.Component {
     return (
       <Grid container direction="row" justify='space-between'>
         <Grid item xs={1}>
-          <div id = "helperDiv"/>
+          <div id = "leftDiv"/>
         </Grid>
         <Grid item xs={10}>
           <div id = "networkDiv"/>
         </Grid>
         <Grid item xs={1}>
-          <div id = "helperDivTwo"/>
+          <div id = "rightDiv"/>
         </Grid>
       </Grid>
     );

@@ -1,9 +1,10 @@
 /**
- *
+ * This class represents the visual component of the input selection for
+ * the network
  */
 export class Input {
   /**
-  * efeefefe
+  * The constructor of this class
   *
   * @param {object} s the p5.js sketch
   */
@@ -27,7 +28,7 @@ export class Input {
   }
 
   /**
-   * draw input options
+   * Draw input options
    */
   draw() {
     const s = this.s;
@@ -43,7 +44,7 @@ export class Input {
   }
 
   /**
-   *
+   * Check if a mouse click interacts with an input button
    */
   checkClick() {
     for (const b of this.buttons) {
@@ -52,9 +53,10 @@ export class Input {
   }
 
   /**
+   * Check if a mouse movement occurs over an input button
    *
-   * @param {*} mx
-   * @param {*} my
+   * @param {number} mx the x position of the cursor
+   * @param {number} my the y position of the cursor
    */
   mouseMoved(mx, my) {
     for (const b of this.buttons) {
@@ -62,18 +64,22 @@ export class Input {
     }
   }
 }
+
 /**
- *
+ * This class represents a single input button
  */
 class Button {
   /**
+   * The constructor of this class
    *
-   * @param {object} s
-   * @param {String} type
-   * @param {number} pos
-   * @param {number} dist
-   * @param {number} steps
-   * @param {number[]} noises
+  * @param {object} s the parent p5.js sketch
+   * @param {string} type the function type of this button
+   * @param {number} pos the position of this button
+   * @param {number} dist the distance between two buttons
+   * @param {number} steps the amount of function steps used for the button
+   * image in this button
+   * @param {number[]} noises an array of random noise values to be added
+  * to the button image
    */
   constructor(s, type, pos, dist, steps, noises) {
     this.s = s;
@@ -92,7 +98,7 @@ class Button {
   }
 
   /**
-   *
+   * Draws a single input button on the canvas
    */
   draw() {
     const s = this.s;
@@ -153,7 +159,7 @@ class Button {
   }
 
   /**
-   *
+   * Checks if a mouse click interacts with this button
    */
   checkClick() {
     const mx = this.s.mouseX;
@@ -161,7 +167,6 @@ class Button {
     if (mx > this.left && mx < this.right && my > this.top && my < this.bot) {
       const oldTypes = this.s.props.training.dataTypes;
       let newTypes = [];
-      console.log('CLICKED ON BUTTOn', oldTypes);
       if (oldTypes.includes(this.type) && oldTypes.length > 1
       ) {
         for (const item of oldTypes) {
@@ -169,25 +174,23 @@ class Button {
             newTypes.push(item);
           }
         }
-        console.log('CLICKED ON BUTTOn', oldTypes);
       } else if (oldTypes.includes(this.type) && oldTypes.length === 1) {
         newTypes = oldTypes;
       } else {
         oldTypes.push(this.type);
         newTypes = oldTypes;
-        console.log('CLICKED ON BUTTOn', oldTypes);
       }
       this.s.props.actions.updateTraining(
           {...this.s.props.training, dataTypes: newTypes}
       );
-      console.log('CLICKED ON BUTTOn', newTypes);
     }
   }
 
   /**
+   * Check if a mouse movement occurs over this specific input button
    *
-   * @param {*} mx
-   * @param {*} my
+   * @param {number} mx the x position of the cursor
+   * @param {number} my the y position of the cursor
    */
   mouseMoved(mx, my) {
     if (mx > this.left && mx < this.right && my > this.top && my < this.bot) {

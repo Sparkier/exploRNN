@@ -1,11 +1,12 @@
 /**
- *
+ * This class represents the visual component for the error graph/loss graph
+ * of the network
  */
 export class Loss {
   /**
-  * efeefefe
+  * The constructor of this class
   *
-  * @param {object} s the p5.js sketch
+  * @param {object} s the parent p5.js sketch
   */
   constructor(s) {
     this.s = s;
@@ -18,7 +19,7 @@ export class Loss {
   }
 
   /**
-   * draw input options
+   * Draw this graph
    */
   draw() {
     const s = this.s;

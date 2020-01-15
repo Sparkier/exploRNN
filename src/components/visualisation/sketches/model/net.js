@@ -118,10 +118,9 @@ export class Network {
         next = buff;
       }
     }
-    console.log(next, s.netAnim, s.netFrame);
-    if (!this.s.rev && next >= 0 && next < this.layers.length) {
+    if (!s.rev && next >= 0 && next < this.layers.length) {
       this.layers[next].activate();
-    } else if (this.s.rev && next >= 2 && next <= this.layers.length) {
+    } else if (s.rev && next >= 2 && next <= this.layers.length) {
       this.layers[next - 2].activate();
     } else {
       this.layers[this.layers.length - 1].activate();
@@ -129,7 +128,7 @@ export class Network {
   }
 
   /**
-   * sets off the animation chain
+   * Initializes the animation of the network
    */
   start() {
     for (const l of this.layers) {
@@ -137,7 +136,6 @@ export class Network {
     }
     this.s.rev = false;
     this.layers[1].activate();
-    console.log('STARTED');
   }
 }
 
@@ -263,6 +261,9 @@ class Layer {
    * @param {number} y the y position of the cursor
    */
   mouseMoved(x, y) {
+    if (this.layerType === 'input' || this.layerType === 'output') {
+      return;
+    }
     if (x > this.x - this.w / 2 && x < this.x + this.w / 2 &&
         y > this.y - this.h / 2 && y < this.y + this.h / 2) {
       this.hover = true;
@@ -282,6 +283,9 @@ class Layer {
    * checks if this layer is being clicked on
    */
   checkClick() {
+    if (this.layerType === 'input' || this.layerType === 'output') {
+      return;
+    }
     if (this.hover && !this.clicked) {
       this.s.clickedBlock = this;
       if (this.hover_left) {

@@ -24,7 +24,7 @@ export class CellPlot {
   }
 
   /**
-   * Draw the plot
+   * Draw a plot with its specified data
    */
   draw() {
     let data;

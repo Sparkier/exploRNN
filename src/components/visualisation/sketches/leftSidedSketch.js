@@ -10,7 +10,7 @@ export default function(s) {
   s.orange = s.color('#ef6c00');
 
   s.setup = function() {
-    const helpDiv = document.getElementById('helperDiv');
+    const helpDiv = document.getElementById('leftDiv');
     const valDiv = document.getElementById('valueDiv');
     s.createCanvas(helpDiv.offsetWidth,
         window.innerHeight - valDiv.offsetHeight - 50);
@@ -26,10 +26,15 @@ export default function(s) {
     }
     s.noStroke();
     s.beginShape();
-    s.vertex(s.width, s.height);
-    s.vertex(s.width - 150, s.height);
-    s.vertex(s.width, s.height - 150);
+    s.vertex(0, 0);
+    s.vertex(150, 0);
+    s.vertex(0, 150);
     s.endShape();
+    s.translate(70, 70);
+    s.rotate(-Math.PI/4);
+    s.textAlign(s.CENTER, s.BOTTOM);
+    s.textSize(20);
+    s.fill(255);
   };
 
   s.update = function(detail) {

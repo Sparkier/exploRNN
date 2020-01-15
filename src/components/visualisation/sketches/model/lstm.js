@@ -189,7 +189,7 @@ export class LSTM {
   }
 
   /**
-   * the drawing function of the lstm model that gets called every frame
+   * The drawing function of the lstm model that gets called every frame
    * the lstm cell should be visible on the p5 sketch canvas
    */
   draw() {
@@ -350,7 +350,7 @@ class Connection {
   }
 
   /**
-   * the drawing function of connection class, responsible for drawing
+   * The drawing function of connection class, responsible for drawing
    * the connection line according to the set values
    */
   draw() {
@@ -567,7 +567,7 @@ class Item {
   }
 
   /**
-   * this function increases the amount of active inputs by one, if the
+   * This function increases the amount of active inputs by one, if the
    * maximum amount of input activtaions is reached this item will fire
    * an activation trigger in the next update cycle
    */
@@ -594,8 +594,6 @@ class Item {
         if (this.s.lstmStep === this.s.props.training.values) {
           this.s.lstmStep = 0;
           this.s.lstmPred++;
-          console.log('SEND', this.s.lstmStep, this.s.lstmPred,
-              this.s.props.training.predictions);
           if (this.s.lstmPred >= this.s.props.training.predictions) {
             this.s.lstmPred = 0;
             this.s.props.actions.updateTraining(
