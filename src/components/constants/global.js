@@ -9,6 +9,9 @@ const globalENG = {
     plotInput: 'Input',
     plotOutput: 'Target',
     plotPrediction: 'Prediction',
+    tooltipCell: 'click for detail',
+    tooltipDelete: 'remove layer',
+    tooltipAdd: 'add layer',
     epoch: {
       title: 'Epochs',
       description: 'This is a description',
@@ -17,23 +20,24 @@ const globalENG = {
       {
         id: 0,
         title: 'Prediction',
-        description: 'An example of input is given to the net which presents ' +
-          'a prediction',
-        longDescription: 'An example longer Description,,,,, ' +
-          'a prediction lorem ipsum',
+        description: 'A random sample input is shown to the net value by ' +
+          'value. The net than makes a predicition on how this sample would ' +
+          'continue over time.',
+        longDescription: 'Test',
       },
       {
         id: 1,
         title: 'Validation',
-        description: 'The prediction is compared to the actual solution',
+        description: 'The predicted values are compared to the target values ' +
+          'and the total loss is calculated.',
         longDescription: 'An example longer Description,,,,, ' +
           'a prediction lorem ipsum',
       },
       {
         id: 2,
         title: 'Training',
-        description: 'The deviation is given back to the net so that it can ' +
-          'learn to make better predictions',
+        description: 'The net is told how bad its prediction was and then ' +
+          'tries to update its inner variables.',
         longDescription: 'An example longer Description,,,,, ' +
           'a prediction lorem ipsum',
       },
@@ -174,6 +178,9 @@ const globalGER = {
     plotInput: 'Vorgabe',
     plotOutput: 'Referenz',
     plotPrediction: 'Vorhersage',
+    tooltipCell: 'Detailansicht',
+    tooltipDelete: 'Zelle entfernen',
+    tooltipAdd: 'Neue Ebene',
     epoch: {
       title: 'Epochen',
       description: 'Das ist eine Beschreibung',
@@ -181,53 +188,59 @@ const globalGER = {
     trainSteps: [
       {
         id: 0,
-        title: 'Vermutung',
-        description: 'Das ist eine Beschreibung',
+        title: 'Vorhersage',
+        description: 'Ein zufällige Eingabe wird aus den Testdaten gewählt ' +
+          'und dem Netz präsentiert. Dieses berechnet dann eine mögliche ' +
+          'Vorhersage zum weiteren Verlauf.',
         longDescription: 'Das ist eine längere Beschreibung',
       },
       {
         id: 1,
-        title: 'Vergleich',
-        description: 'Das ist eine Beschreibung',
+        title: 'Überprüfung',
+        description: 'Die vorhergesagten Werte werden mit dem tatsächlichen ' +
+          'Verlauf verglichen. Daraus wird dann ein Gesamtfehler errechnet.',
         longDescription: 'Das ist eine längere Beschreibung',
       },
       {
         id: 2,
         title: 'Training',
-        description: 'Das ist eine Beschreibung',
+        description: 'Der Fehler wird dem Netz mitgeteil. Dieses versucht ' +
+          'dann die inneren Variablen entsprechend anzupassen.',
         longDescription: 'Das ist eine längere Beschreibung',
       },
     ],
     lstmSteps: [
       {
         id: 0,
-        title: 'Eingabe',
-        description: 'Das ist eine Beschreibung',
+        title: 'Start',
+        description: 'Die Zelle wartet auf alle notwendigen Eingaben.',
       },
       {
         id: 1,
         title: 'Eingabe der Ebene',
-        description: 'Das ist eine Beschreibung',
+        description: 'Die Eingaben werden zu einem Wert zusammengefasst.',
       },
       {
         id: 2,
         title: 'Aktivierung',
-        description: 'Das ist eine Beschreibung',
+        description: 'Die neue Eingabe wird von Input und Forget Gate' +
+          ' verarbeitet.',
       },
       {
         id: 3,
         title: 'Update der Zelle',
-        description: 'Das ist eine Beschreibung',
+        description: 'Es wird ein Update für den Zell Zustand errechnet.',
       },
       {
         id: 4,
         title: 'Zell Zustand',
-        description: 'Das ist eine Beschreibung',
+        description: 'Der Zell Zustand wird angepasst.',
       },
       {
         id: 5,
         title: 'Ausgabe',
-        description: 'Das ist eine Beschreibung',
+        description: 'Die aktuelle Eingabe wird mit dem Zell Zustand im ' +
+          'Output Gate zur Ausgabe verarbeitet.',
       },
     ],
     defaultDescription: '[fehlende Beschreibung]',

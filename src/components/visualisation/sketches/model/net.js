@@ -232,12 +232,10 @@ class Layer {
           s.textSize(s.typography.fontsize);
         }
         s.noStroke();
-        s.colors.bluegrey.setAlpha(170);
-        s.fill(s.colors.bluegrey);
-        s.colors.bluegrey.setAlpha(255);
+        s.fill(s.colors.darkbluegrey);
         s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 110, 25);
         s.fill(255);
-        s.text('Click for detail', s.mouseX,
+        s.text(s.global.strings.tooltipCell, s.mouseX,
             s.mouseY + s.typography.tooltipoffset);
       } else if (this.hover_right && this.s.props.network.layers > 1 ) {
         s.noStroke();
@@ -245,16 +243,15 @@ class Layer {
         s.rect(this.x + w/2 - this.clSize / 2, this.y - h/2 + this.clSize / 2,
             this.clSize, this.clSize);
         s.textAlign(s.CENTER, s.CENTER);
-        s.colors.bluegrey.setAlpha(170);
-        s.fill(s.colors.bluegrey);
-        s.colors.bluegrey.setAlpha(255);
-        s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 110, 25);
+        s.fill(s.colors.darkbluegrey);
+        s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 120, 25);
         s.fill(255);
         s.textSize(this.clSize/2);
         s.text('X', this.x + w/2 - this.clSize / 2,
             this.y - h/2 + this.clSize / 2);
         s.textSize(s.typography.fontsize);
-        s.text('Remove Layer', s.mouseX, s.mouseY + s.typography.tooltipoffset);
+        s.text(s.global.strings.tooltipDelete, s.mouseX,
+            s.mouseY + s.typography.tooltipoffset);
       }
     }
   }
@@ -401,13 +398,12 @@ class FakeLayer {
     s.textSize(s.typography.fontsize);
     s.colors.darkbluegrey.setAlpha(255);
     if (this.hover) {
-      s.colors.bluegrey.setAlpha(170);
-      s.fill(s.colors.bluegrey);
-      s.colors.bluegrey.setAlpha(255);
+      s.fill(s.colors.darkbluegrey);
       s.noStroke();
-      s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 85, 25);
+      s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 100, 25);
       s.fill(255);
-      s.text('Add Layer', s.mouseX, s.mouseY + s.typography.tooltipoffset);
+      s.text(s.global.strings.tooltipAdd, s.mouseX,
+          s.mouseY + s.typography.tooltipoffset);
     }
   }
 
