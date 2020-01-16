@@ -79,9 +79,9 @@ const globalENG = {
     defaultDescription: '[missing description]',
   },
   types: [
-    {name: 'RNN'},
-    {name: 'LSTM'},
-    {name: 'GRU'},
+    {name: 'RNN', disabled: true},
+    {name: 'LSTM', disabled: false},
+    {name: 'GRU', disabled: true},
   ],
   languages: [
     {name: 'ENG'},
@@ -246,9 +246,9 @@ const globalGER = {
     defaultDescription: '[fehlende Beschreibung]',
   },
   types: [
-    {name: 'RNN'},
-    {name: 'LSTM'},
-    {name: 'GRU'},
+    {name: 'RNN', disabled: true},
+    {name: 'LSTM', disabled: false},
+    {name: 'GRU', disabled: true},
   ],
   languages: [
     {name: 'ENG'},

@@ -302,6 +302,7 @@ class Layer {
       }
     }
     this.clicked = this.hover;
+    this.hover = false;
   }
 
   /**

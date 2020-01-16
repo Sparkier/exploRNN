@@ -3,11 +3,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import {Grid, Paper, Typography, Link} from '@material-ui/core';
+import {Grid, Paper, Typography, Link, IconButton} from '@material-ui/core';
 import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
 import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
 import globalConstants from '../../constants/global';
+import Jump from '@material-ui/icons/ArrowForward';
 
 /**
  * Controls at bottom of the Application
@@ -115,11 +116,15 @@ class InputPanel extends React.Component {
                         {step.title}
                       </Link>
                       {this.props.ui.detail ?
-                        <Link className={this.props.classes.typoCv}
-                          href={'#'} onClick={(event) => this.onJump(step.id)}
-                          style={{marginLeft: '12px'}}>
-                            [JUMP]
-                        </Link> :
+                        <IconButton
+                          size="small"
+                          variant="outlined"
+                          disabled ={this.props.ui.state[step.id]}
+                          style={{marginLeft: '12px'}}
+                          className={this.props.classes.button_cell}
+                          onClick={(event) => this.onJump(step.id)}>
+                          <Jump style={{color: 'white'}}/>
+                        </IconButton> :
                         null
                       }
                     </Typography>

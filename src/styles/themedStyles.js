@@ -79,8 +79,6 @@ const styles = (theme) => ({
     fontSize: '20px',
   },
   button_cell: {
-    'paddingLeft': '12px',
-    'paddingRight': '12px',
     'margin': '5px',
     'color': 'white',
     'borderRadius': '50%',
@@ -89,8 +87,6 @@ const styles = (theme) => ({
       'background': theme.palette.detail.dark,
     },
   }, button_net: {
-    'paddingLeft': '12px',
-    'paddingRight': '12px',
     'margin': '10px',
     'color': 'white',
     'borderRadius': '50%',

@@ -155,7 +155,8 @@ class Controls extends React.Component {
           >
             {
               global.types.map((x) => (
-                <MenuItem key={x.name} value={x.name}>{x.name}</MenuItem>
+                <MenuItem key={x.name} disabled={x.disabled}
+                  value={x.name}>{x.name}</MenuItem>
               ))
             }
           </StyledSelect>
