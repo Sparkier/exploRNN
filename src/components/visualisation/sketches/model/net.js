@@ -74,11 +74,11 @@ export class Network {
     const titleH = s.typography.fontsize * 2;
     s.textAlign(s.CENTER, s.CENTER);
     s.rectMode(s.CENTER);
-    s.fill(s.colors.bluegrey);
+    s.fill(s.palette.tooltipBG);
     s.noStroke();
     s.rect(s.netProps.midX, offset / 2, 0.15 * s.netProps.height, titleH, 5);
     s.textSize(s.typography.fontsize);
-    s.fill(s.colors.white);
+    s.fill(s.palette.tooltipFG);
     s.noStroke();
     s.text(s.global.strings.networkTitle, s.netProps.midX, offset / 2);
   }

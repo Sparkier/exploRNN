@@ -49,12 +49,46 @@ class InputPanel extends React.Component {
    *
    * @param {*} id
    */
+  onJump(id) {
+    const trigger = [false, false, false];
+    trigger[id] = true;
+    this.props.actions.updateUI({
+      ...this.props.ui,
+      trigger: trigger,
+    });
+  }
+
+  /**
+   *
+   * @param {*} id
+   */
   handleClose() {
     const dialogs = [false, false, false];
     this.props.actions.updateAppState({
       ...this.props.appState,
       inputDialog: dialogs,
     });
+  }
+
+  /**
+   * @param {number} id
+   * @return {object} the style for the given id
+   */
+  getClass(id) {
+    if (!this.props.ui.detail) {
+      if (!this.props.ui.ready &&
+          this.props.ui.trainingStep === (id + 1) ) {
+        return this.props.classes.typoOv;
+      } else {
+        return this.props.classes.typoOvOff;
+      }
+    } else {
+      if (this.props.ui.state[id]) {
+        return this.props.classes.typoCv;
+      } else {
+        return this.props.classes.typoCvOff;
+      }
+    }
   }
 
   /**
@@ -67,23 +101,27 @@ class InputPanel extends React.Component {
     const global = globalConstants[this.props.appState.language];
     return (
       <Grid id="inppan" container item xs={4} justify='center'>
-        <Paper className={this.props.classes.panelOv} >
+        <Paper className={this.props.ui.detail ?
+          this.props.classes.panelCv : this.props.classes.panelOv} >
           <Grid container style={{height: '100%'}}xs={12}>
             {
               global.strings.trainSteps.map((step) => (
                 <Grid item xs={12} key={step.id} style={{margin: '10px'}}>
                   <Grid item>
                     <Typography align='left'>
-                      <Link className = {
-                          !this.props.ui.detail &&
-                          !this.props.ui.ready &&
-                          this.props.ui.trainingStep === (step.id + 1) ?
-                          this.props.classes.typoOv :
-                          this.props.classes.typoOvOff
-                      } href="#" onClick={(event) => this.onClick(step.id)}
+                      <Link className = {this.getClass(step.id)}
+                        href="#" onClick={(event) => this.onClick(step.id)}
                       >
                         {step.title}
                       </Link>
+                      {this.props.ui.detail ?
+                        <Link className={this.props.classes.typoCv}
+                          href={'#'} onClick={(event) => this.onJump(step.id)}
+                          style={{marginLeft: '12px'}}>
+                            [JUMP]
+                        </Link> :
+                        null
+                      }
                     </Typography>
                   </Grid>
                   <Grid item>

@@ -49,7 +49,8 @@ export default {
     trainingStep: 0,
     cellAnimStep: 0,
     panelHeight: 0,
-    error: false,
+    state: [true, false, false],
+    trigger: [false, false, false],
   },
   appState: {
     help: false,

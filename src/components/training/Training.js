@@ -106,7 +106,9 @@ class Training extends React.Component {
             netAnim: false,
             lstmStep: 0,
             plotStep: 0,
-            trainingStep: 0}
+            trainingStep: 0,
+            state: [true, false, false],
+          }
       );
     }
     if (this.props.training.step) {
@@ -119,7 +121,9 @@ class Training extends React.Component {
             netAnim: false,
             lstmStep: 0,
             plotStep: 0,
-            trainingStep: 0}
+            trainingStep: 0,
+            state: [true, false, false],
+          }
       );
       this.props.actions.updateTraining(
           {...this.props.training, reset: false, step: false, running: false,

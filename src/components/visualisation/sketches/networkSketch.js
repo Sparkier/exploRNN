@@ -45,7 +45,7 @@ export default function(s) {
     errorStep: 0,
     forward: true,
     error: false,
-    backward: false,
+    back: false,
   };
   s.typography = {
     fontsize: 16,
@@ -90,6 +90,8 @@ export default function(s) {
     cvPrimary: s.colors.orange,
     cvSecondary: s.colors.orangedark,
     cvContrast: s.colors.orangelight,
+    tooltipBG: s.colors.darkbluegrey,
+    tooltipFG: s.colors.white,
   };
 
   s.setup = function() {
@@ -202,18 +204,14 @@ export default function(s) {
       const pauseMult = 1 - Math.sin(timeDist);
       s.pause = Math.round((1010 - s.props.ui.speed) / 10 * pauseMult) + 1;
     }
-    // if (s.detail && s.props.ui.anim && s.frameCount % s.pause === 0) {
-    //  s.cell.update();
-    // }
-    if (s.detail && s.props.ui.anim && s.frameCount % s.pause === 0) {
-      s.cell.update();
+    if (s.detail && s.props.ui.anim) {
+      s.cell.update(false);
     }
     s.drawLoss();
     s.drawPlots();
     s.drawInput();
     s.drawNetwork();
     s.drawCell();
-    // draw cell input/output
     s.drawCellPlot();
   };
 
@@ -255,7 +253,7 @@ export default function(s) {
       s.network.push({size: 1, type: 'output'});
       if (s.props.ui.animStep) {
         s.props = {...s.props, ui: {...s.props.ui, animStep: false}};
-        s.cell.update();
+        s.cell.update(true);
       }
       if (s.props.training.step) {
         s.cellAnim = {
@@ -267,7 +265,7 @@ export default function(s) {
           errorStep: 0,
           forward: true,
           error: false,
-          backward: false,
+          back: false,
         };
       }
       if (!s.netAnim) {
@@ -298,9 +296,26 @@ export default function(s) {
     }
     s.update = true;
     s.global = s.constants[s.props.appState.language];
-    if(s.props.ui.error != s.cellAnim.error && s.props.ui.error) {
-      s.cell.prepareError();
-      s.props.actions.updateUI({...s.props.ui, error: false});
+    for (let i = 0; i < s.props.ui.trigger.length; i++) {
+      if (s.props.ui.trigger[i]) {
+        if (i === 0) {
+          s.cellAnim.forward = true;
+          s.cell.reset();
+        } else if (i === 1) {
+          s.cellAnim.error = true;
+          s.cell.prepareError();
+        } else {
+          s.cellAnim.back = true;
+          s.cell.prepareBackprop();
+        }
+        s.props.actions.updateUI(
+            {...s.props.ui,
+              state: [s.cellAnim.forward, s.cellAnim.error, s.cellAnim.back],
+              trigger: [false, false, false],
+            }
+        );
+        break;
+      }
     }
   };
 
@@ -319,7 +334,7 @@ export default function(s) {
       errorStep: 0,
       forward: true,
       error: false,
-      backward: false,
+      back: false,
     };
     s.net = new Network(s);
     s.cell = new LSTM(s);

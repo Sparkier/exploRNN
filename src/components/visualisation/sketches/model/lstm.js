@@ -208,10 +208,13 @@ export class LSTM {
   /**
    * This functions sends an update trigger to all items and connections
    * to check if one of them needs to forward their activation
+   *
+   * @param {boolean} forced true, if the update should be done independently
+   * from the framecount
    */
-  update() {
+  update(forced) {
     const s = this.s;
-    if(s.cellAnim.forward) {
+    if (s.cellAnim.forward && (s.frameCount % s.pause === 0 || forced)) {
       for (const c of this.connections) {
         c.sendActivations();
       }
@@ -224,21 +227,43 @@ export class LSTM {
       for (const i of this.items) {
         i.updateActivation();
       }
-    } else if(s.cellAnim.error) {
+    } else if (s.cellAnim.error && (s.frameCount % 2 === 0 || forced)) {
       // animate error calculation
       s.cellAnim.errorStep++;
-      if(s.cellAnim.errorStep >= this.s.cellAnim.maxErrorSteps) {
+      if (s.cellAnim.errorStep >= this.s.cellAnim.maxErrorSteps) {
         s.cellAnim.errorStep = 0;
         s.cellAnim.error = false;
-        s.cellAnim.backward = true;
+        s.cellAnim.back = true;
+        this.s.props = {...this.s.props, ui: {...this.s.props.ui,
+          state: [false, false, true]}};
       }
-    } else if(s.cellAnim.backward) {
+    } else if (s.cellAnim.back) {
       // animate BPTT
     }
-    
     this.s.props.actions.updateUI({...this.s.props.ui});
   }
 
+  /**
+   *
+   */
+  prepareBackprop() {
+    const s = this.s;
+    s.cellAnim = {
+      maxSteps: 11,
+      maxErrorSteps: 50,
+      step: 0,
+      inputStep: 0,
+      predictionStep: 0,
+      errorStep: 0,
+      forward: false,
+      error: false,
+      back: true,
+    };
+  }
+
+  /**
+   *
+   */
   prepareError() {
     const s = this.s;
     s.cellAnim = {
@@ -250,7 +275,7 @@ export class LSTM {
       errorStep: 0,
       forward: false,
       error: true,
-      backward: false,
+      back: false,
     };
     s.pause = 1;
     for (const c of this.connections) {
@@ -271,6 +296,18 @@ export class LSTM {
    * Resets all activations to 0 and sets the starting items to 1
    */
   reset() {
+    const s = this.s;
+    s.cellAnim = {
+      maxSteps: 11,
+      maxErrorSteps: 50,
+      step: 0,
+      inputStep: 0,
+      predictionStep: 0,
+      errorStep: 0,
+      forward: true,
+      error: false,
+      back: false,
+    };
     for (const c of this.connections) {
       c.deactivate();
     }
@@ -597,6 +634,8 @@ class Item {
             s.cellAnim.predictionStep = 0;
             s.cellAnim.error = true;
             s.cellAnim.forward = false;
+            this.s.props = {...this.s.props, ui: {...this.s.props.ui,
+              state: [false, true, false]}};
           }
         }
       }

@@ -63,7 +63,7 @@ export class CellPlot {
     s.translate(s.cellPlotProps.midX, s.cellPlotProps.midY);
     s.ellipseMode(s.CENTER);
     // draw the scan box while animating
-    if(s.cellAnim.forward) {
+    if (s.cellAnim.forward) {
       s.noStroke();
       const left = (-this.halfW) + (s.cellAnim.predictionStep * this.stepWidth);
       const right = left + ((this.in - 1) * this.stepWidth);
@@ -72,7 +72,7 @@ export class CellPlot {
       s.colors.lightgrey.setAlpha(255);
       s.rect(left + ((this.in - 1) * this.stepWidth) / 2, 0,
           ((this.in - 1) * this.stepWidth), 1.2 * this.halfH);
-      const tween = 
+      const tween =
         (s.cellAnim.step + s.cellAnim.inputStep * s.cellAnim.maxSteps) /
         (s.cellAnim.maxSteps * this.in);
       s.stroke(s.colors.darkgrey);
@@ -144,6 +144,30 @@ export class CellPlot {
         s.ellipse(-this.halfW + (i * detailStepWidth),
             -this.halfH / 2 * data, 4);
       }
+      if (!s.cellAnim.forward) {
+        let errorRatio = s.cellAnim.errorStep / s.cellAnim.maxErrorSteps;
+        if (s.cellAnim.backward) {
+          errorRatio = 1;
+        }
+        s.stroke(s.colors.darkgrey);
+        s.strokeWeight(1);
+        for (let i = this.in; i <= this.total; i++) {
+          data = scanPlot[i];
+          truth = groundTruth[i];
+          from = -this.halfH / 2 * data;
+          to = -this.halfH / 2 * truth;
+          s.line(-this.halfW + (i * detailStepWidth), from,
+              -this.halfW + (i * detailStepWidth),
+              from + (to - from) * errorRatio);
+        }
+        s.noStroke();
+        s.fill(s.colors.grey);
+        for (let i = this.in; i <= endIndex; i++) {
+          data = groundTruth[i];
+          s.ellipse(-this.halfW + (i * detailStepWidth),
+              -this.halfH / 2 * data, 4);
+        }
+      }
       s.stroke(s.colors.orange);
       s.strokeWeight(3);
       s.noFill();
@@ -156,7 +180,7 @@ export class CellPlot {
       s.endShape();
 
       // draw scanned points
-      if(s.cellAnim.forward) {
+      if (s.cellAnim.forward) {
         s.noStroke();
         s.fill(s.colors.orangedark);
         const leftIndex = s.cellAnim.predictionStep;
@@ -176,36 +200,12 @@ export class CellPlot {
           if (s.cellAnim.inputStep === this.in - 1) {
             s.fill(s.colors.orangedark);
             s.ellipse(-this.halfW + (endIndex * detailStepWidth),
-              (-this.halfH / 2 * data), 12);
+                (-this.halfH / 2 * data), 12);
           } else {
             s.fill(s.colors.orange);
             s.ellipse(-this.halfW + (endIndex * detailStepWidth),
-              (-this.halfH / 2 * data), 10);
+                (-this.halfH / 2 * data), 10);
           }
-        }
-      }
-      if(!s.cellAnim.forward) {
-        let errorRatio = s.cellAnim.errorStep / s.cellAnim.maxErrorSteps;
-        if(s.cellAnim.backward) {
-          errorRatio = 1;
-        }
-        s.stroke(s.colors.darkgrey);
-        s.strokeWeight(2);
-        for (let i = this.in; i <= this.total; i++) {
-          data = scanPlot[i];
-          truth = groundTruth[i];
-          from = -this.halfH / 2 * data;
-          to = -this.halfH / 2 * truth;
-          s.line(-this.halfW + (i * detailStepWidth), from,
-              -this.halfW + (i * detailStepWidth), 
-              from + (to - from) * errorRatio);
-        }
-        s.noStroke();
-        s.fill(s.colors.grey);
-        for (let i = this.in; i <= endIndex; i++) {
-          data = groundTruth[i];
-          s.ellipse(-this.halfW + (i * detailStepWidth),
-              -this.halfH / 2 * data, 4);
         }
       }
     }

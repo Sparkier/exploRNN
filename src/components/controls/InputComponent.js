@@ -32,15 +32,13 @@ class Input extends React.Component {
           {
             this.props.ui.detail ?
             <DescriptionPanel/>:
-            <InputPanel/>
+            <OutputPanel/>
           }
           {
             <ControlPanel/>
           }
           {
-            this.props.ui.detail ?
-            <ValuePanel/>:
-            <OutputPanel/>
+            <InputPanel/>
           }
         </Grid>
       </div>
