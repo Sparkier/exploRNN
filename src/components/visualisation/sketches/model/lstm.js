@@ -214,7 +214,10 @@ export class LSTM {
    */
   update(forced) {
     const s = this.s;
-    if (s.cellAnim.forward && (s.frameCount % s.pause === 0 || forced)) {
+    if(s.cellAnim.forward) {
+      s.cellAnim.frame++;
+    }
+    if (s.cellAnim.forward && (s.cellAnim.frame % s.pause === 0 || forced)) {
       for (const c of this.connections) {
         c.sendActivations();
       }
@@ -234,13 +237,125 @@ export class LSTM {
         s.cellAnim.errorStep = 0;
         s.cellAnim.error = false;
         s.cellAnim.back = true;
+        this.showBackStep(0);
         this.s.props = {...this.s.props, ui: {...this.s.props.ui,
           state: [false, false, true]}};
       }
-    } else if (s.cellAnim.back) {
+    } else if (s.cellAnim.back && (s.frameCount % 5 === 0 || forced)) {
       // animate BPTT
+      s.cellAnim.backStep++;
+      this.showBackStep(s.cellAnim.backStep);
+      if (s.cellAnim.backStep >= s.cellAnim.maxBackSteps) {
+        s.cellAnim.backStep = 0;
+        s.cellAnim.back = false;
+        this.s.props = {
+          ...this.s.props,
+          ui: {
+            ...this.s.props.ui,
+            state: [true, false, false],
+          },
+        };
+        this.s.props.actions.updateTraining(
+            {...this.s.props.training, step: true}
+        );
+      }
     }
     this.s.props.actions.updateUI({...this.s.props.ui});
+  }
+
+  /**
+   *
+   * @param {*} step the current step in the backprop animation
+   */
+  showBackStep(step) {
+    for (const c of this.connections) {
+      c.deactivate();
+    }
+    for (const i of this.items) {
+      i.deactivate();
+    }
+    if (step === 0) {
+      this.ghostLast.addNegativeInput();
+      return;
+    }
+    if (step === 1) {
+      this.ghostOutput.addNegativeInput();
+      return;
+    }
+    if (step === 2) {
+      this.output.addNegativeInput();
+      return;
+    }
+    if (step === 3) {
+      this.cellOut.addNegativeInput();
+      this.cellToOutput.addNegativeInput();
+      this.crossCell.addNegativeInput();
+      this.toOutput.addNegativeInput();
+      return;
+    }
+    step -= 2;
+    switch (step % 12) {
+      case 0:
+        this.output.addNegativeInput();
+        this.ghostFirst.addNegativeInput();
+        this.forget.addNegativeInput();
+        break;
+      case 1:
+        this.cellOut.addNegativeInput();
+        this.cellToOutput.addNegativeInput();
+        this.cellToForget.addNegativeInput();
+        this.crossCell.addNegativeInput();
+        this.toOutput.addNegativeInput();
+        break;
+      case 2:
+        this.cell.addNegativeInput();
+        this.crossOutput.addNegativeInput();
+        break;
+      case 3:
+        this.saveToCell.addNegativeInput();
+        this.crossOutput.addNegativeInput();
+        break;
+      case 4:
+        this.save.addNegativeInput();
+        this.crossOutput.addNegativeInput();
+        break;
+      case 5:
+        this.addToSave.addNegativeInput();
+        this.forgetToSave.addNegativeInput();
+        this.crossOutput.addNegativeInput();
+        break;
+      case 6:
+        this.add.addNegativeInput();
+        this.forget.addNegativeInput();
+        this.crossOutput.addNegativeInput();
+        break;
+      case 7:
+        this.forget.addNegativeInput();
+        this.toInput.addNegativeInput();
+        this.toForget.addNegativeInput();
+        this.crossOutput.addNegativeInput();
+        break;
+      case 8:
+        this.forget.addNegativeInput();
+        this.crossOutput.addNegativeInput();
+        this.crossInput.addNegativeInput();
+        this.crossForget.addNegativeInput();
+        break;
+      case 9:
+        this.forget.addNegativeInput();
+        this.bus.addNegativeInput();
+        break;
+      case 10:
+        this.receive.addNegativeInput();
+        this.forget.addNegativeInput();
+        break;
+      case 11:
+        this.forget.addNegativeInput();
+        this.recurrent.addNegativeInput();
+        this.ghostInput.addNegativeInput();
+        break;
+      default:
+    }
   }
 
   /**
@@ -251,14 +366,19 @@ export class LSTM {
     s.cellAnim = {
       maxSteps: 11,
       maxErrorSteps: 50,
+      maxBackSteps: 62,
       step: 0,
+      frame: 0,
       inputStep: 0,
       predictionStep: 0,
       errorStep: 0,
+      backStep: 0,
       forward: false,
       error: false,
       back: true,
     };
+    s.pause = 10;
+    this.showBackStep(0);
   }
 
   /**
@@ -269,10 +389,13 @@ export class LSTM {
     s.cellAnim = {
       maxSteps: 11,
       maxErrorSteps: 50,
+      maxBackSteps: 62,
       step: 0,
+      frame: 0,
       inputStep: 0,
       predictionStep: 0,
       errorStep: 0,
+      backStep: 0,
       forward: false,
       error: true,
       back: false,
@@ -300,10 +423,13 @@ export class LSTM {
     s.cellAnim = {
       maxSteps: 11,
       maxErrorSteps: 50,
+      maxBackSteps: 62,
       step: 0,
+      frame: 0,
       inputStep: 0,
       predictionStep: 0,
       errorStep: 0,
+      backStep: 0,
       forward: true,
       error: false,
       back: false,
@@ -380,6 +506,7 @@ class Connection {
     this.next = goesTo;
     this.s = s;
     this.active = false;
+    this.negativeActivation = false;
     this.hover = false;
     this.activeInputs = 0;
   }
@@ -397,6 +524,11 @@ class Connection {
       s.stroke(s.colors.orange);
       s.strokeWeight(4);
       s.drawingContext.lineDashOffset = -s.frameCount/2;
+      s.drawingContext.setLineDash([10, 10]);
+    } else if (s.cellAnim.back && this.negativeActivation) {
+      s.stroke(s.colors.orange);
+      s.strokeWeight(4);
+      s.drawingContext.lineDashOffset = s.frameCount/2;
       s.drawingContext.setLineDash([10, 10]);
     }
     if (this.hover) {
@@ -423,10 +555,20 @@ class Connection {
   }
 
   /**
+   * Increases the amount of active inputs, since connections only can
+   * have one active input this function is equal to setting the connection
+   * to active
+   */
+  addNegativeInput() {
+    this.negativeActivation = true;
+  }
+
+  /**
    * Removes the current activations
    */
   deactivate() {
     this.active = false;
+    this.negativeActivation = false;
     this.activeInputs = 0;
   }
 
@@ -486,6 +628,7 @@ class Item {
     this.hover = false;
     this.clicked = false;
     this.active = false;
+    this.negativeActivation = false;
     this.connections = [];
     this.maxIngoingConnections = ingoing;
     this.currentActivatedConnecions = 0;
@@ -517,7 +660,7 @@ class Item {
     const s = this.s;
     let size = this.r;
     let imgSize = 0.6 * this.r;
-    if (this.active) {
+    if (this.active || (s.cellAnim.back && this.negativeActivation)) {
       size = this.r * 1.2;
       imgSize = 0.6 * this.r * 1.2;
     }
@@ -526,7 +669,7 @@ class Item {
       this.s.fill(s.colors.grey);
     }
     this.s.noStroke();
-    if (this.active) {
+    if (this.active || (s.cellAnim.back && this.negativeActivation)) {
       s.fill(s.colors.orange);
     } else if (this.currentActivatedConnecions !== 0) {
       s.fill(s.colors.orange);
@@ -545,18 +688,14 @@ class Item {
       const w = 0.05 * s.width;
       const h = 0.8 * w;
       s.noStroke();
-      if (this.active) {
-        s.fill(s.colors.orange, this.s.netAlpha);
+      if (this.active || (s.cellAnim.back && this.negativeActivation)) {
+        s.fill(s.colors.orange);
       } else {
         s.fill(s.colors.darkgrey);
       }
-      if (this.hover) {
-        s.stroke(100, this.s.netAlpha);
-        s.cursor(s.HAND);
-      }
       s.rect(this.x, this.y, w, h);
       s.noStroke();
-      s.fill(s.colors.white, this.s.netAlpha);
+      s.fill(s.colors.white);
       const left = this.x - w/2;
       const top = this.y - h/2;
       for (let i = 0; i < 5; i++) {
@@ -613,10 +752,19 @@ class Item {
   }
 
   /**
+   * This function sets the negativeActivation parameter to true, meaning it
+   * will be displayed as active in the backprop animation
+   */
+  addNegativeInput() {
+    this.negativeActivation = true;
+  }
+
+  /**
    * Removes the current activations
    */
   deactivate() {
     this.active = false;
+    this.negativeActivation = false;
     this.currentActivatedConnecions = 0;
   }
 
@@ -704,7 +852,7 @@ class Item {
   checkClick() {
     if (this.hover) {
       this.s.clickedItem = this;
-      let dialogs = [false, false, false, false, false, false];
+      const dialogs = [false, false, false, false, false, false];
       dialogs[this.id] = true;
       this.s.props.actions.updateAppState(
           {...this.s.props.appState, cellDialog: dialogs}

@@ -39,10 +39,13 @@ export default function(s) {
   s.cellAnim = {
     maxSteps: 11,
     maxErrorSteps: 20,
+    maxBackSteps: 62,
     step: 0,
+    frame: 0,
     inputStep: 0,
     predictionStep: 0,
     errorStep: 0,
+    backStep: 0,
     forward: true,
     error: false,
     back: false,
@@ -202,7 +205,7 @@ export default function(s) {
     if (s.props) {
       const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
       const pauseMult = 1 - Math.sin(timeDist);
-      s.pause = Math.round((1010 - s.props.ui.speed) / 10 * pauseMult) + 1;
+      s.pause = Math.round(10 * pauseMult) + 1;
     }
     if (s.detail && s.props.ui.anim) {
       s.cell.update(false);
@@ -259,10 +262,13 @@ export default function(s) {
         s.cellAnim = {
           maxSteps: 11,
           maxErrorSteps: 20,
+          maxBackSteps: 62,
+          frame: 0,
           step: 0,
           inputStep: 0,
           predictionStep: 0,
           errorStep: 0,
+          backStep: 0,
           forward: true,
           error: false,
           back: false,
@@ -328,10 +334,13 @@ export default function(s) {
     s.cellAnim = {
       maxSteps: 11,
       maxErrorSteps: 20,
+      maxBackSteps: 62,
       step: 0,
+      frame: 0,
       inputStep: 0,
       predictionStep: 0,
       errorStep: 0,
+      backStep: 0,
       forward: true,
       error: false,
       back: false,

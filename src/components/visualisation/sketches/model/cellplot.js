@@ -146,8 +146,8 @@ export class CellPlot {
       }
       if (!s.cellAnim.forward) {
         let errorRatio = s.cellAnim.errorStep / s.cellAnim.maxErrorSteps;
-        if (s.cellAnim.backward) {
-          errorRatio = 1;
+        if (s.cellAnim.back) {
+          errorRatio = 1 - s.cellAnim.backStep / s.cellAnim.maxBackSteps;
         }
         s.stroke(s.colors.darkgrey);
         s.strokeWeight(1);
@@ -156,6 +156,11 @@ export class CellPlot {
           truth = groundTruth[i];
           from = -this.halfH / 2 * data;
           to = -this.halfH / 2 * truth;
+          if (s.cellAnim.back) {
+            const buff = from;
+            from = to;
+            to = buff;
+          }
           s.line(-this.halfW + (i * detailStepWidth), from,
               -this.halfW + (i * detailStepWidth),
               from + (to - from) * errorRatio);
