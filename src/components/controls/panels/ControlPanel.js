@@ -81,7 +81,6 @@ class ControlPanel extends React.Component {
 
   /**
    *
-   * @param {*} id
    */
   onClick() {
     let dialog = this.props.appState.epochDialog;
@@ -94,7 +93,6 @@ class ControlPanel extends React.Component {
 
   /**
    *
-   * @param {*} id
    */
   handleClose() {
     this.props.actions.updateAppState({

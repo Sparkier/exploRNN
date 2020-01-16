@@ -10,7 +10,6 @@ import InputPanel from './panels/InputPanel';
 import ControlPanel from './panels/ControlPanel';
 import OutputPanel from './panels/OutputPanel';
 import DescriptionPanel from './panels/DescriptionPanel';
-import ValuePanel from './panels/ValuePanel';
 /**
  * The current Component holding all the input elements to change the Network
  * for Training.

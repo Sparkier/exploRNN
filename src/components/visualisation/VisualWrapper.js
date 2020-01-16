@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {Grid} from '@material-ui/core';
 import * as actions from '../../actions';
+import CellDialogs from './CellDialogs';
 import networkSketch from './sketches/networkSketch';
 import leftSide from './sketches/leftSidedSketch';
 import rightSide from './sketches/rightSidedSketch';
@@ -92,6 +93,7 @@ class VisualWrapper extends React.Component {
         <Grid item xs={1}>
           <div id = "rightDiv"/>
         </Grid>
+        <CellDialogs/>
       </Grid>
     );
   }

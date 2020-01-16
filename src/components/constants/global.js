@@ -12,6 +12,23 @@ const globalENG = {
     tooltipCell: 'click for detail',
     tooltipDelete: 'remove layer',
     tooltipAdd: 'add layer',
+    sideMenu: {
+      close: {
+        title: 'Close',
+      },
+      about: {
+        title: 'About',
+        description: 'Something about this app',
+      },
+      faq: {
+        title: 'FAQ',
+        description: 'No Questions up until now',
+      },
+      impressum: {
+        title: 'Impressum',
+        description: 'Made by me',
+      },
+    },
     epoch: {
       title: 'Epochs',
       description: 'This is a description',
@@ -77,6 +94,38 @@ const globalENG = {
       },
     ],
     defaultDescription: '[missing description]',
+    lstmGates: [
+      {
+        id: 0,
+        title: 'Layer Input',
+        description: 'Add description',
+      },
+      {
+        id: 1,
+        title: 'Input Gate',
+        description: 'Add description',
+      },
+      {
+        id: 2,
+        title: 'Forget Gate',
+        description: 'Add description',
+      },
+      {
+        id: 3,
+        title: 'Output Gate',
+        description: 'Add description',
+      },
+      {
+        id: 4,
+        title: 'State Update',
+        description: 'Add description',
+      },
+      {
+        id: 5,
+        title: 'Cell State',
+        description: 'Add description',
+      },
+    ],
   },
   types: [
     {name: 'RNN', disabled: true},
@@ -181,6 +230,23 @@ const globalGER = {
     tooltipCell: 'Detailansicht',
     tooltipDelete: 'Zelle entfernen',
     tooltipAdd: 'Neue Ebene',
+    sideMenu: {
+      close: {
+        title: 'Schließen',
+      },
+      about: {
+        title: 'Was ist leaRNN?',
+        description: 'Das ist leaRNN',
+      },
+      faq: {
+        title: 'FAQ',
+        description: 'Keine Fragen bis jetzt',
+      },
+      impressum: {
+        title: 'Impressum',
+        description: 'Impressum inhalt',
+      },
+    },
     epoch: {
       title: 'Epochen',
       description: 'Das ist eine Beschreibung',
@@ -244,6 +310,38 @@ const globalGER = {
       },
     ],
     defaultDescription: '[fehlende Beschreibung]',
+    lstmGates: [
+      {
+        id: 0,
+        title: 'Layer Input',
+        description: 'Beschreibung fehlt',
+      },
+      {
+        id: 1,
+        title: 'Input Gate',
+        description: 'Beschreibung fehlt',
+      },
+      {
+        id: 2,
+        title: 'Forget Gate',
+        description: 'Beschreibung fehlt',
+      },
+      {
+        id: 3,
+        title: 'Output Gate',
+        description: 'Beschreibung fehlt',
+      },
+      {
+        id: 4,
+        title: 'State Update',
+        description: 'Beschreibung fehlt',
+      },
+      {
+        id: 5,
+        title: 'Cell State',
+        description: 'Beschreibung fehlt',
+      },
+    ],
   },
   types: [
     {name: 'RNN', disabled: true},

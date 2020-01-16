@@ -13,11 +13,13 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
 import ListItemText from '@material-ui/core/ListItemText';
-import HelpIcon from '@material-ui/icons/Help';
 import HelpOutlined from '@material-ui/icons/HelpOutline';
-import Close from '@material-ui/icons/Cancel';
-import Info from '@material-ui/icons/Info';
+import Contact from '@material-ui/icons/MailOutline';
+import Close from '@material-ui/icons/ArrowForwardIos';
+import Menu from '@material-ui/icons/Menu';
+import Info from '@material-ui/icons/InfoOutlined';
 import * as actions from '../../actions';
 import styles from '../../styles/themedStyles';
 import globalConstants from '../constants/global';
@@ -132,6 +134,61 @@ class Controls extends React.Component {
   };
 
   /**
+   * @param {object} event
+   */
+  closeDrawer = () => {
+    this.toggleDrawer(false);
+  };
+
+  /**
+   *
+   */
+  onClickAbout() {
+    let dialog = this.props.appState.aboutDialog;
+    dialog = !dialog;
+    this.props.actions.updateAppState({
+      ...this.props.appState,
+      aboutDialog: dialog,
+    });
+  }
+
+  /**
+   *
+   */
+  onClickFAQ() {
+    let dialog = this.props.appState.faqDialog;
+    dialog = !dialog;
+    this.props.actions.updateAppState({
+      ...this.props.appState,
+      faqDialog: dialog,
+    });
+  }
+
+  /**
+   *
+   */
+  onClickImpressum() {
+    let dialog = this.props.appState.impressumDialog;
+    dialog = !dialog;
+    this.props.actions.updateAppState({
+      ...this.props.appState,
+      impressumDialog: dialog,
+    });
+  }
+
+  /**
+   *
+   */
+  handleClose() {
+    this.props.actions.updateAppState({
+      ...this.props.appState,
+      aboutDialog: false,
+      faqDialog: false,
+      impressumDialog: false,
+    });
+  }
+
+  /**
    * Readt render function controlling the look of the
    * AppBar of the Application
    *
@@ -173,7 +230,7 @@ class Controls extends React.Component {
           <IconButton disabled={false} variant="outlined"
             className={this.props.classes.headerIcon}
             onClick={this.helperMenu}>
-            {<HelpIcon fontSize="large"/>}
+            {<Menu/>}
           </IconButton>
           <Drawer
             anchor="right"
@@ -183,27 +240,72 @@ class Controls extends React.Component {
               role="presentation"
               onClick={this.helperMenu}
               onKeyDown={this.helperMenu}
+              onClose={() => this.closeDrawer()}
             >
               <List>
-                <ListItem button key={'close'}>
-                  <ListItemIcon>{<Close fontSize="large"/>}</ListItemIcon>
-                  <ListItemText primary={''} />
+                <ListItem button key={'close'} onClick={()=>this.closeDrawer()}
+                >
+                  <ListItemIcon>{<Close/>}</ListItemIcon>
+                  <ListItemText primary={global.strings.sideMenu.close.title} />
                 </ListItem>
                 <Divider />
-                <ListItem button key={'faq'}>
+                <ListItem button key={'basics'}
+                  onClick={()=>this.onClickAbout()}>
                   <ListItemIcon>
-                    {<HelpOutlined fontSize="large"/>}
+                    {<Info/>}
                   </ListItemIcon>
-                  <ListItemText primary={'FAQ'} />
+                  <ListItemText primary={global.strings.sideMenu.about.title} />
                 </ListItem>
-                <ListItem button key={'impressum'}>
-                  <ListItemIcon>{<Info fontSize="large"/>}</ListItemIcon>
-                  <ListItemText primary={'Impressum'} />
+                <ListItem button key={'faq'}
+                  onClick={()=>this.onClickFAQ()}>
+                  <ListItemIcon>
+                    {<HelpOutlined/>}
+                  </ListItemIcon>
+                  <ListItemText primary={global.strings.sideMenu.faq.title} />
+                </ListItem>
+                <ListItem button key={'impressum'}
+                  onClick={()=>this.onClickImpressum()}>
+                  <ListItemIcon>{<Contact/>}</ListItemIcon>
+                  <ListItemText
+                    primary={global.strings.sideMenu.impressum.title} />
                 </ListItem>
               </List>
               <Divider />
             </div>
           </Drawer>
+          <Dialog onClose={() => this.handleClose()}
+            open={this.props.appState.aboutDialog}>
+            <DialogTitle>
+              {global.strings.sideMenu.about.title}
+            </DialogTitle>
+            <DialogContent dividers>
+              <Typography gutterBottom>
+                {global.strings.sideMenu.about.description}
+              </Typography>
+            </DialogContent>
+          </Dialog>
+          <Dialog onClose={() => this.handleClose()}
+            open={this.props.appState.faqDialog}>
+            <DialogTitle>
+              {global.strings.sideMenu.faq.title}
+            </DialogTitle>
+            <DialogContent dividers>
+              <Typography gutterBottom>
+                {global.strings.sideMenu.faq.description}
+              </Typography>
+            </DialogContent>
+          </Dialog>
+          <Dialog onClose={() => this.handleClose()}
+            open={this.props.appState.impressumDialog}>
+            <DialogTitle>
+              {global.strings.sideMenu.impressum.title}
+            </DialogTitle>
+            <DialogContent dividers>
+              <Typography gutterBottom>
+                {global.strings.sideMenu.impressum.description}
+              </Typography>
+            </DialogContent>
+          </Dialog>
         </Toolbar>
       </AppBar>
     );

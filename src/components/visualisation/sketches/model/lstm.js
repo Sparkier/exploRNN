@@ -41,51 +41,51 @@ export class LSTM {
     // creating the cell components of the lstm cell
     this.items.push(
         this.receive =
-          new Item(cell, 'rec', 'Layer Input', 1, 1, 2, 1)
+          new Item(cell, 'rec', 1, 1, 2, 1, 0)
     );
     this.items.push(
         this.add =
-          new Item(cell, 'add', 'Input Gate', 2, 1, 1, 2)
+          new Item(cell, 'add', 2, 1, 1, 2, 1)
     );
     this.items.push(
         this.save =
-          new Item(cell, 'sav', 'State Update', 3, 1, 2, 3)
+          new Item(cell, 'sav', 3, 1, 2, 3, 4)
     );
     this.items.push(
         this.forget =
-          new Item(cell, 'los', 'Forget Gate', 4, 1, 2, 2)
+          new Item(cell, 'los', 4, 1, 2, 2, 2)
     );
     this.items.push(
         this.output =
-          new Item(cell, 'out', 'Output Gate', 5, 1, 2, 5)
+          new Item(cell, 'out', 5, 1, 2, 5, 3)
     );
     this.items.push(
         this.cell =
-          new Item(cell, 'cel', 'Cell State', 3, 2, 1, 4)
+          new Item(cell, 'cel', 3, 2, 1, 4, 5)
     );
     this.items.push(
         this.crossInput =
-          new Item(cell, 'crs', '', 2, 0.5, 1, -1)
+          new Item(cell, 'crs', 2, 0.5, 1, -1)
     );
     this.items.push(
         this.crossForget =
-          new Item(cell, 'crs', '', 4, 0.5, 1, -1)
+          new Item(cell, 'crs', 4, 0.5, 1, -1)
     );
     this.items.push(
         this.crossOutput =
-          new Item(cell, 'crs', '', 5, 0.5, 1, -1)
+          new Item(cell, 'crs', 5, 0.5, 1, -1)
     );
     this.items.push(
         this.crossCell =
-          new Item(cell, 'crs', '', 4.5, 1, 1, -1)
+          new Item(cell, 'crs', 4.5, 1, 1, -1)
     );
     this.items.push(
         this.ghostFirst =
-          new Item(cell, 'gft', '', -1, 1, 1, 0)
+          new Item(cell, 'gft', -1, 1, 1, 0)
     );
     this.items.push(
         this.ghostLast =
-          new Item(cell, 'glt', '', 7, 1, 1, 0)
+          new Item(cell, 'glt', 7, 1, 1, 0)
     );
 
     // setting uo the connections between the lstm cell items
@@ -469,20 +469,20 @@ class Item {
    *
    * @param {object} cell the constant cell values
    * @param {string} type the item type represented as a string
-   * @param {string} name the name to be displayed when hovering over this item
    * @param {number} x realtive x position of this item
    * @param {number} y the relative y position of this item
    * @param {number} ingoing the amount of ingoing connections
    * @param {number} step the corresponding description step
+   * @param {number} id the corresponding item id used for dialog handling
    */
-  constructor(cell, type, name, x, y, ingoing, step) {
+  constructor(cell, type, x, y, ingoing, step, id) {
+    this.s = cell.s;
     this.type = type;
-    this.name = name;
     this.cell = cell;
     this.x = cell.left + x * cell.horBuf;
     this.y = cell.top + y * cell.verBuf;
-    this.s = cell.s;
     this.step = step;
+    this.id = id;
     this.hover = false;
     this.clicked = false;
     this.active = false;
@@ -597,7 +597,9 @@ class Item {
       s.fill(0, 150);
       s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 110, 30);
       s.fill(255);
-      s.text(this.name, s.mouseX, s.mouseY + s.typography.tooltipoffset);
+      s.text(this.s.global.strings.lstmGates[this.id].title,
+          s.mouseX, s.mouseY + s.typography.tooltipoffset
+      );
     }
   }
 
@@ -702,6 +704,11 @@ class Item {
   checkClick() {
     if (this.hover) {
       this.s.clickedItem = this;
+      let dialogs = [false, false, false, false, false, false];
+      dialogs[this.id] = true;
+      this.s.props.actions.updateAppState(
+          {...this.s.props.appState, cellDialog: dialogs}
+      );
     }
     return this.clicked = this.hover;
   }

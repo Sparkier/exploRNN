@@ -59,6 +59,9 @@ export default {
     sliderDialog: [false, false, false],
     cellDialog: [false, false, false, false, false, false],
     epochDialog: false,
+    aboutDialog: false,
+    faqDialog: false,
+    impressumDialog: false,
   },
   firstcall: true,
 };
