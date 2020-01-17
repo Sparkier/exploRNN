@@ -214,7 +214,7 @@ export class LSTM {
    */
   update(forced) {
     const s = this.s;
-    if(s.cellAnim.forward) {
+    if (s.cellAnim.forward) {
       s.cellAnim.frame++;
     }
     if (s.cellAnim.forward && (s.cellAnim.frame % s.pause === 0 || forced)) {
@@ -245,7 +245,7 @@ export class LSTM {
       // animate BPTT
       s.cellAnim.backStep++;
       this.showBackStep(s.cellAnim.backStep);
-      if (s.cellAnim.backStep >= s.cellAnim.maxBackSteps) {
+      if (s.cellAnim.backStep > s.cellAnim.maxBackSteps) {
         s.cellAnim.backStep = 0;
         s.cellAnim.back = false;
         this.s.props = {
@@ -293,6 +293,10 @@ export class LSTM {
       this.toOutput.addNegativeInput();
       return;
     }
+    if (step === this.s.cellAnim.maxBackSteps) {
+      this.ghostFirst.addNegativeInput();
+      return;
+    }
     step -= 2;
     switch (step % 12) {
       case 0:
@@ -330,28 +334,38 @@ export class LSTM {
         this.crossOutput.addNegativeInput();
         break;
       case 7:
-        this.forget.addNegativeInput();
+        if (this.s.cellAnim.maxBackSteps - 12 > step) {
+          this.forget.addNegativeInput();
+        }
         this.toInput.addNegativeInput();
         this.toForget.addNegativeInput();
         this.crossOutput.addNegativeInput();
         break;
       case 8:
-        this.forget.addNegativeInput();
+        if (this.s.cellAnim.maxBackSteps - 12 > step) {
+          this.forget.addNegativeInput();
+        }
         this.crossOutput.addNegativeInput();
         this.crossInput.addNegativeInput();
         this.crossForget.addNegativeInput();
         break;
       case 9:
-        this.forget.addNegativeInput();
+        if (this.s.cellAnim.maxBackSteps - 12 > step) {
+          this.forget.addNegativeInput();
+        }
         this.bus.addNegativeInput();
         break;
       case 10:
         this.receive.addNegativeInput();
-        this.forget.addNegativeInput();
+        if (this.s.cellAnim.maxBackSteps - 12 > step) {
+          this.forget.addNegativeInput();
+        }
         break;
       case 11:
-        this.forget.addNegativeInput();
-        this.recurrent.addNegativeInput();
+        if (this.s.cellAnim.maxBackSteps - 12 > step) {
+          this.forget.addNegativeInput();
+          this.recurrent.addNegativeInput();
+        }
         this.ghostInput.addNegativeInput();
         break;
       default:

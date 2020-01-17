@@ -29,7 +29,7 @@ class OutputPanel extends React.Component {
       case global.sliders[0].key:
         this.props.actions.updateNetwork({
           ...this.props.network,
-          learningRate: value,
+          learningRate: Math.pow(10, value),
         });
         break;
       case global.sliders[1].key:
@@ -73,6 +73,19 @@ class OutputPanel extends React.Component {
   }
 
   /**
+   * Formats the value x to be of only necessary length
+   *
+   * @param {number} x the slider value
+   * @return {string}
+   */
+  getFormattedValue(x) {
+    const actual = Math.pow(10, x);
+    const log = Math.floor(x);
+    const sol = actual.toFixed(Math.abs(log - 1));
+    return sol;
+  }
+
+  /**
    * Readt render function controlling the look of the
    * AppBar of the Application
    *
@@ -93,7 +106,8 @@ class OutputPanel extends React.Component {
                       <Link href={'#'} onClick={() => this.onClick(slider.key)}
                         className={!this.props.ui.detail &&
                         !this.props.training.running ?
-                             this.props.classes.typoOv : this.props.classes.typoOvOff
+                             this.props.classes.typoOv :
+                             this.props.classes.typoOvOff
                         }>
                         {slider.title}
                       </Link>
@@ -116,11 +130,14 @@ class OutputPanel extends React.Component {
                         this.props.ui.detail || this.props.training.running
                       }
                       defaultValue={
-                        slider.key === 0 ? this.props.network.learningRate :
+                        slider.key === 0 ?
+                        Math.log10(this.props.network.learningRate, 10) :
                         (slider.key === 1 ? this.props.training.noise :
                           this.props.training.batchSize)
                       }
                       valueLabelDisplay="auto"
+                      valueLabelFormat={(x) => slider.key === 0 ?
+                        this.getFormattedValue(x) : x}
                       ValueLabelComponent={ValueLabelComponent}
                       step={slider.step}
                       min={slider.min}

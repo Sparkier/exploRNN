@@ -31,7 +31,8 @@ class DescriptionPanel extends React.Component {
                 >
                   <Grid item xs={12}>
                     <Typography variant="body1"
-                      className = {step.id === this.props.ui.lstmStep ?
+                      className = {step.id === this.props.ui.lstmStep &&
+                        this.props.ui.state[0] ?
                       this.props.classes.typoCv : this.props.classes.typoCvOff}
                       align='left'
                     >
