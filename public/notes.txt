@@ -4,35 +4,13 @@
 
 IMPROTANT:
     - adjust the key bindings with the correlating buttons and disable them accordingly
-    - consider to give user the option to chose multiple functions at once,
-    then the network really needs to learn timed correlations
     - fix font settings
 
 TODO:
-    - Rearrange data creation to support one by one prediction of
-        values
-    - Change the rest of the code to work with this new data creation 
-    - Leave the rest be for now
-
-
-Data - Plan:
-    - Train the model more intuitively by creating a large dataset
-        and let the network train over multiple epochs/batches
-    - Test the network with one prediction cycle after one epoch
-        -> take ONE sample data block (first?) and let the network predict a
-            whole interval of values step by step, while using the predicted
-            values also as new input value 
-        -> discuss the length of input and prediction intervals
+    - When clicking on the graph in the overview maybe also change to detail view
 
 
 Quick thoughts:
-    - for the net description panel make an overview with all steps and
-    highlight the current step while training, so the user can easily follow
-    the training process without being overwhelmed by too much text
-
-    - maybe make the visual components more "flächiger", more modern to 
-    adjust the look and feel 
-
     - maybe add an animated background, with small, soft animations for 
     a nicer look of the window itself
 
