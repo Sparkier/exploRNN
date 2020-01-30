@@ -11,20 +11,20 @@ export default {
       chartOut: [],
       chartPred: [],
     },
-    layerSize: 16,
+    layerSize: 16, // amount of memory cells per block
     layers: 3,
     learningRate: 0.025,
-    iteration: 0,
+    iteration: 0, // equal to the amount of epochs
     type: 'LSTM',
     activation: 'tanh',
   },
   training: {
     running: false,
     ready: true,
-    speed: 1000,
+    speed: 1000, // deprecated
     dataTypes: ['sin'],
-    dataVariant: 'random',
-    noise: 50,
+    dataVariant: 'random', // deprecated
+    noise: 50, // in percent
     values: 0,
     predictions: 0,
     dataSetSize: 100,
