@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import {Grid, Paper, Typography} from '@material-ui/core';
+import {Grid, Paper, Typography, Link} from '@material-ui/core';
+import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
 import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
 import globalConstants from '../../constants/global';
@@ -12,6 +13,31 @@ import globalConstants from '../../constants/global';
  * Controls at bottom of the Application
  */
 class DescriptionPanel extends React.Component {
+  /**
+   *
+   * @param {*} id
+   */
+  onClick(id) {
+    const dialogs = this.props.appState.stepDialog;
+    dialogs[id] = !dialogs[id];
+    this.props.actions.updateAppState({
+      ...this.props.appState,
+      stepDialog: dialogs,
+    });
+  }
+
+  /**
+   *
+   * @param {*} id
+   */
+  handleClose() {
+    const dialogs = [false, false, false, false, false, false];
+    this.props.actions.updateAppState({
+      ...this.props.appState,
+      stepDialog: dialogs,
+    });
+  }
+
   /**
    * React render function controlling the look of the
    * AppBar of the Application
@@ -30,13 +56,14 @@ class DescriptionPanel extends React.Component {
                   key={step.id} style={{margin: '10px'}}
                 >
                   <Grid item xs={12}>
-                    <Typography variant="body1"
-                      className = {step.id === this.props.ui.lstmStep &&
+                    <Typography align='left'>
+                      <Link className = {step.id === this.props.ui.lstmStep &&
                         this.props.ui.state[0] ?
                       this.props.classes.typoCv : this.props.classes.typoCvOff}
-                      align='left'
-                    >
-                      {step.id + ': ' + step.title}
+                      href="#" onClick={(event) => this.onClick(step.id)}
+                      >
+                        {step.id + ': ' + step.title}
+                      </Link>
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
@@ -47,6 +74,17 @@ class DescriptionPanel extends React.Component {
                       {step.description}
                     </Typography>
                   </Grid>
+                  <Dialog onClose={() => this.handleClose()}
+                    open={this.props.appState.stepDialog[step.id]}>
+                    <DialogTitle>
+                      {step.title}
+                    </DialogTitle>
+                    <DialogContent dividers>
+                      <Typography gutterBottom>
+                        {step.longDescription}
+                      </Typography>
+                    </DialogContent>
+                  </Dialog>
                 </Grid>
               ))
             }
@@ -64,6 +102,7 @@ DescriptionPanel.propTypes = {
   ui: PropTypes.object.isRequired,
   appState: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
 };
 
 /**

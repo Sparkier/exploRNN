@@ -58,6 +58,7 @@ export default {
     inputDialog: [false, false, false],
     sliderDialog: [false, false, false],
     cellDialog: [false, false, false, false, false, false],
+    stepDialog: [false, false, false, false, false, false],
     epochDialog: false,
     aboutDialog: false,
     faqDialog: false,
