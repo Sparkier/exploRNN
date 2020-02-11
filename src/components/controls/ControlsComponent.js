@@ -94,7 +94,7 @@ class Controls extends React.Component {
             this.props.network.layers <= 6
         ) {
           this.props.actions.updateNetwork({...this.props.network,
-            layers: this.props.network.layers - 1});
+            layers: this.props.network.layers + 1});
         }
         break;
       case 'Tab':
