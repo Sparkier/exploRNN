@@ -1,5 +1,5 @@
 /**
- * This class represents the plots of the input and output sides
+ * This class represents the plots of the output side
  * of the network visualisation
  */
 export class Plot {
@@ -8,12 +8,10 @@ export class Plot {
    *
    * @param {number} index the index of the plot, 2 being the currently used
    * data by the network
-   * @param {string} side either L or R, representing the left or right side
    * @param {object} s the p5 js sketch
    */
-  constructor(index, side, s) {
+  constructor(index, s) {
     this.s = s;
-    this.side = side;
     this.index = index;
     this.vis = 255 - Math.abs(2-index) * 110;
     this.cx = s.outProps.midX;
@@ -33,9 +31,9 @@ export class Plot {
   }
 
   /**
-   *
+   * Draws the plot with all calculated values
    */
-  overview() {
+  plotView() {
     let data;
     const s = this.s;
     let yOff = 0;
@@ -193,7 +191,7 @@ export class Plot {
     if (this.stepWidth === 2 && this.total !== 0) {
       this.stepWidth = this.plotWidth / this.total;
     }
-    this.overview();
+    this.plotView();
     if (this.index === 2) {
       const offset = s.height * s.typography.titleOffsetRatio;
       const titleH = s.typography.fontsize * 2;

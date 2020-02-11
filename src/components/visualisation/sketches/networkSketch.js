@@ -14,7 +14,7 @@ import {CellPlot} from './model/cellplot';
 export default function(s) {
   s.props = {};
   s.network = [];
-  s.plotsRight = [];
+  s.outputPlots = [];
   s.lossValues = [];
   s.constants = {};
   s.update = false;
@@ -182,9 +182,9 @@ export default function(s) {
     s.MAX_PLOT_FRAMES = s.plotMoveFrames + s.plotScanFrames + s.plotStayFrames;
     s.imageMode(s.CENTER);
     s.rectMode(s.CENTER);
-    s.plotsRight = [];
+    s.outputPlots = [];
     for (let i = 0; i < 5; i++) {
-      s.plotsRight.push(new Plot(i, 'R', s));
+      s.outputPlots.push(new Plot(i, s));
     }
     s.setupDone = true;
     s.updateMemory();
@@ -357,10 +357,9 @@ export default function(s) {
     const valDiv = document.getElementById('valueDiv');
     s.resizeCanvas(netDiv.offsetWidth,
         window.innerHeight - valDiv.offsetHeight - 50);
-    s.plotsLeft = [];
-    s.plotsRight = [];
+    s.outputPlots = [];
     for (let i = 0; i < 5; i++) {
-      s.plotsRight.push(new Plot(i, 'R', s));
+      s.outputPlots.push(new Plot(i, 'R', s));
     }
   };
 
@@ -390,7 +389,7 @@ export default function(s) {
     s.fill(s.palette.bgOut);
     s.rect(s.outLeft + s.sideWidthRight / 2, s.height / 2, s.sideWidthRight,
         s.height);
-    for (const plot of s.plotsRight) {
+    for (const plot of s.outputPlots) {
       plot.draw();
     }
     if (s.plotAnim && s.props.training.running) {

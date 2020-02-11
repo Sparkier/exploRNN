@@ -1,6 +1,6 @@
 /**
- * This function represents the sketch in which the network with user
- * interaction functionality is being drawn
+ * This function represents the sketch drawing the right colored triangle
+ * showing the current view
  *
  * @param {object} s the p5.js sketch
  */

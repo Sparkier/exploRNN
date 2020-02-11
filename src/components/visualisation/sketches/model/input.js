@@ -77,14 +77,14 @@ class Button {
   /**
    * The constructor of this class
    *
-  * @param {object} s the parent p5.js sketch
+   * @param {object} s the parent p5.js sketch
    * @param {string} type the function type of this button
    * @param {number} pos the position of this button
    * @param {number} dist the distance between two buttons
    * @param {number} steps the amount of function steps used for the button
    * image in this button
    * @param {number[]} noises an array of random noise values to be added
-  * to the button image
+   * to the button image
    */
   constructor(s, type, pos, dist, steps, noises) {
     this.s = s;

@@ -8,13 +8,12 @@ import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
 import {Typography} from '@material-ui/core';
 
 /**
- * This class handles the initialization and updating of the drawing
- * canvas(-es), that implement the animation and interaction with the
- * network itself
+ * This class is responsible for handling the dialogs corresponding to the
+ * cell components in the detail view of the application
  */
 class CellDialogs extends React.Component {
   /**
-   *
+   * Handles the closing of a dialog and updates the global state accordingly
    */
   handleClose() {
     this.props.actions.updateAppState({
@@ -22,10 +21,12 @@ class CellDialogs extends React.Component {
       cellDialog: [false, false, false, false, false, false],
     });
   }
+
   /**
-   * Creates a placeholder div component for the canvas to be put in
+   * Creates all necessary dialog components that can later be shown when
+   * interacting with the cell view elements
    *
-   * @return {object} the rendered div for the sketch canvas
+   * @return {object} the rendered react component
    */
   render() {
     const global = globalConstants[this.props.appState.language];

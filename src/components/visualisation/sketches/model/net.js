@@ -321,14 +321,14 @@ class Layer {
   }
 
   /**
-   * sets this layer to be active
+   * Sets this layer to be active
    */
   activate() {
     this.active = true;
   }
 
   /**
-   * sets this layer to be active
+   * Sets this layer to be active
    */
   deactivate() {
     this.active = false;

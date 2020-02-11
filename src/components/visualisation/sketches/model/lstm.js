@@ -88,7 +88,7 @@ export class LSTM {
           new Item(cell, 'glt', 7, 1, 1, 0)
     );
 
-    // setting uo the connections between the lstm cell items
+    // setting up the connections between the lstm cell items
     this.connections.push(
         this.ghostInput =
           new Connection([
@@ -264,8 +264,12 @@ export class LSTM {
   }
 
   /**
+   * Since activations can currently only be sent in one direction the
+   * backpropagation has to be worked around. This function determines for
+   * the current backprop step which elements/data flow lines have to be
+   * active to create the right animation.
    *
-   * @param {*} step the current step in the backprop animation
+   * @param {number} step the current step in the backprop animation
    */
   showBackStep(step) {
     for (const c of this.connections) {
@@ -373,7 +377,8 @@ export class LSTM {
   }
 
   /**
-   *
+   * Resets the animation object with the necessary values to then animate
+   * the backpropagation
    */
   prepareBackprop() {
     const s = this.s;
@@ -396,7 +401,8 @@ export class LSTM {
   }
 
   /**
-   *
+   * Resets the animation object with the necessary values to then animate
+   * the error calculation
    */
   prepareError() {
     const s = this.s;
