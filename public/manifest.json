@@ -1,6 +1,6 @@
 {
-  "short_name": "RNNVis",
-  "name": "RNNVis",
+  "short_name": "leaRNN",
+  "name": "leaRNN - A Learning Environment About Recurrent Neural Networks",
   "icons": [
     {
       "src": "favicon.ico",

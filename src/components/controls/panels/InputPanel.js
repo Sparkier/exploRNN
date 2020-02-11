@@ -144,7 +144,10 @@ class InputPanel extends React.Component {
                     </DialogTitle>
                     <DialogContent dividers>
                       <Typography gutterBottom>
-                        {step.longDescription + (step.id === 0 && !this.props.ui.detail ? step.note : '')}
+                        {step.longDescription + (
+                            step.id === 0 && !this.props.ui.detail ?
+                            step.note : ''
+                        )}
                       </Typography>
                     </DialogContent>
                   </Dialog>
