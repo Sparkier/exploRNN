@@ -1,5 +1,5 @@
-/* eslint-disable no-restricted-globals*/
-/* global tf, importScripts*/
+/* eslint-disable no-restricted-globals */
+/* global tf, importScripts */
 export default () => {
   self.addEventListener('message', (e) => {
     if (!e) return;

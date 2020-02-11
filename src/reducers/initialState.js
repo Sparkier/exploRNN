@@ -52,6 +52,11 @@ export default {
     state: [true, false, false],
     trigger: [false, false, false],
   },
+  /*
+  * for dialog boolean arrays check the global constants
+  * (src/components/constants/global.js) to compare the id
+  * values of the corresponding objects
+  */
   appState: {
     help: false,
     language: 'ENG',

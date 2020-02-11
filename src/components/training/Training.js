@@ -189,7 +189,7 @@ class Training extends React.Component {
   }
 
   /**
-   * This funtion takes all current generated data values used for training
+   * This function takes all current generated data values used for training
    * the network and saves them in the global state object
    *
    * @param {object} oldNetwork the previous network object from the state
