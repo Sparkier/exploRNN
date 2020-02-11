@@ -15,7 +15,8 @@ import globalConstants from '../../constants/global';
 import MyButton from '../comps/StyledButton';
 
 /**
- * Controls at bottom of the Application
+ * Controls at bottom of the application, allows user to control
+ * the training process
  */
 class ControlPanel extends React.Component {
   /**
@@ -37,7 +38,7 @@ class ControlPanel extends React.Component {
 
   /**
    * Handles the interaction with the reset button, lets the network
-   * know that it needs be reset
+   * know that it needs to be reset
    *
    * @memberof Input
    */
@@ -46,7 +47,7 @@ class ControlPanel extends React.Component {
   }
 
   /**
-   * This function makes the training go on by only one training step
+   * This function makes the training run for only one training step
    *
    * @memberof Input
    */
@@ -59,7 +60,7 @@ class ControlPanel extends React.Component {
   }
 
   /**
-   * creates a formatted string representation of the number
+   * Creates a formatted string representation of the number
    * of epochs, always having the same amount of characters
    *
    * @return {string} the formatted epoch number
@@ -68,7 +69,7 @@ class ControlPanel extends React.Component {
     let num = this.props.network.iteration;
     let out = '';
     let buff = 0;
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 6; i++) {
       if (i !== 0 && i % 3 === 0) {
         out = ',' + out;
       }
@@ -80,7 +81,8 @@ class ControlPanel extends React.Component {
   }
 
   /**
-   *
+   * Gets called if the user interacts with the epoch title and opens the
+   * corresponding dialog
    */
   onClick() {
     let dialog = this.props.appState.epochDialog;
@@ -92,7 +94,7 @@ class ControlPanel extends React.Component {
   }
 
   /**
-   *
+   * Handles the closing of the epoch dialog
    */
   handleClose() {
     this.props.actions.updateAppState({
@@ -102,10 +104,10 @@ class ControlPanel extends React.Component {
   }
 
   /**
-   * Readt render function controlling the look of the
-   * AppBar of the Application
+   * React render function controlling the look of the
+   * control element of the Application
    *
-   * @return {object} the react components rendered look
+   * @return {object} the react components rendered form
    */
   render() {
     const {classes} = this.props;
@@ -211,10 +213,10 @@ ControlPanel.propTypes = {
 };
 
 /**
- * Mapping the Controls state to the Props of this Class
+ * Map the states from redux to this property.
  *
- * @param {object} state ...
- * @return {object} ...
+ * @param {object} state - the global redux state.
+ * @return {object} - the new props of this component.
  */
 function mapStateToProps(state) {
   return {
@@ -226,10 +228,10 @@ function mapStateToProps(state) {
 }
 
 /**
- * Map the Actions called when Controls are used to the Props of this Class
+ * Maps the actions to this property.
  *
- * @param {object} dispatch ...
- * @return {object} ...
+ * @param {function} dispatch - the function that is used to call an action.
+ * @return {object} - the actions that can be used in this component.
  */
 function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};

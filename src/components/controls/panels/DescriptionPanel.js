@@ -10,12 +10,14 @@ import styles from '../../../styles/themedStyles';
 import globalConstants from '../../constants/global';
 
 /**
- * Controls at bottom of the Application
+ * Descritions at bottom of the Application, only visible in the cell view
  */
 class DescriptionPanel extends React.Component {
   /**
+   * Is called when any of the description titles is clicked on, opens the
+   * corresponding dialog
    *
-   * @param {*} id
+   * @param {number} id the id of the clicked element
    */
   onClick(id) {
     const dialogs = this.props.appState.stepDialog;
@@ -27,8 +29,8 @@ class DescriptionPanel extends React.Component {
   }
 
   /**
-   *
-   * @param {*} id
+   * Handles the closing of the dialogs for this element, updates the
+   * global state accordingly
    */
   handleClose() {
     const dialogs = [false, false, false, false, false, false];
@@ -40,9 +42,9 @@ class DescriptionPanel extends React.Component {
 
   /**
    * React render function controlling the look of the
-   * AppBar of the Application
+   * description panel of the Application
    *
-   * @return {object} the react components rendered look
+   * @return {object} the react components rendered form
    */
   render() {
     const global = globalConstants[this.props.appState.language];
@@ -106,10 +108,10 @@ DescriptionPanel.propTypes = {
 };
 
 /**
- * Mapping the Controls state to the Props of this Class
+ * Map the states from redux to this property.
  *
- * @param {object} state ...
- * @return {object} ...
+ * @param {object} state - the global redux state.
+ * @return {object} - the new props of this component.
  */
 function mapStateToProps(state) {
   return {
@@ -121,10 +123,10 @@ function mapStateToProps(state) {
 }
 
 /**
- * Map the Actions called when Controls are used to the Props of this Class
+ * Maps the actions to this property.
  *
- * @param {object} dispatch ...
- * @return {object} ...
+ * @param {function} dispatch - the function that is used to call an action.
+ * @return {object} - the actions that can be used in this component.
  */
 function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};

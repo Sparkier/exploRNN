@@ -1,13 +1,13 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
+import {IconButton} from '@material-ui/core/';
 import styles from '../../../styles/themedStyles';
 
 /**
  * Generating function for the individual styled buttons
  *
- * @param {object} props the current redux state properties
+ * @param {object} props the parent properties
  * @return {object} rendered styled button
  */
 function StyledButtonRaw(props) {
@@ -31,6 +31,5 @@ StyledButtonRaw.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-// const StyledSelect = withStyles(styles)(StyledSelectRaw);
 export default withStyles(styles)(StyledButtonRaw);
 

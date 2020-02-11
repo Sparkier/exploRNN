@@ -1,13 +1,14 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import Select from '@material-ui/core/Select';
+import {Select} from '@material-ui/core/';
 import styles from '../../../styles/themedStyles';
 
 /**
+ * The generating function for the individual styled select components
  *
- * @param {object} props
- * @return {component}
+ * @param {object} props the parent properties
+ * @return {object} rendered styled select element
  */
 function StyledSelectRaw(props) {
   const {classes, ...other} = props;
@@ -26,7 +27,6 @@ function StyledSelectRaw(props) {
   );
 }
 
-
 StyledSelectRaw.propTypes = {
   properties: PropTypes.object.isRequired,
   action: PropTypes.func.isRequired,
@@ -34,6 +34,5 @@ StyledSelectRaw.propTypes = {
   main: PropTypes.object.isRequired,
 };
 
-// const StyledSelect = withStyles(styles)(StyledSelectRaw);
 export default withStyles(styles)(StyledSelectRaw);
 

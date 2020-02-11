@@ -315,16 +315,16 @@ Training.propTypes = {
  * Map the states from redux to this property.
  *
  * @param {object} state - the global redux state.
- * @param {object} ownProps - the properties of this component.
  * @return {object} - the new props of this component.
  */
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
     network: state.network,
     training: state.training,
     ui: state.ui,
   };
 }
+
 /**
  * Maps the actions to this property.
  *

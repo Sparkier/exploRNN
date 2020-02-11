@@ -6,10 +6,11 @@ import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import * as actions from '../../actions';
 import styles from '../../styles/themedStyles';
-import InputPanel from './panels/InputPanel';
+import ProcessPanel from './panels/ProcessPanel';
 import ControlPanel from './panels/ControlPanel';
-import OutputPanel from './panels/OutputPanel';
+import SliderPanel from './panels/SliderPanel';
 import DescriptionPanel from './panels/DescriptionPanel';
+
 /**
  * The current Component holding all the input elements to change the Network
  * for Training.
@@ -31,13 +32,13 @@ class Input extends React.Component {
           {
             this.props.ui.detail ?
             <DescriptionPanel/>:
-            <OutputPanel/>
+            <SliderPanel/>
           }
           {
             <ControlPanel/>
           }
           {
-            <InputPanel/>
+            <ProcessPanel/>
           }
         </Grid>
       </div>
@@ -56,13 +57,12 @@ Input.propTypes = {
 };
 
 /**
- * Mapping the Controls state to the Props of this Class
+ * Map the states from redux to this property.
  *
- * @param {object} state ...
- * @param {object} ownProps ...
- * @return {object} ...
+ * @param {object} state - the global redux state.
+ * @return {object} - the new props of this component.
  */
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
     network: state.network,
     training: state.training,
@@ -71,10 +71,10 @@ function mapStateToProps(state, ownProps) {
 }
 
 /**
- * Map the Actions called when Controls are used to the Props of this Class
+ * Maps the actions to this property.
  *
- * @param {object} dispatch ...
- * @return {object} ...
+ * @param {function} dispatch - the function that is used to call an action.
+ * @return {object} - the actions that can be used in this component.
  */
 function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};

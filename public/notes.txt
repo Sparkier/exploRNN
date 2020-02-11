@@ -3,15 +3,4 @@
 #######################
 
 IMPROTANT:
-    - adjust the key bindings with the correlating buttons and disable them accordingly
     - fix font settings
-
-TODO:
-    - When clicking on the graph in the overview maybe also change to detail view
-
-
-Quick thoughts:
-    - maybe add an animated background, with small, soft animations for 
-    a nicer look of the window itself
-
-    - maybe consider adjusting widths and heights when the window is resized

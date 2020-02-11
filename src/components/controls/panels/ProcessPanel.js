@@ -11,31 +11,14 @@ import globalConstants from '../../constants/global';
 import Jump from '@material-ui/icons/ArrowForward';
 
 /**
- * Controls at bottom of the Application
+ * Training Process information panel at bottom of the Application
  */
-class InputPanel extends React.Component {
+class ProcessPanel extends React.Component {
   /**
-   * the constructor
-   */
-  constructor() {
-    super();
-    this.fontSizeTitle = 16;
-    this.fontSizeText = 14;
-  }
-
-  /**
+   * Is called when the user interacts with one of the process step titles,
+   * opens the corresponding dialog
    *
-   */
-  componentDidMount() {
-    const height = document.getElementById('inppan');
-    if (this.props.ui.panelHeight < height) {
-      this.props.actions.updateUI({...this.props.ui, panelHeight: height});
-    }
-  }
-
-  /**
-   *
-   * @param {*} id
+   * @param {number} id the id of the training step
    */
   onClick(id) {
     const dialogs = this.props.appState.inputDialog;
@@ -47,8 +30,10 @@ class InputPanel extends React.Component {
   }
 
   /**
+   * Is called when the user clicks on the button beside the title of a training
+   * step, updates the currently running training process
    *
-   * @param {*} id
+   * @param {number} id the id of the training step
    */
   onJump(id) {
     const trigger = [false, false, false];
@@ -60,8 +45,8 @@ class InputPanel extends React.Component {
   }
 
   /**
-   *
-   * @param {*} id
+   * Handles the closing of the dialogs for this element, updates the
+   * global state accordingly
    */
   handleClose() {
     const dialogs = [false, false, false];
@@ -72,7 +57,9 @@ class InputPanel extends React.Component {
   }
 
   /**
-   * @param {number} id
+   * Maps the calling components id with the current appState to a style class
+   *
+   * @param {number} id the id of the components training step
    * @return {object} the style for the given id
    */
   getClass(id) {
@@ -93,10 +80,10 @@ class InputPanel extends React.Component {
   }
 
   /**
-   * Readt render function controlling the look of the
-   * AppBar of the Application
+   * React render function controlling the look of the
+   * process information element of the Application
    *
-   * @return {object} the react components rendered look
+   * @return {object} the react components rendered form
    */
   render() {
     const global = globalConstants[this.props.appState.language];
@@ -162,7 +149,7 @@ class InputPanel extends React.Component {
 }
 
 // Controls state of the Application
-InputPanel.propTypes = {
+ProcessPanel.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
@@ -172,10 +159,10 @@ InputPanel.propTypes = {
 };
 
 /**
- * Mapping the Controls state to the Props of this Class
+ * Map the states from redux to this property.
  *
- * @param {object} state ...
- * @return {object} ...
+ * @param {object} state - the global redux state.
+ * @return {object} - the new props of this component.
  */
 function mapStateToProps(state) {
   return {
@@ -187,15 +174,15 @@ function mapStateToProps(state) {
 }
 
 /**
- * Map the Actions called when Controls are used to the Props of this Class
+ * Maps the actions to this property.
  *
- * @param {object} dispatch ...
- * @return {object} ...
+ * @param {function} dispatch - the function that is used to call an action.
+ * @return {object} - the actions that can be used in this component.
  */
 function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    withStyles(styles)(InputPanel)
+    withStyles(styles)(ProcessPanel)
 );

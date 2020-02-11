@@ -12,16 +12,14 @@ import globalConstants from '../../constants/global';
 
 
 /**
- * Controls at bottom of the Application
+ * Slider input panel for the training parameters at bottom of the Application
  */
-class OutputPanel extends React.Component {
+class SliderPanel extends React.Component {
   /**
    * Handles the interaction with the sliders
    *
-   * @memberof Input
-   *
-   * @param {number} sliderId - the id of the changed slider
-   * @param {number} value - the new value of the learning rate
+   * @param {number} sliderId the id of the changed slider
+   * @param {number} value the new value of the learning rate
    */
   handleSliderChange = (sliderId, value) => {
     const global = globalConstants[this.props.appState.language];
@@ -49,8 +47,10 @@ class OutputPanel extends React.Component {
   }
 
   /**
+   * Is called when the user clicks on the name of a parameter in this panel,
+   * opens a corresponding dialog
    *
-   * @param {*} id
+   * @param {number} id the id of the training parameter
    */
   onClick(id) {
     const dialog = this.props.appState.sliderDialog;
@@ -62,8 +62,8 @@ class OutputPanel extends React.Component {
   }
 
   /**
-   *
-   * @param {*} id
+   * Handles the closing of the dialogs for this element, updates the
+   * global state accordingly
    */
   handleClose() {
     this.props.actions.updateAppState({
@@ -76,7 +76,7 @@ class OutputPanel extends React.Component {
    * Formats the value x to be of only necessary length
    *
    * @param {number} x the slider value
-   * @return {string}
+   * @return {string} a truncated version of x
    */
   getFormattedValue(x) {
     const actual = Math.pow(10, x);
@@ -86,10 +86,10 @@ class OutputPanel extends React.Component {
   }
 
   /**
-   * Readt render function controlling the look of the
-   * AppBar of the Application
+   * React render function controlling the look of the
+   * slider panel of the Application
    *
-   * @return {object} the react components rendered look
+   * @return {object} the react components rendered form
    */
   render() {
     const global = globalConstants[this.props.appState.language];
@@ -214,7 +214,7 @@ const DefaultSlider = withStyles((theme) => ({
 }))(Slider);
 
 // Controls state of the Application
-OutputPanel.propTypes = {
+SliderPanel.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
@@ -224,10 +224,10 @@ OutputPanel.propTypes = {
 };
 
 /**
- * Mapping the Controls state to the Props of this Class
+ * Map the states from redux to this property.
  *
- * @param {object} state ...
- * @return {object} ...
+ * @param {object} state - the global redux state.
+ * @return {object} - the new props of this component.
  */
 function mapStateToProps(state) {
   return {
@@ -239,15 +239,15 @@ function mapStateToProps(state) {
 }
 
 /**
- * Map the Actions called when Controls are used to the Props of this Class
+ * Maps the actions to this property.
  *
- * @param {object} dispatch ...
- * @return {object} ...
+ * @param {function} dispatch - the function that is used to call an action.
+ * @return {object} - the actions that can be used in this component.
  */
 function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    withStyles(styles)(OutputPanel)
+    withStyles(styles)(SliderPanel)
 );

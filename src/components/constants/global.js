@@ -1,3 +1,4 @@
+// This file declares the global strings and values used in the application
 const globalENG = {
   title: 'leaRNN',
   strings: {

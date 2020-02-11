@@ -172,8 +172,7 @@ class Button {
     if (mx > this.left && mx < this.right && my > this.top && my < this.bot) {
       const oldTypes = this.s.props.training.dataTypes;
       let newTypes = [];
-      if (oldTypes.includes(this.type) && oldTypes.length > 1
-      ) {
+      if (oldTypes.includes(this.type) && oldTypes.length > 1) {
         for (const item of oldTypes) {
           if (item !== this.type) {
             newTypes.push(item);

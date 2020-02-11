@@ -3,18 +3,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import IconButton from '@material-ui/core/IconButton';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import {AppBar, Toolbar} from '@material-ui/core/';
+import {Typography, IconButton} from '@material-ui/core/';
+import {MenuItem, Drawer, Divider} from '@material-ui/core/';
+import {List, ListItemText, ListItem, ListItemIcon} from '@material-ui/core/';
 import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
-import ListItemText from '@material-ui/core/ListItemText';
 import HelpOutlined from '@material-ui/icons/HelpOutline';
 import Contact from '@material-ui/icons/MailOutline';
 import Close from '@material-ui/icons/ArrowForwardIos';
@@ -30,64 +23,114 @@ import StyledSelect from './comps/StyledSelect';
  */
 class Controls extends React.Component {
   /**
-   *
+   * When the component is mounted we need to connect the key actions to this
+   * element to handle incoming key inputs
    */
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
   }
 
   /**
-   * dadawd
+   * Handles keyboard inputs for the application
    *
-   @param {obect} event
+   * @param {obect} event the key input event
    */
   handleKeyDown = (event) => {
     if (!this.props) {
       return;
     }
-    if (!this.props.ui.detail && event.key === ' ') {
-      this.props.actions.toggleTraining(this.props.training);
-    } else if (this.props.ui.detail && event.key === ' ') {
-      this.props.actions.updateUI({
-        ...this.props.ui,
-        anim: !this.props.ui.anim,
-      });
-    } else if (event.key === 'Enter') {
-      if (this.props.ui.detail) {
-        this.props.actions.updateUI({...this.props.ui, animStep: true});
-      } else if (!this.props.training.running) {
-        this.props.actions.updateTraining({...this.props.training, step: true});
+    switch (event.key) {
+      case ' ':
+        if (!this.props.training.workerReady && !this.props.ui.netAnim) return;
+        if (!this.props.ui.detail) {
+          this.props.actions.toggleTraining(this.props.training);
+        } else {
+          this.props.actions.updateUI({
+            ...this.props.ui,
+            anim: !this.props.ui.anim,
+          });
+        }
+        break;
+      case 'Enter':
+        if ((this.props.ui.detail && this.props.ui.anim) ||
+            (!this.props.ui.detail && this.props.training.running) ||
+            !this.props.training.workerReady) return;
+        if (this.props.ui.detail) {
+          this.props.actions.updateUI({...this.props.ui, animStep: true});
+        } else if (!this.props.training.running) {
+          this.props.actions.updateTraining(
+              {...this.props.training, step: true}
+          );
+        }
+        break;
+      case 'Backspace':
+        if (this.props.ui.detail || !this.props.training.workerReady) return;
+        this.props.actions.updateTraining(
+            {...this.props.training, reset: true}
+        );
+        break;
+      case '1':
+        this.updateDataTypes('sin');
+        break;
+      case '2':
+        this.updateDataTypes('saw');
+        break;
+      case '3':
+        this.updateDataTypes('sqr');
+        break;
+      case '4':
+        this.updateDataTypes('sinc');
+        break;
+      case '-':
+        if (!this.props.ui.detail && !this.props.training.running &&
+            this.props.network.layers > 1
+        ) {
+          this.props.actions.updateNetwork({...this.props.network,
+            layers: this.props.network.layers - 1});
+        }
+        break;
+      case '+':
+        if (!this.props.ui.detail && !this.props.training.running &&
+            this.props.network.layers <= 6
+        ) {
+          this.props.actions.updateNetwork({...this.props.network,
+            layers: this.props.network.layers - 1});
+        }
+        break;
+      case 'Tab':
+        this.props.actions.updateUI({...this.props.ui,
+          detail: !this.props.ui.detail});
+        event.preventDefault();
+        break;
+      default:
+        // empty
+    }
+  }
+
+  /**
+   * Adds or removes a chosen type to the global state
+   *
+   * @param {string} type the data type to be added or removed
+   */
+  updateDataTypes = (type) => {
+    if (!this.props.ui.detail && !this.props.training.running) {
+      const oldTypes = this.props.training.dataTypes;
+      let newTypes = [];
+      if (oldTypes.includes(type) && oldTypes.length > 1) {
+        for (const item of oldTypes) {
+          if (item !== type) {
+            newTypes.push(item);
+          }
+        }
+      } else if (oldTypes.includes(type) && oldTypes.length === 1) {
+        newTypes = oldTypes;
+      } else {
+        oldTypes.push(type);
+        newTypes = oldTypes;
       }
-    } else if (event.key === 'Backspace' && !this.props.ui.detail) {
-      this.props.actions.updateTraining({...this.props.training, reset: true});
-    } else if (event.key === '1' && !this.props.ui.detail &&
-          !this.props.training.running) {
-      this.props.actions.updateTraining({...this.props.training,
-        dataType: 'sin'});
-    } else if (event.key === '2' && !this.props.ui.detail &&
-          !this.props.training.running) {
-      this.props.actions.updateTraining({...this.props.training,
-        dataType: 'saw'});
-    } else if (event.key === '3' && !this.props.ui.detail &&
-          !this.props.training.running) {
-      this.props.actions.updateTraining({...this.props.training,
-        dataType: 'sqr'});
-    } else if (event.key === '4' && !this.props.ui.detail &&
-          !this.props.training.running) {
-      this.props.actions.updateTraining({...this.props.training,
-        dataType: 'sinc'});
-    } else if (event.key === '+' && !this.props.ui.detail &&
-    !this.props.training.running && this.props.network.layers <= 6) {
-      this.props.actions.updateNetwork({...this.props.network,
-        layers: this.props.network.layers + 1});
-    } else if (event.key === '-' && !this.props.ui.detail &&
-    !this.props.training.running && this.props.network.layers > 1) {
-      this.props.actions.updateNetwork({...this.props.network,
-        layers: this.props.network.layers - 1});
-    } else if (event.key === 'Tab') {
-      this.props.actions.updateUI({...this.props.ui,
-        detail: !this.props.ui.detail});
-      event.preventDefault();
+      this.props.actions.updateTraining(
+          {...this.props.training, dataTypes: newTypes}
+      );
     }
   }
 
@@ -95,20 +138,18 @@ class Controls extends React.Component {
    * Handles the opening and closing of the side drawer
    *
    * @param {boolean} open true, if the drawer should now be opened
-   * @memberof Controls
-   * @return {undefined}
    */
-  toggleDrawer = (open) =>{
+  toggleDrawer = (open) => {
     if (open !== this.props.ui.help) {
       this.props.actions.updateUI({...this.props.ui, help: open});
     }
   };
 
   /**
-   * Handles the opening and closing of the side drawer
+   * Handles the selection of the net type select component
    *
-   * @param {object} event desc
-   * @return {undefined}
+   * @param {object} event the event containing the information about the
+   * selected type element
    */
   typeSelect = (event) => {
     this.props.actions.updateNetwork({...this.props.network,
@@ -116,10 +157,10 @@ class Controls extends React.Component {
   };
 
   /**
-   * Handles the opening and closing of the side drawer
+   * Handles the selection of the language select component
    *
-   * @param {object} event desc
-   * @return {undefined}
+   * @param {object} event the event containing the information about the
+   * selected language
    */
   languageSelect = (event) => {
     this.props.actions.updateAppState({...this.props.appState,
@@ -127,21 +168,22 @@ class Controls extends React.Component {
   };
 
   /**
-   * @param {object} event
+   * Helper function for toggling the side menu
    */
-  helperMenu = (event) => {
+  helperMenu = () => {
     this.toggleDrawer(!this.props.ui.help);
   };
 
   /**
-   * @param {object} event
+   * Helper method for closing the side menu
    */
   closeDrawer = () => {
     this.toggleDrawer(false);
   };
 
   /**
-   *
+   * Is called when the user clicks on the about element in the side menu, opens
+   * a corresponding dialog
    */
   onClickAbout() {
     let dialog = this.props.appState.aboutDialog;
@@ -153,7 +195,8 @@ class Controls extends React.Component {
   }
 
   /**
-   *
+   * Is called when the user clicks on the faq element in the side menu, opens
+   * a corresponding dialog
    */
   onClickFAQ() {
     let dialog = this.props.appState.faqDialog;
@@ -165,7 +208,8 @@ class Controls extends React.Component {
   }
 
   /**
-   *
+   * Is called when the user clicks on the impressum element in the side menu,
+   * opens a corresponding dialog
    */
   onClickImpressum() {
     let dialog = this.props.appState.impressumDialog;
@@ -177,7 +221,8 @@ class Controls extends React.Component {
   }
 
   /**
-   *
+   * Handles the closing of the dialogs for this element, updates the
+   * global state accordingly
    */
   handleClose() {
     this.props.actions.updateAppState({
@@ -189,10 +234,10 @@ class Controls extends React.Component {
   }
 
   /**
-   * Readt render function controlling the look of the
+   * React render function controlling the look of the
    * AppBar of the Application
    *
-   * @return {object} the react components rendered look
+   * @return {object} the react components rendered form
    */
   render() {
     const {classes} = this.props;
@@ -323,9 +368,10 @@ Controls.propTypes = {
 };
 
 /**
- * Mapping the Controls state to the Props of this Class
- * @param {object} state ...
- * @return {object} ...
+ * Map the states from redux to this property.
+ *
+ * @param {object} state - the global redux state.
+ * @return {object} - the new props of this component.
  */
 function mapStateToProps(state) {
   return {
@@ -338,10 +384,10 @@ function mapStateToProps(state) {
 }
 
 /**
- * Map the Actions called when Controls are used to the Props of this Class
+ * Maps the actions to this property.
  *
- * @param {object} dispatch ...
- * @return {object} ...
+ * @param {function} dispatch - the function that is used to call an action.
+ * @return {object} - the actions that can be used in this component.
  */
 function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
