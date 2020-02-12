@@ -102,10 +102,42 @@ export default function(s) {
     const valDiv = document.getElementById('valueDiv');
     s.createCanvas(netDiv.offsetWidth,
         window.innerHeight - valDiv.offsetHeight - 50);
+    s.initialize();
+    s.updateMemory();
+  };
+
+  s.draw = function() {
+    s.background(s.palette.bg);
+    s.cursor(s.ARROW);
+    s.fill(0);
+    if (!s.props) {
+      return;
+    }
+    if (s.globalScale !== 1) {
+      s.translate(s.mouseX, s.mouseY);
+      s.scale(s.globalScale);
+      s.translate(-s.mouseX, -s.mouseY);
+    }
+    if (s.props) {
+      const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
+      const pauseMult = 1 - Math.sin(timeDist);
+      s.pause = Math.round(10 * pauseMult) + 1;
+    }
+    if (s.detail && s.props.ui.anim) {
+      s.cell.update(false);
+    }
+    s.drawLoss();
+    s.drawPlots();
+    s.drawInput();
+    s.drawNetwork();
+    s.drawCell();
+    s.drawCellPlot();
+  };
+
+  s.initialize = function() {
     s.frameRate(60);
     s.textAlign(s.CENTER, s.BOTTOM);
     s.textSize(16);
-    // s.drawingContext.setLineDash([5,5])
     s.sideWidthLeft = s.sideRatioLeft * s.width;
     s.sideWidthRight = s.sideRatioRight * s.width;
     s.inProps = {
@@ -187,46 +219,9 @@ export default function(s) {
       s.outputPlots.push(new Plot(i, s));
     }
     s.setupDone = true;
-    s.updateMemory();
-  };
-
-  s.draw = function() {
-    s.background(s.palette.bg);
-    s.cursor(s.ARROW);
-    s.fill(0);
-    if (!s.props) {
-      return;
-    }
-    if (s.globalScale !== 1) {
-      s.translate(s.mouseX, s.mouseY);
-      s.scale(s.globalScale);
-      s.translate(-s.mouseX, -s.mouseY);
-    }
-    if (s.props) {
-      const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
-      const pauseMult = 1 - Math.sin(timeDist);
-      s.pause = Math.round(10 * pauseMult) + 1;
-    }
-    if (s.detail && s.props.ui.anim) {
-      s.cell.update(false);
-    }
-    s.drawLoss();
-    s.drawPlots();
-    s.drawInput();
-    s.drawNetwork();
-    s.drawCell();
-    s.drawCellPlot();
   };
 
   s.preload = function() {
-    /* Change if icons should be white
-    s.receive = s.loadImage('./data/rec_white.png');
-    s.add = s.loadImage('./data/save_white.png');
-    s.save = s.loadImage('./data/rec_white.png');
-    s.forget = s.loadImage('./data/del_white.png');
-    s.cellImage = s.loadImage('./data/memory_white.png');
-    s.output = s.loadImage('./data/output_white.png');
-    */
     s.receive = s.loadImage('./data/rec_black.png');
     s.add = s.loadImage('./data/save_black.png');
     s.save = s.loadImage('./data/rec_black.png');
@@ -345,11 +340,7 @@ export default function(s) {
       error: false,
       back: false,
     };
-    s.net = new Network(s);
-    s.cell = new LSTM(s);
-    s.input = new Input(s);
-    s.loss = new Loss(s);
-    s.cellPlot = new CellPlot(s);
+    s.initialize();
   };
 
   s.windowResized = function() {
@@ -357,10 +348,7 @@ export default function(s) {
     const valDiv = document.getElementById('valueDiv');
     s.resizeCanvas(netDiv.offsetWidth,
         window.innerHeight - valDiv.offsetHeight - 50);
-    s.outputPlots = [];
-    for (let i = 0; i < 5; i++) {
-      s.outputPlots.push(new Plot(i, 'R', s));
-    }
+    s.initialize();
   };
 
   s.drawInput = function() {

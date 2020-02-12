@@ -39,7 +39,7 @@ class Controls extends React.Component {
     if (!this.props) {
       return;
     }
-    event.preventDefault();
+    let callDefault = false;
     switch (event.key) {
       case ' ':
         if (!this.props.training.workerReady && !this.props.ui.netAnim) return;
@@ -103,7 +103,10 @@ class Controls extends React.Component {
           detail: !this.props.ui.detail});
         break;
       default:
-        // empty
+        callDefault = true;
+    }
+    if (!callDefault) {
+      event.preventDefault();
     }
   }
 
