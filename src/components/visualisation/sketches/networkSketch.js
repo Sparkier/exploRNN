@@ -34,6 +34,8 @@ export default function(s) {
   s.ready = false;
   s.setupDone = false;
   s.netAnim = {};
+  s.mx = 0;
+  s.my = 0;
 
   // the new format of the cell animation values
   s.cellAnim = {
@@ -100,9 +102,11 @@ export default function(s) {
   s.setup = function() {
     const netDiv = document.getElementById('networkDiv');
     const valDiv = document.getElementById('valueDiv');
-    s.createCanvas(netDiv.offsetWidth,
+    s.cnv = s.createCanvas(netDiv.offsetWidth,
         window.innerHeight - valDiv.offsetHeight - 50);
     s.initialize();
+    s.cnv.mousePressed(s.click);
+    s.cnv.mouseMoved(s.move);
     s.updateMemory();
   };
 
@@ -114,9 +118,9 @@ export default function(s) {
       return;
     }
     if (s.globalScale !== 1) {
-      s.translate(s.mouseX, s.mouseY);
+      s.translate(s.mx, s.my);
       s.scale(s.globalScale);
-      s.translate(-s.mouseX, -s.mouseY);
+      s.translate(-s.mx, -s.my);
     }
     if (s.props) {
       const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
@@ -318,6 +322,7 @@ export default function(s) {
         break;
       }
     }
+    s.move();
   };
 
   s.reset = function() {
@@ -483,34 +488,36 @@ export default function(s) {
     s.pop();
   };
 
-  s.mouseMoved = function() {
+  s.move = function() {
     if (!s.ready) {
       return;
     }
     if (s.props.ui.help || s.netAnim) {
       return;
     }
-    if (this.detail) {
-      s.cell.mouseMoved(s.mouseX, s.mouseY);
+    s.mx = s.mouseX;
+    s.my = s.mouseY;
+    if (s.detail) {
+      s.cell.mouseMoved(s.mx, s.my);
     } else {
       // if (s.props.ui.ready) {
-      s.net.mouseMoved(s.mouseX, s.mouseY);
+      s.net.mouseMoved(s.mx, s.my);
       // }
       if (s.input) {
-        s.input.mouseMoved(s.mouseX, s.mouseY);
+        s.input.mouseMoved(s.mx, s.my);
       }
     }
   };
 
-  s.mouseClicked = function() {
+  s.click = function() {
     if (!s.ready) {
       return;
     }
     if (s.props.ui.help || s.netAnim) {
       return;
     }
-    if (s.mouseX < 0 || s.mouseY < 0 ||
-        s.mouseX > s.width || s.mouseY > s.height) {
+    if (s.mx < 0 || s.my < 0 ||
+        s.mx > s.width || s.my > s.height) {
       return;
     }
     if (s.detail) {
@@ -523,7 +530,7 @@ export default function(s) {
       s.net.checkClick();
       // }
       s.input.checkClick();
-      s.net.mouseMoved(s.mouseX, s.mouseY);
+      s.net.mouseMoved(s.mx, s.my);
     }
   };
 

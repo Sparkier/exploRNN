@@ -754,10 +754,10 @@ class Item {
         this.type === 'gft' || this.type === 'glt')) {
       s.textAlign(s.CENTER, s.CENTER);
       s.fill(0, 150);
-      s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 110, 30);
+      s.rect(s.mx, s.my + s.typography.tooltipoffset, 110, 30);
       s.fill(255);
       s.text(this.s.global.strings.lstmGates[this.id].title,
-          s.mouseX, s.mouseY + s.typography.tooltipoffset
+          s.mx, s.my + s.typography.tooltipoffset
       );
     }
   }

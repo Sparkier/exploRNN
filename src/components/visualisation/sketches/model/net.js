@@ -233,10 +233,10 @@ class Layer {
         }
         s.noStroke();
         s.fill(s.colors.darkbluegrey);
-        s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 110, 25);
+        s.rect(s.mx, s.my + s.typography.tooltipoffset, 110, 25);
         s.fill(255);
-        s.text(s.global.strings.tooltipCell, s.mouseX,
-            s.mouseY + s.typography.tooltipoffset);
+        s.text(s.global.strings.tooltipCell, s.mx,
+            s.my + s.typography.tooltipoffset);
       } else if (this.hover_right && this.s.props.network.layers > 1 ) {
         s.noStroke();
         s.fill(s.colors.red);
@@ -244,14 +244,14 @@ class Layer {
             this.clSize, this.clSize);
         s.textAlign(s.CENTER, s.CENTER);
         s.fill(s.colors.darkbluegrey);
-        s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 120, 25);
+        s.rect(s.mx, s.my + s.typography.tooltipoffset, 120, 25);
         s.fill(255);
         s.textSize(this.clSize/2);
         s.text('X', this.x + w/2 - this.clSize / 2,
             this.y - h/2 + this.clSize / 2);
         s.textSize(s.typography.fontsize);
-        s.text(s.global.strings.tooltipDelete, s.mouseX,
-            s.mouseY + s.typography.tooltipoffset);
+        s.text(s.global.strings.tooltipDelete, s.mx,
+            s.my + s.typography.tooltipoffset);
       }
     }
   }
@@ -371,7 +371,7 @@ class FakeLayer {
     }
     const s = this.s;
     s.textAlign(s.CENTER, s.CENTER);
-    const d = s.dist(s.mouseX, s.mouseY, this.x, this.y);
+    const d = s.dist(s.mx, s.my, this.x, this.y);
     let alpha = (2 * this.w - d) / (this.w) * 255;
     if (alpha > 255) {
       alpha = 255;
@@ -401,10 +401,10 @@ class FakeLayer {
     if (this.hover) {
       s.fill(s.colors.darkbluegrey);
       s.noStroke();
-      s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 100, 25);
+      s.rect(s.mx, s.my + s.typography.tooltipoffset, 100, 25);
       s.fill(255);
-      s.text(s.global.strings.tooltipAdd, s.mouseX,
-          s.mouseY + s.typography.tooltipoffset);
+      s.text(s.global.strings.tooltipAdd, s.mx,
+          s.my + s.typography.tooltipoffset);
     }
   }
 

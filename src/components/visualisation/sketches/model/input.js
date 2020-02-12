@@ -167,8 +167,8 @@ class Button {
    * Checks if a mouse click interacts with this button
    */
   checkClick() {
-    const mx = this.s.mouseX;
-    const my = this.s.mouseY;
+    const mx = this.s.mx;
+    const my = this.s.my;
     if (mx > this.left && mx < this.right && my > this.top && my < this.bot) {
       const oldTypes = this.s.props.training.dataTypes;
       let newTypes = [];
