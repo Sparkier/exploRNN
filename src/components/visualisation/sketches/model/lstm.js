@@ -497,7 +497,6 @@ export class LSTM {
     const s = this.s;
     if (s.clickedItem) {
       s.clickedItem = undefined;
-      ret = true;
     }
     for (const i of this.items) {
       ret = i.checkClick() || ret;
@@ -754,10 +753,10 @@ class Item {
         this.type === 'gft' || this.type === 'glt')) {
       s.textAlign(s.CENTER, s.CENTER);
       s.fill(0, 150);
-      s.rect(s.mouseX, s.mouseY + s.typography.tooltipoffset, 110, 30);
+      s.rect(s.mx, s.my + s.typography.tooltipoffset, 110, 30);
       s.fill(255);
       s.text(this.s.global.strings.lstmGates[this.id].title,
-          s.mouseX, s.mouseY + s.typography.tooltipoffset
+          s.mx, s.my + s.typography.tooltipoffset
       );
     }
   }

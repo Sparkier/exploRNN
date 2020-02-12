@@ -22,7 +22,7 @@ class Main extends React.Component {
   render() {
     return (
       <Grid container className='mainGrid' style={{height: '100vh'}}>
-        <Grid item xs={12} alignContent='stretch' justify='flex-end'>
+        <Grid item xs={12}>
           <Training/>
           <VisualWrapper/>
           <Input/>

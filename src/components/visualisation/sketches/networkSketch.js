@@ -34,6 +34,8 @@ export default function(s) {
   s.ready = false;
   s.setupDone = false;
   s.netAnim = {};
+  s.mx = 0;
+  s.my = 0;
 
   // the new format of the cell animation values
   s.cellAnim = {
@@ -97,15 +99,62 @@ export default function(s) {
     tooltipFG: s.colors.white,
   };
 
+  /**
+   * This function is called on the first time the parent component is
+   * initialized. It creates a canvas element that is the basis for all
+   * drawing commands of the sketch and its submodules.
+   */
   s.setup = function() {
     const netDiv = document.getElementById('networkDiv');
     const valDiv = document.getElementById('valueDiv');
-    s.createCanvas(netDiv.offsetWidth,
+    s.cnv = s.createCanvas(netDiv.offsetWidth,
         window.innerHeight - valDiv.offsetHeight - 50);
+    s.initialize();
+    s.cnv.mouseClicked(s.click);
+    s.cnv.mouseMoved(s.move);
+    s.updateMemory();
+  };
+
+  /**
+   * This function is called once per frame. It handles the calling and
+   * organisation of all drawing commands and submodules.
+   */
+  s.draw = function() {
+    s.background(s.palette.bg);
+    s.cursor(s.ARROW);
+    s.fill(0);
+    if (!s.props) {
+      return;
+    }
+    if (s.globalScale !== 1) {
+      s.translate(s.mx, s.my);
+      s.scale(s.globalScale);
+      s.translate(-s.mx, -s.my);
+    }
+    if (s.props) {
+      const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
+      const pauseMult = 1 - Math.sin(timeDist);
+      s.pause = Math.round(10 * pauseMult) + 1;
+    }
+    if (s.detail && s.props.ui.anim) {
+      s.cell.update(false);
+    }
+    s.drawLoss();
+    s.drawPlots();
+    s.drawInput();
+    s.drawNetwork();
+    s.drawCell();
+    s.drawCellPlot();
+  };
+
+  /**
+   * Prepares all necessary sketch-global values and objects used in the
+   * modules to render their components
+   */
+  s.initialize = function() {
     s.frameRate(60);
     s.textAlign(s.CENTER, s.BOTTOM);
     s.textSize(16);
-    // s.drawingContext.setLineDash([5,5])
     s.sideWidthLeft = s.sideRatioLeft * s.width;
     s.sideWidthRight = s.sideRatioRight * s.width;
     s.inProps = {
@@ -187,46 +236,13 @@ export default function(s) {
       s.outputPlots.push(new Plot(i, s));
     }
     s.setupDone = true;
-    s.updateMemory();
   };
 
-  s.draw = function() {
-    s.background(s.palette.bg);
-    s.cursor(s.ARROW);
-    s.fill(0);
-    if (!s.props) {
-      return;
-    }
-    if (s.globalScale !== 1) {
-      s.translate(s.mouseX, s.mouseY);
-      s.scale(s.globalScale);
-      s.translate(-s.mouseX, -s.mouseY);
-    }
-    if (s.props) {
-      const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
-      const pauseMult = 1 - Math.sin(timeDist);
-      s.pause = Math.round(10 * pauseMult) + 1;
-    }
-    if (s.detail && s.props.ui.anim) {
-      s.cell.update(false);
-    }
-    s.drawLoss();
-    s.drawPlots();
-    s.drawInput();
-    s.drawNetwork();
-    s.drawCell();
-    s.drawCellPlot();
-  };
-
+  /**
+   * This methd is called before the drawing starts and loads some important
+   * images used in the sketch
+   */
   s.preload = function() {
-    /* Change if icons should be white
-    s.receive = s.loadImage('./data/rec_white.png');
-    s.add = s.loadImage('./data/save_white.png');
-    s.save = s.loadImage('./data/rec_white.png');
-    s.forget = s.loadImage('./data/del_white.png');
-    s.cellImage = s.loadImage('./data/memory_white.png');
-    s.output = s.loadImage('./data/output_white.png');
-    */
     s.receive = s.loadImage('./data/rec_black.png');
     s.add = s.loadImage('./data/save_black.png');
     s.save = s.loadImage('./data/rec_black.png');
@@ -242,7 +258,14 @@ export default function(s) {
     s.losdesc = s.loadImage('./data/los_desc.png');
   };
 
-  s.updateMemory = (start) => {
+  /**
+   * This function is called by the parent component when a change occurs in
+   * the global redux state. All necessary values are updated or reset
+   * according to the changes in the overall appication context
+   *
+   * @param {bool} start true, if the network animation should start
+   */
+  s.updateMemory = function(start) {
     s.ready = (s.props !== undefined && s.setupDone);
     if (!s.ready) {
       return;
@@ -323,8 +346,15 @@ export default function(s) {
         break;
       }
     }
+    if (!s.props.appState.cellDialog.includes(true)) {
+      s.move();
+    }
   };
 
+  /**
+   * Resets the animation values to their ground state to prepare an upcoming
+   * animation process or to stop the animation
+   */
   s.reset = function() {
     s.plotFrame = 0;
     s.plotAnim = false;
@@ -345,24 +375,24 @@ export default function(s) {
       error: false,
       back: false,
     };
-    s.net = new Network(s);
-    s.cell = new LSTM(s);
-    s.input = new Input(s);
-    s.loss = new Loss(s);
-    s.cellPlot = new CellPlot(s);
+    s.initialize();
   };
 
+  /**
+   * This function handles the resetting of all dependent values when the
+   * context window is resized
+   */
   s.windowResized = function() {
     const netDiv = document.getElementById('networkDiv');
     const valDiv = document.getElementById('valueDiv');
     s.resizeCanvas(netDiv.offsetWidth,
         window.innerHeight - valDiv.offsetHeight - 50);
-    s.outputPlots = [];
-    for (let i = 0; i < 5; i++) {
-      s.outputPlots.push(new Plot(i, 'R', s));
-    }
+    s.initialize();
   };
 
+  /**
+   * Handles the drawing of the input component of the netview
+   */
   s.drawInput = function() {
     s.noStroke();
     s.fill(s.palette.bgIn);
@@ -371,11 +401,19 @@ export default function(s) {
     s.input.draw();
   };
 
+  /**
+   * Handles the drawing of the error plot in the netview
+   */
   s.drawLoss = function() {
     s.noStroke();
     s.loss.draw();
   };
 
+  /**
+   * Handles the drawing of the output plot(s) in the netview. Since the plot
+   * is visualised with a moving in and out animation multiple plots have
+   * to be stored and drawn
+   */
   s.drawPlots = function() {
     s.push();
     const cb = {x: s.outProps.midX, y: s.outProps.midY};
@@ -403,6 +441,10 @@ export default function(s) {
     s.pop();
   };
 
+  /**
+   * Handles the drawing of the cell in the detail view while also updating the
+   * scaling of the drawing canvas to form the zoom animations
+   */
   s.drawCell = function() {
     s.palette.bgCell.setAlpha(s.cellAlpha);
     s.fill(s.palette.bgCell);
@@ -439,6 +481,9 @@ export default function(s) {
     s.palette.bgCell.setAlpha(255);
   };
 
+  /**
+   * Handles the drawing of the output plot in the detail view
+   */
   s.drawCellPlot = function() {
     s.push();
     const cb = {x: s.outProps.midX, y: s.outProps.midY};
@@ -451,6 +496,9 @@ export default function(s) {
     s.pop();
   };
 
+  /**
+   * Handles the drawing of the rnn overview in the net view
+   */
   s.drawNetwork = function() {
     s.push();
     const cb = s.clickedBlock;
@@ -495,50 +543,64 @@ export default function(s) {
     s.pop();
   };
 
-  s.mouseMoved = function() {
+  /**
+   * Handles move events occuring when canvas is in focus
+   */
+  s.move = function() {
     if (!s.ready) {
       return;
     }
     if (s.props.ui.help || s.netAnim) {
       return;
     }
-    if (this.detail) {
-      s.cell.mouseMoved(s.mouseX, s.mouseY);
+    s.mx = s.mouseX;
+    s.my = s.mouseY;
+    if (s.detail) {
+      s.cell.mouseMoved(s.mx, s.my);
     } else {
       // if (s.props.ui.ready) {
-      s.net.mouseMoved(s.mouseX, s.mouseY);
+      s.net.mouseMoved(s.mx, s.my);
       // }
       if (s.input) {
-        s.input.mouseMoved(s.mouseX, s.mouseY);
+        s.input.mouseMoved(s.mx, s.my);
       }
     }
   };
 
-  s.mouseClicked = function() {
+  /**
+   * Handles click events when canvas is in focus
+   */
+  s.click = function() {
     if (!s.ready) {
       return;
     }
     if (s.props.ui.help || s.netAnim) {
       return;
     }
-    if (s.mouseX < 0 || s.mouseY < 0 ||
-        s.mouseX > s.width || s.mouseY > s.height) {
+    console.log('CLICKY', s.mx, s.my, s.detail);
+    if (s.mx < 0 || s.my < 0 ||
+        s.mx > s.width || s.my > s.height) {
       return;
     }
     if (s.detail) {
       s.detail = s.cell.checkClick();
+      console.log('check', s.detail);
       if (!s.detail) {
         s.props.actions.updateUI({...s.props.ui, detail: false});
       }
     } else {
-      // if (s.props.ui.ready) {
       s.net.checkClick();
-      // }
       s.input.checkClick();
-      s.net.mouseMoved(s.mouseX, s.mouseY);
+      s.net.mouseMoved(s.mx, s.my);
     }
   };
 
+  /**
+   * Handles mouse wheel events
+   *
+   * @param {object} event stores the event related values
+   * @return {boolean} returns false to override page scrolling
+   */
   s.mouseWheel = function(event) {
     if (s.props.ui.help || s.netAnim) {
       return;

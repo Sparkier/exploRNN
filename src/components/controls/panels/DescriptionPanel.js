@@ -51,7 +51,7 @@ class DescriptionPanel extends React.Component {
     return (
       <Grid id="dscpan" container item xs={4} justify='center'>
         <Paper className={this.props.classes.panelCv}>
-          <Grid container xs={12} style={{height: '100%'}}>
+          <Grid container style={{height: '100%'}}>
             {
               global.strings.lstmSteps.map((step) => (
                 <Grid container item alignContent='flex-start' xs={5}

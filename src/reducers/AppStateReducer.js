@@ -11,7 +11,6 @@ import * as types from '../actions/types';
  * @return {object} the new value for the appState object
  */
 export default function appStateReducer(state = initialState.appState, action) {
-  console.log(action.type);
   switch (action.type) {
     case types.UPDATE_APP_STATE:
       return action.appState;
