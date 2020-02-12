@@ -91,7 +91,7 @@ class ProcessPanel extends React.Component {
       <Grid id="inppan" container item xs={4} justify='center'>
         <Paper className={this.props.ui.detail ?
           this.props.classes.panelCv : this.props.classes.panelOv} >
-          <Grid container style={{height: '100%'}}xs={12}>
+          <Grid container style={{height: '100%'}}>
             {
               global.strings.trainSteps.map((step) => (
                 <Grid item xs={12} key={step.id} style={{margin: '10px'}}>

@@ -11,7 +11,6 @@ import * as types from '../actions/types';
  * @return {object} the new value for the UI object
  */
 export default function uiReducer(state = initialState.ui, action) {
-  console.log(action.type);
   switch (action.type) {
     case types.UPDATE_UI:
       return action.ui;

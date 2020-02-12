@@ -22,8 +22,6 @@ class ControlPanel extends React.Component {
   /**
    * Toggles wether the training of the network is currently
    * on or off
-   *
-   * @memberof Input
    */
   toggleTraining = () => {
     if (this.props.ui.detail) {
@@ -39,8 +37,6 @@ class ControlPanel extends React.Component {
   /**
    * Handles the interaction with the reset button, lets the network
    * know that it needs to be reset
-   *
-   * @memberof Input
    */
   resetButtonPressed = () => {
     this.props.actions.updateTraining({...this.props.training, reset: true});
@@ -48,8 +44,6 @@ class ControlPanel extends React.Component {
 
   /**
    * This function makes the training run for only one training step
-   *
-   * @memberof Input
    */
   nextStep = () => {
     if (this.props.ui.detail) {

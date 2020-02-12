@@ -96,7 +96,7 @@ class SliderPanel extends React.Component {
     return (
       <Grid id="outpan" container item xs={4} justify='center'>
         <Paper className={this.props.classes.panelOv}>
-          <Grid container xs={12} alignItems='center'>
+          <Grid container alignItems='center'>
             <Grid container justify='center'>
               {
                 global.sliders.map((slider) => (
@@ -192,7 +192,10 @@ function ValueLabelComponent(props) {
 ValueLabelComponent.propTypes = {
   children: PropTypes.element.isRequired,
   open: PropTypes.bool.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
 };
 
 const LightTooltip = withStyles((theme) => ({

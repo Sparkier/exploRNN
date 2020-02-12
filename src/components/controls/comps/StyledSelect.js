@@ -11,9 +11,9 @@ import styles from '../../../styles/themedStyles';
  * @return {object} rendered styled select element
  */
 function StyledSelectRaw(props) {
-  const {classes, ...other} = props;
+  const {classes, main, ...other} = props;
   return (
-    <div style={ props.main ?
+    <div style={ main ?
       {display: 'inline-flex', marginRight: '12px', flexGrow: '1'} :
       {marginRight: '12px'}}
     >
@@ -28,10 +28,8 @@ function StyledSelectRaw(props) {
 }
 
 StyledSelectRaw.propTypes = {
-  properties: PropTypes.object.isRequired,
-  action: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  main: PropTypes.object.isRequired,
+  main: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(StyledSelectRaw);

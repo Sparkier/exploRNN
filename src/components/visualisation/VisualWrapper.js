@@ -34,7 +34,6 @@ class VisualWrapper extends React.Component {
    *  As soon as the component is mounted the sketches can be initialized
    */
   componentDidMount() {
-    console.log('Wrapper Props', this.props);
     this.networkSketch.props = this.props;
     this.networkSketch.constants = globalConstants;
     this.networkSketch.updateMemory(false);
@@ -50,7 +49,6 @@ class VisualWrapper extends React.Component {
    * @return {boolean} true, if the component should update and rerender
    */
   shouldComponentUpdate(nextProps) {
-    console.log('UPDATING WRAPPER MEMORY');
     const propsOld = this.props;
     this.props = nextProps;
     this.networkSketch.props = nextProps;

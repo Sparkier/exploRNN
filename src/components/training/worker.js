@@ -210,7 +210,6 @@ export default () => {
     self.chartDataInput.push();
     self.chartPredictionInput.push();
     self.testInput = testInputSequence;
-    console.log(self.testInput);
   };
 
   /**
