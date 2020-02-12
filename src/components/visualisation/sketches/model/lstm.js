@@ -497,7 +497,6 @@ export class LSTM {
     const s = this.s;
     if (s.clickedItem) {
       s.clickedItem = undefined;
-      ret = true;
     }
     for (const i of this.items) {
       ret = i.checkClick() || ret;

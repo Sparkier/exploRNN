@@ -99,17 +99,26 @@ export default function(s) {
     tooltipFG: s.colors.white,
   };
 
+  /**
+   * This function is called on the first time the parent component is
+   * initialized. It creates a canvas element that is the basis for all
+   * drawing commands of the sketch and its submodules.
+   */
   s.setup = function() {
     const netDiv = document.getElementById('networkDiv');
     const valDiv = document.getElementById('valueDiv');
     s.cnv = s.createCanvas(netDiv.offsetWidth,
         window.innerHeight - valDiv.offsetHeight - 50);
     s.initialize();
-    s.cnv.mousePressed(s.click);
+    s.cnv.mouseClicked(s.click);
     s.cnv.mouseMoved(s.move);
     s.updateMemory();
   };
 
+  /**
+   * This function is called once per frame. It handles the calling and
+   * organisation of all drawing commands and submodules.
+   */
   s.draw = function() {
     s.background(s.palette.bg);
     s.cursor(s.ARROW);
@@ -138,6 +147,10 @@ export default function(s) {
     s.drawCellPlot();
   };
 
+  /**
+   * Prepares all necessary sketch-global values and objects used in the
+   * modules to render their components
+   */
   s.initialize = function() {
     s.frameRate(60);
     s.textAlign(s.CENTER, s.BOTTOM);
@@ -225,6 +238,10 @@ export default function(s) {
     s.setupDone = true;
   };
 
+  /**
+   * This methd is called before the drawing starts and loads some important
+   * images used in the sketch
+   */
   s.preload = function() {
     s.receive = s.loadImage('./data/rec_black.png');
     s.add = s.loadImage('./data/save_black.png');
@@ -241,7 +258,14 @@ export default function(s) {
     s.losdesc = s.loadImage('./data/los_desc.png');
   };
 
-  s.updateMemory = (start) => {
+  /**
+   * This function is called by the parent component when a change occurs in
+   * the global redux state. All necessary values are updated or reset
+   * according to the changes in the overall appication context
+   *
+   * @param {bool} start true, if the network animation should start
+   */
+  s.updateMemory = function(start) {
     s.ready = (s.props !== undefined && s.setupDone);
     if (!s.ready) {
       return;
@@ -322,9 +346,15 @@ export default function(s) {
         break;
       }
     }
-    s.move();
+    if (!s.props.appState.cellDialog.includes(true)) {
+      s.move();
+    }
   };
 
+  /**
+   * Resets the animation values to their ground state to prepare an upcoming
+   * animation process or to stop the animation
+   */
   s.reset = function() {
     s.plotFrame = 0;
     s.plotAnim = false;
@@ -348,6 +378,10 @@ export default function(s) {
     s.initialize();
   };
 
+  /**
+   * This function handles the resetting of all dependent values when the
+   * context window is resized
+   */
   s.windowResized = function() {
     const netDiv = document.getElementById('networkDiv');
     const valDiv = document.getElementById('valueDiv');
@@ -356,6 +390,9 @@ export default function(s) {
     s.initialize();
   };
 
+  /**
+   * Handles the drawing of the input component of the netview
+   */
   s.drawInput = function() {
     s.noStroke();
     s.fill(s.palette.bgIn);
@@ -364,11 +401,19 @@ export default function(s) {
     s.input.draw();
   };
 
+  /**
+   * Handles the drawing of the error plot in the netview
+   */
   s.drawLoss = function() {
     s.noStroke();
     s.loss.draw();
   };
 
+  /**
+   * Handles the drawing of the output plot(s) in the netview. Since the plot
+   * is visualised with a moving in and out animation multiple plots have
+   * to be stored and drawn
+   */
   s.drawPlots = function() {
     s.push();
     const cb = {x: s.outProps.midX, y: s.outProps.midY};
@@ -396,6 +441,10 @@ export default function(s) {
     s.pop();
   };
 
+  /**
+   * Handles the drawing of the cell in the detail view while also updating the
+   * scaling of the drawing canvas to form the zoom animations
+   */
   s.drawCell = function() {
     s.palette.bgCell.setAlpha(s.cellAlpha);
     s.fill(s.palette.bgCell);
@@ -432,6 +481,9 @@ export default function(s) {
     s.palette.bgCell.setAlpha(255);
   };
 
+  /**
+   * Handles the drawing of the output plot in the detail view
+   */
   s.drawCellPlot = function() {
     s.push();
     const cb = {x: s.outProps.midX, y: s.outProps.midY};
@@ -444,6 +496,9 @@ export default function(s) {
     s.pop();
   };
 
+  /**
+   * Handles the drawing of the rnn overview in the net view
+   */
   s.drawNetwork = function() {
     s.push();
     const cb = s.clickedBlock;
@@ -488,6 +543,9 @@ export default function(s) {
     s.pop();
   };
 
+  /**
+   * Handles move events occuring when canvas is in focus
+   */
   s.move = function() {
     if (!s.ready) {
       return;
@@ -509,6 +567,9 @@ export default function(s) {
     }
   };
 
+  /**
+   * Handles click events when canvas is in focus
+   */
   s.click = function() {
     if (!s.ready) {
       return;
@@ -516,24 +577,30 @@ export default function(s) {
     if (s.props.ui.help || s.netAnim) {
       return;
     }
+    console.log('CLICKY', s.mx, s.my, s.detail);
     if (s.mx < 0 || s.my < 0 ||
         s.mx > s.width || s.my > s.height) {
       return;
     }
     if (s.detail) {
       s.detail = s.cell.checkClick();
+      console.log('check', s.detail);
       if (!s.detail) {
         s.props.actions.updateUI({...s.props.ui, detail: false});
       }
     } else {
-      // if (s.props.ui.ready) {
       s.net.checkClick();
-      // }
       s.input.checkClick();
       s.net.mouseMoved(s.mx, s.my);
     }
   };
 
+  /**
+   * Handles mouse wheel events
+   *
+   * @param {object} event stores the event related values
+   * @return {boolean} returns false to override page scrolling
+   */
   s.mouseWheel = function(event) {
     if (s.props.ui.help || s.netAnim) {
       return;
