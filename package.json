@@ -7,7 +7,6 @@
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.2.1",
     "@tensorflow/tfjs": "^1.5.1",
-    "d3": "^5.15.0",
     "http-proxy-middleware": "^0.20.0",
     "node-sass-chokidar": "^1.4.0",
     "npm": "^6.13.6",
