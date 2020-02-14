@@ -6,6 +6,7 @@ import * as actions from '../../actions';
 import globalConstants from '../constants/global';
 import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
 import {Typography} from '@material-ui/core';
+import {Node, Context} from 'react-mathjax2';
 
 /**
  * This class is responsible for handling the dialogs corresponding to the
@@ -39,7 +40,23 @@ class CellDialogs extends React.Component {
           </DialogTitle>
           <DialogContent dividers>
             <Typography gutterBottom>
-              {global.strings.lstmGates[0].description}
+              <Context input='tex'>
+                <span>
+                  {global.strings.lstmGates[0].description}
+                  <Node>
+                    {global.strings.lstmGates[0].formula}
+                  </Node>
+                  <Node>
+                    {global.strings.lstmGates[0].formula2}
+                  </Node>
+                  <Node>
+                    {global.strings.lstmGates[0].formula3}
+                  </Node>
+                  <Node>
+                    {global.strings.lstmGates[0].formula4}
+                  </Node>
+                </span>
+              </Context>
             </Typography>
           </DialogContent>
         </Dialog>
@@ -50,7 +67,23 @@ class CellDialogs extends React.Component {
           </DialogTitle>
           <DialogContent dividers>
             <Typography gutterBottom>
-              {global.strings.lstmGates[1].description}
+              <Context input='tex'>
+                <span>
+                  {global.strings.lstmGates[1].description}
+                  <Node>
+                    {global.strings.lstmGates[1].formula}
+                  </Node>
+                  <Node>
+                    {global.strings.lstmGates[1].formula2}
+                  </Node>
+                  <Node>
+                    {global.strings.lstmGates[1].formula3}
+                  </Node>
+                  <Node>
+                    {global.strings.lstmGates[1].formula4}
+                  </Node>
+                </span>
+              </Context>
             </Typography>
           </DialogContent>
         </Dialog>
@@ -61,7 +94,17 @@ class CellDialogs extends React.Component {
           </DialogTitle>
           <DialogContent dividers>
             <Typography gutterBottom>
-              {global.strings.lstmGates[2].description}
+              <Context input='tex'>
+                <span>
+                  {global.strings.lstmGates[2].description}
+                  <Node>
+                    {global.strings.lstmGates[2].formula}
+                  </Node>
+                  <Node>
+                    {global.strings.lstmGates[2].formula2}
+                  </Node>
+                </span>
+              </Context>
             </Typography>
           </DialogContent>
         </Dialog>
@@ -72,7 +115,23 @@ class CellDialogs extends React.Component {
           </DialogTitle>
           <DialogContent dividers>
             <Typography gutterBottom>
-              {global.strings.lstmGates[3].description}
+              <Context input='tex'>
+                <span>
+                  {global.strings.lstmGates[3].description}
+                  <Node>
+                    {global.strings.lstmGates[3].formula}
+                  </Node>
+                  <Node>
+                    {global.strings.lstmGates[3].formula2}
+                  </Node>
+                  <Node>
+                    {global.strings.lstmGates[3].formula3}
+                  </Node>
+                  <Node>
+                    {global.strings.lstmGates[3].formula4}
+                  </Node>
+                </span>
+              </Context>
             </Typography>
           </DialogContent>
         </Dialog>
@@ -83,7 +142,14 @@ class CellDialogs extends React.Component {
           </DialogTitle>
           <DialogContent dividers>
             <Typography gutterBottom>
-              {global.strings.lstmGates[4].description}
+              <Context input='tex'>
+                <span>
+                  {global.strings.lstmGates[4].description}
+                  <Node>
+                    {global.strings.lstmGates[4].formula}
+                  </Node>
+                </span>
+              </Context>
             </Typography>
           </DialogContent>
         </Dialog>
@@ -94,7 +160,14 @@ class CellDialogs extends React.Component {
           </DialogTitle>
           <DialogContent dividers>
             <Typography gutterBottom>
-              {global.strings.lstmGates[5].description}
+              <Context input='tex'>
+                <span>
+                  {global.strings.lstmGates[5].description}
+                  <Node>
+                    {global.strings.lstmGates[5].formula}
+                  </Node>
+                </span>
+              </Context>
             </Typography>
           </DialogContent>
         </Dialog>
