@@ -19,15 +19,17 @@ const globalENG = {
       },
       about: {
         title: 'About',
-        description: 'Something about this app',
+        description: 'This project was created as part of a Bachelor Thesis ' +
+          'in Media Informatics in Ulm University.',
       },
       faq: {
         title: 'FAQ',
-        description: 'No Questions up until now',
+        description: 'No questions up until now...',
       },
       impressum: {
         title: 'Impressum',
-        description: 'Made by me',
+        description: 'Raphael Störk || Ulm University || Media Informatics ||' +
+          ' Mail: raphael.stoerk@uni-ulm.de',
       },
     },
     epoch: {
@@ -164,32 +166,75 @@ const globalENG = {
       {
         id: 0,
         title: 'Layer Input',
-        description: 'Add description',
+        description: 'The input of the current layer consists of two parts: ' +
+          'The output from the previous layer and the recurrent data flow of ' +
+          'the currrent layer. Those two parts are weighted and combined at ' +
+          'each gate the are used at. This can be generalized in the ' +
+          'following way:',
+        formula: 'X^t_g = w_{xg} \\cdot x^t + w_{yg} \\cdot y^{t-1}',
+        formula2: 'g: \\text{ the corresponding gate}',
+        formula3: 'x^t: \\text{the output of the previous layer}',
+        formula4: 'y^{t-1}: \\text{the output of the last time step}',
       },
       {
         id: 1,
         title: 'Input Gate',
-        description: 'Add description',
+        description: 'The input gate is actually a two part component. The ' +
+          'first part is the block input. This element transforms the layer ' +
+          'input for further calculations. The actual input gate is the ' +
+          'second element. It tries to create a filter for the block input ' +
+          'that only lets the relevant new information pass through. These ' +
+          'calculations are done in the following way:',
+        formula: 'z^t = tanh(X^t_z + b_z)',
+        formula2: 'i^t = \\sigma(X^t_i + b_i)',
+        formula3: 'z: \\text{the block input}',
+        formula4: 'b_k: \\text{the bias of the component } k',
       },
       {
         id: 2,
         title: 'Forget Gate',
-        description: 'Add description',
+        description: 'The forget gate tries to determine what part of the ' +
+          'old cell state is relevant for future calculations and which ' +
+          'values can be forgotten. To achieve this a filter is generated ' +
+          'that later is being used to calculate a new cell state.',
+        formula: 'f^t = \\sigma(X^t_f + b_f)',
+        formula2: 'b_k: \\text{the bias of the component } k',
       },
       {
         id: 3,
         title: 'Output Gate',
-        description: 'Add description',
+        description: 'Since the memory cell keeps its relevant information ' +
+          'in its own form to keep the important data stored, the output gate' +
+          ' will create a filter that is used on a transformed version of the' +
+          ' cell state.',
+        formula: 'h^t = tanh(c^t)',
+        formula2: 'o^t = \\sigma(X^t_o + b_o)',
+        formula3: 'y^t = h^t \\cdot o^t',
+        formula4: 'b_k: \\text{the bias of the component } k',
       },
       {
         id: 4,
         title: 'State Update',
-        description: 'Add description',
+        description: 'When input and forget gate have created their filters ' +
+          'they are used to adjust the values from the old cell state and ' +
+          'the new input from the block input. Those are then combined to ' +
+          'create the updated version of the memory cell.',
+        formula: '\\widetilde{c}^t = f^t \\cdot c^{t-1} + i^t \\cdot z^t',
       },
       {
         id: 5,
-        title: 'Cell State',
-        description: 'Add description',
+        title: 'Memory Cell',
+        description: 'This is the memory cell, also called the cell state. ' +
+          'It represents an internal memory of this cell block that contains ' +
+          'relevant information about all previous time steps. When training ' +
+          'the network the error of the output is sent backwards through ' +
+          'by calculating the error gradients of all the cell components. ' +
+          'While normal RNN suffer from information losses because of the ' +
+          'many gradients decreasing the error over time the LSTM memory ' +
+          'cell overcomes this problem by sending the error with a constant ' +
+          'weight back in time. This makes the LSTM architecture capable of ' +
+          'learning long time distance dependencies.',
+        formula: 'c^t = \\widetilde{c}^t',
       },
     ],
   },
@@ -325,19 +370,22 @@ const globalGER = {
     tooltipAdd: 'Neue Ebene',
     sideMenu: {
       close: {
-        title: 'Schließen',
+        title: 'Close',
       },
       about: {
-        title: 'Was ist leaRNN?',
-        description: 'Das ist leaRNN',
+        title: 'Über die Anwendung',
+        description: 'Diese Anwendung ist als Projekt im Kontext einer ' +
+          'Abschlussarbeit im Bachelorstudiengang Medieninformatik durch ' +
+          'Raphael Störk entstanden.',
       },
       faq: {
         title: 'FAQ',
-        description: 'Keine Fragen bis jetzt',
+        description: 'Keine Fragen bisher...',
       },
       impressum: {
         title: 'Impressum',
-        description: 'Impressum inhalt',
+        description: 'Raphael Störk || Universität Ulm || Medieninformatik ||' +
+          ' Mail: raphael.stoerk@uni-ulm.de',
       },
     },
     epoch: {
@@ -482,32 +530,81 @@ const globalGER = {
       {
         id: 0,
         title: 'Layer Input',
-        description: 'Beschreibung fehlt',
+        description: 'Die Eingabe der aktuellen Ebene besteht aus zwei ' +
+          'Teilen: Der Ausgabe aus der vorherigen Ebene und die Ausgabe ' +
+          'der aktuellen Ebene aus dem vorherigen Zeitschritt. Diese beiden ' +
+          'Teile werden an jedes Gatter gesendet wo sie dann gewichtet und ' +
+          'addiert werden. Dies kann folgendermaßen verallgemeinert werden:',
+        formula: 'X^t_g = w_{xg} \\cdot x^t + w_{yg} \\cdot y^{t-1}',
+        formula2: 'g: \\text{ Das entsprechende Gatter}',
+        formula3: 'x^t: \\text{ Ausgabe aus vorheriger Ebene}',
+        formula4: 'y^{t-1}: \\text{ Ausgabe des letzten Zeitschritts}',
       },
       {
         id: 1,
         title: 'Input Gate',
-        description: 'Beschreibung fehlt',
+        description: 'Das input gate ist tatsächlich eine zweiteilige ' +
+          'Komponente. Im ersten Schritt wird der sogenannte block input ' +
+          'berechnet. Dies ist eine angepasste Form der Ebeneneingabe mit ' +
+          'der das input gate besser umgehen kann. Das input gate selbst ' +
+          'bildet dann den zweiten Schritt. Hier wird ein Filter für den ' +
+          'block input berechnet durch den nur die wichtigen neuen ' +
+          'Informationen durchgelassen werden. Die Berechnung hierfür können ' +
+          'wie folgt dargestellt werden.',
+        formula: 'z^t = tanh(X^t_z + b_z)',
+        formula2: 'i^t = \\sigma(X^t_i + b_i)',
+        formula3: 'z: \\text{ Der block input}',
+        formula4: 'b_k: \\text{ Der bias der Komponente} k',
       },
       {
         id: 2,
         title: 'Forget Gate',
-        description: 'Beschreibung fehlt',
+        description: 'Das forget gate versucht zu bestimmen, welcher Teil ' +
+          'des alten Zell Zustandes relevant für die weiteren Schritte sind ' +
+          'und entsprechend welche Informationen die Zelle vergessen kann. ' +
+          'Hierfür wird ein Filter generiert, der später verwendet wird um ' +
+          'die alten Werte der Speicherzelle zu filtern.',
+        formula: 'f^t = \\sigma(X^t_f + b_f)',
+        formula2: 'b_k: \\text{ Der bias der Komponente} k',
       },
       {
         id: 3,
         title: 'Output Gate',
-        description: 'Beschreibung fehlt',
+        description: 'Da der Zellspeicher die wichtigen Informationen in ' +
+          'einer eigens für ihn verwendbaren Form speichert wird durch das ' +
+          'output gate ein Filter erstellt, welcher aus einer ' +
+          'transformierten Form dieses Speichers die Informationen heraus ' +
+          'sucht, die an die nächsten Ebenen weitergegeben werden können.',
+        formula: 'h^t = tanh(c^t)',
+        formula2: 'o^t = \\sigma(X^t_o + b_o)',
+        formula3: 'y^t = h^t \\cdot o^t',
+        formula4: 'b_k: \\text{Der bias der Komponente} k',
       },
       {
         id: 4,
         title: 'State Update',
-        description: 'Beschreibung fehlt',
+        description: 'Sobald input und forget gate ihre Filter generiert ' +
+          'haben können diese zur Anpassung der Werte aus dem alten ' +
+          'Zellspeicher und aus dem block input verwendet werden. Die ' +
+          'Verbindung der angepassten Werte kann dann als Aktualisierung ' +
+          'für den Zellspeicher genutzt werden.',
+        formula: '\\widetilde{c}^t = f^t \\cdot c^{t-1} + i^t \\cdot z^t',
       },
       {
         id: 5,
-        title: 'Cell State',
-        description: 'Beschreibung fehlt',
+        title: 'Memory Cell',
+        description: 'Dies ist die Speicherzelle, auch Zell Zustand genannt. ' +
+          'Sie repräsentier den internen Speicher des Zellblocks und enthält ' +
+          'wichtige Informationen über alle vorherigen Zeitschritte. Beim ' +
+          'Training des Netzes wird der Fehler der Ausgabe rückwärts durch ' +
+          'das Netz gesendet durch Berechnung der Gradienten aller ' +
+          'Zellkomponenten. Während hier herkömmliche RNN darunter leiden, ' +
+          'dass durch die vielen Fehlergradienten der Fehler im zeitlichen ' +
+          'Verlauf des Trainings stark reduziert wird umgeht die LSTM ' +
+          'dieses Problem durch die konstante Weitergabe des Fehlers über ' +
+          'diesen Zellpeicher. Dadurch ist LSTM Netzen möglich zeitliche ' +
+          'Abhängigkeiten über lange Abstände zu erlernen.',
+        formula: 'c^t = \\widetilde{c}^t',
       },
     ],
   },
