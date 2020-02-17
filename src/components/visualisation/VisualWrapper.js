@@ -7,7 +7,7 @@ import * as actions from '../../actions';
 import CellDialogs from './CellDialogs';
 import networkSketch from './sketches/NetworkSketch';
 import leftSide from './sketches/LeftSideSketch';
-import rightSide from './sketches/RightSidedSketch';
+import rightSide from './sketches/RightSideSketch';
 import globalConstants from '../constants/global';
 
 /**
