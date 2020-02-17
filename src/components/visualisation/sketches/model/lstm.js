@@ -1,6 +1,10 @@
 /**
  * This class represents the model for a LSTM cell in the sketch canvas
  * of the network
+ *
+ * An idea for future work could be outsourcing the cell structure to a json
+ * file and writing a generation and parsing logic to handle different
+ * RNN structures more efficiently
  */
 export class LSTM {
   /**
@@ -278,6 +282,7 @@ export class LSTM {
     for (const i of this.items) {
       i.deactivate();
     }
+    // special cases
     if (step === 0) {
       this.ghostLast.addNegativeInput();
       return;
@@ -302,6 +307,7 @@ export class LSTM {
       return;
     }
     step -= 2;
+    // the bptt animation logic
     switch (step % 12) {
       case 0:
         this.output.addNegativeInput();
@@ -487,7 +493,7 @@ export class LSTM {
 
   /**
    * This function gets called if the user has clicked on the screen, it
-   * then looks if the user has clicked on an interactable item and if so
+   * then checks if the user has clicked on an interactable item and if so
    * activates the according following functions
    *
    * @return {boolean} true, if the user has clicked on an item

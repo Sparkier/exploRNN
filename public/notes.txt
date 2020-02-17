@@ -1,6 +1,0 @@
-#######################
-## Development Notes ##
-#######################
-
-IMPROTANT:
-    - fix font settings

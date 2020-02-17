@@ -4,19 +4,22 @@ export default () => {
   self.addEventListener('message', (e) => {
     if (!e) return;
     switch (e.data.cmd) {
-      case 'init':
+      case 'init': // worker should be initialized
         importScripts('https://cdn.jsdelivr.net/npm/setimmediate@1.0.5/setImmediate.min.js');
         importScripts('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2.7/dist/tf.min.js');
         tf.setBackend('cpu');
+        self.initializing = true;
         self.initialize(e.data.model, e.data.data);
+        self.initializing = false;
         postMessage({cmd: 'init', values:
           {
             values: self.values,
             predictions: self.testOutputs,
           }});
         break;
-      case 'fit':
+      case 'fit': // worker trains network for one epoch
         if (self.fitting) return;
+        while (self.generating || self.initializing); // prevent inconsistencies
         self.fitting = true;
         self.model.model.fit(self.mem[2].in,
             self.mem[2].out, {
@@ -29,8 +32,10 @@ export default () => {
         }
         );
         break;
-      case 'data':
+      case 'data': // a new data set shall be generated
+        self.generating = true;
         self.generateDataWith(e.data.params);
+        self.generating = false;
         self.addDataToMemory();
         postMessage({cmd: 'data', values: {
           chartIn: self.chartDataInput,
@@ -38,11 +43,14 @@ export default () => {
           chartPred: self.chartPredictionInput,
         }});
         break;
-      case 'model':
+      case 'model': // the network model shall be generated
         self.createModel(e.data.params);
         break;
       case 'pred':
+        // the worker should determine a prediction for the current
+        // test data
         if (self.predicting) return;
+        while (self.generating || self.initializing); // prevent inconsistencies
         self.predicting = true;
         postMessage({cmd: 'pred', values: {
           pred: self.createPrediction(),
@@ -50,7 +58,6 @@ export default () => {
         self.predicting = false;
         break;
       default:
-        break;
     }
   });
 
@@ -62,11 +69,12 @@ export default () => {
     self.mem = [];
     self.fitting = false;
     self.predicting = false;
+    self.generating = false;
     self.generateDataWith({start: 0});
   };
 
   /**
-   * Create the network model and compile it
+   * Creates the network model and compiles it
    *
    * @param {object} params The model parameters from the received message
    */
@@ -100,10 +108,10 @@ export default () => {
    * hidden layers and possibly multiple blocks per layer
    *
    * @param {number} timeSteps the amount of input time steps
-   * @param {number} vocab the vocabulray size, = 1 for numerical input
+   * @param {number} vocab the vocabulary size, = 1 for numerical input
    * functions (meaning the vocabulary is 'one number' with any value)
    * @param {number} labels the output labels, or output dimensionality
-   * @param {number} layers the amount of hidden lstm layers
+   * @param {number} layers the amount of hidden lstm layer size
    * @param {number} blockSize the amount of cell states within a lstm block
    * @return {object} the complex network model based on the input values
    */
@@ -149,7 +157,8 @@ export default () => {
   /**
    * The actual function for generating the data sets used for training
    *
-   * @param {number} start the time step to start the data from
+   * @param {number} start the time step to start the data from, currently not
+   * in use
    * @param {string} funcs the type of function the network should be trained on
    * @param {number} plotLength the size of the interval of the input values
    * @param {number} predLength the number of values that should be predicted
@@ -258,15 +267,15 @@ export default () => {
    * @return {number} y = type(x)
    */
   self.dataFunc = (x, type) => {
-    let y = Math.sin(x);
+    let y = Math.sin(x); // standard sin function
     if (type === 'sinc') {
-      y = (Math.sin(1.5*x) + Math.sin(4.5 * x)) / 1.5;
+      y = (Math.sin(1.5*x) + Math.sin(4.5 * x)) / 1.5; // composite sin function
     }
     if (type === 'saw') {
-      y = -1 + 2 * ((x % Math.PI) / Math.PI);
+      y = -1 + 2 * ((x % Math.PI) / Math.PI); // sawtooth function
     }
     if (type === 'sqr') {
-      y = Math.sin((Math.PI/2)*x) >= 0 ? 1 : -1;
+      y = Math.sin((Math.PI/2)*x) >= 0 ? 1 : -1; // squarewave
     }
     return y;
   };

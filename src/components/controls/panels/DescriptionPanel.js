@@ -10,7 +10,7 @@ import styles from '../../../styles/themedStyles';
 import globalConstants from '../../constants/global';
 
 /**
- * Descritions at bottom of the Application, only visible in the cell view
+ * Descriptions at bottom of the Application, only visible in the cell view
  */
 class DescriptionPanel extends React.Component {
   /**

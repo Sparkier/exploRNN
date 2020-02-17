@@ -19,12 +19,12 @@ import globalConstants from '../constants/global';
 import StyledSelect from './comps/StyledSelect';
 
 /**
- * Controls at top of the Application
+ * Controls at top of the Application, 'The Toolbar'
  */
 class Controls extends React.Component {
   /**
-   * When the component is mounted we need to connect the key actions to this
-   * element to handle incoming key inputs
+   * When the component is mounted we need to connect the keyboard
+   * input actions to this element to handle incoming key presses
    */
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
@@ -41,7 +41,7 @@ class Controls extends React.Component {
     }
     let callDefault = false;
     switch (event.key) {
-      case ' ':
+      case ' ': // 'play/pause'
         if (!this.props.training.workerReady && !this.props.ui.netAnim) return;
         if (!this.props.ui.detail) {
           this.props.actions.toggleTraining(this.props.training);
@@ -52,7 +52,7 @@ class Controls extends React.Component {
           });
         }
         break;
-      case 'Enter':
+      case 'Enter': // 'step'
         if ((this.props.ui.detail && this.props.ui.anim) ||
             (!this.props.ui.detail && this.props.training.running) ||
             !this.props.training.workerReady) return;
@@ -64,12 +64,13 @@ class Controls extends React.Component {
           );
         }
         break;
-      case 'Backspace':
+      case 'Backspace': // 'reset'
         if (this.props.ui.detail || !this.props.training.workerReady) return;
         this.props.actions.updateTraining(
             {...this.props.training, reset: true}
         );
         break;
+      // input selection
       case '1':
         this.updateDataTypes('sin');
         break;
@@ -82,6 +83,7 @@ class Controls extends React.Component {
       case '4':
         this.updateDataTypes('sinc');
         break;
+      // network size
       case '-':
         if (!this.props.ui.detail && !this.props.training.running &&
             this.props.network.layers > 1
@@ -98,6 +100,7 @@ class Controls extends React.Component {
             layers: this.props.network.layers + 1});
         }
         break;
+      // view mode (netview <-> cell view)
       case 'Tab':
         this.props.actions.updateUI({...this.props.ui,
           detail: !this.props.ui.detail});

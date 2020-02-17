@@ -12,7 +12,7 @@ export class Input {
     this.s = s;
     this.dist = 0.15 * s.inProps.height;
     this.buttons = [];
-    this.steps = 30;
+    this.steps = 30; // needed for the buttons' visual calculations
     this.noises = [];
     for (let i = 0; i < this.steps; i++) {
       this.noises.push(-0.2 + 0.4 * Math.random());

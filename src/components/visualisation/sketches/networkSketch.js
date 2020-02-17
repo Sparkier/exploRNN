@@ -12,6 +12,7 @@ import {CellPlot} from './model/cellplot';
  * @param {object} s the p5.js sketch
  */
 export default function(s) {
+  // the basic values needed throughout the drawing logic
   s.props = {};
   s.network = [];
   s.outputPlots = [];
@@ -52,6 +53,7 @@ export default function(s) {
     error: false,
     back: false,
   };
+  // some typography values
   s.typography = {
     fontsize: 16,
     fontsizelarge: 20,
@@ -59,6 +61,7 @@ export default function(s) {
     tooltipoffset: 60,
     titleOffsetRatio: 0.1,
   };
+  // the scheme colors related to the global style of the application
   s.colors = {
     white: s.color(255),
     grey: s.color('#9e9e9e'),
@@ -76,6 +79,7 @@ export default function(s) {
     orangelight: s.color('#ffa726'),
     orangedark: s.color('#ef6c00'),
   };
+  // the color scheme for the visual component
   s.palette = {
     primary: s.colors.white,
     secondary: s.colors.darkbluegrey,
@@ -127,11 +131,13 @@ export default function(s) {
       return;
     }
     if (s.globalScale !== 1) {
+      // mouse scroll zoom logic
       s.translate(s.mx, s.my);
       s.scale(s.globalScale);
       s.translate(-s.mx, -s.my);
     }
     if (s.props) {
+      // calculating a puase value to control the speed of the animations
       const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
       const pauseMult = 1 - Math.sin(timeDist);
       s.pause = Math.round(10 * pauseMult) + 1;
@@ -271,6 +277,7 @@ export default function(s) {
       return;
     }
     if (!s.props.training.running) {
+      // keep the network sketch updated while no animation is running
       s.network = [];
       s.network.push({size: 1, type: 'input'});
       for (let i = 0; i < s.props.network.layers; i++) {
@@ -308,6 +315,7 @@ export default function(s) {
       s.detail = s.props.ui.detail;
     }
     if (start) {
+      // prepare all values for the upcoming animation
       s.plotFrame = 0;
       s.plotAnim = true;
       s.netFrame = 0;
@@ -387,6 +395,9 @@ export default function(s) {
     const valDiv = document.getElementById('valueDiv');
     s.resizeCanvas(netDiv.offsetWidth,
         window.innerHeight - valDiv.offsetHeight - 50);
+    if (!s.props.ui.ready) {
+      s.props.actions.updateTraining({...s.props.training, step: true});
+    }
     s.initialize();
   };
 
@@ -503,6 +514,7 @@ export default function(s) {
     s.push();
     const cb = s.clickedBlock;
     s.netScale = (100 + s.transition) / 100;
+    // handle correct scaling on zoom transition animation
     if (s.clickedBlock) {
       const cx = cb.x + (cb.x - s.detailProps.midX) * (s.transition / 100);
       const cy = cb.y + (cb.y - s.detailProps.midY) * (s.transition / 100);
@@ -577,14 +589,12 @@ export default function(s) {
     if (s.props.ui.help || s.netAnim) {
       return;
     }
-    console.log('CLICKY', s.mx, s.my, s.detail);
     if (s.mx < 0 || s.my < 0 ||
         s.mx > s.width || s.my > s.height) {
       return;
     }
     if (s.detail) {
       s.detail = s.cell.checkClick();
-      console.log('check', s.detail);
       if (!s.detail) {
         s.props.actions.updateUI({...s.props.ui, detail: false});
       }

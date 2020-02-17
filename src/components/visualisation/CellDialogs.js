@@ -33,144 +33,33 @@ class CellDialogs extends React.Component {
     const global = globalConstants[this.props.appState.language];
     return (
       <div>
-        <Dialog onClose={() => this.handleClose()}
-          open={this.props.appState.cellDialog[0]}>
-          <DialogTitle>
-            {global.strings.lstmGates[0].title}
-          </DialogTitle>
-          <DialogContent dividers>
-            <Typography gutterBottom>
-              <Context input='tex'>
-                <span>
-                  {global.strings.lstmGates[0].description}
-                  <Node>
-                    {global.strings.lstmGates[0].formula}
-                  </Node>
-                  <Node>
-                    {global.strings.lstmGates[0].formula2}
-                  </Node>
-                  <Node>
-                    {global.strings.lstmGates[0].formula3}
-                  </Node>
-                  <Node>
-                    {global.strings.lstmGates[0].formula4}
-                  </Node>
-                </span>
-              </Context>
-            </Typography>
-          </DialogContent>
-        </Dialog>
-        <Dialog onClose={() => this.handleClose()}
-          open={this.props.appState.cellDialog[1]}>
-          <DialogTitle>
-            {global.strings.lstmGates[1].title}
-          </DialogTitle>
-          <DialogContent dividers>
-            <Typography gutterBottom>
-              <Context input='tex'>
-                <span>
-                  {global.strings.lstmGates[1].description}
-                  <Node>
-                    {global.strings.lstmGates[1].formula}
-                  </Node>
-                  <Node>
-                    {global.strings.lstmGates[1].formula2}
-                  </Node>
-                  <Node>
-                    {global.strings.lstmGates[1].formula3}
-                  </Node>
-                  <Node>
-                    {global.strings.lstmGates[1].formula4}
-                  </Node>
-                </span>
-              </Context>
-            </Typography>
-          </DialogContent>
-        </Dialog>
-        <Dialog onClose={() => this.handleClose()}
-          open={this.props.appState.cellDialog[2]}>
-          <DialogTitle>
-            {global.strings.lstmGates[2].title}
-          </DialogTitle>
-          <DialogContent dividers>
-            <Typography gutterBottom>
-              <Context input='tex'>
-                <span>
-                  {global.strings.lstmGates[2].description}
-                  <Node>
-                    {global.strings.lstmGates[2].formula}
-                  </Node>
-                  <Node>
-                    {global.strings.lstmGates[2].formula2}
-                  </Node>
-                </span>
-              </Context>
-            </Typography>
-          </DialogContent>
-        </Dialog>
-        <Dialog onClose={() => this.handleClose()}
-          open={this.props.appState.cellDialog[3]}>
-          <DialogTitle>
-            {global.strings.lstmGates[3].title}
-          </DialogTitle>
-          <DialogContent dividers>
-            <Typography gutterBottom>
-              <Context input='tex'>
-                <span>
-                  {global.strings.lstmGates[3].description}
-                  <Node>
-                    {global.strings.lstmGates[3].formula}
-                  </Node>
-                  <Node>
-                    {global.strings.lstmGates[3].formula2}
-                  </Node>
-                  <Node>
-                    {global.strings.lstmGates[3].formula3}
-                  </Node>
-                  <Node>
-                    {global.strings.lstmGates[3].formula4}
-                  </Node>
-                </span>
-              </Context>
-            </Typography>
-          </DialogContent>
-        </Dialog>
-        <Dialog onClose={() => this.handleClose()}
-          open={this.props.appState.cellDialog[4]}>
-          <DialogTitle>
-            {global.strings.lstmGates[4].title}
-          </DialogTitle>
-          <DialogContent dividers>
-            <Typography gutterBottom>
-              <Context input='tex'>
-                <span>
-                  {global.strings.lstmGates[4].description}
-                  <Node>
-                    {global.strings.lstmGates[4].formula}
-                  </Node>
-                </span>
-              </Context>
-            </Typography>
-          </DialogContent>
-        </Dialog>
-        <Dialog onClose={() => this.handleClose()}
-          open={this.props.appState.cellDialog[5]}>
-          <DialogTitle>
-            {global.strings.lstmGates[5].title}
-          </DialogTitle>
-          <DialogContent dividers>
-            <Typography gutterBottom>
-              <Context input='tex'>
-                <span>
-                  {global.strings.lstmGates[5].description}
-                  <Node>
-                    {global.strings.lstmGates[5].formula}
-                  </Node>
-                </span>
-              </Context>
-            </Typography>
-          </DialogContent>
-        </Dialog>
+        {
+          global.strings.lstmGates.map((gate) => (
+            <Dialog onClose={() => this.handleClose()}
+              open={this.props.appState.cellDialog[gate.id]}
+              key={gate.id}>
+              <DialogTitle>
+                {gate.title}
+              </DialogTitle>
+              <DialogContent dividers>
+                <Typography gutterBottom>
+                  <Context input='tex'>
+                    <span>
+                      {gate.description}
+                      {
+                        gate.formulas.map((formula) => (
+                          <Node key={formula}>
+                            {formula}
+                          </Node>
+                        ))
+                      }
+                    </span>
+                  </Context>
+                </Typography>
+              </DialogContent>
+            </Dialog>
+          ))
+        }
       </div>
     );
   }

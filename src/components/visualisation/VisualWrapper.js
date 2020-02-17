@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import {Grid} from '@material-ui/core';
 import * as actions from '../../actions';
 import CellDialogs from './CellDialogs';
-import networkSketch from './sketches/networkSketch';
-import leftSide from './sketches/leftSidedSketch';
-import rightSide from './sketches/rightSidedSketch';
+import networkSketch from './sketches/NetworkSketch';
+import leftSide from './sketches/LeftSidedSketch';
+import rightSide from './sketches/RightSidedSketch';
 import globalConstants from '../constants/global';
 
 /**

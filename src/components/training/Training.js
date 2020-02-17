@@ -37,7 +37,7 @@ class Training extends React.Component {
     const buff = e.data.values;
     let network = this.props.network;
     switch (e.data.cmd) {
-      case 'init':
+      case 'init': // worker has been initializes
         this.props.actions.updateTraining({
           ...this.props.training,
           values: buff.values,
@@ -45,7 +45,7 @@ class Training extends React.Component {
         });
         this.props.actions.updateUI({...this.props.ui});
         break;
-      case 'fit':
+      case 'fit': // worker has trained the network for one epoch
         if (this.props.training.running) {
           setTimeout(function() {
             this_.iterate(true);
@@ -58,12 +58,14 @@ class Training extends React.Component {
           workerReady: true,
         });
         break;
-      case 'data':
+      case 'data': // worker has generated a new data set
         network = this.addDataToNetwork(this.props.network, buff.chartIn,
             buff.chartOut, buff.chartPred);
         this.props.actions.updateNetwork(network);
         break;
       case 'pred':
+        // worker has calculated a prediction for the
+        // current test data
         network = this.addPredictionToNetwork(this.props.network, buff.pred);
         this.props.actions.updateNetwork(network);
         break;
@@ -83,16 +85,19 @@ class Training extends React.Component {
     const this_ = this;
     if (this.props.training.running !== prevProps.training.running) {
       if (this.props.training.running) {
+        // new training phase has started
         setTimeout(function() {
           this_.iterate(true);
         }, 100);
       }
     } else if (this.props.training.running && this.props.ui.ready) {
+      // the app is ready for a new fit call in the current training phase
       setTimeout(function() {
         this_.iterate(true);
       }, 100);
     }
     if (this.props.training.reset) {
+      // the network/training values shall be regenerated with current values
       this.reset();
       this.props.actions.updateTraining(
           {...this.props.training, reset: false, running: false,
@@ -112,6 +117,7 @@ class Training extends React.Component {
       );
     }
     if (this.props.training.step) {
+      // training shall continue fopr one epoch
       this.iterate(false);
       this.props.actions.updateUI(
           {...this.props.ui, reset: true,

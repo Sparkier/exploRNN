@@ -20,7 +20,9 @@ const globalENG = {
       about: {
         title: 'About',
         description: 'This project was created as part of a Bachelor Thesis ' +
-          'in Media Informatics in Ulm University.',
+          'in Media Informatics in Ulm University. The title of this thesis ' +
+          'is leaRNN - An Interactive Visualisation Of Recurrent Neural ' +
+          'Networks.',
       },
       faq: {
         title: 'FAQ',
@@ -34,11 +36,11 @@ const globalENG = {
     },
     epoch: {
       title: 'Epochs',
-      description: 'When training a Neural Network a set of training data is' +
+      description: 'When training a Neural Network, a set of training data is' +
         ' used to get predictions that can be analyzed. One Epoch describes ' +
-        'one cycle through this data set. Per Epoch the data is split up ' +
+        'one cycle through this data set. Each Epoch the data is split up ' +
         'into batches of equal size. After each batch of data is used to ' +
-        'get the predictions a total error is calcualted and the network ' +
+        'get the predictions a total error is calculated and the network ' +
         'is trained via backpropagation.',
     },
     trainSteps: [
@@ -50,7 +52,7 @@ const globalENG = {
           'continue over time.',
         longDescription: 'The goal of the training process is to teach the ' +
           'network to make as good a prediction as possible. To tell how ' +
-          'well the network currently is in its predictive abilities we ' +
+          'good the network currently is in its predictive abilities we ' +
           'first need to get predictions for some inputs. The network is ' +
           'shown these inputs and it calculates the values that it thinks ' +
           'should come next. Since we know the continuation of these inputs ' +
@@ -71,14 +73,15 @@ const globalENG = {
           'and reality to evaluate how the net has to be adjusted to make ' +
           'better predictions the next time around. In the small error ' +
           'element you can see the direct error between a prediction and ' +
-          'the real values. But normally a more complex error calcualtion ' +
-          'is used to get a better training of the internal weights.',
+          'the real values. In the actual training process a more complex ' +
+          'error calcualtion is used to get a better training of the ' +
+          'internal weights.',
       },
       {
         id: 2,
         title: 'Training',
-        description: 'The net is told how bad its prediction was and then ' +
-          'tries to update its inner variables.',
+        description: 'The net is told how far off its prediction was and ' +
+          'then tries to update its inner variables.',
         longDescription: 'Now comes the actual training part of the training' +
           ' process. We now know for some inputs how well the network can ' +
           'predict the continuation of the given functions. With this ' +
@@ -95,7 +98,7 @@ const globalENG = {
         description: 'The cell waits for all necessary inputs',
         longDescription: 'In this first step the cell waits for the inputs ' +
           'to arrive. In the first time step only the outputs from the ' +
-          'previous layer need will reach this input. In all later time ' +
+          'previous layer will reach this input. In all later time ' +
           'steps the recurrent output from this cell itself is also used as' +
           ' an input for the coming calculations. With this cyclic stream of' +
           ' information the cell can learn the dependencies between old and' +
@@ -104,7 +107,8 @@ const globalENG = {
       {
         id: 1,
         title: 'Layer Input',
-        description: 'The inputs from this and the previous layer are combined',
+        description: 'The inputs from this layer and the previous layer are ' +
+        'combined',
         longDescription: 'Once all necessary input values have reached the ' +
           'cell input these values are used to form a combined input for this' +
           ' layer. This input contains information about the new time step' +
@@ -117,12 +121,12 @@ const globalENG = {
         description: 'The new input is processed by the input and forget gate',
         longDescription: 'With the layer input now sent to the gates of the' +
           ' cell the gates can calculate filters for the input and cell ' +
-          'state. The input gate itself is actually composed of a block ' +
+          'state. The input gate itself is composed of a block ' +
           'input and the actual input gate. The block input calculates a ' +
           'weighted version of the layer input. The input gate determines ' +
           'a filter that will be used to extract the relevant new ' +
           'information from the block input. At the same time the forget' +
-          ' gate also determines a data filter. But this filter is used to' +
+          ' gate also calculates a data filter. But this filter is used to' +
           ' determine which values of the cell state are not relevant anymore' +
           ' and can be forgotten.',
       },
@@ -132,10 +136,10 @@ const globalENG = {
         description: 'The processed values are combined to create a ' +
           'cell update',
         longDescription: 'With the input and forget gate having calculated' +
-          ' their filters the cell state updated can now be determined. ' +
+          ' their filters the cell state update can now be determined. ' +
           'The block input is filtered by the input gate and the old cell ' +
           'state is filtered by the forget gate. The combination of these ' +
-          'two steps is then used as an updated version of the memory cell.',
+          'two parts is then used as an updated version of the memory cell.',
       },
       {
         id: 4,
@@ -155,7 +159,7 @@ const globalENG = {
           ' relevant information for this cell specifically the output gate' +
           ' now tries to extract the valuable information that can be sent' +
           ' to the following layers. Again a filter is calculated and the' +
-          ' values of memory cell are transformed before being given to the' +
+          ' values of memory cell are transformed before being sent to the' +
           ' next layer. This output is also then sent to the input of the' +
           ' current cell so that the next round of calculations can be ' +
           'done with knowledge of these now old values.',
@@ -171,10 +175,12 @@ const globalENG = {
           'the currrent layer. Those two parts are weighted and combined at ' +
           'each gate the are used at. This can be generalized in the ' +
           'following way:',
-        formula: 'X^t_g = w_{xg} \\cdot x^t + w_{yg} \\cdot y^{t-1}',
-        formula2: 'g: \\text{ the corresponding gate}',
-        formula3: 'x^t: \\text{the output of the previous layer}',
-        formula4: 'y^{t-1}: \\text{the output of the last time step}',
+        formulas: [
+          'X^t_g = w_{xg} \\cdot x^t + w_{yg} \\cdot y^{t-1}',
+          'g: \\text{ the corresponding gate}',
+          'x^t: \\text{the output of the previous layer}',
+          'y^{t-1}: \\text{the output of the last time step}',
+        ],
       },
       {
         id: 1,
@@ -185,10 +191,12 @@ const globalENG = {
           'second element. It tries to create a filter for the block input ' +
           'that only lets the relevant new information pass through. These ' +
           'calculations are done in the following way:',
-        formula: 'z^t = tanh(X^t_z + b_z)',
-        formula2: 'i^t = \\sigma(X^t_i + b_i)',
-        formula3: 'z: \\text{the block input}',
-        formula4: 'b_k: \\text{the bias of the component } k',
+        formulas: [
+          'z^t = tanh(X^t_z + b_z)',
+          'i^t = \\sigma(X^t_i + b_i)',
+          'z: \\text{the block input}',
+          'b_k: \\text{the bias of the component } k',
+        ],
       },
       {
         id: 2,
@@ -197,8 +205,10 @@ const globalENG = {
           'old cell state is relevant for future calculations and which ' +
           'values can be forgotten. To achieve this a filter is generated ' +
           'that later is being used to calculate a new cell state.',
-        formula: 'f^t = \\sigma(X^t_f + b_f)',
-        formula2: 'b_k: \\text{the bias of the component } k',
+        formulas: [
+          'f^t = \\sigma(X^t_f + b_f)',
+          'b_k: \\text{the bias of the component } k',
+        ],
       },
       {
         id: 3,
@@ -206,11 +216,15 @@ const globalENG = {
         description: 'Since the memory cell keeps its relevant information ' +
           'in its own form to keep the important data stored, the output gate' +
           ' will create a filter that is used on a transformed version of the' +
-          ' cell state.',
-        formula: 'h^t = tanh(c^t)',
-        formula2: 'o^t = \\sigma(X^t_o + b_o)',
-        formula3: 'y^t = h^t \\cdot o^t',
-        formula4: 'b_k: \\text{the bias of the component } k',
+          ' cell state to get values that can be sent to the following ' +
+          'layers. This output us then also sent recurrently to the input ' +
+          'of this current cell.',
+        formulas: [
+          'h^t = tanh(c^t)',
+          'o^t = \\sigma(X^t_o + b_o)',
+          'y^t = h^t \\cdot o^t',
+          'b_k: \\text{the bias of the component } k',
+        ],
       },
       {
         id: 4,
@@ -219,7 +233,9 @@ const globalENG = {
           'they are used to adjust the values from the old cell state and ' +
           'the new input from the block input. Those are then combined to ' +
           'create the updated version of the memory cell.',
-        formula: '\\widetilde{c}^t = f^t \\cdot c^{t-1} + i^t \\cdot z^t',
+        formulas: [
+          '\\widetilde{c}^t = f^t \\cdot c^{t-1} + i^t \\cdot z^t',
+        ],
       },
       {
         id: 5,
@@ -234,7 +250,9 @@ const globalENG = {
           'cell overcomes this problem by sending the error with a constant ' +
           'weight back in time. This makes the LSTM architecture capable of ' +
           'learning long time distance dependencies.',
-        formula: 'c^t = \\widetilde{c}^t',
+        formulas: [
+          'c^t = \\widetilde{c}^t',
+        ],
       },
     ],
   },
@@ -370,13 +388,14 @@ const globalGER = {
     tooltipAdd: 'Neue Ebene',
     sideMenu: {
       close: {
-        title: 'Close',
+        title: 'Zurück',
       },
       about: {
         title: 'Über die Anwendung',
         description: 'Diese Anwendung ist als Projekt im Kontext einer ' +
           'Abschlussarbeit im Bachelorstudiengang Medieninformatik durch ' +
-          'Raphael Störk entstanden.',
+          'Raphael Störk entstanden. Der Titel dieser Arbeit ist: leaRNN - ' +
+          'Eine Interaktive Visualisierung Rekurrenter Neuronaler Netze.',
       },
       faq: {
         title: 'FAQ',
@@ -394,7 +413,7 @@ const globalGER = {
         'vorgegebene Menge an Daten verwendet um Ausgaben des Netzes zu ' +
         'untersuchen. Eine Epoche beschreibt dabei einen Durchlauf durch ' +
         'diese Datenmenge. Pro Epoche wird diese Datenmenge in sogenannte ' +
-        'batches gleicher Größe aufgeteilt. Nachdem alle Daten eines Netzes ' +
+        'Batches gleicher Größe aufgeteilt. Nachdem alle Daten eines Batch ' +
         'verwendet wurden wird ein Gesamtfehler errechnet und das Netz wird ' +
         'über das BPTT Verfahren trainiert.',
     },
@@ -402,7 +421,7 @@ const globalGER = {
       {
         id: 0,
         title: 'Vorhersage',
-        description: 'Ein zufällige Eingabe wird aus den Testdaten gewählt ' +
+        description: 'Eine zufällige Eingabe wird aus den Testdaten gewählt ' +
           'und dem Netz präsentiert. Dieses berechnet dann eine mögliche ' +
           'Vorhersage zum weiteren Verlauf.',
         longDescription: 'Das Ziel des Trainings ist es dem Netz beizubringen' +
@@ -431,22 +450,23 @@ const globalGER = {
           ' Vorhersage zu machen. In dem kleinen Element in dem der Fehler' +
           ' angezeigt wird sehen Sie den direkten Abstand der Werte ' +
           'voneinander. Für die tatsächliche Berechnung der Anpassungen ' +
-          'wird aber normalerweise eine komplexere Form der Fehlerberechnung' +
+          'wird in der Regel jedoch eine komplexere Form der Fehlerberechnung' +
           ' verwendet um besser Änderungen zu gewährleisten.',
       },
       {
         id: 2,
         title: 'Training',
-        description: 'Der Fehler wird dem Netz mitgeteil. Dieses versucht ' +
+        description: 'Der Fehler wird dem Netz mitgeteilt. Dieses versucht ' +
           'dann die inneren Variablen entsprechend anzupassen.',
         longDescription: 'Hier kommen wir zum eigentlichen Training ' +
           'im Trainigsprozess. Wir wissen nun für einige Eingaben wie ' +
           'gut das Netz darin ist Vorhersagen zu machen. Mit diesem ' +
-          'Wissen können wir nun die Berechnung der Vorhersage rückverfolgen ' +
-          'und dabei bestimmen wie die Gewichte innerhalb des Netzes hätten ' +
-          'sein müssen um eine bessere Vorhersage zu bekommen. Dieser ' +
-          'Rücklauf durch die Zellen und vor allem die einzelnen ' +
-          'Zeitschritte nennt man Backpropagation Through Time, kurz BPTT.',
+          'Wissen können wir nun die Berechnung der Vorhersage ' +
+          'zurückverfolgen und dabei bestimmen wie die Gewichte innerhalb ' +
+          'des Netzes hätten sein müssen um eine bessere Vorhersage zu ' +
+          'bekommen. Dieser Rücklauf durch die Zellen und vor allem die ' +
+          'einzelnen Zeitschritte nennt man auch Backpropagation Through Time' +
+          ' oder kurz BPTT.',
       },
     ],
     lstmSteps: [
@@ -460,7 +480,7 @@ const globalGER = {
           'aus der vorherigen Zelle. In späteren Zeitschritten kommen hier ' +
           'auch noch die Ausgaben aus der aktuellen Ebene dazu. Durch diesen' +
           ' zyklischen Strom an Daten kann später ein Zusammenhang zwischen' +
-          ' alten und neuen Werten bestimmt werden.',
+          ' alten und neuen Werten erlernt werden.',
       },
       {
         id: 1,
@@ -493,7 +513,7 @@ const globalGER = {
         id: 3,
         title: 'Update der Zelle',
         description: 'Es wird ein Update für den Zell Zustand errechnet.',
-        longDescription: 'Mit den nun von input und forget gate berechneten' +
+        longDescription: 'Mit den von input und forget gate berechneten' +
           ' Filtern kann nun eine Aktualisierung des Zellspeichers bestimmt ' +
           'werden. Aus dem block input werden neue Informationen mit dem ' +
           'Filter gewonnen und der alte Zellspeicher wird mit dem forget gate' +
@@ -516,7 +536,7 @@ const globalGER = {
           'Output Gate zur Ausgabe verarbeitet.',
         longDescription: 'Da im Zellspeicher die wichtigen Informationen zum' +
           ' Zustand der Zelle selbst gespeichert sind versucht das output ' +
-          'gate nun die wichtigen Informationen für die nachfolgenden Zelle' +
+          'gate nun die wichtigen Informationen für die nachfolgenden Zellen' +
           ' zu bestimmen. Dafür wird auch hier ein Filter errechnet mit dem' +
           ' der Zell Zustand vor Weitergabe angepasst wird. Diese Ausgabe ' +
           'wird dann sowohl an die nächste Ebene gereicht, als auch erneut ' +
@@ -535,10 +555,12 @@ const globalGER = {
           'der aktuellen Ebene aus dem vorherigen Zeitschritt. Diese beiden ' +
           'Teile werden an jedes Gatter gesendet wo sie dann gewichtet und ' +
           'addiert werden. Dies kann folgendermaßen verallgemeinert werden:',
-        formula: 'X^t_g = w_{xg} \\cdot x^t + w_{yg} \\cdot y^{t-1}',
-        formula2: 'g: \\text{ Das entsprechende Gatter}',
-        formula3: 'x^t: \\text{ Ausgabe aus vorheriger Ebene}',
-        formula4: 'y^{t-1}: \\text{ Ausgabe des letzten Zeitschritts}',
+        formulas: [
+          'X^t_g = w_{xg} \\cdot x^t + w_{yg} \\cdot y^{t-1}',
+          'g: \\text{ Das entsprechende Gatter}',
+          'x^t: \\text{ Ausgabe aus vorheriger Ebene}',
+          'y^{t-1}: \\text{ Ausgabe des letzten Zeitschritts}',
+        ],
       },
       {
         id: 1,
@@ -551,34 +573,40 @@ const globalGER = {
           'block input berechnet durch den nur die wichtigen neuen ' +
           'Informationen durchgelassen werden. Die Berechnung hierfür können ' +
           'wie folgt dargestellt werden.',
-        formula: 'z^t = tanh(X^t_z + b_z)',
-        formula2: 'i^t = \\sigma(X^t_i + b_i)',
-        formula3: 'z: \\text{ Der block input}',
-        formula4: 'b_k: \\text{ Der bias der Komponente} k',
+        formulas: [
+          'z^t = tanh(X^t_z + b_z)',
+          'i^t = \\sigma(X^t_i + b_i)',
+          'z: \\text{ Der block input}',
+          'b_k: \\text{ Der bias der Komponente } k',
+        ],
       },
       {
         id: 2,
         title: 'Forget Gate',
         description: 'Das forget gate versucht zu bestimmen, welcher Teil ' +
-          'des alten Zell Zustandes relevant für die weiteren Schritte sind ' +
+          'des alten Zell Zustandes relevant für die weiteren Schritte ist ' +
           'und entsprechend welche Informationen die Zelle vergessen kann. ' +
           'Hierfür wird ein Filter generiert, der später verwendet wird um ' +
-          'die alten Werte der Speicherzelle zu filtern.',
-        formula: 'f^t = \\sigma(X^t_f + b_f)',
-        formula2: 'b_k: \\text{ Der bias der Komponente} k',
+          'die alten Werte des Zellspeichers zu filtern.',
+        formulas: [
+          'f^t = \\sigma(X^t_f + b_f)',
+          'b_k: \\text{ Der bias der Komponente } k',
+        ],
       },
       {
         id: 3,
         title: 'Output Gate',
         description: 'Da der Zellspeicher die wichtigen Informationen in ' +
-          'einer eigens für ihn verwendbaren Form speichert wird durch das ' +
+          'einer für ihn verwendbaren Form speichert wird durch das ' +
           'output gate ein Filter erstellt, welcher aus einer ' +
           'transformierten Form dieses Speichers die Informationen heraus ' +
           'sucht, die an die nächsten Ebenen weitergegeben werden können.',
-        formula: 'h^t = tanh(c^t)',
-        formula2: 'o^t = \\sigma(X^t_o + b_o)',
-        formula3: 'y^t = h^t \\cdot o^t',
-        formula4: 'b_k: \\text{Der bias der Komponente} k',
+        formulas: [
+          'h^t = tanh(c^t)',
+          'o^t = \\sigma(X^t_o + b_o)',
+          'y^t = h^t \\cdot o^t',
+          'b_k: \\text{Der bias der Komponente } k',
+        ],
       },
       {
         id: 4,
@@ -588,23 +616,27 @@ const globalGER = {
           'Zellspeicher und aus dem block input verwendet werden. Die ' +
           'Verbindung der angepassten Werte kann dann als Aktualisierung ' +
           'für den Zellspeicher genutzt werden.',
-        formula: '\\widetilde{c}^t = f^t \\cdot c^{t-1} + i^t \\cdot z^t',
+        formulas: [
+          '\\widetilde{c}^t = f^t \\cdot c^{t-1} + i^t \\cdot z^t',
+        ],
       },
       {
         id: 5,
         title: 'Memory Cell',
         description: 'Dies ist die Speicherzelle, auch Zell Zustand genannt. ' +
-          'Sie repräsentier den internen Speicher des Zellblocks und enthält ' +
-          'wichtige Informationen über alle vorherigen Zeitschritte. Beim ' +
+          'Sie repräsentiert den internen Speicher des Zellblocks und enthält' +
+          ' wichtige Informationen über alle vorherigen Zeitschritte. Beim ' +
           'Training des Netzes wird der Fehler der Ausgabe rückwärts durch ' +
           'das Netz gesendet durch Berechnung der Gradienten aller ' +
           'Zellkomponenten. Während hier herkömmliche RNN darunter leiden, ' +
           'dass durch die vielen Fehlergradienten der Fehler im zeitlichen ' +
-          'Verlauf des Trainings stark reduziert wird umgeht die LSTM ' +
+          'Verlauf des Trainings stark reduziert wird umgehen LSTM Zellen' +
           'dieses Problem durch die konstante Weitergabe des Fehlers über ' +
-          'diesen Zellpeicher. Dadurch ist LSTM Netzen möglich zeitliche ' +
+          'diesen Zellpeicher. Dadurch ist es LSTM Netzen möglich zeitliche ' +
           'Abhängigkeiten über lange Abstände zu erlernen.',
-        formula: 'c^t = \\widetilde{c}^t',
+        formulas: [
+          'c^t = \\widetilde{c}^t',
+        ],
       },
     ],
   },
@@ -632,7 +664,7 @@ const globalGER = {
         ' dieser Wert ist, desto stärker ist die Änderung der einzelnen' +
         ' Gewichte beim Training. Je besser ein Netz darin ist Werte ' +
         'vorherzusagen, desto niedriger kann dieser Wert also sein. ' +
-        'In dieser Anwendung können Sie einen Wert einstellen und ' +
+        'In dieser Anwendung können Sie einen solchen Wert einstellen und ' +
         'untersuchen wie sich dies auf die Lernfähigkeit des Netzes ' +
         'auswirkt. Beachten Sie jedoch, dass eine Änderung der Lernrate' +
         ' nur dann aktiv wird sobald das Netz neu generiert wurde.',
