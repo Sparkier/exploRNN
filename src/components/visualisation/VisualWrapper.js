@@ -6,7 +6,7 @@ import {Grid} from '@material-ui/core';
 import * as actions from '../../actions';
 import CellDialogs from './CellDialogs';
 import networkSketch from './sketches/NetworkSketch';
-import leftSide from './sketches/LeftSidedSketch';
+import leftSide from './sketches/LeftSideSketch';
 import rightSide from './sketches/RightSidedSketch';
 import globalConstants from '../constants/global';
 
