@@ -130,18 +130,10 @@ export default function(s) {
     if (!s.props) {
       return;
     }
-    if (s.globalScale !== 1) {
-      // mouse scroll zoom logic
-      s.translate(s.mx, s.my);
-      s.scale(s.globalScale);
-      s.translate(-s.mx, -s.my);
-    }
-    if (s.props) {
-      // calculating a puase value to control the speed of the animations
-      const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
-      const pauseMult = 1 - Math.sin(timeDist);
-      s.pause = Math.round(10 * pauseMult) + 1;
-    }
+    // calculating a puase value to control the speed of the animations
+    const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
+    const pauseMult = 1 - Math.sin(timeDist);
+    s.pause = Math.round(10 * pauseMult) + 1;
     if (s.detail && s.props.ui.anim) {
       s.cell.update(false);
     }
