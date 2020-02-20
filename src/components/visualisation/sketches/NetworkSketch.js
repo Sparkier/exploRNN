@@ -130,7 +130,7 @@ export default function(s) {
     if (!s.props) {
       return;
     }
-    // calculating a puase value to control the speed of the animations
+    // calculating a pause value to control the speed of the animations
     const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
     const pauseMult = 1 - Math.sin(timeDist);
     s.pause = Math.round(10 * pauseMult) + 1;
@@ -247,13 +247,6 @@ export default function(s) {
     s.forget = s.loadImage('./data/del_black.png');
     s.cellImage = s.loadImage('./data/memory_black.png');
     s.output = s.loadImage('./data/output_black.png');
-    s.desc = s.loadImage('./data/desc.png');
-    s.recdesc = s.loadImage('./data/rec_desc.png');
-    s.adddesc = s.loadImage('./data/add_desc.png');
-    s.celdesc = s.loadImage('./data/cel_desc.png');
-    s.savdesc = s.loadImage('./data/sav_desc.png');
-    s.outdesc = s.loadImage('./data/out_desc.png');
-    s.losdesc = s.loadImage('./data/los_desc.png');
   };
 
   /**
@@ -562,9 +555,7 @@ export default function(s) {
     if (s.detail) {
       s.cell.mouseMoved(s.mx, s.my);
     } else {
-      // if (s.props.ui.ready) {
       s.net.mouseMoved(s.mx, s.my);
-      // }
       if (s.input) {
         s.input.mouseMoved(s.mx, s.my);
       }
@@ -578,7 +569,7 @@ export default function(s) {
     if (!s.ready) {
       return;
     }
-    if (s.props.ui.help || s.netAnim) {
+    if (s.props.ui.help) {
       return;
     }
     if (s.mx < 0 || s.my < 0 ||
@@ -595,24 +586,5 @@ export default function(s) {
       s.input.checkClick();
       s.net.mouseMoved(s.mx, s.my);
     }
-  };
-
-  /**
-   * Handles mouse wheel events
-   *
-   * @param {object} event stores the event related values
-   * @return {boolean} returns false to override page scrolling
-   */
-  s.mouseWheel = function(event) {
-    if (s.props.ui.help || s.netAnim) {
-      return;
-    }
-    s.globalScale -= event.delta/1000;
-    if (s.globalScale > 4) {
-      s.globalScale = 4;
-    } else if (s.globalScale < 1) {
-      s.globalScale = 1;
-    }
-    return false;
   };
 }
