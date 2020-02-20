@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {HashRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Toolbar from '@material-ui/core/Toolbar';
 import Main from './components/MainComponent';
 
