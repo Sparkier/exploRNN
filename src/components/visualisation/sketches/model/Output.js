@@ -2,7 +2,7 @@
  * This class represents the plots of the output side
  * of the network visualisation
  */
-export class Plot {
+export class Output {
   /**
    * The constructor function of the class plot
    *

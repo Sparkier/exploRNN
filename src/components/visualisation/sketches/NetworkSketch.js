@@ -1,9 +1,9 @@
-import {LSTM} from './model/lstm';
-import {Network} from './model/net';
-import {Plot} from './model/plot';
-import {Input} from './model/input';
-import {Loss} from './model/loss';
-import {CellPlot} from './model/cellplot';
+import {LSTM} from './model/cellview/LSTM';
+import {Network} from './model/overview/Network';
+import {Output} from './model/Output';
+import {Input} from './model/overview/Input';
+import {Loss} from './model/overview/Loss';
+import {CellPlot} from './model/cellview/CellPlot';
 
 /**
  * This function represents the sketch in which the network with user
@@ -231,7 +231,7 @@ export default function(s) {
     s.rectMode(s.CENTER);
     s.outputPlots = [];
     for (let i = 0; i < 5; i++) {
-      s.outputPlots.push(new Plot(i, s));
+      s.outputPlots.push(new Output(i, s));
     }
     s.setupDone = true;
   };
