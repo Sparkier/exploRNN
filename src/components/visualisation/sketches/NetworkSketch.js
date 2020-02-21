@@ -5,6 +5,10 @@ import {Input} from './model/overview/Input';
 import {Loss} from './model/overview/Loss';
 import {CellPlot} from './model/cellview/CellPlot';
 
+import {getColors, getColorPalette} from '../../constants/colors';
+import {getCellAnimationValues} from '../../constants/animation';
+import {getTypographyDefaults} from '../../constants/typography';
+
 /**
  * This function represents the sketch in which the network with user
  * interaction functionality is being drawn
@@ -39,69 +43,13 @@ export default function(s) {
   s.my = 0;
 
   // the new format of the cell animation values
-  s.cellAnim = {
-    maxSteps: 11,
-    maxErrorSteps: 20,
-    maxBackSteps: 62,
-    step: 0,
-    frame: 0,
-    inputStep: 0,
-    predictionStep: 0,
-    errorStep: 0,
-    backStep: 0,
-    forward: true,
-    error: false,
-    back: false,
-  };
+  s.cellAnim = getCellAnimationValues();
   // some typography values
-  s.typography = {
-    fontsize: 16,
-    fontsizelarge: 20,
-    fontsizesmall: 12,
-    tooltipoffset: 60,
-    titleOffsetRatio: 0.1,
-  };
+  s.typography = getTypographyDefaults();
   // the scheme colors related to the global style of the application
-  s.colors = {
-    white: s.color(255),
-    grey: s.color('#9e9e9e'),
-    lightgrey: s.color('#eeeeee'),
-    darkgrey: s.color('#212121'),
-    black: s.color(0),
-    bluegrey: s.color('#455a64'),
-    lightbluegrey: s.color('#b0bec5'),
-    darkbluegrey: s.color('#263238'),
-    red: s.color(255, 50, 50),
-    cyan: s.color('#00acc1'),
-    cyanlight: s.color('#26c6da'),
-    cyandark: s.color('#00838f'),
-    orange: s.color('#fb8c00'),
-    orangelight: s.color('#ffa726'),
-    orangedark: s.color('#ef6c00'),
-  };
+  s.colors = getColors(s);
   // the color scheme for the visual component
-  s.palette = {
-    primary: s.colors.white,
-    secondary: s.colors.darkbluegrey,
-    contrast: s.colors.lightgrey,
-    secondaryContrast: s.colors.bluegrey,
-    error: s.colors.red,
-    bg: s.colors.white,
-    bgNet: s.colors.white,
-    bgIn: s.colors.white,
-    bgLoss: s.colors.white,
-    bgOut: s.colors.white,
-    bgCell: s.colors.white,
-    bgCellplot: s.colors.white,
-    ovPrimary: s.colors.cyan,
-    ovSecondary: s.colors.cyandark,
-    ovContrast: s.colors.cyanlight,
-    cvPrimary: s.colors.orange,
-    cvSecondary: s.colors.orangedark,
-    cvContrast: s.colors.orangelight,
-    tooltipBG: s.colors.darkbluegrey,
-    tooltipFG: s.colors.white,
-  };
+  s.palette = getColorPalette(s);
 
   /**
    * This function is called on the first time the parent component is
@@ -111,9 +59,11 @@ export default function(s) {
   s.setup = function() {
     const netDiv = document.getElementById('networkDiv');
     const valDiv = document.getElementById('valueDiv');
+    // Create and initialize the canvas
     s.cnv = s.createCanvas(netDiv.offsetWidth,
         window.innerHeight - valDiv.offsetHeight - 50);
     s.initialize();
+    // Register listeners for this canvas on this class
     s.cnv.mouseClicked(s.click);
     s.cnv.mouseMoved(s.move);
     s.updateMemory();
@@ -127,16 +77,19 @@ export default function(s) {
     s.background(s.palette.bg);
     s.cursor(s.ARROW);
     s.fill(0);
+    // Check if the networksketch was correctly initialized
     if (!s.props) {
       return;
     }
-    // calculating a pause value to control the speed of the animations
+    // Calculating a pause value to control the speed of the animations
     const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
     const pauseMult = 1 - Math.sin(timeDist);
     s.pause = Math.round(10 * pauseMult) + 1;
+    // TODO: What happens here?
     if (s.detail && s.props.ui.anim) {
       s.cell.update(false);
     }
+    // Draw the individual components of the network sketch
     s.drawLoss();
     s.drawPlots();
     s.drawInput();
@@ -547,7 +500,7 @@ export default function(s) {
     if (!s.ready) {
       return;
     }
-    if (s.props.ui.help || s.netAnim) {
+    if (s.props.ui.help) {
       return;
     }
     s.mx = s.mouseX;
