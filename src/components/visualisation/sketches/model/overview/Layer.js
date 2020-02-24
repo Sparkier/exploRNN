@@ -139,22 +139,28 @@ export class Layer {
    * checks if this layer is being clicked on
    */
   checkClick() {
+    // Do not handle clicks for input and output layers
     if (this.layerType === 'input' || this.layerType === 'output') {
       return;
     }
-    if (this.hover && !this.clicked) {
+    // If this layer is hovered, handle the click
+    if (this.hover) {
+      this.clicked = true;
       this.s.clickedBlock = this;
+      // Clicked on the cell itself
       if (this.hover_left) {
         this.s.detail = true;
         this.s.props.actions.stopTraining(this.s.props.training);
         this.s.props.actions.updateUI({...this.s.props.ui, detail: true});
+      // Clicked on cell removal icon
       } else if (this.s.props.network.layers > 1) {
         this.s.props.actions.stopTraining(this.s.props.training);
         this.s.props.actions.updateNetwork({...this.s.props.network,
           layers: this.s.props.network.layers - 1});
       }
+    } else {
+      this.clicked = false;
     }
-    this.clicked = this.hover;
     this.hover = false;
   }
 

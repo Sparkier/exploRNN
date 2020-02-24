@@ -22,7 +22,6 @@ export default function(s) {
   s.outputPlots = [];
   s.lossValues = [];
   s.constants = {};
-  s.update = false;
   s.scaleImage = 5;
   s.detail = false;
   s.transition = 0;
@@ -59,7 +58,7 @@ export default function(s) {
   s.setup = function() {
     const netDiv = document.getElementById('networkDiv');
     const valDiv = document.getElementById('valueDiv');
-    // Create and initialize the canvas
+    // Create and initialize the canvas with its draw params
     s.cnv = s.createCanvas(netDiv.offsetWidth,
         window.innerHeight - valDiv.offsetHeight - 50);
     s.initialize();
@@ -70,45 +69,16 @@ export default function(s) {
   };
 
   /**
-   * This function is called once per frame. It handles the calling and
-   * organisation of all drawing commands and submodules.
-   */
-  s.draw = function() {
-    s.background(s.palette.bg);
-    s.cursor(s.ARROW);
-    s.fill(0);
-    // Check if the networksketch was correctly initialized
-    if (!s.props) {
-      return;
-    }
-    // Calculating a pause value to control the speed of the animations
-    const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
-    const pauseMult = 1 - Math.sin(timeDist);
-    s.pause = Math.round(10 * pauseMult) + 1;
-    // TODO: What happens here?
-    if (s.detail && s.props.ui.anim) {
-      s.cell.update(false);
-    }
-    // Draw the individual components of the network sketch
-    s.drawLoss();
-    s.drawPlots();
-    s.drawInput();
-    s.drawNetwork();
-    s.drawCell();
-    s.drawCellPlot();
-  };
-
-  /**
    * Prepares all necessary sketch-global values and objects used in the
    * modules to render their components
    */
   s.initialize = function() {
     s.frameRate(60);
     s.textAlign(s.CENTER, s.BOTTOM);
-    s.textSize(16);
+    s.textSize(s.typography.fontsize);
     s.sideWidthLeft = s.sideRatioLeft * s.width;
     s.sideWidthRight = s.sideRatioRight * s.width;
-    s.inProps = {
+    s.inProps = { // Properties for drawing the input to the network
       left: 0,
       right: s.sideRatioLeft * s.width,
       width: s.sideRatioLeft * s.width,
@@ -116,7 +86,7 @@ export default function(s) {
       midY: s.height/2,
       height: s.height,
     };
-    s.outProps = {
+    s.outProps = { // Properties for drawing the output of the network
       left: s.width - s.sideRatioRight * s.width,
       right: s.width,
       midX: s.width - s.sideRatioRight * s.width + (s.sideRatioRight *
@@ -125,7 +95,7 @@ export default function(s) {
       width: s.sideRatioRight * s.width,
       height: s.height,
     };
-    s.netProps = {
+    s.netProps = { // Properties for drawing the network
       left: s.inProps.right,
       right: s.inProps.right + s.width * s.ctrRatio,
       midX: s.sideWidthLeft + s.width * s.ctrRatio * 0.5,
@@ -133,7 +103,7 @@ export default function(s) {
       width: s.width * s.ctrRatio,
       height: s.height,
     };
-    s.lossProps = {
+    s.lossProps = { // Properties for drawing the loss of the network
       left: s.netProps.right,
       right: s.netProps.right + s.width * s.sideRatioLoss,
       midX: s.sideWidthLeft + s.width * s.ctrRatio * 0.5,
@@ -141,7 +111,7 @@ export default function(s) {
       width: s.width * s.sideRatioLoss,
       height: s.height,
     };
-    s.detailProps = {
+    s.detailProps = { // Properties for drawing the detail view
       left: 0,
       right: s.width * s.detailRatio,
       midX: s.detailRatio * s.width / 2,
@@ -151,7 +121,7 @@ export default function(s) {
       verRatio: 0.7,
       horRatio: 0.55,
     };
-    s.cellPlotProps = {
+    s.cellPlotProps = {// Properties for drawing the cell in the detail view
       left: s.detailProps.right,
       right: s.width,
       midX: s.width - s.width * (1 - s.detailRatio) / 2,
@@ -190,6 +160,37 @@ export default function(s) {
   };
 
   /**
+   * This function is called once per frame. It handles the calling and
+   * organisation of all drawing commands and submodules.
+   */
+  s.draw = function() {
+    // Reset the canvas
+    s.background(s.palette.bg);
+    s.cursor(s.ARROW);
+    s.fill(0);
+    // Check if the networksketch was correctly initialized
+    if (!s.props) {
+      return;
+    }
+    // Calculating a pause value to control the speed of the animations
+    const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
+    const pauseMult = 1 - Math.sin(timeDist);
+    s.pause = Math.round(10 * pauseMult) + 1;
+    // Check if the application is in detail view and should animate
+    if (s.detail && s.props.ui.anim) {
+      // Forward the activation of the cell
+      s.cell.update(false);
+    }
+    // Draw the individual components of the network sketch
+    s.drawLoss();
+    s.drawPlots();
+    s.drawInput();
+    s.drawNetwork();
+    s.drawCell();
+    s.drawCellPlot();
+  };
+
+  /**
    * This methd is called before the drawing starts and loads some important
    * images used in the sketch
    */
@@ -210,22 +211,26 @@ export default function(s) {
    * @param {bool} start true, if the network animation should start
    */
   s.updateMemory = function(start) {
+    // Check if the network is ready to be animated and interactive
     s.ready = (s.props !== undefined && s.setupDone);
     if (!s.ready) {
       return;
     }
+    // Currently not in training mode
     if (!s.props.training.running) {
-      // keep the network sketch updated while no animation is running
+      // Add all the network layers
       s.network = [];
       s.network.push({size: 1, type: 'input'});
       for (let i = 0; i < s.props.network.layers; i++) {
         s.network.push({size: s.props.network.layerSize, type: 'hidden'});
       }
       s.network.push({size: 1, type: 'output'});
+      // If an animation step should be done, forward the animation
       if (s.props.ui.animStep) {
         s.props = {...s.props, ui: {...s.props.ui, animStep: false}};
         s.cell.update(true);
       }
+      // One training step should be done, animation needs to be set back
       if (s.props.training.step) {
         s.cellAnim = {
           maxSteps: 11,
@@ -242,16 +247,20 @@ export default function(s) {
           back: false,
         };
       }
+      // If the network is currently within an animation, do not reset it
       if (!s.netAnim) {
         s.net = new Network(s);
       }
+    // If training, detail view is not on and the cell in detail should reset
     } else {
       s.detail = false;
       s.cell.reset();
     }
+    // Detail of props can override p5 detail variable
     if (s.props.ui.detail !== s.detail) {
       s.detail = s.props.ui.detail;
     }
+    // Start the animation of the cell for a training step
     if (start) {
       // prepare all values for the upcoming animation
       s.plotFrame = 0;
@@ -259,30 +268,38 @@ export default function(s) {
       s.netFrame = 0;
       s.netAnim = true;
       s.lossValues = [];
+      // Get the prediction and ground truth for this training step
       const pred = s.props.ui.data[2].prediction;
       const out = s.props.ui.data[2].chartOutput;
+      // If a prediction exists, calculate the loss
       if (pred) {
         for (let i = 0; i < pred.length; i++) {
           s.lossValues.push(pred[i] - out[i]);
         }
       }
+      // Start the network animation and update the ui accordingly
       s.net.start();
       s.props.actions.updateUI({...s.props.ui, netAnim: true});
     }
-    s.update = true;
+    // Set the language for the UI
     s.global = s.constants[s.props.appState.language];
+    // Check where in the training loop we are (forw., loss., backw.)
     for (let i = 0; i < s.props.ui.trigger.length; i++) {
       if (s.props.ui.trigger[i]) {
+        // Forward, reset the cell to prepare the forward animation
         if (i === 0) {
           s.cellAnim.forward = true;
           s.cell.reset();
+        // Loss, prepare the error calculation
         } else if (i === 1) {
           s.cellAnim.error = true;
           s.cell.prepareError();
+        // Backward, prepare the backprop animation
         } else {
           s.cellAnim.back = true;
           s.cell.prepareBackprop();
         }
+        // Update the UI to match the training loop progress
         s.props.actions.updateUI(
             {...s.props.ui,
               state: [s.cellAnim.forward, s.cellAnim.error, s.cellAnim.back],
@@ -292,6 +309,7 @@ export default function(s) {
         break;
       }
     }
+    // If one of the Cell explanations are to be shown, check for mouse moves
     if (!s.props.appState.cellDialog.includes(true)) {
       s.move();
     }
@@ -399,6 +417,7 @@ export default function(s) {
     s.fill(s.palette.bgCell);
     s.noStroke();
     s.rect(s.width/2, s.height/2, s.width, s.height);
+    // Transition in and out of detail view
     if (s.detail) {
       if (s.transition < 100) {
         s.transition += s.transitionSpeed;
@@ -409,21 +428,25 @@ export default function(s) {
       }
     }
     s.push();
+    // Get the layer on which the zoom is to be done
     let cb = s.clickedBlock;
     if (!cb) {
       cb = s.net.layers[1];
     }
+    // Get the current zoom state and zoom on the layer
     if (cb) {
       const cx = cb.x + (cb.x - s.detailProps.midX) * (s.transition / 100);
       const cy = cb.y + (cb.y - s.detailProps.midY) * (s.transition / 100);
       s.translate(cx, cy);
     }
+    // Scale the view according to the state of the transition
     s.scale(s.transition >= 100 ? 1 : s.transition / 100);
     if (cb) {
       const cx = cb.x + (cb.x - s.detailProps.midX) * (s.transition / 100);
       const cy = cb.y + (cb.y - s.detailProps.midY) * (s.transition / 100);
       s.translate(-cx, -cy);
     }
+    // Fade in the cell during the transition
     s.cellAlpha = 255 * s.transition / 100;
     s.cell.draw();
     s.pop();
@@ -450,10 +473,11 @@ export default function(s) {
    */
   s.drawNetwork = function() {
     s.push();
+    // Get the block if to be zoomed on one of those
     const cb = s.clickedBlock;
     s.netScale = (100 + s.transition) / 100;
     // handle correct scaling on zoom transition animation
-    if (s.clickedBlock) {
+    if (cb) {
       const cx = cb.x + (cb.x - s.detailProps.midX) * (s.transition / 100);
       const cy = cb.y + (cb.y - s.detailProps.midY) * (s.transition / 100);
       s.translate(cx, cy);
@@ -464,21 +488,27 @@ export default function(s) {
       const cy = cb.y + (cb.y - s.detailProps.midY) * (s.transition / 100);
       s.translate(-cx, -cy);
     }
+    // Training is running, advance the animation
     let sendTrainStep = 0;
     if (s.netAnim && s.props.training.running) {
       s.netFrame++;
+      // If the animation has been finished, reset the network visualization
       if (s.netFrame > s.MAX_NET_FRAMES) {
         s.netAnim = false;
         s.netFrame = 0;
       }
     }
+    // If we are still in the forward pass
     if (s.netFrame < s.netPredFrames) {
       sendTrainStep = 1;
+    // Already in the loss calculation
     } else if (s.netFrame < s.netLossFrames + s.netPredFrames) {
       sendTrainStep = 2;
+    // In backprop
     } else {
       sendTrainStep = 3;
     }
+    // Update the UI if it does not match the animation progress
     if (s.props.training.running &&
         (sendTrainStep !== s.props.ui.trainingStep ||
         s.netAnim !== s.props.ui.netAnim)) {
@@ -487,9 +517,6 @@ export default function(s) {
       );
     }
     s.net.draw();
-    if (s.update) {
-      s.update = false;
-    }
     s.pop();
   };
 
@@ -497,20 +524,21 @@ export default function(s) {
    * Handles move events occuring when canvas is in focus
    */
   s.move = function() {
-    if (!s.ready) {
-      return;
-    }
-    if (s.props.ui.help) {
-      return;
-    }
-    s.mx = s.mouseX;
-    s.my = s.mouseY;
-    if (s.detail) {
-      s.cell.mouseMoved(s.mx, s.my);
-    } else {
-      s.net.mouseMoved(s.mx, s.my);
-      if (s.input) {
-        s.input.mouseMoved(s.mx, s.my);
+    // Only handle move events if p5 is ready
+    if (s.ready) {
+      // If we are in the help UI, ignore the mousemove events
+      if (!s.props.ui.help) {
+        s.mx = s.mouseX;
+        s.my = s.mouseY;
+        // Forward the mousemove events to the correct network view
+        if (s.detail) {
+          s.cell.mouseMoved(s.mx, s.my);
+        } else {
+          s.net.mouseMoved(s.mx, s.my);
+          if (s.input) {
+            s.input.mouseMoved(s.mx, s.my);
+          }
+        }
       }
     }
   };
@@ -519,25 +547,27 @@ export default function(s) {
    * Handles click events when canvas is in focus
    */
   s.click = function() {
-    if (!s.ready) {
-      return;
-    }
-    if (s.props.ui.help) {
-      return;
-    }
-    if (s.mx < 0 || s.my < 0 ||
-        s.mx > s.width || s.my > s.height) {
-      return;
-    }
-    if (s.detail) {
-      s.detail = s.cell.checkClick();
-      if (!s.detail) {
-        s.props.actions.updateUI({...s.props.ui, detail: false});
+    // Only handle move events if p5 is ready
+    if (s.ready) {
+      // If we are in the help UI, ignore the mouseclick events
+      if (!s.props.ui.help) {
+        // If the mouse is not inside the canvas, return
+        if (s.mx < 0 || s.my < 0 ||
+            s.mx > s.width || s.my > s.height) {
+          return;
+        }
+        // Forward the click to the correct network view
+        if (s.detail) {
+          s.detail = s.cell.checkClick();
+          if (!s.detail) {
+            s.props.actions.updateUI({...s.props.ui, detail: false});
+          }
+        } else {
+          s.net.checkClick();
+          s.input.checkClick();
+          s.net.mouseMoved(s.mx, s.my);
+        }
       }
-    } else {
-      s.net.checkClick();
-      s.input.checkClick();
-      s.net.mouseMoved(s.mx, s.my);
     }
   };
 }

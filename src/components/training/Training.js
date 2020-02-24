@@ -117,7 +117,7 @@ class Training extends React.Component {
       );
     }
     if (this.props.training.step) {
-      // training shall continue fopr one epoch
+      // training shall continue for one epoch
       this.iterate(false);
       this.props.actions.updateUI(
           {...this.props.ui, reset: true,
