@@ -152,11 +152,16 @@ export class Layer {
         this.s.detail = true;
         this.s.props.actions.stopTraining(this.s.props.training);
         this.s.props.actions.updateUI({...this.s.props.ui, detail: true});
-      // Clicked on cell removal icon
+      // Clicked on cell removal icon with more than one cell
       } else if (this.s.props.network.layers > 1) {
+        // Stop the training
         this.s.props.actions.stopTraining(this.s.props.training);
+        // Update the network by removing a layer
         this.s.props.actions.updateNetwork({...this.s.props.network,
           layers: this.s.props.network.layers - 1});
+        // Reset the training state
+        this.s.props.actions.updateTraining({...this.s.props.training,
+          reset: true});
       }
     } else {
       this.clicked = false;
