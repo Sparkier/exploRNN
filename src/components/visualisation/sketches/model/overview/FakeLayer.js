@@ -94,9 +94,14 @@ export class FakeLayer {
    */
   checkClick() {
     if (this.hover && !this.clicked && this.s.props.network.layers < 7) {
+      // Stop the training
       this.s.props.actions.stopTraining(this.s.props.training);
+      // Update the network by adding a layer
       this.s.props.actions.updateNetwork({...this.s.props.network,
         layers: this.s.props.network.layers + 1});
+      // Reset the training state
+      this.s.props.actions.updateTraining({...this.s.props.training,
+        reset: true});
     }
     this.clicked = this.hover;
   }
