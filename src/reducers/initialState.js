@@ -1,28 +1,27 @@
 // Set the initial State of the Application
 export default {
   network: {
+    // State of the input and predictions
     data: {
       chartIn: [],
       chartOut: [],
       chartPred: [],
     },
     layerSize: 16, // amount of memory cells per block
-    layers: 3,
-    learningRate: 0.025,
+    layers: 3, // amount of blocks
+    learningRate: 0.025, // initial learning rate
     iteration: 0, // equal to the amount of epochs
-    type: 'LSTM',
-    activation: 'tanh',
+    type: 'LSTM', // layer type
+    activation: 'tanh', // activation function
   },
   training: {
-    running: false,
-    ready: true,
-    dataTypes: ['sin'],
-    dataVariant: 'random', // deprecated
-    noise: 50, // in percent
-    values: 0,
-    predictions: 0,
-    dataSetSize: 100,
-    batchSize: 25,
+    running: false, // currently training
+    dataTypes: ['sin'], // data used for this training
+    noise: 50, // noise to be added to the data, in percent
+    values: 0, // how many datapoints are fed into the network
+    predictions: 0, // how many values to predict, calculated by the period
+    dataSetSize: 10000,
+    batchSize: 25, // how many items to feed to the network per batch
     testOffset: 0,
     stepSize: 0.1,
     reset: false,
@@ -51,16 +50,25 @@ export default {
   * values of the corresponding objects
   */
   appState: {
+    // Help opened
     help: false,
+    // App language
     language: 'ENG',
+    // Dialogs on the steps prediction, validation, training, overview right
     inputDialog: [false, false, false],
+    // Dialogs on LR, noise, batch size, overview left
     sliderDialog: [false, false, false],
+    // Dialogs for the detail cell components
     cellDialog: [false, false, false, false, false, false],
+    // Dialogs for the steps in the detail cell
     stepDialog: [false, false, false, false, false, false],
+    // Dialog for epochs at bottom center
     epochDialog: false,
+    // Dialog for the about section in the drawer
     aboutDialog: false,
+    // Dialog for the faq section in the drawer
     faqDialog: false,
+    // Dialog for the imprint section in the drawer
     impressumDialog: false,
   },
-  firstcall: true,
 };
