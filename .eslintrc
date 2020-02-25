@@ -4,7 +4,8 @@
   "plugins": ["babel"],
   "rules": {
     "no-invalid-this": 0,
-    "babel/no-invalid-this": 1
+    "babel/no-invalid-this": 1,
+    "no-warning-comments": 1
   },
   "env": {
     "browser": true,
