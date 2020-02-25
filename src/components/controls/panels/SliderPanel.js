@@ -129,7 +129,7 @@ class SliderPanel extends React.Component {
                       disabled={
                         this.props.ui.detail || this.props.training.running
                       }
-                      defaultValue={
+                      value={
                         slider.key === 0 ?
                         Math.log10(this.props.network.learningRate, 10) :
                         (slider.key === 1 ? this.props.training.noise :
