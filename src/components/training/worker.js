@@ -5,8 +5,10 @@ export default () => {
     if (!e) return;
     switch (e.data.cmd) {
       case 'init': // worker should be initialized
-        importScripts('https://cdn.jsdelivr.net/npm/setimmediate@1.0.5/setImmediate.min.js');
-        importScripts('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2.7/dist/tf.min.js');
+        importScripts(
+            'https://cdn.jsdelivr.net/npm/setimmediate@1.0.5/setImmediate.min.js');
+        importScripts(
+            'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2.7/dist/tf.min.js');
         tf.setBackend('cpu');
         self.initializing = true;
         self.initialize(e.data.model, e.data.data);
@@ -46,9 +48,7 @@ export default () => {
       case 'model': // the network model shall be generated
         self.createModel(e.data.params);
         break;
-      case 'pred':
-        // the worker should determine a prediction for the current
-        // test data
+      case 'pred': // determine a prediction for the current test data
         if (self.predicting) return;
         while (self.generating || self.initializing); // prevent inconsistencies
         self.predicting = true;
@@ -117,6 +117,7 @@ export default () => {
    */
   self.createComplexModel = (timeSteps, vocab, labels, layers, blockSize) => {
     self.model = tf.sequential();
+    // Input to the model
     self.model.add(
         tf.layers.lstm({
           units: blockSize,
@@ -124,6 +125,7 @@ export default () => {
           inputShape: [timeSteps, vocab],
         })
     );
+    // Add all layers except the input layer
     for (let i = 1; i < layers; i++) {
       self.model.add(
           tf.layers.repeatVector({n: blockSize}));
@@ -134,6 +136,7 @@ export default () => {
           })
       );
     }
+    // Add the head to make a prediction
     self.model.add(
         tf.layers.dense({
           units: labels,
@@ -147,31 +150,24 @@ export default () => {
   /**
    * Helper function for generating the data sets used for training
    *
-   * @param {object} params sefsef
+   * @param {object} params parameters used for generating the correct data
    */
   self.generateDataWith = (params) => {
-    self.generateData(params.start, params.type, 3, 1,
-        0.2, params.size, params.var, params.noise);
+    self.generateData(params.type, 3, 1, 0.2, params.size, params.noise);
   };
 
   /**
    * The actual function for generating the data sets used for training
    *
-   * @param {number} start the time step to start the data from, currently not
-   * in use
    * @param {string} funcs the type of function the network should be trained on
    * @param {number} plotLength the size of the interval of the input values
    * @param {number} predLength the number of values that should be predicted
    * @param {number} stepSize the distance between two values in the data set
-   * @param {number} setSize the amount of individual training data
-   *  within the set
-   * @param {string} variant the variation of input values, currently always
-   *  'random'
-   * @param {number} noise the amount of noise that should be added onto
-   *  the training data (0-2)
+   * @param {number} setSize amount of individual training data within the set
+   * @param {number} noise amount of noise added onto the training data (0-2)
    */
-  self.generateData = (start, funcs, plotLength,
-      predLength, stepSize, setSize, variant, noise = 0) => {
+  self.generateData = (funcs, plotLength, predLength, stepSize, setSize,
+      noise = 0) => {
     self.trainInputBuff = [];
     self.trainOutputBuff = [];
     self.testInputBuff = [];
@@ -183,42 +179,17 @@ export default () => {
     self.chartDataInput = [];
     self.chartDataOutput = [];
     self.maxNoise = 0.2;
-    if (funcs === undefined || funcs.length === 0 || variant === undefined) {
+    if (funcs === undefined || funcs.length === 0) {
       return;
     }
-
-    // train data
-    let val = 0;
-    let noiseVal = 0;
+    // Train data
+    // How many sets to generate per function
     const partialSetSize = setSize / funcs.length;
     for (const f of funcs) {
       self.trainData(stepSize, partialSetSize, f, noise);
     }
-
-    // test data
-    const testFunc = funcs[Math.floor(Math.random() * funcs.length)];
-    const testInputSequence = [];
-    const offset = Math.random() * Math.PI;
-    for (let j = 0; j < self.values; j++) {
-      noiseVal = (noise/100) * (-self.maxNoise +
-          2 * self.maxNoise * Math.random());
-      val = self.dataFunc(j * stepSize + offset, testFunc) + noiseVal;
-      testInputSequence.push([val]);
-      self.chartDataInput.push(val);
-      self.chartPredictionInput.push(val);
-    }
-    self.testInputBuff.push(testInputSequence);
-    const currentOutSequence = [];
-    let x;
-    for (let j = 0; j < self.testOutputs; j++) {
-      x = (self.values + j) * stepSize;
-      val = self.dataFunc(x + offset, testFunc);
-      currentOutSequence.push(val);
-      self.chartDataOutput.push(val);
-    }
-    self.chartDataInput.push();
-    self.chartPredictionInput.push();
-    self.testInput = testInputSequence;
+    // Test data
+    self.testData(stepSize, funcs, noise);
   };
 
   /**
@@ -256,6 +227,46 @@ export default () => {
     }
     self.trainInput = tf.tensor3d(self.trainInputBuff);
     self.trainOutput = tf.tensor2d(self.trainOutputBuff);
+  };
+
+  /**
+   * A helper function that creates the test data for a network epoch
+   *
+   * @param {number} stepSize the distance between two values in the data set
+   * @param {array} funcs the functions to be used for calculating the input
+   * values
+   * @param {number} noise the percentage of noise to be added to the input
+   */
+  self.testData = (stepSize, funcs, noise) => {
+    let val = 0;
+    let noiseVal = 0;
+    // Choose a random function
+    const testFunc = funcs[Math.floor(Math.random() * funcs.length)];
+    const testInputSequence = [];
+    // Choose a random offset
+    const offset = Math.random() * Math.PI;
+    // Generate the test input data
+    for (let j = 0; j < self.values; j++) {
+      // Add noise to the input data
+      noiseVal = (noise/100) * (-self.maxNoise +
+          2 * self.maxNoise * Math.random());
+      val = self.dataFunc(j * stepSize + offset, testFunc) + noiseVal;
+      testInputSequence.push([val]);
+      self.chartDataInput.push(val);
+      self.chartPredictionInput.push(val);
+    }
+    self.testInputBuff.push(testInputSequence);
+    const currentOutSequence = [];
+    let x;
+    for (let j = 0; j < self.testOutputs; j++) {
+      x = (self.values + j) * stepSize;
+      val = self.dataFunc(x + offset, testFunc);
+      currentOutSequence.push(val);
+      self.chartDataOutput.push(val);
+    }
+    self.chartDataInput.push();
+    self.chartPredictionInput.push();
+    self.testInput = testInputSequence;
   };
 
   /**

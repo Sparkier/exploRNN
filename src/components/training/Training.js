@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import * as tf from '@tensorflow/tfjs';
 import * as actions from '../../actions';
 import worker from './worker.js';
 import TrainingWorker from './TrainingWorker';
@@ -16,8 +15,8 @@ class Training extends React.Component {
    * This method gets called when this component has been mounted and then
    * initializes all necessary objects used for the training steps
    */
-  componentDidMount() {
-    tf.setBackend('cpu');
+  async componentDidMount() {
+    // Get and init the worker that is used for async training
     this.worker = new TrainingWorker(worker);
     this.worker.onmessage = this.onmessage;
     this.worker.postMessage(
@@ -58,6 +57,10 @@ class Training extends React.Component {
         network = this.addDataToNetwork(this.props.network, buff.chartIn,
             buff.chartOut, buff.chartPred);
         this.props.actions.updateNetwork(network);
+        this.props.actions.updateTraining({
+          ...this.props.training,
+          workerReady: true,
+        });
         break;
       case 'pred':
         // worker has calculated a prediction for the
@@ -140,6 +143,7 @@ class Training extends React.Component {
    * prediction arrays/tensors
    */
   reset() {
+    // Generate the model used for training
     this.worker.postMessage(
         {
           cmd: 'model',
@@ -149,14 +153,13 @@ class Training extends React.Component {
             learningRate: this.props.network.learningRate,
           },
         });
+    // TODO: Why three times??
     for (let i = 0; i < 3; i++) {
       this.worker.postMessage(
           {
             cmd: 'data',
             params: {
-              start: i,
               type: this.props.training.dataTypes,
-              var: this.props.training.dataVariant,
               noise: this.props.training.noise,
               size: this.props.training.dataSetSize,
             },
@@ -268,9 +271,7 @@ class Training extends React.Component {
         {
           cmd: 'data',
           params: {
-            start: this.props.training.iteration,
             type: this.props.training.dataTypes,
-            var: this.props.training.dataVariant,
             noise: this.props.training.noise,
             size: this.props.training.dataSetSize,
           },
@@ -280,7 +281,6 @@ class Training extends React.Component {
         {
           cmd: 'pred',
         });
-
     this.worker.postMessage(
         {
           cmd: 'fit',
