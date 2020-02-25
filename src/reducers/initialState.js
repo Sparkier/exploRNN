@@ -1,10 +1,5 @@
 // Set the initial State of the Application
 export default {
-  id: '',
-  alertSnack: {
-    open: false,
-    message: '',
-  },
   network: {
     data: {
       chartIn: [],
@@ -21,7 +16,6 @@ export default {
   training: {
     running: false,
     ready: true,
-    speed: 1000, // deprecated
     dataTypes: ['sin'],
     dataVariant: 'random', // deprecated
     noise: 50, // in percent
@@ -40,7 +34,6 @@ export default {
     ready: true,
     detail: false,
     data: new Array(5).fill({}),
-    speed: 850,
     netAnim: false,
     anim: true,
     animStep: false,

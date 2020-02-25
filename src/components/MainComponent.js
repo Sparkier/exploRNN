@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {Grid} from '@material-ui/core';
 import * as actions from '../actions';
-import AlertSnack from './AlertSnack';
 import Training from './training/Training';
 import VisualWrapper from './visualisation/VisualWrapper';
 import Input from '../components/controls/InputComponent';
@@ -27,7 +26,6 @@ class Main extends React.Component {
           <VisualWrapper/>
           <Input/>
         </Grid>
-        <AlertSnack />
       </Grid>
     );
   }

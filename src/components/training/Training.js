@@ -23,7 +23,6 @@ class Training extends React.Component {
     this.worker.postMessage(
         {cmd: 'init'}
     );
-    this.pause = 1000;
     this.reset();
   }
 
@@ -33,7 +32,6 @@ class Training extends React.Component {
    * @param {event} e the event that sends the message
    */
   onmessage = (e) => {
-    const this_ = this;
     const buff = e.data.values;
     let network = this.props.network;
     switch (e.data.cmd) {
@@ -47,9 +45,7 @@ class Training extends React.Component {
         break;
       case 'fit': // worker has trained the network for one epoch
         if (this.props.training.running) {
-          setTimeout(function() {
-            this_.iterate(true);
-          }, this.pause);
+          this.iterate(true);
         } else if (e.data.reset) {
           this.iterate(false);
         }
@@ -81,7 +77,6 @@ class Training extends React.Component {
    * @param {object} prevProps the previous properties
    */
   componentDidUpdate(prevProps) {
-    this.pause = 2000 - 2 * this.props.training.speed;
     const this_ = this;
     if (this.props.training.running !== prevProps.training.running) {
       if (this.props.training.running) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {MuiThemeProvider} from '@material-ui/core/styles';
@@ -10,10 +10,11 @@ import Controls from './components/controls/ControlsComponent';
 import combinedReducers from './reducers';
 
 // Create the Store using all the Reducers and applying the Middleware
-const store = createStore(
-    combinedReducers,
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(combinedReducers, composeEnhancers(
     applyMiddleware(thunk)
-);
+));
 
 
 // Render the App

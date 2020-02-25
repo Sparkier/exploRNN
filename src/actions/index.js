@@ -59,13 +59,3 @@ export function updateNetwork(network) {
 export function updateTraining(training) {
   return {type: types.UPDATE_TRAINING, training};
 }
-
-/**
- * Updates the alertsnack values
- *
- * @param {object} alertSnack the new alertSnack object
- * @return {object} a redux state update
- */
-export function updateAlertSnack(alertSnack) {
-  return {type: types.UPDATE_ALERT_SNACK_SUCCESS, alertSnack};
-}
