@@ -28,20 +28,17 @@ export default {
     workerReady: true, // the worker is ready for training commands
   },
   ui: {
-    running: false,
-    ready: true,
-    detail: false,
-    data: new Array(5).fill({}),
-    netAnim: false,
-    anim: true,
-    animStep: false,
-    lstmStep: 0,
-    plotStep: 0,
-    trainingStep: 0,
-    cellAnimStep: 0,
-    panelHeight: 0,
-    state: [true, false, false],
-    trigger: [false, false, false],
+    running: false, // Training running
+    ready: true, // At beginning of training step, ready to start training
+    detail: false, // Currently in detail view
+    data: new Array(5).fill({}), // Data to be trained on
+    netAnim: false, // Network currently animating
+    anim: true, // Detail cell currently animating
+    animStep: false, // Detail cell step is executed
+    lstmStep: 0, // Current step in the detail cell
+    trainingStep: 0, // Whether in forward, prediction, or backward pass (1,2,3)
+    state: [true, false, false], // Cell View: Forward/Prediction/Backward pass
+    trigger: [false, false, false], // Animation trigger (forw./pred./backw.)
   },
   /*
   * for dialog boolean arrays check the global constants
