@@ -11,7 +11,7 @@ export default () => {
             'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2.7/dist/tf.min.js');
         tf.setBackend('cpu');
         self.initializing = true;
-        self.initialize(e.data.model, e.data.data);
+        self.initialize(e.data.params);
         self.initializing = false;
         postMessage({cmd: 'init', values:
           {
@@ -31,8 +31,7 @@ export default () => {
         ).then(() => {
           self.fitting = false;
           postMessage({cmd: 'fit', reset: e.data.params.reset});
-        }
-        );
+        });
         break;
       case 'data': // a new data set shall be generated
         self.generating = true;
@@ -63,14 +62,16 @@ export default () => {
 
   /**
    * Initializes the worker thread with all necessary values and objects
+   *
+   * @param {object} params the parameters for the initialization
    */
-  self.initialize = () => {
+  self.initialize = (params) => {
     self.model = undefined;
     self.mem = [];
     self.fitting = false;
     self.predicting = false;
     self.generating = false;
-    self.generateDataWith({start: 0});
+    self.generateDataWith(params);
   };
 
   /**
@@ -92,16 +93,15 @@ export default () => {
     const add = {in: self.trainInput,
       out: self.trainOutput,
       pred: self.testInput};
-    if (!self.mem) {
+    if (!self.mem) { // No data, init the memory
       self.mem = [add];
-      return;
+    } else { // Data present, add to the memory
+      if (self.mem.length === 5) { // Memory full, delete the first data element
+        self.mem.shift();
+      }
+      self.mem.push(add);
     }
-    if (self.mem.length === 5) {
-      self.mem.shift();
-    }
-    self.mem.push(add);
   };
-
 
   /**
    * Creates a more complex lstm network model with multiple
@@ -153,7 +153,8 @@ export default () => {
    * @param {object} params parameters used for generating the correct data
    */
   self.generateDataWith = (params) => {
-    self.generateData(params.type, 3, 1, 0.2, params.size, params.noise);
+    self.generateData(params.type, 3, 1, params.stepSize, params.size,
+        params.noise);
   };
 
   /**

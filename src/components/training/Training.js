@@ -20,8 +20,12 @@ class Training extends React.Component {
     this.worker = new TrainingWorker(worker);
     this.worker.onmessage = this.onmessage;
     this.worker.postMessage(
-        {cmd: 'init'}
-    );
+        {
+          cmd: 'init',
+          params: {
+            stepSize: this.props.training.stepSize,
+          },
+        });
     this.reset();
   }
 
@@ -153,7 +157,6 @@ class Training extends React.Component {
             learningRate: this.props.network.learningRate,
           },
         });
-    // TODO: Why three times??
     for (let i = 0; i < 3; i++) {
       this.worker.postMessage(
           {
@@ -162,6 +165,7 @@ class Training extends React.Component {
               type: this.props.training.dataTypes,
               noise: this.props.training.noise,
               size: this.props.training.dataSetSize,
+              stepSize: this.props.training.stepSize,
             },
           }
       );
@@ -274,6 +278,7 @@ class Training extends React.Component {
             type: this.props.training.dataTypes,
             noise: this.props.training.noise,
             size: this.props.training.dataSetSize,
+            stepSize: this.props.training.stepSize,
           },
         }
     );
