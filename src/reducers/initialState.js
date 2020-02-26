@@ -20,13 +20,12 @@ export default {
     noise: 50, // noise to be added to the data, in percent
     values: 0, // how many datapoints are fed into the network
     predictions: 0, // how many values to predict, calculated by the period
-    dataSetSize: 10000,
+    dataSetSize: 10000, // how many datapoints one epoch contains
     batchSize: 25, // how many items to feed to the network per batch
-    testOffset: 0,
-    stepSize: 0.1,
-    reset: false,
-    step: false,
-    workerReady: true,
+    stepSize: 0.2, // distance between two datapoints from the functions
+    reset: false, // whether to reset the model
+    step: false, // whether a training step is to be made
+    workerReady: true, // the worker is ready for training commands
   },
   ui: {
     running: false,
