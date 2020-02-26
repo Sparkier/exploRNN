@@ -196,10 +196,10 @@ export default function(s) {
    */
   s.preload = function() {
     s.receive = s.loadImage('./data/rec_black.png');
-    s.add = s.loadImage('./data/save_black.png');
+    s.add = s.loadImage('./data/input_black.png');
     s.save = s.loadImage('./data/rec_black.png');
     s.forget = s.loadImage('./data/del_black.png');
-    s.cellImage = s.loadImage('./data/memory_black.png');
+    s.cellImage = s.loadImage('./data/save_black.png');
     s.output = s.loadImage('./data/output_black.png');
   };
 
