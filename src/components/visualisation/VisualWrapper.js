@@ -45,23 +45,19 @@ class VisualWrapper extends React.Component {
    * This method is called if the global properties have changed, it
    * then sends the new properties to the related canvas sketches
    *
-   * @param {object} nextProps the new global properties
-   * @return {boolean} true, if the component should update and rerender
+   * @param {object} prevProps the previous state before the update
    */
-  shouldComponentUpdate(nextProps) {
-    const propsOld = this.props;
-    this.props = nextProps;
-    this.networkSketch.props = nextProps;
+  componentDidUpdate(prevProps) {
+    this.networkSketch.props = this.props;
     this.networkSketch.updateMemory(
-        (propsOld.ui.running !== nextProps.ui.running) &&
-        nextProps.ui.running);
-    if (nextProps.ui.reset) {
+        (prevProps.ui.running !== this.props.ui.running) &&
+        this.props.ui.running);
+    if (this.props.ui.reset) {
       this.networkSketch.reset();
-      this.props.actions.updateUI({...nextProps.ui, reset: false});
+      this.props.actions.updateUI({...this.props.ui, reset: false});
     }
-    this.leftSide.update(nextProps.ui.detail);
-    this.rightSide.update(nextProps.ui.detail);
-    return false;
+    this.leftSide.update(this.props.ui.detail);
+    this.rightSide.update(this.props.ui.detail);
   }
 
   /**
