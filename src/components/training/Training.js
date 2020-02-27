@@ -47,7 +47,6 @@ class Training extends React.Component {
           values: buff.values,
           predictions: buff.predictions,
         });
-        this.props.actions.updateUI({...this.props.ui});
         break;
       case 'fit': // worker has trained the network for one epoch
         if (this.props.training.running) {
