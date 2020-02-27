@@ -86,7 +86,7 @@ class Controls extends React.Component {
       // network size
       case '-':
         if (!this.props.ui.detail && !this.props.training.running &&
-            this.props.network.layers > 1
+            this.props.network.layers > 2
         ) {
           this.props.actions.updateNetwork({...this.props.network,
             layers: this.props.network.layers - 1});
