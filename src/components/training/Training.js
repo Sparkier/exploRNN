@@ -76,6 +76,7 @@ class Training extends React.Component {
         this.props.actions.updateNetwork(network);
         break;
       default:
+        break;
     }
   };
 
@@ -138,6 +139,10 @@ class Training extends React.Component {
             workerReady: !this.props.ui.ready,
           }
       );
+    }
+    // If in detail view, and no completed epoch, advance for one to get data
+    if (this.props.ui.detail && this.props.network.iteration === 0) {
+      this_.iterate(false);
     }
   }
 
