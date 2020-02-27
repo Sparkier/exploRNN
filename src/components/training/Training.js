@@ -23,6 +23,9 @@ class Training extends React.Component {
         {
           cmd: 'init',
           params: {
+            type: this.props.training.dataTypes,
+            noise: this.props.training.noise,
+            size: this.props.training.dataSetSize,
             stepSize: this.props.training.stepSize,
           },
         });
@@ -75,7 +78,6 @@ class Training extends React.Component {
       default:
     }
   };
-
 
   /**
    * This function is called if the state props have been changed and
