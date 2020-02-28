@@ -66,9 +66,7 @@ class Training extends React.Component {
           workerReady: true,
         });
         break;
-      case 'pred':
-        // worker has calculated a prediction for the
-        // current test data
+      case 'pred': // worker has calculated prediction for the current test data
         network = this.addPredictionToNetwork(this.props.network, buff.pred);
         this.props.actions.updateNetwork(network);
         break;
