@@ -23,8 +23,8 @@ export default () => {
         if (self.fitting) return;
         while (self.generating || self.initializing); // prevent inconsistencies
         self.fitting = true;
-        self.model.model.fit(self.mem[2].in,
-            self.mem[2].out, {
+        self.model.model.fit(self.mem[0].in,
+            self.mem[0].out, {
               epochs: e.data.params.epochs,
               batchSize: e.data.params.batchSize,
             }
@@ -96,9 +96,7 @@ export default () => {
     if (!self.mem) { // No data, init the memory
       self.mem = [add];
     } else { // Data present, add to the memory
-      if (self.mem.length === 5) { // Memory full, delete the first data element
-        self.mem.shift();
-      }
+      self.mem.shift();
       self.mem.push(add);
     }
   };
