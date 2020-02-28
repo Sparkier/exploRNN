@@ -157,31 +157,20 @@ class Training extends React.Component {
             learningRate: this.props.network.learningRate,
           },
         });
-    for (let i = 0; i < 3; i++) {
-      this.worker.postMessage(
-          {
-            cmd: 'data',
-            params: {
-              type: this.props.training.dataTypes,
-              noise: this.props.training.noise,
-              size: this.props.training.dataSetSize,
-              stepSize: this.props.training.stepSize,
-            },
-          }
-      );
-    }
+    this.worker.postMessage(
+        {
+          cmd: 'data',
+          params: {
+            type: this.props.training.dataTypes,
+            noise: this.props.training.noise,
+            size: this.props.training.dataSetSize,
+            stepSize: this.props.training.stepSize,
+          },
+        }
+    );
     this.worker.postMessage(
         {
           cmd: 'pred',
-        });
-    this.worker.postMessage(
-        {
-          cmd: 'fit',
-          params: {
-            epochs: 1,
-            batchSize: this.props.training.batchSize,
-            reset: true,
-          },
         });
     let ui = this.props.ui;
     let network = this.props.network;
