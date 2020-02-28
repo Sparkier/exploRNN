@@ -51,8 +51,6 @@ class Training extends React.Component {
       case 'fit': // worker has trained the network for one epoch
         if (this.props.training.running) {
           this.iterate(true);
-        } else if (e.data.reset) {
-          this.iterate(false);
         }
         this.props.actions.updateTraining({
           ...this.props.training,
