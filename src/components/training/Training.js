@@ -47,13 +47,10 @@ class Training extends React.Component {
           values: buff.values,
           predictions: buff.predictions,
         });
-        this.props.actions.updateUI({...this.props.ui});
         break;
       case 'fit': // worker has trained the network for one epoch
         if (this.props.training.running) {
           this.iterate(true);
-        } else if (e.data.reset) {
-          this.iterate(false);
         }
         this.props.actions.updateTraining({
           ...this.props.training,
@@ -69,13 +66,12 @@ class Training extends React.Component {
           workerReady: true,
         });
         break;
-      case 'pred':
-        // worker has calculated a prediction for the
-        // current test data
+      case 'pred': // worker has calculated prediction for the current test data
         network = this.addPredictionToNetwork(this.props.network, buff.pred);
         this.props.actions.updateNetwork(network);
         break;
       default:
+        break;
     }
   };
 
@@ -139,6 +135,10 @@ class Training extends React.Component {
           }
       );
     }
+    // If in detail view, and no completed epoch, advance for one to get data
+    if (this.props.ui.detail && this.props.network.iteration === 0) {
+      this_.iterate(false);
+    }
   }
 
   /**
@@ -157,31 +157,20 @@ class Training extends React.Component {
             learningRate: this.props.network.learningRate,
           },
         });
-    for (let i = 0; i < 3; i++) {
-      this.worker.postMessage(
-          {
-            cmd: 'data',
-            params: {
-              type: this.props.training.dataTypes,
-              noise: this.props.training.noise,
-              size: this.props.training.dataSetSize,
-              stepSize: this.props.training.stepSize,
-            },
-          }
-      );
-    }
+    this.worker.postMessage(
+        {
+          cmd: 'data',
+          params: {
+            type: this.props.training.dataTypes,
+            noise: this.props.training.noise,
+            size: this.props.training.dataSetSize,
+            stepSize: this.props.training.stepSize,
+          },
+        }
+    );
     this.worker.postMessage(
         {
           cmd: 'pred',
-        });
-    this.worker.postMessage(
-        {
-          cmd: 'fit',
-          params: {
-            epochs: 1,
-            batchSize: this.props.training.batchSize,
-            reset: true,
-          },
         });
     let ui = this.props.ui;
     let network = this.props.network;

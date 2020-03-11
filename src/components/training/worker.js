@@ -25,8 +25,8 @@ export default () => {
         if (self.fitting) return;
         while (self.generating || self.initializing); // prevent inconsistencies
         self.fitting = true;
-        self.model.model.fit(self.mem[2].in,
-            self.mem[2].out, {
+        self.model.model.fit(self.mem[0].in,
+            self.mem[0].out, {
               epochs: e.data.params.epochs,
               batchSize: e.data.params.batchSize,
             }
@@ -98,9 +98,7 @@ export default () => {
     if (!self.mem) { // No data, init the memory
       self.mem = [add];
     } else { // Data present, add to the memory
-      if (self.mem.length === 5) { // Memory full, delete the first data element
-        self.mem.shift();
-      }
+      self.mem.shift();
       self.mem.push(add);
     }
   };
@@ -112,7 +110,8 @@ export default () => {
    * @param {number} timeSteps the amount of input time steps
    * @param {number} vocab the vocabulary size, = 1 for numerical input
    * functions (meaning the vocabulary is 'one number' with any value)
-   * @param {number} labels the output labels, or output dimensionality
+   * @param {number} labels the output labels, or output dimensionality, for us,
+   * one number
    * @param {number} layers the amount of hidden lstm layer size
    * @param {number} blockSize the amount of cell states within a lstm block
    * @return {object} the complex network model based on the input values
@@ -123,26 +122,28 @@ export default () => {
     self.model.add(
         tf.layers.lstm({
           units: blockSize,
-          returnSequence: true,
+          returnSequences: true,
           inputShape: [timeSteps, vocab],
         })
     );
     // Add all layers except the input layer
-    for (let i = 1; i < layers; i++) {
-      self.model.add(
-          tf.layers.repeatVector({n: blockSize}));
+    for (let i = 1; i < layers - 1; i++) {
       self.model.add(
           tf.layers.lstm({
             units: blockSize,
-            returnSequence: true,
+            returnSequences: true,
           })
       );
     }
+    self.model.add(
+        tf.layers.lstm({
+          units: blockSize,
+        })
+    );
     // Add the head to make a prediction
     self.model.add(
         tf.layers.dense({
           units: labels,
-          returnSequence: true,
           activation: 'tanh',
         })
     );
@@ -311,10 +312,10 @@ export default () => {
     for (const step of self.testInput) {
       newInput.push([step[0]]);
     }
+    // For a number of outputs, create predictions to draw as the network output
     for (let i = 0; i < self.testOutputs; i++) {
       inputBuff = tf.tensor3d([newInput]);
-      prediction =
-      self.model.predict(inputBuff);
+      prediction = self.model.predict(inputBuff);
       preds = Array.from(prediction.arraySync());
       output.push(preds[0]);
       newInput.splice(0, 1);
