@@ -13,51 +13,30 @@ const globalENG = {
     tooltipCell: 'click for detail',
     tooltipDelete: 'remove layer',
     tooltipAdd: 'add layer',
-    sideMenu: {
-      close: {
-        title: 'Close',
-      },
-      about: {
-        title: 'About',
-        description: 'This project was created as part of a Bachelor Thesis ' +
-          'in Media Informatics in Ulm University. The title of this thesis ' +
-          'is leaRNN - An Interactive Visualisation Of Recurrent Neural ' +
-          'Networks.',
-      },
-      faq: {
-        title: 'FAQ',
-        description: 'No questions up until now...',
-      },
-      impressum: {
-        title: 'Impressum',
-        description: 'Raphael Störk || Ulm University || Media Informatics ||' +
-          ' Mail: raphael.stoerk@uni-ulm.de',
-      },
-    },
     epoch: {
       title: 'Epochs',
       description: 'When training a Neural Network, a set of training data is' +
-        ' used to get predictions that can be analyzed. One Epoch describes ' +
+        ' used to change the weight and thus knowlege that is entangled in a ' +
+        'model. One Epoch describes ' +
         'one cycle through this data set. Each Epoch the data is split up ' +
         'into batches of equal size. After each batch of data is used to ' +
         'get the predictions a total error is calculated and the network ' +
         'is trained via backpropagation.',
     },
+    // Training steps in both views
     trainSteps: [
       {
         id: 0,
         title: 'Prediction',
-        description: 'A random sample input is shown to the net value by ' +
-          'value. The net than makes a predicition on how this sample would ' +
-          'continue over time.',
+        description: 'A random sample input is shown to the network value by ' +
+          'value. The network than makes a predicition on how this sample ' +
+          'would continue over time.',
         longDescription: 'The goal of the training process is to teach the ' +
           'network to make as good a prediction as possible. To tell how ' +
           'good the network currently is in its predictive abilities we ' +
           'first need to get predictions for some inputs. The network is ' +
           'shown these inputs and it calculates the values that it thinks ' +
-          'should come next. Since we know the continuation of these inputs ' +
-          'beforehand we can then check in the following steps how far off ' +
-          'this prediction was.',
+          'should come next.',
         note: ' To see how the values are calculated and ' +
           'where the recurrent in RNN stems from you can click on one of ' +
           'the cells to get a more detailed explanation.',
@@ -67,15 +46,13 @@ const globalENG = {
         title: 'Validation',
         description: 'The predicted values are compared to the target values ' +
           'and the total loss is calculated.',
-        longDescription: 'Now that the network has given us a prediction for ' +
-          'a partial section of an input function we can compare it to the ' +
-          'real values. Then we can calculate the error between prediciton ' +
-          'and reality to evaluate how the net has to be adjusted to make ' +
-          'better predictions the next time around. In the small error ' +
-          'element you can see the direct error between a prediction and ' +
-          'the real values. In the actual training process a more complex ' +
-          'error calcualtion is used to get a better training of the ' +
-          'internal weights.',
+        longDescription: 'Since we know the continuation of the inputs we ' +
+          'used for the prediction beforehand, we can now check how far off ' +
+          'this prediction was. This is used as the error between prediciton ' +
+          'and reality to evaluate how the network has to be adjusted to ' +
+          'make better predictions the next time. In the small error ' +
+          'element you can see the error between a prediction and ' +
+          'the real values.',
       },
       {
         id: 2,
@@ -91,11 +68,12 @@ const globalENG = {
           ' cells to minimize the difference between prediction and reality.',
       },
     ],
+    // Steps in the pane at the bottom left of the cell view
     lstmSteps: [
       {
         id: 0,
         title: 'Input',
-        description: 'The cell waits for all necessary inputs',
+        description: 'The cell waits for all necessary inputs.',
         longDescription: 'In this first step the cell waits for the inputs ' +
           'to arrive. In the first time step only the outputs from the ' +
           'previous layer will reach this input. In all later time ' +
@@ -108,9 +86,9 @@ const globalENG = {
         id: 1,
         title: 'Layer Input',
         description: 'The inputs from this layer and the previous layer are ' +
-        'combined',
+        'combined and used in all gates and to update the memory.',
         longDescription: 'Once all necessary input values have reached the ' +
-          'cell input these values are used to form a combined input for this' +
+          'cell input these values are used to form an input for this' +
           ' layer. This input contains information about the new time step' +
           ' as well as information about the previous state of the ' +
           'current cell.',
@@ -118,123 +96,113 @@ const globalENG = {
       {
         id: 2,
         title: 'Gate Activation',
-        description: 'The new input is processed by the input and forget gate',
+        description: 'The new input is processed by the input and forget gate.',
         longDescription: 'With the layer input now sent to the gates of the' +
           ' cell the gates can calculate filters for the input and cell ' +
-          'state. The input gate itself is composed of a block ' +
-          'input and the actual input gate. The block input calculates a ' +
-          'weighted version of the layer input. The input gate determines ' +
+          'state. The input gate determines ' +
           'a filter that will be used to extract the relevant new ' +
           'information from the block input. At the same time the forget' +
-          ' gate also calculates a data filter. But this filter is used to' +
+          ' gate also calculates a data filter which is used to' +
           ' determine which values of the cell state are not relevant anymore' +
           ' and can be forgotten.',
       },
       {
         id: 3,
         title: 'Cell Update',
-        description: 'The processed values are combined to create a ' +
-          'cell update',
+        description: 'The processed values are combined to ' +
+          'update the cell state.',
         longDescription: 'With the input and forget gate having calculated' +
-          ' their filters the cell state update can now be determined. ' +
-          'The block input is filtered by the input gate and the old cell ' +
-          'state is filtered by the forget gate. The combination of these ' +
-          'two parts is then used as an updated version of the memory cell.',
+          ' their filters the cell state update can now be determined.',
       },
       {
         id: 4,
         title: 'Cell State',
         description: 'The cell state is updated',
-        longDescription: 'The cell state is now given the new values ' +
-          'calcualted by the previuos steps. It now contains the relevant' +
-          ' information about the previous time steps and the added new' +
-          ' information about the current time step.',
+        longDescription: 'The cell state is now updated based on the gates ' +
+          'that determine what part of the input and what part of the cell ' +
+          'state from the previous time step should be used as the new cell ' +
+          'state.',
       },
       {
         id: 5,
         title: 'Output',
         description: 'The cell state is transformed by the output gate ' +
-          'before being outputted',
+          'before being sent to the next layer.',
         longDescription: 'Since the information in memory cell is a mix of' +
-          ' relevant information for this cell specifically the output gate' +
+          ' relevant information for this cell, the output gate' +
           ' now tries to extract the valuable information that can be sent' +
-          ' to the following layers. Again a filter is calculated and the' +
-          ' values of memory cell are transformed before being sent to the' +
-          ' next layer. This output is also then sent to the input of the' +
-          ' current cell so that the next round of calculations can be ' +
-          'done with knowledge of these now old values.',
+          ' to the following layer. This output is also used as input of the' +
+          ' current cell for the next time step.',
       },
     ],
     defaultDescription: '[missing description]',
+    // Elements in the cell view
     lstmGates: [
       {
         id: 0,
         title: 'Layer Input',
-        description: 'The input of the current layer consists of two parts: ' +
-          'The output from the previous layer and the recurrent data flow of ' +
-          'the currrent layer. Those two parts are weighted and combined at ' +
-          'each gate the are used at. This can be generalized in the ' +
-          'following way:',
+        description: 'The cell waits until it gets all data it needs as ' +
+          'input for all calculations. These inputs are the ceell output of ' +
+          'the previous time step, and the output of the cell which precedes ' +
+          'the inspected cell.',
         formulas: [
-          'X^t_g = w_{xg} \\cdot x^t + w_{yg} \\cdot y^{t-1}',
-          'g: \\text{ the corresponding gate}',
-          'x^t: \\text{the output of the previous layer}',
-          'y^{t-1}: \\text{the output of the last time step}',
         ],
       },
       {
         id: 1,
         title: 'Input Gate',
-        description: 'The input gate is actually a two part component. The ' +
-          'first part is the block input. This element transforms the layer ' +
-          'input for further calculations. The actual input gate is the ' +
-          'second element. It tries to create a filter for the block input ' +
-          'that only lets the relevant new information pass through. These ' +
-          'calculations are done in the following way:',
+        description: 'The input gate is used as a measure for what part of ' +
+          'the input is being used for updating the cell state with new ' +
+          'information. The input gate is a filter used to calculate the new ' +
+          'cell state.',
         formulas: [
-          'z^t = tanh(X^t_z + b_z)',
-          'i^t = \\sigma(X^t_i + b_i)',
-          'z: \\text{the block input}',
-          'b_k: \\text{the bias of the component } k',
+          'i^t = sigmoid(W_{ix}x^t + W_{ia}a^{t-1} + b_i)',
+          'i^t: \\text{the input gate}',
+          'x^t: \\text{the input from the previous cell at time step t}',
+          'a^{t-1}: \\text{the activation of this cell from the previous ' +
+            'time step}',
+          'W: \\text{trainable weight parameters}',
+          'b: \\text{trainable bias parameters}',
         ],
       },
       {
         id: 2,
         title: 'Forget Gate',
-        description: 'The forget gate tries to determine what part of the ' +
+        description: 'The forget gate determines what part of the ' +
           'old cell state is relevant for future calculations and which ' +
-          'values can be forgotten. To achieve this a filter is generated ' +
-          'that later is being used to calculate a new cell state.',
+          'values can be forgotten. The forget gate is a filter used to ' +
+          'calculate the new cell state.',
         formulas: [
-          'f^t = \\sigma(X^t_f + b_f)',
-          'b_k: \\text{the bias of the component } k',
+          'f^t = sigmoid(W_{fx}x^t + W_{fa}a^{t-1} + b_f)',
+          'f^t: \\text{the forget gate}',
+          'x^t: \\text{the input from the previous cell at time step t}',
+          'a^{t-1}: \\text{the activation of this cell from the previous ' +
+            'time step}',
+          'W: \\text{trainable weight parameters}',
+          'b: \\text{trainable bias parameters}',
         ],
       },
       {
         id: 3,
         title: 'Output Gate',
-        description: 'Since the memory cell keeps its relevant information ' +
-          'in its own form to keep the important data stored, the output gate' +
-          ' will create a filter that is used on a transformed version of the' +
-          ' cell state to get values that can be sent to the following ' +
-          'layers. This output us then also sent recurrently to the input ' +
-          'of this current cell.',
+        description: 'The output gate is responsible for filtering what part ' +
+          'of the current cell state is used as the output activation of the ' +
+          'cell. Using the output gate, one can then comput the cell ' +
+          'activation, which is used as input to the next cell, as well as ' +
+          'recurrently in the same cell at the next time step. The gate ' +
+          'value and the output activation are computed as:',
         formulas: [
-          'h^t = tanh(c^t)',
-          'o^t = \\sigma(X^t_o + b_o)',
-          'y^t = h^t \\cdot o^t',
-          'b_k: \\text{the bias of the component } k',
+          'o^t = sigmoid(W_{ox}x^t + W_{oa}a^{t-1} + b_o)',
+          'a^t = o^t \\circ tanh(c^t)',
         ],
       },
       {
         id: 4,
         title: 'State Update',
-        description: 'When input and forget gate have created their filters ' +
-          'they are used to adjust the values from the old cell state and ' +
-          'the new input from the block input. Those are then combined to ' +
-          'create the updated version of the memory cell.',
+        description: 'To update the cell state, both, the forget gate and ' +
+          'the update gate are needed in combination with the cell input and ' +
+          'the output of the cell from the previous time step.',
         formulas: [
-          '\\widetilde{c}^t = f^t \\cdot c^{t-1} + i^t \\cdot z^t',
         ],
       },
       {
@@ -251,7 +219,16 @@ const globalENG = {
           'weight back in time. This makes the LSTM architecture capable of ' +
           'learning long time distance dependencies.',
         formulas: [
-          'c^t = \\widetilde{c}^t',
+          'c^t = f^t \\circ c^{t-1} + i^t \\circ tanh(W_{cx}x^t + ' +
+            'W_{ca}a^{t-1} + b_c)',
+          'i^t: \\text{the input gate}',
+          'f^t: \\text{the forget gate}',
+          'c^t: \\text{the cell state}',
+          'x^t: \\text{the input from the previous cell at time step t}',
+          'a^{t-1}: \\text{the activation of this cell from the previous ' +
+            'time step}',
+          'W: \\text{trainable weight parameters}',
+          'b: \\text{trainable bias parameters}',
         ],
       },
     ],
@@ -271,6 +248,7 @@ const globalENG = {
     title: 18,
     header: 20,
   },
+  // Sliders for the training parameters
   sliders: [
     {
       key: 0,
