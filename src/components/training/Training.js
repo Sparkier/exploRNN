@@ -285,7 +285,6 @@ class Training extends React.Component {
         {
           cmd: 'pred',
         });
-
     this.worker.postMessage(
         {
           cmd: 'fit',
