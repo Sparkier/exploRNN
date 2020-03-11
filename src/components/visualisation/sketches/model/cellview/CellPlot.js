@@ -217,27 +217,18 @@ export class CellPlot {
 
     // legend
     s.noStroke();
-    s.rectMode(s.CORNER);
-    s.textAlign(s.CENTER, s.CENTER);
+    s.textAlign(s.LEFT, s.CENTER);
     s.fill(s.colors.darkgrey);
-    s.rect(-this.halfW, -this.halfH, this.in * this.stepWidth * 0.6,
-        this.halfH * 0.2, 5);
-    s.fill(s.colors.orange);
-    s.rect(-this.halfW + this.in * this.stepWidth, -this.halfH,
-        this.in * this.stepWidth * 0.6, this.halfH * 0.2, 5);
-    s.fill(s.colors.grey);
-    s.rect(-this.halfW + this.in * this.stepWidth,
-        -this.halfH + this.halfH * 0.2, this.in * this.stepWidth * 0.6,
-        this.halfH * 0.2, 5);
-    s.fill(s.colors.white);
     s.text(s.global.strings.plotInput,
-        -this.halfW + this.in * this.stepWidth * 0.3,
+        -this.halfW,
         -this.halfH + this.halfH * 0.1);
+    s.fill(s.colors.orange);
     s.text(s.global.strings.plotPrediction,
-        -this.halfW + this.in * this.stepWidth * 1.3,
+        -this.halfW + this.in * this.stepWidth * 1.1,
         -this.halfH + this.halfH * 0.1);
+    s.fill(s.colors.grey);
     s.text(s.global.strings.plotOutput,
-        -this.halfW + this.in * this.stepWidth * 1.3,
+        -this.halfW + this.in * this.stepWidth * 1.1,
         -this.halfH + this.halfH * 0.3);
     s.pop();
   }

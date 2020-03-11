@@ -110,22 +110,19 @@ class ControlPanel extends React.Component {
       <Grid container className={this.props.classes.panelWrapper}
         item xs={3} justify='center'
       >
-        <Paper className={this.props.ui.detail ? classes.panelCv :
-          classes.panelOv} >
+        <Paper className={classes.panel} >
           <Grid container style= {{height: '100%'}} justify='center'
-            alignItems= 'center'>
+            alignItems='center'>
             <Grid container justify='center'>
-              <Grid container item xs={12} justify='center'>
-                <Grid item>
-                  <Typography
-                    className =
-                      {this.props.ui.detail ?
-                        classes.typoCvBig : classes.typoOvBig
-                      }
-                  >
-                    {global.strings.controlsTitle}
-                  </Typography>
-                </Grid>
+              <Grid container item justify='center'>
+                <Typography
+                  className =
+                    {this.props.ui.detail ?
+                      classes.typoCvBig : classes.typoOvBig
+                    }
+                >
+                  {global.strings.controlsTitle}
+                </Typography>
               </Grid>
               <Grid container item className={this.props.classes.controlWrapper}
                 justify='space-evenly' alignItems='center'

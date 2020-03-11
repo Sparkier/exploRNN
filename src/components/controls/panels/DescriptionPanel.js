@@ -49,8 +49,8 @@ class DescriptionPanel extends React.Component {
   render() {
     const global = globalConstants[this.props.appState.language];
     return (
-      <Grid id="dscpan" container item xs={4} justify='center'>
-        <Paper className={this.props.classes.panelCv}>
+      <Grid container item xs={4} justify='center'>
+        <Paper className={this.props.classes.panel}>
           <Grid container style={{height: '100%'}}>
             {
               global.strings.lstmSteps.map((step) => (

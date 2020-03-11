@@ -11,21 +11,13 @@ const styles = (theme) => ({
     margin: '15px',
     width: '65%',
   },
-  panelOv: {
-    padding: '20px',
-    width: '100%',
-    background: theme.palette.primary.dark,
-  },
-  panelCv: {
+  panel: {
     padding: '20px',
     width: '100%',
     background: theme.palette.secondary.dark,
   },
-  headerCv: {
+  header: {
     background: theme.palette.secondary.dark,
-  },
-  headerOv: {
-    background: theme.palette.primary.dark,
   },
   typoStd: {
     color: 'white',
@@ -79,7 +71,7 @@ const styles = (theme) => ({
     fontSize: '20px',
   },
   button_cell: {
-    'margin': '5px',
+    'margin': '10px',
     'color': 'white',
     'borderRadius': '50%',
     'background': theme.palette.detail.main,

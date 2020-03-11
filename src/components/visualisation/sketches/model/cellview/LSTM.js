@@ -557,7 +557,7 @@ class Connection {
       s.drawingContext.setLineDash([10, 10]);
     }
     if (this.hover) {
-      s.stroke(s.colors.cyan);
+      s.stroke(s.colors.lightbluegrey);
       s.drawingContext.lineDashOffset = -s.frameCount/2;
       s.drawingContext.setLineDash([10, 10]);
     }
@@ -702,7 +702,7 @@ class Item {
     if (this.hover &&
         !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs' ||
         this.type === 'gft' || this.type === 'glt')) {
-      s.fill(s.colors.cyan);
+      s.fill(s.colors.lightbluegrey);
       s.cursor(s.HAND);
     }
     const layer = s.clickedBlock;
