@@ -27,8 +27,8 @@ export default function(s) {
     s.noStroke();
     s.beginShape();
     s.vertex(0, 0);
-    s.vertex(150, 0);
-    s.vertex(0, 150);
+    s.vertex(s.width, 0);
+    s.vertex(0, s.width);
     s.endShape();
     s.translate(70, 70);
     s.rotate(-Math.PI/4);

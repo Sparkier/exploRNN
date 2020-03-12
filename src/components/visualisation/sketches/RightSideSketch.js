@@ -27,8 +27,8 @@ export default function(s) {
     s.noStroke();
     s.beginShape();
     s.vertex(s.width, s.height);
-    s.vertex(s.width - 150, s.height);
-    s.vertex(s.width, s.height - 150);
+    s.vertex(0, s.height);
+    s.vertex(s.width, s.height - s.width);
     s.endShape();
   };
 
