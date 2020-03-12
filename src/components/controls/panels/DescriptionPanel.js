@@ -51,28 +51,27 @@ class DescriptionPanel extends React.Component {
     return (
       <Grid item xs={4} className={this.props.classes.smallPanelWrapper}>
         <Paper className={this.props.classes.panel}>
-          <Grid container style={{height: '100%'}}>
+          <Grid container style={{height: '100%'}} direcion='column'
+            justify='space-between' alignItems="center">
             {
               global.strings.lstmSteps.map((step) => (
                 <Grid container item alignContent='flex-start' xs={5}
-                  key={step.id} style={{margin: '10px'}}
-                >
+                  key={step.id} className={this.props.classes.panelContent}>
                   <Grid item xs={12}>
                     <Typography align='left'>
                       <Link className = {step.id === this.props.ui.lstmStep &&
                         this.props.ui.state[0] ?
                       this.props.classes.typoCv : this.props.classes.typoCvOff}
-                      href="#" onClick={(event) => this.onClick(step.id)}
-                      >
+                      href="#" onClick={(event) => this.onClick(step.id)}>
                         {step.id + ': ' + step.title}
                       </Link>
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography variant="body1"
-                      className={this.props.classes.typoStd}
-                      align='left'
-                    >
+                      className=
+                        {this.props.classes.typoStd}
+                      align='left' >
                       {step.description}
                     </Typography>
                   </Grid>

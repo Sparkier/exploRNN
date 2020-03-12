@@ -20,17 +20,21 @@ const styles = (theme) => ({
     width: '65%',
   },
   panel: {
-    padding: '10px',
     width: '100%',
     height: '100%',
     background: theme.palette.primary.dark,
+  },
+  panelContent: {
+    marginLeft: '25px',
+    marginRight: '25px',
+    width: '100%',
   },
   header: {
     background: theme.palette.primary.dark,
   },
   typoStd: {
     color: 'white',
-    width: '90%',
+    width: '100%',
     fontSize: '14px',
   },
   typoStdBig: {
@@ -101,7 +105,7 @@ const styles = (theme) => ({
     'background': theme.palette.overview.light,
   },
   defSlider: {
-    width: '90%',
+    width: '100%',
     markerLabel: {
       color: theme.palette.overview.light,
     },

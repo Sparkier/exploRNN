@@ -91,10 +91,12 @@ class ProcessPanel extends React.Component {
       <Grid item xs={4} id='inppan'
         className={this.props.classes.smallPanelWrapper}>
         <Paper className={this.props.classes.panel}>
-          <Grid container style={{height: '100%'}}>
+          <Grid container style={{height: '100%'}} direcion='column'
+            justify='space-between' alignItems="center">
             {
               global.strings.trainSteps.map((step) => (
-                <Grid item xs={12} key={step.id} style={{margin: '10px'}}>
+                <Grid item key={step.id}
+                  className={this.props.classes.panelContent}>
                   <Grid item>
                     <Typography align='left'>
                       <Link className = {this.getClass(step.id)}

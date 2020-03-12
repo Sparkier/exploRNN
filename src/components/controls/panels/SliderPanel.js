@@ -96,62 +96,59 @@ class SliderPanel extends React.Component {
     return (
       <Grid item xs={4} className={this.props.classes.smallPanelWrapper}>
         <Paper className={this.props.classes.panel}>
-          <Grid container style={{height: '100%'}} justify='center'
-            alignItems='center'>
-            <Grid container justify='center'>
-              {
-                global.sliders.map((slider) => (
-                  <Grid item key={slider.key} xs={12} style={{margin: '10px'}}>
-                    <Typography align='left'
-                    >
-                      <Link href={'#'} onClick={() => this.onClick(slider.key)}
-                        className={!this.props.ui.detail &&
+          <Grid container style={{height: '100%'}} direcion='column'
+            justify='space-between' alignItems="center">
+            {
+              global.sliders.map((slider) => (
+                <Grid item key={slider.key}
+                  className={this.props.classes.panelContent}>
+                  <Typography align='left'>
+                    <Link href={'#'} onClick={() => this.onClick(slider.key)}
+                      className={!this.props.ui.detail &&
                         !this.props.training.running ?
                              this.props.classes.typoOv :
                              this.props.classes.typoOvOff
-                        }>
-                        {slider.title}
-                      </Link>
-                    </Typography>
-                    <Dialog onClose={() => this.handleClose()}
-                      open={this.props.appState.sliderDialog[slider.key]}>
-                      <DialogTitle>
-                        {slider.title}
-                      </DialogTitle>
-                      <DialogContent dividers>
-                        <Typography gutterBottom>
-                          {slider.description}
-                        </Typography>
-                      </DialogContent>
-                    </Dialog>
-                    <DefaultSlider
-                      className={this.props.classes.defSlider}
-                      marks={slider.marks}
-                      disabled={
-                        this.props.ui.detail || this.props.training.running
-                      }
-                      value={
+                      }>
+                      {slider.title}
+                    </Link>
+                  </Typography>
+                  <Dialog onClose={() => this.handleClose()}
+                    open={this.props.appState.sliderDialog[slider.key]}>
+                    <DialogTitle>
+                      {slider.title}
+                    </DialogTitle>
+                    <DialogContent dividers>
+                      <Typography gutterBottom>
+                        {slider.description}
+                      </Typography>
+                    </DialogContent>
+                  </Dialog>
+                  <DefaultSlider
+                    className={this.props.classes.defSlider}
+                    marks={slider.marks}
+                    disabled={
+                      this.props.ui.detail || this.props.training.running
+                    }
+                    value={
                         slider.key === 0 ?
                         Math.log10(this.props.network.learningRate, 10) :
                         (slider.key === 1 ? this.props.training.batchSize :
                           this.props.training.noise)
-                      }
-                      valueLabelDisplay="auto"
-                      valueLabelFormat={(x) => slider.key === 0 ?
+                    }
+                    valueLabelDisplay="auto"
+                    valueLabelFormat={(x) => slider.key === 0 ?
                         this.getFormattedValue(x) : x}
-                      ValueLabelComponent={ValueLabelComponent}
-                      step={slider.step}
-                      min={slider.min}
-                      max={slider.max}
-                      onChange={
-                        (event, value) =>
-                          this.handleSliderChange(slider.key, value)
-                      }
-                    />
-                  </Grid>
-                ))
-              }
-            </Grid>
+                    ValueLabelComponent={ValueLabelComponent}
+                    step={slider.step}
+                    min={slider.min}
+                    max={slider.max}
+                    onChange={
+                      (event, value) =>
+                        this.handleSliderChange(slider.key, value)
+                    }/>
+                </Grid>
+              ))
+            }
           </Grid>
         </Paper>
       </Grid>
