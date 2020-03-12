@@ -289,35 +289,6 @@ const globalENG = {
     },
     {
       key: 1,
-      title: 'Noise',
-      description: 'If we only check if the net can recreate given functions ' +
-        'we are prone to overfitting. Meaning we could not check if the ' +
-        'network can handle inputs not specifically used in the training ' +
-        'process. To give the network a more challenging task we try to ' +
-        'distort the input values to see if the network can cancel out this ' +
-        'noise. The higher this noise is the harder it is for the network ' +
-        ' to recognize the underlying function. Therefore the other values ' +
-        'need be selected more carefully.',
-      step: 0.01,
-      min: 0,
-      max: 100,
-      marks: [
-        {
-          value: 0,
-          label: '0%',
-        },
-        {
-          value: 50,
-          label: '50%',
-        },
-        {
-          value: 100,
-          label: '100%',
-        },
-      ],
-    },
-    {
-      key: 2,
       title: 'Batch Size',
       description: 'If we would try to train the network after each and ' +
         'every input that we have in our training data the training would ' +
@@ -344,6 +315,35 @@ const globalENG = {
         {
           value: 50,
           label: '50',
+        },
+      ],
+    },
+    {
+      key: 2,
+      title: 'Noise',
+      description: 'If we only check if the net can recreate given functions ' +
+        'we are prone to overfitting. Meaning we could not check if the ' +
+        'network can handle inputs not specifically used in the training ' +
+        'process. To give the network a more challenging task we try to ' +
+        'distort the input values to see if the network can cancel out this ' +
+        'noise. The higher this noise is the harder it is for the network ' +
+        ' to recognize the underlying function. Therefore the other values ' +
+        'need be selected more carefully.',
+      step: 0.01,
+      min: 0.0,
+      max: 0.4,
+      marks: [
+        {
+          value: 0,
+          label: '0.0',
+        },
+        {
+          value: 0.2,
+          label: '0.2',
+        },
+        {
+          value: 0.4,
+          label: '0.4',
         },
       ],
     },

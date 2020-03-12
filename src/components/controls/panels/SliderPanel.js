@@ -33,13 +33,13 @@ class SliderPanel extends React.Component {
       case global.sliders[1].key:
         this.props.actions.updateTraining({
           ...this.props.training,
-          noise: value,
+          batchSize: value,
         });
         break;
       case global.sliders[2].key:
         this.props.actions.updateTraining({
           ...this.props.training,
-          batchSize: value,
+          noise: value,
         });
         break;
       default:
@@ -132,8 +132,8 @@ class SliderPanel extends React.Component {
                       value={
                         slider.key === 0 ?
                         Math.log10(this.props.network.learningRate, 10) :
-                        (slider.key === 1 ? this.props.training.noise :
-                          this.props.training.batchSize)
+                        (slider.key === 1 ? this.props.training.batchSize :
+                          this.props.training.noise)
                       }
                       valueLabelDisplay="auto"
                       valueLabelFormat={(x) => slider.key === 0 ?

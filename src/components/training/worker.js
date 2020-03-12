@@ -214,8 +214,7 @@ export default () => {
       const trainInputSequence = [];
       const start = i * setOffsetRatio + startOffset;
       for (let j = 0; j < self.values; j++) {
-        const noiseVal = (noise/100) * (-self.maxNoise +
-            2 * self.maxNoise * Math.random());
+        const noiseVal = - noise + (2 * noise * Math.random());
         const val = self.dataFunc(start + (j * stepSize), func) + noiseVal;
         trainInputSequence.push([val]);
       }
@@ -252,8 +251,7 @@ export default () => {
     // Generate the test input data
     for (let j = 0; j < self.values; j++) {
       // Add noise to the input data
-      noiseVal = (noise/100) * (-self.maxNoise +
-          2 * self.maxNoise * Math.random());
+      noiseVal = - noise + (2 * noise * Math.random());
       val = self.dataFunc(j * stepSize + offset, testFunc) + noiseVal;
       testInputSequence.push([val]);
       self.chartDataInput.push(val);

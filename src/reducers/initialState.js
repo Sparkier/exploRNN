@@ -17,7 +17,7 @@ export default {
   training: {
     running: false, // currently training
     dataTypes: ['sin'], // data used for this training
-    noise: 50, // noise to be added to the data, in percent
+    noise: 0.0, // max noise to be added to the data
     values: 0, // how many datapoints are fed into the network
     predictions: 0, // how many values to predict, calculated by the period
     dataSetSize: 100, // how many datapoints one epoch contains
