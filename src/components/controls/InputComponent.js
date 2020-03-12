@@ -23,25 +23,15 @@ class Input extends React.Component {
    */
   render() {
     return (
-      <div id="valueDiv" className={this.props.classes.panelWrapper}
-        align="center"
-      >
-        <Grid container
-          spacing={3}
-          justify='space-evenly'>
-          {
-            this.props.ui.detail ?
-            <DescriptionPanel/>:
-            <SliderPanel/>
-          }
-          {
-            <ControlPanel/>
-          }
-          {
-            <ProcessPanel/>
-          }
-        </Grid>
-      </div>
+      <Grid container justify='space-evenly' alignItems='center' id='valueDiv'>
+        {
+          this.props.ui.detail ?
+          <DescriptionPanel/>:
+          <SliderPanel/>
+        }
+        <ControlPanel/>
+        <ProcessPanel/>
+      </Grid>
     );
   }
 }

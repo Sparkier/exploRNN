@@ -16,7 +16,7 @@ class AppRouter extends React.Component {
     return (
       <div className='wrap'>
         <Toolbar/>
-        <div className='content'>
+        <div className='content' id='visDiv'>
           <Router>
             <div className='full'>
               <Route exact={true} path="" component={Main} />

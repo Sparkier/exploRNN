@@ -242,7 +242,7 @@ class Controls extends React.Component {
     const {classes} = this.props;
     const global = globalConstants[this.props.appState.language];
     return (
-      <AppBar className={classes.header}>
+      <AppBar className={classes.header} id='barDiv'>
         <Toolbar>
           <Typography variant="h3" className = {
             this.props.ui.detail ? classes.typoCvHeader : classes.typoOvHeader

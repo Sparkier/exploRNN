@@ -88,8 +88,9 @@ class ProcessPanel extends React.Component {
   render() {
     const global = globalConstants[this.props.appState.language];
     return (
-      <Grid id="inppan" container item xs={4} justify='center'>
-        <Paper className={this.props.classes.panel} >
+      <Grid item xs={4} id='inppan'
+        className={this.props.classes.smallPanelWrapper}>
+        <Paper className={this.props.classes.panel}>
           <Grid container style={{height: '100%'}}>
             {
               global.strings.trainSteps.map((step) => (

@@ -94,9 +94,10 @@ class SliderPanel extends React.Component {
   render() {
     const global = globalConstants[this.props.appState.language];
     return (
-      <Grid id="outpan" container item xs={4} justify='center'>
+      <Grid item xs={4} className={this.props.classes.smallPanelWrapper}>
         <Paper className={this.props.classes.panel}>
-          <Grid container alignItems='center'>
+          <Grid container style={{height: '100%'}} justify='center'
+            alignItems='center'>
             <Grid container justify='center'>
               {
                 global.sliders.map((slider) => (

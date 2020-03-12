@@ -49,7 +49,7 @@ class DescriptionPanel extends React.Component {
   render() {
     const global = globalConstants[this.props.appState.language];
     return (
-      <Grid container item xs={4} justify='center'>
+      <Grid item xs={4} className={this.props.classes.smallPanelWrapper}>
         <Paper className={this.props.classes.panel}>
           <Grid container style={{height: '100%'}}>
             {

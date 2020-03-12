@@ -1,23 +1,32 @@
 // The globally used styles for the application
 const styles = (theme) => ({
+  networkArea: {
+    width: '100%',
+  },
   root: {
     padding: '20px',
     background: theme.palette.primary.dark,
   },
   panelWrapper: {
     height: '40vh',
+    background: theme.palette.secondary.dark,
+  },
+  smallPanelWrapper: {
+    height: '36vh',
+    background: theme.palette.secondary.dark,
   },
   controlWrapper: {
     margin: '15px',
     width: '65%',
   },
   panel: {
-    padding: '20px',
+    padding: '10px',
     width: '100%',
-    background: theme.palette.secondary.dark,
+    height: '100%',
+    background: theme.palette.primary.dark,
   },
   header: {
-    background: theme.palette.secondary.dark,
+    background: theme.palette.primary.dark,
   },
   typoStd: {
     color: 'white',

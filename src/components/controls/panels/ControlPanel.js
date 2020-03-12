@@ -2,6 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+
 import {Grid, Paper, Typography, Link} from '@material-ui/core';
 import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
 import Start from '@material-ui/icons/PlayArrow';
@@ -9,8 +10,9 @@ import Pause from '@material-ui/icons/Pause';
 import Reset from '@material-ui/icons/Replay';
 import SkipNext from '@material-ui/icons/SkipNext';
 import {withStyles} from '@material-ui/core/styles';
-import * as actions from '../../../actions';
+
 import styles from '../../../styles/themedStyles';
+import * as actions from '../../../actions';
 import globalConstants from '../../constants/global';
 import MyButton from '../comps/StyledButton';
 
@@ -107,11 +109,9 @@ class ControlPanel extends React.Component {
     const {classes} = this.props;
     const global = globalConstants[this.props.appState.language];
     return (
-      <Grid container className={this.props.classes.panelWrapper}
-        item xs={3} justify='center'
-      >
-        <Paper className={classes.panel} >
-          <Grid container style= {{height: '100%'}} justify='center'
+      <Grid className={this.props.classes.panelWrapper} item xs={3}>
+        <Paper className={classes.panel}>
+          <Grid container style={{height: '100%'}} justify='center'
             alignItems='center'>
             <Grid container justify='center'>
               <Grid container item justify='center'>

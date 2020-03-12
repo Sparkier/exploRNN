@@ -7,6 +7,8 @@ import * as actions from '../actions';
 import Training from './training/Training';
 import VisualWrapper from './visualisation/VisualWrapper';
 import Input from '../components/controls/InputComponent';
+import {withStyles} from '@material-ui/core/styles';
+import styles from '../styles/themedStyles';
 
 /**
  * Main component of the Application that displays all content dependant on the
@@ -20,10 +22,12 @@ class Main extends React.Component {
    */
   render() {
     return (
-      <Grid container className='mainGrid' style={{height: '100vh'}}>
-        <Grid item xs={12}>
+      <Grid container className='mainGrid' style={{height: '100%'}}>
+        <Grid item className={this.props.classes.networkArea} id='netArea'>
           <Training/>
           <VisualWrapper/>
+        </Grid>
+        <Grid item className={this.props.classes.panelWrapper}>
           <Input/>
         </Grid>
       </Grid>
@@ -33,6 +37,7 @@ class Main extends React.Component {
 
 Main.propTypes = {
   network: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 /**
@@ -58,4 +63,6 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    withStyles(styles)(Main)
+);

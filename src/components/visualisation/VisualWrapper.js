@@ -2,7 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+
 import {Grid} from '@material-ui/core';
+import {withStyles} from '@material-ui/core/styles';
+
+import styles from '../../styles/themedStyles';
 import * as actions from '../../actions';
 import CellDialogs from './CellDialogs';
 import networkSketch from './sketches/NetworkSketch';
@@ -79,13 +83,13 @@ class VisualWrapper extends React.Component {
     return (
       <Grid container direction="row" justify='space-between'>
         <Grid item xs={1}>
-          <div id = "leftDiv"/>
+          <div id="leftDiv" style={{fontSize: '0'}}/>
         </Grid>
         <Grid item xs={10}>
-          <div id = "networkDiv"/>
+          <div id="networkDiv" style={{fontSize: '0'}}/>
         </Grid>
         <Grid item xs={1}>
-          <div id = "rightDiv"/>
+          <div id="rightDiv" style={{fontSize: '0'}}/>
         </Grid>
         <CellDialogs/>
       </Grid>
@@ -99,6 +103,7 @@ VisualWrapper.propTypes = {
   ui: PropTypes.object.isRequired,
   appState: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 /**
@@ -126,4 +131,6 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(VisualWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(
+    withStyles(styles)(VisualWrapper)
+);

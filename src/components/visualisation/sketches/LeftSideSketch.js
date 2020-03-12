@@ -12,8 +12,11 @@ export default function(s) {
   s.setup = function() {
     const helpDiv = document.getElementById('leftDiv');
     const valDiv = document.getElementById('valueDiv');
-    s.createCanvas(helpDiv.offsetWidth,
-        window.innerHeight - valDiv.offsetHeight - 50);
+    const appDiv = document.getElementById('appDiv');
+    const barDiv = document.getElementById('barDiv');
+    // Create and initialize the canvas with its draw params
+    s.cnv = s.createCanvas(helpDiv.offsetWidth,
+        appDiv.offsetHeight - valDiv.offsetHeight - barDiv.offsetHeight);
     s.background(255);
   };
 

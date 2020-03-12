@@ -23,7 +23,7 @@ const store = createStore(combinedReducers, composeEnhancers(
 const App = () => (
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
-      <div className='full'>
+      <div className='full' id='appDiv'>
         <CssBaseline />
         <header>
           <Controls/>
