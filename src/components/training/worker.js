@@ -20,8 +20,6 @@ export default () => {
           }});
         break;
       case 'fit': // worker trains network for one epoch
-        console.log(self.mem);
-        console.log(self.fitting);
         if (self.fitting) return;
         while (self.generating || self.initializing); // prevent inconsistencies
         self.fitting = true;

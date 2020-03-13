@@ -25,6 +25,7 @@ export class Input {
         this.dist, this.steps, this.noises));
     this.buttons.push(new Button(s, 'sinc', 4,
         this.dist, this.steps, this.noises));
+    this.buttons.push(new Button(s, 'text', 5, this.dist, this.steps, 0.0));
   }
 
   /**
@@ -91,7 +92,7 @@ class Button {
     this.type = type;
     this.pos = pos;
     this.x = s.inProps.midX;
-    this.y = s.inProps.midY - 1.5 * dist + (pos - 1) * dist;
+    this.y = s.inProps.midY - 2 * dist + (pos - 1) * dist;
     this.size = dist * 0.8;
     this.left = this.x - this.size / 2;
     this.right = this.x + this.size/2;
@@ -122,23 +123,30 @@ class Button {
       s.cursor(s.HAND);
     }
     s.rect(this.x, this.y, this.size, this.size);
-    const range = Math.PI * 2;
-    const ratio = this.size / range;
     const startX = this.x - this.size/2;
     const startY = this.y;
     s.noFill();
-    s.stroke(s.palette.primary);
-    s.beginShape();
-    let noiseVal;
-    for (let i = 0; i < this.steps; i++) {
-      noiseVal = this.noises[i] * (this.s.props.training.noise/100);
-      const x = i / this.steps * range;
-      const x_ = (i + s.frameCount/8) / this.steps * range;
-      const y = this.dataFunc((this.active && s.netAnim) ? x_ : x, this.type) +
-        noiseVal;
-      s.vertex(startX + this.size - x * ratio, startY + y * this.size / 4);
+    if (this.type === 'text') {
+      s.fill(s.palette.primary);
+      s.textSize(30);
+      s.text('alice', startX + this.size/2, startY);
+      s.textSize(s.typography.fontsize);
+    } else {
+      const range = Math.PI * 2;
+      const ratio = this.size / range;
+      s.stroke(s.palette.primary);
+      s.beginShape();
+      let noiseVal;
+      for (let i = 0; i < this.steps; i++) {
+        noiseVal = this.noises[i] * (this.s.props.training.noise/100);
+        const x = i / this.steps * range;
+        const x_ = (i + s.frameCount/8) / this.steps * range;
+        const y = this.dataFunc((this.active && s.netAnim) ? x_ : x,
+            this.type) + noiseVal;
+        s.vertex(startX + this.size - x * ratio, startY + y * this.size / 4);
+      }
+      s.endShape();
     }
-    s.endShape();
   }
 
   /**
@@ -180,6 +188,9 @@ class Button {
         }
       } else if (oldTypes.includes(this.type) && oldTypes.length === 1) {
         newTypes = oldTypes;
+      } else if ((this.type === 'text' && !oldTypes.includes(this.type)) || (
+        oldTypes.includes('text') && this.type !== 'text')) {
+        newTypes = [this.type];
       } else {
         oldTypes.push(this.type);
         newTypes = oldTypes;
