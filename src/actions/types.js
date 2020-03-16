@@ -1,5 +1,4 @@
 // types for the update functions in index.js and the relevant redux reducers
-export const UPDATE_ALERT_SNACK_SUCCESS = 'UPDATE_ALERT_SNACK_SUCCESS';
 export const UPDATE_PREDICTION = 'UPDATE_PREDICTION';
 export const UPDATE_LAYER_SIZE = 'UPDATE_LAYER_SIZE';
 export const UPDATE_TRAINING = 'UPDATE_TRAINING';

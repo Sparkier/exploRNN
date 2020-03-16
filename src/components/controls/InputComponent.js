@@ -36,7 +36,6 @@ class Input extends React.Component {
   }
 }
 
-
 // Controls state of the Application
 Input.propTypes = {
   network: PropTypes.object.isRequired,

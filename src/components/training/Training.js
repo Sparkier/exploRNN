@@ -2,7 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+
 import * as actions from '../../actions';
+
 import worker from './worker.js';
 import TrainingWorker from './TrainingWorker';
 
@@ -287,7 +289,6 @@ class Training extends React.Component {
     network = {...network, iteration: this.props.network.iteration + 1};
     this.props.actions.updateNetwork(network);
   }
-
 
   /**
    * An empty render function needed for react
