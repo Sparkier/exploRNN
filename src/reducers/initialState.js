@@ -67,4 +67,8 @@ export default {
     // Dialog for the imprint section in the drawer
     impressumDialog: false,
   },
+  alertSnack: {
+    open: false,
+    message: '',
+  },
 };

@@ -4,6 +4,7 @@ import training from './TrainingReducer';
 import network from './NetworkReducer';
 import ui from './UIReducer';
 import appState from './AppStateReducer';
+import alertSnack from './AlertSnackReducer';
 
 // Combine all Reducers
 export default combineReducers({
@@ -11,4 +12,5 @@ export default combineReducers({
   training,
   ui,
   appState,
+  alertSnack,
 });

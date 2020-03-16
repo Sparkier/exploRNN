@@ -2,13 +2,16 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+
 import {Grid} from '@material-ui/core';
+import {withStyles} from '@material-ui/core/styles';
+
+import styles from '../styles/themedStyles';
 import * as actions from '../actions';
 import Training from './training/Training';
 import VisualWrapper from './visualisation/VisualWrapper';
 import Input from '../components/controls/InputComponent';
-import {withStyles} from '@material-ui/core/styles';
-import styles from '../styles/themedStyles';
+import AlertSnack from './AlertSnack';
 
 /**
  * Main component of the Application that displays all content dependant on the
@@ -30,6 +33,7 @@ class Main extends React.Component {
         <Grid item className={this.props.classes.panelWrapper}>
           <Input/>
         </Grid>
+        <AlertSnack />
       </Grid>
     );
   }
