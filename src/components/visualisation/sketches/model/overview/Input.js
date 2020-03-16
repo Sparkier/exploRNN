@@ -138,7 +138,7 @@ class Button {
       s.beginShape();
       let noiseVal;
       for (let i = 0; i < this.steps; i++) {
-        noiseVal = this.noises[i] * (this.s.props.training.noise/100);
+        noiseVal = this.noises[i] * (this.s.props.training.noise / 100);
         const x = i / this.steps * range;
         const x_ = (i + s.frameCount/8) / this.steps * range;
         const y = this.dataFunc((this.active && s.netAnim) ? x_ : x,

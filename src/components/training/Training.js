@@ -150,30 +150,26 @@ class Training extends React.Component {
    */
   reset() {
     // Generate the model used for training
-    this.worker.postMessage(
-        {
-          cmd: 'model',
-          params: {
-            layers: this.props.network.layers,
-            cells: this.props.network.layerSize,
-            learningRate: this.props.network.learningRate,
-          },
-        });
-    this.worker.postMessage(
-        {
-          cmd: 'data',
-          params: {
-            type: this.props.training.dataTypes,
-            noise: this.props.training.noise,
-            size: this.props.training.dataSetSize,
-            stepSize: this.props.training.stepSize,
-          },
-        }
-    );
-    this.worker.postMessage(
-        {
-          cmd: 'pred',
-        });
+    this.worker.postMessage({
+      cmd: 'model',
+      params: {
+        layers: this.props.network.layers,
+        cells: this.props.network.layerSize,
+        learningRate: this.props.network.learningRate,
+      },
+    });
+    this.worker.postMessage({
+      cmd: 'data',
+      params: {
+        type: this.props.training.dataTypes,
+        noise: this.props.training.noise,
+        size: this.props.training.dataSetSize,
+        stepSize: this.props.training.stepSize,
+      },
+    });
+    this.worker.postMessage({
+      cmd: 'pred',
+    });
     let ui = this.props.ui;
     let network = this.props.network;
     const training = {...this.props.training, workerReady: false};
@@ -262,30 +258,26 @@ class Training extends React.Component {
         {...this.props.training, step: false, ready: false, workerReady: false}
     );
     // Prepare the data
-    this.worker.postMessage(
-        {
-          cmd: 'data',
-          params: {
-            type: this.props.training.dataTypes,
-            noise: this.props.training.noise,
-            size: this.props.training.dataSetSize,
-            stepSize: this.props.training.stepSize,
-          },
-        }
-    );
-    this.worker.postMessage(
-        {
-          cmd: 'pred',
-        });
-    this.worker.postMessage(
-        {
-          cmd: 'fit',
-          params: {
-            epochs: 1,
-            batchSize: this.props.training.batchSize,
-            reset: false,
-          },
-        });
+    this.worker.postMessage({
+      cmd: 'data',
+      params: {
+        type: this.props.training.dataTypes,
+        noise: this.props.training.noise,
+        size: this.props.training.dataSetSize,
+        stepSize: this.props.training.stepSize,
+      },
+    });
+    this.worker.postMessage({
+      cmd: 'pred',
+    });
+    this.worker.postMessage({
+      cmd: 'fit',
+      params: {
+        epochs: 1,
+        batchSize: this.props.training.batchSize,
+        reset: false,
+      },
+    });
     network = {...network, iteration: this.props.network.iteration + 1};
     this.props.actions.updateNetwork(network);
   }

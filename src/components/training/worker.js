@@ -13,11 +13,10 @@ export default () => {
         self.initializing = true;
         self.initialize(e.data.params);
         self.initializing = false;
-        postMessage({cmd: 'init', values:
-          {
-            values: self.values,
-            predictions: self.testOutputs,
-          }});
+        postMessage({cmd: 'init', values: {
+          values: self.values,
+          predictions: self.testOutputs,
+        }});
         break;
       case 'fit': // worker trains network for one epoch
         if (self.fitting) return;
