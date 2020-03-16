@@ -21,17 +21,21 @@ class Training extends React.Component {
     // Get and init the worker that is used for async training
     this.worker = new TrainingWorker(worker);
     this.worker.onmessage = this.onmessage;
-    this.worker.postMessage(
-        {
-          cmd: 'init',
-          params: {
-            type: this.props.training.dataTypes,
-            noise: this.props.training.noise,
-            size: this.props.training.dataSetSize,
-            stepSize: this.props.training.stepSize,
-          },
+    fetch('data/alice.txt')
+        .then((r) => r.text())
+        .then((text) => {
+          this.worker.postMessage({
+            cmd: 'init',
+            params: {
+              type: this.props.training.dataTypes,
+              noise: this.props.training.noise,
+              size: this.props.training.dataSetSize,
+              stepSize: this.props.training.stepSize,
+              text: text,
+            },
+          });
+          this.reset();
         });
-    this.reset();
   }
 
   /**

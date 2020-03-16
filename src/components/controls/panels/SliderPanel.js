@@ -93,13 +93,21 @@ class SliderPanel extends React.Component {
    */
   render() {
     const global = globalConstants[this.props.appState.language];
+    // Check the sliders, we cant add noise to text
+    const sliders = [];
+    for (const slider of global.sliders) {
+      if (slider.title !== 'Noise' ||
+        this.props.training.dataTypes[0] !== 'text') {
+        sliders.push(slider);
+      }
+    }
     return (
       <Grid item xs={4} className={this.props.classes.smallPanelWrapper}>
         <Paper className={this.props.classes.panel}>
           <Grid container style={{height: '100%'}} direcion='column'
             justify='space-between' alignItems="center">
             {
-              global.sliders.map((slider) => (
+              sliders.map((slider) => (
                 <Grid item key={slider.key}
                   className={this.props.classes.panelContent}>
                   <Typography align='left'>

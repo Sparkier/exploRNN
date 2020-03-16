@@ -70,6 +70,7 @@ export default () => {
     self.fitting = false;
     self.predicting = false;
     self.generating = false;
+    self.text = params.text;
     self.generateDataWith(params);
   };
 
