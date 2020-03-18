@@ -7,6 +7,7 @@ import * as actions from '../../actions';
 
 import worker from './worker.js';
 import TrainingWorker from './TrainingWorker';
+import {TextData} from '../../helpers/TextData';
 
 /**
  * This class handles the generation, compilation and training of the
@@ -24,6 +25,7 @@ class Training extends React.Component {
     fetch('data/alice.txt')
         .then((r) => r.text())
         .then((text) => {
+          const textData = new TextData(text);
           this.worker.postMessage({
             cmd: 'init',
             params: {
@@ -31,7 +33,7 @@ class Training extends React.Component {
               noise: this.props.training.noise,
               size: this.props.training.dataSetSize,
               stepSize: this.props.training.stepSize,
-              text: text,
+              textData: textData,
             },
           });
           this.reset();
@@ -160,6 +162,7 @@ class Training extends React.Component {
         layers: this.props.network.layers,
         cells: this.props.network.layerSize,
         learningRate: this.props.network.learningRate,
+        training: this.props.training,
       },
     });
     this.worker.postMessage({

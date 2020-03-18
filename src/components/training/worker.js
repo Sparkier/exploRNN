@@ -70,7 +70,7 @@ export default () => {
     self.fitting = false;
     self.predicting = false;
     self.generating = false;
-    self.text = params.text;
+    self.textData = params.textData;
     self.generateDataWith(params);
   };
 
@@ -80,10 +80,16 @@ export default () => {
    * @param {object} params The model parameters from the received message
    */
   self.createModel = (params) => {
-    self.createComplexModel(self.values, 1, self.predictions,
-        params.layers, params.cells);
-    const optimizer = tf.train.rmsprop(params.learningRate);
-    self.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
+    if (params.training.dataTypes[0] === 'text') {
+      self.createComplexModel(20, self.textData.charSetSize,
+          self.textData.charSetSize, params.layers, params.cells);
+      const optimizer = tf.train.rmsprop(params.learningRate);
+      self.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
+    } else {
+      self.createComplexModel(self.values, 1, 1, params.layers, params.cells);
+      const optimizer = tf.train.rmsprop(params.learningRate);
+      self.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
+    }
   };
 
   /**
@@ -154,27 +160,81 @@ export default () => {
    * @param {object} params parameters used for generating the correct data
    */
   self.generateDataWith = (params) => {
-    self.generateData(params.type, 3, 1, params.stepSize, params.size,
-        params.noise);
+    if (params.type[0] === 'text') {
+      self.generateTextData(params.size);
+    } else {
+      self.generateFunctionData(params.type, 3, params.stepSize, params.size,
+          params.noise);
+    }
   };
 
+  /**
+   * A helper function that represents the currently chosen input function
+   *
+   * @param {number} x the current input value
+   * @param {string} type the type of function that should be applied to
+   *  the input values
+   * @return {number} y = type(x)
+   */
+  self.dataFunc = (x, type) => {
+    let y = Math.sin(x); // standard sin function
+    if (type === 'sinc') {
+      y = (Math.sin(1.5*x) + Math.sin(4.5 * x)) / 1.5; // composite sin function
+    }
+    if (type === 'saw') {
+      y = -1 + 2 * ((x % Math.PI) / Math.PI); // sawtooth function
+    }
+    if (type === 'sqr') {
+      y = Math.sin((Math.PI/2)*x) >= 0 ? 1 : -1; // squarewave
+    }
+    return y;
+  };
+
+  /**
+   * This function creates a continous array of single prediction values
+   * for the current test input values. The predicted values are being added
+   * to the values so that the model needs to predict the function with its
+   * own previous predictions
+   *
+   * @return {number[]} the predicition array
+   */
+  self.createPrediction = () => {
+    const output = [];
+    let preds;
+    let prediction;
+    let inputBuff;
+    const newInput = [];
+    for (const step of self.testInput) {
+      newInput.push(step);
+    }
+    // For a number of outputs, create predictions to draw as the network output
+    for (let i = 0; i < self.testOutputs; i++) {
+      inputBuff = tf.tensor3d([newInput]);
+      prediction = self.model.predict(inputBuff);
+      preds = Array.from(prediction.arraySync());
+      output.push(preds[0]);
+      newInput.splice(0, 1);
+      newInput.push(preds[0]);
+    }
+    return output;
+  };
+
+  /** Function Data Functions *************************************************/
   /**
    * The actual function for generating the data sets used for training
    *
    * @param {string} funcs the type of function the network should be trained on
    * @param {number} plotLength the size of the interval of the input values
-   * @param {number} predLength the number of values that should be predicted
    * @param {number} stepSize the distance between two values in the data set
    * @param {number} setSize amount of individual training data within the set
    * @param {number} noise amount of noise added onto the training data (0-2)
    */
-  self.generateData = (funcs, plotLength, predLength, stepSize, setSize,
+  self.generateFunctionData = (funcs, plotLength, stepSize, setSize,
       noise = 0) => {
     self.trainInputBuff = [];
     self.trainOutputBuff = [];
     self.testInputBuff = [];
     self.values = Math.round(plotLength / stepSize);
-    self.predictions = predLength;
     self.testOutputs = 2 * Math.PI / stepSize;
     self.stepSize = stepSize;
     self.chartPredictionInput = [];
@@ -218,12 +278,8 @@ export default () => {
       }
       self.trainInputBuff.push(trainInputSequence);
       const currentOutSequence = [];
-      let x;
-      for (let j = 0; j < self.predictions; j++) {
-        x = (self.values + j) * stepSize + start;
-        const val = self.dataFunc(x, func);
-        currentOutSequence.push(val);
-      }
+      const val = self.dataFunc(self.values * stepSize + start, func);
+      currentOutSequence.push(val);
       self.trainOutputBuff.push(currentOutSequence);
     }
     self.trainInput = tf.tensor3d(self.trainInputBuff);
@@ -239,8 +295,6 @@ export default () => {
    * @param {number} noise the percentage of noise to be added to the input
    */
   self.testData = (stepSize, funcs, noise) => {
-    let val = 0;
-    let noiseVal = 0;
     // Choose a random function
     const testFunc = funcs[Math.floor(Math.random() * funcs.length)];
     const testInputSequence = [];
@@ -249,8 +303,8 @@ export default () => {
     // Generate the test input data
     for (let j = 0; j < self.values; j++) {
       // Add noise to the input data
-      noiseVal = - noise + (2 * noise * Math.random());
-      val = self.dataFunc(j * stepSize + offset, testFunc) + noiseVal;
+      const noiseVal = - noise + (2 * noise * Math.random());
+      const val = self.dataFunc(j * stepSize + offset, testFunc) + noiseVal;
       testInputSequence.push([val]);
       self.chartDataInput.push(val);
       self.chartPredictionInput.push(val);
@@ -260,7 +314,7 @@ export default () => {
     let x;
     for (let j = 0; j < self.testOutputs; j++) {
       x = (self.values + j) * stepSize;
-      val = self.dataFunc(x + offset, testFunc);
+      const val = self.dataFunc(x + offset, testFunc);
       currentOutSequence.push(val);
       self.chartDataOutput.push(val);
     }
@@ -269,54 +323,145 @@ export default () => {
     self.testInput = testInputSequence;
   };
 
+  /** Text Data Functions *****************************************************/
   /**
-   * A helper function that represents the currently chosen input function
+   * The actual function for generating the data sets used for training
    *
-   * @param {number} x the current input value
-   * @param {string} type the type of function that should be applied to
-   *  the input values
-   * @return {number} y = type(x)
+   * @param {number} numExamples Number of examples to generate.
    */
-  self.dataFunc = (x, type) => {
-    let y = Math.sin(x); // standard sin function
-    if (type === 'sinc') {
-      y = (Math.sin(1.5*x) + Math.sin(4.5 * x)) / 1.5; // composite sin function
-    }
-    if (type === 'saw') {
-      y = -1 + 2 * ((x % Math.PI) / Math.PI); // sawtooth function
-    }
-    if (type === 'sqr') {
-      y = Math.sin((Math.PI/2)*x) >= 0 ? 1 : -1; // squarewave
-    }
-    return y;
+  self.generateTextData = (numExamples) => {
+    self.generateExampleBeginIndices(20);
+    self.trainInputBuff = [];
+    self.trainOutputBuff = [];
+    self.testInputBuff = [];
+    self.testOutputs = 5;
+    self.chartPredictionInput = [];
+    self.chartDataInput = [];
+    self.chartDataOutput = [];
+    self.maxNoise = 0.2;
+    // Train data
+    self.textTrainData(numExamples, 20);
+    // Test data
+    self.textTestData(20);
   };
 
   /**
-   * This function creates a continous array of single prediction values
-   * for the current test input values. The predicted values are being added
-   * to the values so that the model needs to predict the function with its
-   * own previous predictions
+   * A helper function that creates a specific amount of training data
+   * for a certain input function
    *
-   * @return {number[]} the predicition array
+   * @param {number} numExamples Number of examples to generate.
+   * @param {number} sampleLen the length of a training example in characters
    */
-  self.createPrediction = () => {
-    const output = [];
-    let preds;
-    let prediction;
-    let inputBuff;
-    const newInput = [];
-    for (const step of self.testInput) {
-      newInput.push([step[0]]);
+  self.textTrainData = (numExamples, sampleLen) => {
+    for (let i = 0; i < numExamples; i++) {
+      const trainInputSequence = [];
+      const start = self.textData.exampleBeginIndices[
+          self.textData.examplePosition %
+          self.textData.exampleBeginIndices.length];
+      for (let j = 0; j < sampleLen; j++) {
+        const val = self.textData.indices[start + j];
+        const valueArray = new Array(self.textData.charSetSize).fill(0);
+        valueArray[val] = 1;
+        trainInputSequence.push(valueArray);
+      }
+      self.trainInputBuff.push(trainInputSequence);
+      const val = self.textData.indices[sampleLen + start];
+      const valueArray = new Array(self.textData.charSetSize).fill(0);
+      valueArray[val] = 1;
+      self.trainOutputBuff.push(valueArray);
     }
-    // For a number of outputs, create predictions to draw as the network output
-    for (let i = 0; i < self.testOutputs; i++) {
-      inputBuff = tf.tensor3d([newInput]);
-      prediction = self.model.predict(inputBuff);
-      preds = Array.from(prediction.arraySync());
-      output.push(preds[0]);
-      newInput.splice(0, 1);
-      newInput.push(preds[0]);
+    self.trainInput = tf.tensor3d(self.trainInputBuff);
+    self.trainOutput = tf.tensor2d(self.trainOutputBuff);
+  };
+
+  /**
+   * A helper function that creates the test data for a network epoch
+   *
+   * @param {number} sampleLen the length of a training example in characters
+   */
+  self.textTestData = (sampleLen) => {
+    let val = 0;
+    const testInputSequence = [];
+    const offset = self.textData.exampleBeginIndices[0];
+    // Generate the test input data
+    for (let j = 0; j < sampleLen; j++) {
+      // Add noise to the input data
+      val = self.textData.indices[j + offset];
+      const valueArray = new Array(self.textData.charSetSize).fill(0);
+      valueArray[val] = 1;
+      testInputSequence.push(valueArray);
+      self.chartDataInput.push(valueArray);
+      self.chartPredictionInput.push(valueArray);
     }
-    return output;
+    self.testInputBuff.push(testInputSequence);
+    const currentOutSequence = [];
+    let x;
+    for (let j = 0; j < self.testOutputs; j++) {
+      x = sampleLen + j + offset;
+      val = self.textData.indices[x];
+      const valueArray = new Array(self.textData.charSetSize).fill(0);
+      valueArray[val] = 1;
+      currentOutSequence.push(valueArray);
+      self.chartDataOutput.push(valueArray);
+    }
+    self.chartDataInput.push();
+    self.chartPredictionInput.push();
+    self.testInput = testInputSequence;
+  };
+
+  /**
+   * Generate the example-begin indices; shuffle them randomly.
+   *
+   * @param {number} sampleLen the length of a training example in characters
+   */
+  self.generateExampleBeginIndices = (sampleLen) => {
+    // Prepare beginning indices of examples.
+    self.textData.exampleBeginIndices = [];
+    for (let i = 0; i < self.textData.textLen - sampleLen - 1; i += 1) {
+      self.textData.exampleBeginIndices.push(i);
+    }
+    // Randomly shuffle the beginning indices.
+    tf.util.shuffle(self.textData.exampleBeginIndices);
+    self.textData.examplePosition = 0;
+  };
+
+  /**
+   * Get a slice of the training text data.
+   *
+   * @param {number} startIndex
+   * @param {number} endIndex
+   * @param {bool} useIndices Whether to return the indices instead of string.
+   * @return {string | Uint16Array} The result of the slicing.
+   */
+  self.slice = (startIndex, endIndex) => {
+    return self.textData.textString.slice(startIndex, endIndex);
+  };
+
+  /**
+   * Get a random slice of text data.
+   *
+   * @param {number} sampleLen the length of a training example in characters
+   * @return {[string, number[]]} The string and index representation of the
+   * same slice.
+   */
+  self.getRandomSlice = (sampleLen) => {
+    const startIndex = Math.round(Math.random() * (
+      self.textData.textLen - sampleLen - 1));
+    const textSlice = self.slice(startIndex, startIndex + sampleLen);
+    return [textSlice, self.textToIndices(textSlice)];
+  };
+
+  /**
+   * Convert text string to integer indices.
+   *
+   * @param {string} text Input text.
+   * @return {number[]} Indices of the characters of `text`.
+   */
+  self.textToIndices = (text) => {
+    const indices = [];
+    for (let i = 0; i < text.length; ++i) {
+      indices.push(self.textData.charSet.indexOf(text[i]));
+    }
+    return indices;
   };
 };
