@@ -173,37 +173,39 @@ export class Output {
    * onto the network canvas
    */
   draw() {
-    const s = this.s;
-    if (!s.props) {
-      return;
-    }
-    if (s.props.training.values + s.props.training.predictions === 0) {
-      this.stepWidth = 2;
-    } else {
-      this.total = s.props.training.values + s.props.training.predictions;
-      this.stepWidth = this.plotWidth / this.total;
-    }
-    this.in = s.props.training.values;
-    this.out = s.props.training.predictions;
-    this.total = this.in + this.out;
-    this.halfW = this.plotWidth / 2;
-    this.halfH = this.plotHeight / 2;
-    if (this.stepWidth === 2 && this.total !== 0) {
-      this.stepWidth = this.plotWidth / this.total;
-    }
-    this.plotView();
-    if (this.index === 2) {
-      const offset = s.height * s.typography.titleOffsetRatio;
-      const titleH = s.typography.fontsize * 2;
-      s.textAlign(s.CENTER, s.CENTER);
-      s.rectMode(s.CENTER);
-      s.fill(s.palette.tooltipBG);
-      s.noStroke();
-      s.rect(this.cx, offset / 2, 0.2 * s.netProps.height, titleH, 5);
-      s.textSize(s.typography.fontsize);
-      s.fill(s.palette.tooltipFG);
-      s.noStroke();
-      s.text(s.global.strings.predictionTitle, this.cx, offset / 2);
+    if (this.s.props.training.dataTypes[0] !== 'text') {
+      const s = this.s;
+      if (!s.props) {
+        return;
+      }
+      if (s.props.training.values + s.props.training.predictions === 0) {
+        this.stepWidth = 2;
+      } else {
+        this.total = s.props.training.values + s.props.training.predictions;
+        this.stepWidth = this.plotWidth / this.total;
+      }
+      this.in = s.props.training.values;
+      this.out = s.props.training.predictions;
+      this.total = this.in + this.out;
+      this.halfW = this.plotWidth / 2;
+      this.halfH = this.plotHeight / 2;
+      if (this.stepWidth === 2 && this.total !== 0) {
+        this.stepWidth = this.plotWidth / this.total;
+      }
+      this.plotView();
+      if (this.index === 2) {
+        const offset = s.height * s.typography.titleOffsetRatio;
+        const titleH = s.typography.fontsize * 2;
+        s.textAlign(s.CENTER, s.CENTER);
+        s.rectMode(s.CENTER);
+        s.fill(s.palette.tooltipBG);
+        s.noStroke();
+        s.rect(this.cx, offset / 2, 0.2 * s.netProps.height, titleH, 5);
+        s.textSize(s.typography.fontsize);
+        s.fill(s.palette.tooltipFG);
+        s.noStroke();
+        s.text(s.global.strings.predictionTitle, this.cx, offset / 2);
+      }
     }
   }
 }
