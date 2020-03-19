@@ -53,4 +53,25 @@ export class TextData {
   convertAllTextToIndices() {
     this.indices = new Uint16Array(this.textToIndices(this.textString));
   }
+
+  /**
+   * Get the unique character at given index from the character set.
+   *
+   * @param {number} index
+   * @return {string} The unique character at `index` of the character set.
+   */
+  getFromCharSet(index) {
+    return this.charSet[index];
+  }
+
+  /**
+   * Get a character from a one-hot array.
+   *
+   * @param {array} arr the one-hot encoding of the character index
+   * @return {String} the character that is most activated
+   */
+  getFromOneHot(arr) {
+    const index = arr.indexOf(Math.max(...arr));
+    return this.getFromCharSet(index);
+  }
 }
