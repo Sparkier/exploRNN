@@ -5,6 +5,7 @@ import network from './NetworkReducer';
 import ui from './UIReducer';
 import appState from './AppStateReducer';
 import alertSnack from './AlertSnackReducer';
+import textData from './TextDataReducer';
 
 // Combine all Reducers
 export default combineReducers({
@@ -13,4 +14,5 @@ export default combineReducers({
   ui,
   appState,
   alertSnack,
+  textData,
 });

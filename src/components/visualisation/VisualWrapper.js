@@ -104,6 +104,7 @@ VisualWrapper.propTypes = {
   appState: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  textData: PropTypes.object.isRequired,
 };
 
 /**
@@ -119,6 +120,7 @@ function mapStateToProps(state, ownProps) {
     training: state.training,
     ui: state.ui,
     appState: state.appState,
+    textData: state.textData,
   };
 }
 /**

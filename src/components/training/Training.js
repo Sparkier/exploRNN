@@ -26,6 +26,7 @@ class Training extends React.Component {
         .then((r) => r.text())
         .then((text) => {
           const textData = new TextData(text);
+          this.props.actions.updateTextData(textData);
           this.worker.postMessage({
             cmd: 'init',
             params: {
@@ -49,7 +50,7 @@ class Training extends React.Component {
     const buff = e.data.values;
     let network = this.props.network;
     switch (e.data.cmd) {
-      case 'init': // worker has been initializes
+      case 'init': // worker has been initialized
         this.props.actions.updateTraining({
           ...this.props.training,
           values: buff.values,

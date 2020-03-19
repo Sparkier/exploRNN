@@ -69,3 +69,12 @@ export function updateTraining(training) {
 export function updateAlertSnack(alertSnack) {
   return {type: types.UPDATE_ALERT_SNACK, alertSnack};
 }
+
+/**
+ * Updates the TextData state
+ * @param {object} textData the new text data object for the app
+ * @return {object} a redux state update
+ */
+export function updateTextData(textData) {
+  return {type: types.UPDATE_TEXT_DATA, textData};
+}
