@@ -16,7 +16,7 @@ export default {
   },
   training: {
     running: false, // currently training
-    dataTypes: ['sin'], // data used for this training
+    dataTypes: ['text'], // data used for this training
     noise: 0.0, // max noise to be added to the data
     values: 0, // how many datapoints are fed into the network
     predictions: 0, // how many values to predict, calculated by the period
@@ -71,4 +71,5 @@ export default {
     open: false,
     message: '',
   },
+  textData: {},
 };
