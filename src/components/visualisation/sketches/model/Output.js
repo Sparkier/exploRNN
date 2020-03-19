@@ -31,9 +31,147 @@ export class Output {
   }
 
   /**
+   * Draws the heading of the output
+   */
+  plotHeading() {
+    const s = this.s;
+    if (this.index === 2) {
+      const offset = s.height * s.typography.titleOffsetRatio;
+      const titleH = s.typography.fontsize * 2;
+      s.textAlign(s.CENTER, s.CENTER);
+      s.rectMode(s.CENTER);
+      s.fill(s.palette.tooltipBG);
+      s.noStroke();
+      const xPos = this.s.props.training.dataTypes[0] === 'text' ? this.cx -
+        this.halfW : this.cx;
+      s.rect(xPos, offset / 2, 0.2 * s.netProps.height, titleH, 5);
+      s.textSize(s.typography.fontsize);
+      s.fill(s.palette.tooltipFG);
+      s.noStroke();
+      s.text(s.global.strings.predictionTitle, xPos, offset / 2);
+    }
+  }
+
+  /**
+   * Draws the text output of the network
+   */
+  plotText() {
+    let data = '';
+    const s = this.s;
+    let yOff = 0;
+    let showSteps = this.in + this.out;
+    if (s.plotAnim && s.plotFrame < s.plotMoveFrames) {
+      // calc the position of a moving plot
+      yOff = -s.outProps.height/3 * (1 - (s.plotFrame / s.plotMoveFrames));
+    }
+    if (s.plotAnim && s.plotFrame > s.plotMoveFrames &&
+        s.plotFrame < s.plotMoveFrames + s.plotScanFrames && this.index === 2) {
+      // calc the amount of plot values to show
+      showSteps = ((s.plotFrame - s.plotMoveFrames) / s.plotScanFrames) *
+        this.total;
+    }
+    if (showSteps > this.in + this.out) {
+      showSteps = this.in + this.out;
+    }
+    // Plots far from the center are less big and more transparent (index != 2)
+    this.scale = 1 - 0.5 * (Math.abs(s.outProps.midY - this.cy - yOff) /
+        s.outProps.midY);
+    this.vis = 255 - 255 * Math.abs(this.cy + yOff - s.outProps.midY) /
+      (s.height/4);
+    s.push();
+    s.translate(this.cx - this.halfW - this.plotWidth, this.cy + yOff);
+    // Draw the Box
+    s.textAlign(s.CENTER, s.CENTER);
+    s.rectMode(s.CENTER);
+    s.colors.darkbluegrey.setAlpha(this.vis);
+    s.fill(s.colors.darkbluegrey);
+    s.noStroke();
+    s.colors.darkbluegrey.setAlpha(255);
+    // s.rect(-this.halfW * this.scale, 0, 0.5 * s.netProps.height, titleH, 5);
+
+    // draw the scan box while animating
+    if (s.plotAnim && s.plotFrame > s.plotMoveFrames &&
+      s.plotFrame < s.plotMoveFrames + s.plotScanFrames && this.index === 2) {
+      const right = showSteps * this.stepWidth;
+      let left = right - (this.in * this.stepWidth);
+      if (left < 0) {
+        left = 0;
+      }
+      s.noStroke();
+      s.colors.lightgrey.setAlpha(100);
+      s.fill(s.colors.lightgrey);
+      s.colors.lightgrey.setAlpha(255);
+      s.rect(left + (right - left) / 2, 0, this.scale * (right-left),
+          3*s.typography.fontsize, 10);
+    }
+    s.strokeWeight(1 * this.scale);
+
+    // draw input for validation
+    if (s.props.ui.data && s.props.ui.data[this.index].chartPrediction) {
+      s.colors.bluegrey.setAlpha(this.vis);
+      s.textSize(s.typography.fontsize);
+      s.fill(s.colors.bluegrey);
+      s.colors.bluegrey.setAlpha(255);
+      for (let i = 0; i <= this.in; i++) {
+        data = s.props.ui.data[this.index].chartPrediction[i];
+        if (data) {
+          if (Object.prototype.hasOwnProperty.call(
+              s.props.textData, 'textString')) {
+            data = s.props.textData.getFromOneHot(data);
+            s.textSize(s.typography.fontsize);
+            s.noStroke();
+            s.text(data, i * this.stepWidth, 0);
+          }
+        } else {
+          data = '';
+        }
+      }
+    }
+    // draw the test output for validation
+    if (s.props.ui.data &&
+      s.props.ui.data[this.index].chartOutput) {
+      for (let i = 0; i < this.out; i++) {
+        data = s.props.ui.data[this.index].chartOutput[i];
+        if (data) {
+          if (Object.prototype.hasOwnProperty.call(
+              s.props.textData, 'textString')) {
+            data = s.props.textData.getFromOneHot(data);
+            s.text(data, (i + this.in) * this.stepWidth,
+                -s.typography.fontsize);
+          }
+        }
+      }
+    }
+    // draw net prediction for validation
+    if (s.props.ui.data &&
+      s.props.ui.data[this.index].prediction && (this.index > 2 ||
+        (this.index === 2 && (s.plotAnim === false || (s.plotAnim === true &&
+          s.plotFrame > s.plotMoveFrames))))) {
+      s.palette.ovPrimary.setAlpha(this.vis);
+      s.fill(s.palette.ovPrimary);
+      s.palette.ovPrimary.setAlpha(255);
+      for (let i = 0; i < this.out && i < showSteps - this.in; i++) {
+        if (s.props.ui.data[this.index].prediction) {
+          data = s.props.ui.data[this.index].prediction[i];
+          if (data) {
+            if (Object.prototype.hasOwnProperty.call(
+                s.props.textData, 'textString')) {
+              data = s.props.textData.getFromOneHot(data);
+              s.text(data, (i + this.in) * this.stepWidth,
+                  s.typography.fontsize);
+            }
+          }
+        }
+      }
+      s.endShape();
+    }
+    s.pop();
+  }
+
+  /**
    * Draws the plot with all calculated values
    */
-  plotView() {
+  plotFunction() {
     let data;
     const s = this.s;
     let yOff = 0;
@@ -51,6 +189,7 @@ export class Output {
     if (showSteps > this.in + this.out) {
       showSteps = this.in + this.out;
     }
+    // Plots far from the center are less big and more transparent (index != 2)
     this.scale = 1 - 0.5 * (Math.abs(s.outProps.midY - this.cy - yOff) /
         s.outProps.midY);
     this.vis = 255 - 255 * Math.abs(this.cy + yOff - s.outProps.midY) /
@@ -173,39 +312,31 @@ export class Output {
    * onto the network canvas
    */
   draw() {
-    if (this.s.props.training.dataTypes[0] !== 'text') {
-      const s = this.s;
-      if (!s.props) {
-        return;
-      }
-      if (s.props.training.values + s.props.training.predictions === 0) {
-        this.stepWidth = 2;
-      } else {
-        this.total = s.props.training.values + s.props.training.predictions;
-        this.stepWidth = this.plotWidth / this.total;
-      }
-      this.in = s.props.training.values;
-      this.out = s.props.training.predictions;
-      this.total = this.in + this.out;
-      this.halfW = this.plotWidth / 2;
-      this.halfH = this.plotHeight / 2;
-      if (this.stepWidth === 2 && this.total !== 0) {
-        this.stepWidth = this.plotWidth / this.total;
-      }
-      this.plotView();
-      if (this.index === 2) {
-        const offset = s.height * s.typography.titleOffsetRatio;
-        const titleH = s.typography.fontsize * 2;
-        s.textAlign(s.CENTER, s.CENTER);
-        s.rectMode(s.CENTER);
-        s.fill(s.palette.tooltipBG);
-        s.noStroke();
-        s.rect(this.cx, offset / 2, 0.2 * s.netProps.height, titleH, 5);
-        s.textSize(s.typography.fontsize);
-        s.fill(s.palette.tooltipFG);
-        s.noStroke();
-        s.text(s.global.strings.predictionTitle, this.cx, offset / 2);
-      }
+    const s = this.s;
+    if (!s.props) {
+      return;
+    }
+    if (s.props.training.values + s.props.training.predictions === 0) {
+      this.stepWidth = 2;
+    } else {
+      this.total = s.props.training.values + s.props.training.predictions;
+      this.stepWidth = this.plotWidth / this.total;
+    }
+    this.in = s.props.training.values;
+    this.out = s.props.training.predictions;
+    this.total = this.in + this.out;
+    this.halfW = this.plotWidth / 2;
+    this.halfH = this.plotHeight / 2;
+    if (this.stepWidth === 2 && this.total !== 0) {
+      this.stepWidth = this.plotWidth / this.total;
+    }
+    if (this.s.props.training.dataTypes[0] === 'text') {
+      this.stepWidth = 2.0 * this.plotWidth / this.total;
+      this.plotText();
+      this.plotHeading();
+    } else {
+      this.plotFunction();
+      this.plotHeading();
     }
   }
 }

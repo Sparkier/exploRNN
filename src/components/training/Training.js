@@ -73,6 +73,8 @@ class Training extends React.Component {
         this.props.actions.updateTraining({
           ...this.props.training,
           workerReady: true,
+          values: buff.values,
+          predictions: buff.predictions,
         });
         break;
       case 'pred': // worker has calculated prediction for the current test data

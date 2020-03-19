@@ -41,6 +41,8 @@ export default () => {
           chartIn: self.chartDataInput,
           chartOut: self.chartDataOutput,
           chartPred: self.chartPredictionInput,
+          values: self.testInput.length,
+          predictions: self.testOutputs,
         }});
         break;
       case 'model': // the network model shall be generated
@@ -382,7 +384,11 @@ export default () => {
   self.textTestData = (sampleLen) => {
     let val = 0;
     const testInputSequence = [];
-    const offset = self.textData.exampleBeginIndices[0];
+    let offset = self.textData.exampleBeginIndices[0];
+    // If we exceed the end of the book, go back a little
+    if ((offset + sampleLen + self.testOutputs) >= self.textData.textLen) {
+      offset = offset - self.textOutputs;
+    }
     // Generate the test input data
     for (let j = 0; j < sampleLen; j++) {
       // Add noise to the input data
@@ -423,45 +429,5 @@ export default () => {
     // Randomly shuffle the beginning indices.
     tf.util.shuffle(self.textData.exampleBeginIndices);
     self.textData.examplePosition = 0;
-  };
-
-  /**
-   * Get a slice of the training text data.
-   *
-   * @param {number} startIndex
-   * @param {number} endIndex
-   * @param {bool} useIndices Whether to return the indices instead of string.
-   * @return {string | Uint16Array} The result of the slicing.
-   */
-  self.slice = (startIndex, endIndex) => {
-    return self.textData.textString.slice(startIndex, endIndex);
-  };
-
-  /**
-   * Get a random slice of text data.
-   *
-   * @param {number} sampleLen the length of a training example in characters
-   * @return {[string, number[]]} The string and index representation of the
-   * same slice.
-   */
-  self.getRandomSlice = (sampleLen) => {
-    const startIndex = Math.round(Math.random() * (
-      self.textData.textLen - sampleLen - 1));
-    const textSlice = self.slice(startIndex, startIndex + sampleLen);
-    return [textSlice, self.textToIndices(textSlice)];
-  };
-
-  /**
-   * Convert text string to integer indices.
-   *
-   * @param {string} text Input text.
-   * @return {number[]} Indices of the characters of `text`.
-   */
-  self.textToIndices = (text) => {
-    const indices = [];
-    for (let i = 0; i < text.length; ++i) {
-      indices.push(self.textData.charSet.indexOf(text[i]));
-    }
-    return indices;
   };
 };
