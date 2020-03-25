@@ -129,7 +129,7 @@ class Button {
     if (this.type === 'text') {
       s.fill(s.palette.primary);
       s.textSize(30);
-      s.text('alice', startX + this.size/2, startY);
+      s.text('abab', startX + this.size/2, startY);
       s.textSize(s.typography.fontsize);
     } else {
       const range = Math.PI * 2;

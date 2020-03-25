@@ -27,7 +27,7 @@ export default () => {
               epochs: e.data.params.epochs,
               batchSize: e.data.params.batchSize,
             }
-        ).then(() => {
+        ).then((info) => {
           self.fitting = false;
           postMessage({cmd: 'fit', reset: e.data.params.reset});
         });
@@ -53,7 +53,7 @@ export default () => {
         while (self.generating || self.initializing); // prevent inconsistencies
         self.predicting = true;
         postMessage({cmd: 'pred', values: {
-          pred: self.createPrediction(),
+          pred: self.createPrediction(e.data.params.type),
         }});
         self.predicting = false;
         break;
@@ -84,9 +84,10 @@ export default () => {
   self.createModel = (params) => {
     if (params.training.dataTypes[0] === 'text') {
       self.createComplexModel(20, self.textData.charSetSize,
-          self.textData.charSetSize, params.layers, params.cells);
-      const optimizer = tf.train.rmsprop(params.learningRate);
-      self.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
+          self.textData.charSetSize, params.layers, 16);
+      const optimizer = tf.train.rmsprop(0.005);
+      self.model.compile({loss: 'categoricalCrossentropy',
+        optimizer: optimizer});
     } else {
       self.createComplexModel(self.values, 1, 1, params.layers, params.cells);
       const optimizer = tf.train.rmsprop(params.learningRate);
@@ -124,35 +125,33 @@ export default () => {
    */
   self.createComplexModel = (timeSteps, vocab, labels, layers, blockSize) => {
     self.model = tf.sequential();
-    // Input to the model
-    self.model.add(
-        tf.layers.lstm({
-          units: blockSize,
-          returnSequences: true,
-          inputShape: [timeSteps, vocab],
-        })
-    );
-    // Add all layers except the input layer
-    for (let i = 1; i < layers - 1; i++) {
+    // Add all LSTM layers
+    for (let i = 0; i < layers; i++) {
       self.model.add(
           tf.layers.lstm({
             units: blockSize,
-            returnSequences: true,
+            returnSequences: i < layers - 1,
+            inputShape: i === 0 ? [timeSteps, vocab] : undefined,
           })
       );
     }
-    self.model.add(
-        tf.layers.lstm({
-          units: blockSize,
-        })
-    );
     // Add the head to make a prediction
-    self.model.add(
-        tf.layers.dense({
-          units: labels,
-          activation: 'tanh',
-        })
-    );
+    if (labels > 1) {
+      self.model.add(
+          tf.layers.dense({
+            units: labels,
+            activation: 'softmax',
+          })
+      );
+    } else {
+      self.model.add(
+          tf.layers.dense({
+            units: labels,
+            activation: 'tanh',
+          })
+      );
+    }
+    console.log(self.model.summary());
     return self.model;
   };
 
@@ -163,7 +162,7 @@ export default () => {
    */
   self.generateDataWith = (params) => {
     if (params.type[0] === 'text') {
-      self.generateTextData(params.size);
+      self.generateTextData(256);
     } else {
       self.generateFunctionData(params.type, 3, params.stepSize, params.size,
           params.noise);
@@ -198,9 +197,10 @@ export default () => {
    * to the values so that the model needs to predict the function with its
    * own previous predictions
    *
+   * @param {array} dataTypes the data types the network is operating on
    * @return {number[]} the predicition array
    */
-  self.createPrediction = () => {
+  self.createPrediction = (dataTypes) => {
     const output = [];
     let preds;
     let prediction;
@@ -215,6 +215,13 @@ export default () => {
       prediction = self.model.predict(inputBuff);
       preds = Array.from(prediction.arraySync());
       output.push(preds[0]);
+      if (dataTypes[0] === 'text') {
+        for (const element in preds[0]) {
+          if ({}.hasOwnProperty.call(preds[0], element)) {
+            preds[0][element] = Math.round(preds[0][element]);
+          }
+        }
+      }
       newInput.splice(0, 1);
       newInput.push(preds[0]);
     }
@@ -371,6 +378,7 @@ export default () => {
       const valueArray = new Array(self.textData.charSetSize).fill(0);
       valueArray[val] = 1;
       self.trainOutputBuff.push(valueArray);
+      self.textData.examplePosition++;
     }
     self.trainInput = tf.tensor3d(self.trainInputBuff);
     self.trainOutput = tf.tensor2d(self.trainOutputBuff);

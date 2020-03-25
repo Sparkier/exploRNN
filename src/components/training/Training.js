@@ -22,7 +22,7 @@ class Training extends React.Component {
     // Get and init the worker that is used for async training
     this.worker = new TrainingWorker(worker);
     this.worker.onmessage = this.onmessage;
-    fetch('data/alice.txt')
+    fetch('data/abab.txt')
         .then((r) => r.text())
         .then((text) => {
           const textData = new TextData(text);
@@ -179,6 +179,9 @@ class Training extends React.Component {
     });
     this.worker.postMessage({
       cmd: 'pred',
+      params: {
+        type: this.props.training.dataTypes,
+      },
     });
     let ui = this.props.ui;
     let network = this.props.network;
@@ -279,6 +282,9 @@ class Training extends React.Component {
     });
     this.worker.postMessage({
       cmd: 'pred',
+      params: {
+        type: this.props.training.dataTypes,
+      },
     });
     this.worker.postMessage({
       cmd: 'fit',
