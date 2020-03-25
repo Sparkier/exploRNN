@@ -76,7 +76,7 @@ export class Layer {
       // draw hover info
       if (this.hover_left) {
         s.noStroke();
-        if (this.s.props.network.layers > 2) {
+        if (this.s.props.network.layers > 1) {
           s.stroke(s.colors.red);
           s.fill(s.colors.red);
           s.textSize(this.clSize/2);
@@ -90,7 +90,7 @@ export class Layer {
         s.fill(255);
         s.text(s.global.strings.tooltipCell, s.mx,
             s.my + s.typography.tooltipoffset);
-      } else if (this.hover_right && this.s.props.network.layers > 2) {
+      } else if (this.hover_right && this.s.props.network.layers > 1) {
         s.noStroke();
         s.fill(s.colors.red);
         s.rect(this.x + w/2 - this.clSize / 2, this.y - h/2 + this.clSize / 2,
@@ -128,7 +128,7 @@ export class Layer {
       this.hover_left = !(this.hover_right =
           (x > this.x + w / 2 - this.clSize &&
           y < this.y - h / 2 + this.clSize) &&
-          this.s.props.network.layers > 2);
+          this.s.props.network.layers > 1);
     } else {
       this.hover = this.hover_left = this.hover_right = false;
     }
@@ -153,7 +153,7 @@ export class Layer {
         this.s.props.actions.stopTraining(this.s.props.training);
         this.s.props.actions.updateUI({...this.s.props.ui, detail: true});
       // Clicked on cell removal icon with more than one cell
-      } else if (this.s.props.network.layers > 2) {
+      } else if (this.s.props.network.layers > 1) {
         // Stop the training
         this.s.props.actions.stopTraining(this.s.props.training);
         // Update the network by removing a layer
