@@ -151,7 +151,6 @@ export default () => {
           })
       );
     }
-    console.log(self.model.summary());
     return self.model;
   };
 
