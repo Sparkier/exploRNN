@@ -11,23 +11,27 @@ export default () => {
             'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2.7/dist/tf.min.js');
         tf.setBackend('cpu');
         self.initializing = true;
-        self.initialize(e.data.params);
+        self.initialize();
         self.initializing = false;
         postMessage({cmd: 'init', values: {
           values: self.values,
           predictions: self.testOutputs,
         }});
         break;
+      case 'text':
+        self.textData = e.data.params.textData;
+        break;
       case 'fit': // worker trains network for one epoch
         if (self.fitting) return;
         while (self.generating || self.initializing); // prevent inconsistencies
         self.fitting = true;
+        console.log('fit');
         self.model.model.fit(self.mem[0].in,
             self.mem[0].out, {
               epochs: e.data.params.epochs,
               batchSize: e.data.params.batchSize,
             }
-        ).then((info) => {
+        ).then((_) => {
           self.fitting = false;
           postMessage({cmd: 'fit', reset: e.data.params.reset});
         });
@@ -53,7 +57,7 @@ export default () => {
         while (self.generating || self.initializing); // prevent inconsistencies
         self.predicting = true;
         postMessage({cmd: 'pred', values: {
-          pred: self.createPrediction(e.data.params.type),
+          pred: self.createPrediction(e.data.params.inputType),
         }});
         self.predicting = false;
         break;
@@ -63,17 +67,13 @@ export default () => {
 
   /**
    * Initializes the worker thread with all necessary values and objects
-   *
-   * @param {object} params the parameters for the initialization
    */
-  self.initialize = (params) => {
+  self.initialize = () => {
     self.model = undefined;
     self.mem = [];
     self.fitting = false;
     self.predicting = false;
     self.generating = false;
-    self.textData = params.textData;
-    self.generateDataWith(params);
   };
 
   /**
@@ -82,10 +82,10 @@ export default () => {
    * @param {object} params The model parameters from the received message
    */
   self.createModel = (params) => {
-    if (params.training.dataTypes[0] === 'text') {
+    if (params.training.inputType === 'Text Data') {
       self.createComplexModel(20, self.textData.charSetSize,
-          self.textData.charSetSize, params.layers, 16);
-      const optimizer = tf.train.rmsprop(0.005);
+          self.textData.charSetSize, params.layers, params.cells);
+      const optimizer = tf.train.rmsprop(params.learningRate);
       self.model.compile({loss: 'categoricalCrossentropy',
         optimizer: optimizer});
     } else {
@@ -102,12 +102,7 @@ export default () => {
     const add = {in: self.trainInput,
       out: self.trainOutput,
       pred: self.testInput};
-    if (!self.mem) { // No data, init the memory
-      self.mem = [add];
-    } else { // Data present, add to the memory
-      self.mem.shift();
-      self.mem.push(add);
-    }
+    self.mem = [add];
   };
 
   /**
@@ -136,21 +131,12 @@ export default () => {
       );
     }
     // Add the head to make a prediction
-    if (labels > 1) {
-      self.model.add(
-          tf.layers.dense({
-            units: labels,
-            activation: 'softmax',
-          })
-      );
-    } else {
-      self.model.add(
-          tf.layers.dense({
-            units: labels,
-            activation: 'tanh',
-          })
-      );
-    }
+    self.model.add(
+        tf.layers.dense({
+          units: labels,
+          activation: labels > 1 ? 'softmax' : 'tanh',
+        })
+    );
     return self.model;
   };
 
@@ -160,7 +146,7 @@ export default () => {
    * @param {object} params parameters used for generating the correct data
    */
   self.generateDataWith = (params) => {
-    if (params.type[0] === 'text') {
+    if (params.inputType === 'Text Data') {
       self.generateTextData(256);
     } else {
       self.generateFunctionData(params.type, 3, params.stepSize, params.size,
@@ -169,37 +155,15 @@ export default () => {
   };
 
   /**
-   * A helper function that represents the currently chosen input function
-   *
-   * @param {number} x the current input value
-   * @param {string} type the type of function that should be applied to
-   *  the input values
-   * @return {number} y = type(x)
-   */
-  self.dataFunc = (x, type) => {
-    let y = Math.sin(x); // standard sin function
-    if (type === 'sinc') {
-      y = (Math.sin(1.5*x) + Math.sin(4.5 * x)) / 1.5; // composite sin function
-    }
-    if (type === 'saw') {
-      y = -1 + 2 * ((x % Math.PI) / Math.PI); // sawtooth function
-    }
-    if (type === 'sqr') {
-      y = Math.sin((Math.PI/2)*x) >= 0 ? 1 : -1; // squarewave
-    }
-    return y;
-  };
-
-  /**
    * This function creates a continous array of single prediction values
    * for the current test input values. The predicted values are being added
    * to the values so that the model needs to predict the function with its
    * own previous predictions
    *
-   * @param {array} dataTypes the data types the network is operating on
+   * @param {array} inputType the type of data the network is operating on
    * @return {number[]} the predicition array
    */
-  self.createPrediction = (dataTypes) => {
+  self.createPrediction = (inputType) => {
     const output = [];
     let preds;
     let prediction;
@@ -214,7 +178,7 @@ export default () => {
       prediction = self.model.predict(inputBuff);
       preds = Array.from(prediction.arraySync());
       output.push(preds[0]);
-      if (dataTypes[0] === 'text') {
+      if (inputType === 'Text Data') {
         for (const element in preds[0]) {
           if ({}.hasOwnProperty.call(preds[0], element)) {
             preds[0][element] = Math.round(preds[0][element]);

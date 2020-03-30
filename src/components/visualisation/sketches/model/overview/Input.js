@@ -17,15 +17,19 @@ export class Input {
     for (let i = 0; i < this.steps; i++) {
       this.noises.push(-0.2 + 0.4 * Math.random());
     }
-    this.buttons.push(new Button(s, 'sin', 1,
-        this.dist, this.steps, this.noises));
-    this.buttons.push(new Button(s, 'saw', 2,
-        this.dist, this.steps, this.noises));
-    this.buttons.push(new Button(s, 'sqr', 3,
-        this.dist, this.steps, this.noises));
-    this.buttons.push(new Button(s, 'sinc', 4,
-        this.dist, this.steps, this.noises));
-    this.buttons.push(new Button(s, 'text', 5, this.dist, this.steps, 0.0));
+    if (s.props.training.inputType === 'Text Data') {
+      this.buttons.push(new Button(s, 'text', 1, 2, this.dist, 0, 0, 'abab'));
+      this.buttons.push(new Button(s, 'text', 2, 2, this.dist, 0, 0, 'lorem'));
+    } else {
+      this.buttons.push(new Button(s, 'sin', 1, 4,
+          this.dist, this.steps, this.noises));
+      this.buttons.push(new Button(s, 'saw', 2, 4,
+          this.dist, this.steps, this.noises));
+      this.buttons.push(new Button(s, 'sqr', 3, 4,
+          this.dist, this.steps, this.noises));
+      this.buttons.push(new Button(s, 'sinc', 4, 4,
+          this.dist, this.steps, this.noises));
+    }
   }
 
   /**
@@ -81,18 +85,22 @@ class Button {
    * @param {object} s the parent p5.js sketch
    * @param {string} type the function type of this button
    * @param {number} pos the position of this button
+   * @param {number} maxPos the maximum position for all buttons
    * @param {number} dist the distance between two buttons
    * @param {number} steps the amount of function steps used for the button
    * image in this button
    * @param {number[]} noises an array of random noise values to be added
    * to the button image
+   * @param {String} textType the type of text input
    */
-  constructor(s, type, pos, dist, steps, noises) {
+  constructor(s, type, pos, maxPos, dist, steps = 0, noises = 0,
+      textType = '') {
     this.s = s;
     this.type = type;
     this.pos = pos;
+    this.maxPos = maxPos;
     this.x = s.inProps.midX;
-    this.y = s.inProps.midY - 2 * dist + (pos - 1) * dist;
+    this.y = s.inProps.midY + (pos - 1) * dist - (maxPos / 2.0 - 0.5) * dist;
     this.size = dist * 0.8;
     this.left = this.x - this.size / 2;
     this.right = this.x + this.size/2;
@@ -101,6 +109,7 @@ class Button {
     this.active = (s.props.training.dataTypes.includes(type));
     this.steps = steps;
     this.noises = noises;
+    this.textType = textType;
   }
 
   /**
@@ -111,7 +120,8 @@ class Button {
     s.fill(s.palette.contrast);
     s.noStroke();
     s.strokeWeight(2);
-    this.active = (s.props.training.dataTypes.includes(this.type));
+    this.active = (s.props.training.dataTypes.includes(this.type) ||
+      s.props.training.dataTypes.includes(this.textType));
     if (this.active) {
       s.fill(s.palette.ovPrimary);
     }
@@ -129,7 +139,7 @@ class Button {
     if (this.type === 'text') {
       s.fill(s.palette.primary);
       s.textSize(30);
-      s.text('abab', startX + this.size/2, startY);
+      s.text(this.textType, startX + this.size/2, startY);
       s.textSize(s.typography.fontsize);
     } else {
       const range = Math.PI * 2;
@@ -189,10 +199,9 @@ class Button {
         }
       } else if (oldTypes.includes(this.type) && oldTypes.length === 1) {
         newTypes = oldTypes;
-      } else if ((this.type === 'text' && !oldTypes.includes(this.type)) || (
-        oldTypes.includes('text') && this.type !== 'text')) {
+      } else if (this.type === 'text' && !oldTypes.includes(this.textType)) {
         if (this.s.props.network.iteration === 0) {
-          newTypes = [this.type];
+          newTypes = [this.textType];
           reset = true;
         } else {
           this.s.props.actions.updateAlertSnack({open: true,

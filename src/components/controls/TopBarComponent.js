@@ -12,9 +12,9 @@ import globalConstants from '../constants/global';
 import StyledSelect from './comps/StyledSelect';
 
 /**
- * Controls at top of the Application, 'The Toolbar'
+ * Bar at top of the Application, 'The Toolbar'
  */
-class Controls extends React.Component {
+class TopBar extends React.Component {
   /**
    * When the component is mounted we need to connect the keyboard
    * input actions to this element to handle incoming key presses
@@ -156,6 +156,19 @@ class Controls extends React.Component {
   };
 
   /**
+   * Handles the selection of the input type select component
+   *
+   * @param {object} event the event containing the information about the
+   * selected type element
+   */
+  inputTypeSelect = (event) => {
+    const newDataTypes = event.target.value === 'Text Data' ?
+      ['abab'] : ['sin'];
+    this.props.actions.updateTraining({...this.props.training,
+      inputType: event.target.value, reset: true, dataTypes: newDataTypes});
+  };
+
+  /**
    * Handles the selection of the language select component
    *
    * @param {object} event the event containing the information about the
@@ -249,19 +262,19 @@ class Controls extends React.Component {
           }>
             {global.title}
           </Typography>
-          <StyledSelect value={this.props.network.type}
-            onChange={ this.typeSelect }
+          <StyledSelect value={this.props.training.inputType}
+            onChange={ this.inputTypeSelect }
             main={true}
           >
             {
-              global.types.map((x) => (
+              global.inputTypes.map((x) => (
                 <MenuItem key={x.name} disabled={x.disabled}
                   value={x.name}>{x.name}</MenuItem>
               ))
             }
           </StyledSelect>
           <StyledSelect value={this.props.appState.language}
-            onChange={ this.languageSelect }
+            onChange={this.languageSelect}
             main={false}
           >
             {
@@ -276,8 +289,8 @@ class Controls extends React.Component {
   }
 }
 
-// Controls state of the Application
-Controls.propTypes = {
+// TopBar state of the Application
+TopBar.propTypes = {
   training: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
@@ -313,5 +326,19 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    withStyles(styles)(Controls)
+    withStyles(styles)(TopBar)
 );
+
+/* If we want to be able to choose the layer Type, this needs to be added.
+          <StyledSelect value={this.props.network.type}
+            onChange={ this.typeSelect }
+            main={true}
+          >
+            {
+              global.types.map((x) => (
+                <MenuItem key={x.name} disabled={x.disabled}
+                  value={x.name}>{x.name}</MenuItem>
+              ))
+            }
+          </StyledSelect>
+*/

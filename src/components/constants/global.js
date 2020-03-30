@@ -238,6 +238,10 @@ const globalENG = {
     {name: 'LSTM', disabled: false},
     {name: 'GRU', disabled: true},
   ],
+  inputTypes: [
+    {name: 'Text Data', disabled: false},
+    {name: 'Function Data', disabled: false},
+  ],
   languages: [
     {name: 'ENG'},
     {name: 'GER'},

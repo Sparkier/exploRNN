@@ -42,7 +42,7 @@ export class Output {
       s.rectMode(s.CENTER);
       s.fill(s.palette.tooltipBG);
       s.noStroke();
-      const xPos = this.s.props.training.dataTypes[0] === 'text' ? this.cx -
+      const xPos = this.s.props.training.inputType === 'Text Data' ? this.cx -
         this.halfW : this.cx;
       s.rect(xPos, offset / 2, 0.2 * s.netProps.height, titleH, 5);
       s.textSize(s.typography.fontsize);
@@ -330,7 +330,7 @@ export class Output {
     if (this.stepWidth === 2 && this.total !== 0) {
       this.stepWidth = this.plotWidth / this.total;
     }
-    if (this.s.props.training.dataTypes[0] === 'text') {
+    if (this.s.props.training.inputType === 'Text Data') {
       this.stepWidth = 2.0 * this.plotWidth / this.total;
       this.plotText();
       this.plotHeading();

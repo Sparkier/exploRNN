@@ -22,23 +22,16 @@ class Training extends React.Component {
     // Get and init the worker that is used for async training
     this.worker = new TrainingWorker(worker);
     this.worker.onmessage = this.onmessage;
-    fetch('data/abab.txt')
-        .then((r) => r.text())
-        .then((text) => {
-          const textData = new TextData(text);
-          this.props.actions.updateTextData(textData);
-          this.worker.postMessage({
-            cmd: 'init',
-            params: {
-              type: this.props.training.dataTypes,
-              noise: this.props.training.noise,
-              size: this.props.training.dataSetSize,
-              stepSize: this.props.training.stepSize,
-              textData: textData,
-            },
-          });
-          this.reset();
-        });
+    this.worker.postMessage({
+      cmd: 'init',
+      params: {
+        type: this.props.training.dataTypes,
+        noise: this.props.training.noise,
+        size: this.props.training.dataSetSize,
+        stepSize: this.props.training.stepSize,
+      },
+    });
+    this.reset();
   }
 
   /**
@@ -153,11 +146,38 @@ class Training extends React.Component {
   }
 
   /**
+   * Reseet the model depending on the Input Type
+   */
+  reset() {
+    if (this.props.training.inputType === 'Text Data') {
+      let textSample = 'data/abab.txt';
+      if (this.props.training.dataTypes[0] === 'lore') {
+        textSample = 'data/lipsum.txt';
+      }
+      fetch(textSample)
+          .then((r) => r.text())
+          .then((text) => {
+            const textData = new TextData(text);
+            this.props.actions.updateTextData(textData);
+            this.worker.postMessage({
+              cmd: 'text',
+              params: {
+                textData: textData,
+              },
+            });
+            this.resetModel();
+          });
+    } else {
+      this.resetModel();
+    }
+  }
+
+  /**
    * This method will currently create a new model with all new network
    * values and also reset all saved data in the input, output and
    * prediction arrays/tensors
    */
-  reset() {
+  resetModel() {
     // Generate the model used for training
     this.worker.postMessage({
       cmd: 'model',
@@ -172,6 +192,7 @@ class Training extends React.Component {
       cmd: 'data',
       params: {
         type: this.props.training.dataTypes,
+        inputType: this.props.training.inputType,
         noise: this.props.training.noise,
         size: this.props.training.dataSetSize,
         stepSize: this.props.training.stepSize,
@@ -180,7 +201,7 @@ class Training extends React.Component {
     this.worker.postMessage({
       cmd: 'pred',
       params: {
-        type: this.props.training.dataTypes,
+        type: this.props.training.inputType,
       },
     });
     let ui = this.props.ui;
@@ -275,6 +296,7 @@ class Training extends React.Component {
       cmd: 'data',
       params: {
         type: this.props.training.dataTypes,
+        inputType: this.props.training.inputType,
         noise: this.props.training.noise,
         size: this.props.training.dataSetSize,
         stepSize: this.props.training.stepSize,
@@ -283,7 +305,7 @@ class Training extends React.Component {
     this.worker.postMessage({
       cmd: 'pred',
       params: {
-        type: this.props.training.dataTypes,
+        type: this.props.training.inputType,
       },
     });
     this.worker.postMessage({

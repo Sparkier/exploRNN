@@ -32,7 +32,7 @@ export class CellPlot {
     let from;
     let to;
     const s = this.s;
-    if (this.s.props.training.dataTypes[0] !== 'text') {
+    if (this.s.props.training.inputType !== 'Text Data') {
       if (!s.props || !s.props.ui.data) {
         return;
       }

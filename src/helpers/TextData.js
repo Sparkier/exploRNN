@@ -71,7 +71,12 @@ export class TextData {
    * @return {String} the character that is most activated
    */
   getFromOneHot(arr) {
-    const index = arr.indexOf(Math.max(...arr));
-    return this.getFromCharSet(index);
+    if (Array.isArray(arr)) {
+      const index = arr.indexOf(Math.max(...arr));
+      const char = this.getFromCharSet(index);
+      return char ? char : '';
+    } else {
+      return '';
+    }
   }
 }

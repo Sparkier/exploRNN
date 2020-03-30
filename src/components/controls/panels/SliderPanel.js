@@ -97,7 +97,7 @@ class SliderPanel extends React.Component {
     const sliders = [];
     for (const slider of global.sliders) {
       if (slider.title !== 'Noise' ||
-        this.props.training.dataTypes[0] !== 'text') {
+        this.props.training.inputType !== 'Text Data') {
         sliders.push(slider);
       }
     }
