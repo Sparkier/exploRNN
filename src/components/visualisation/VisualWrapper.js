@@ -10,8 +10,6 @@ import styles from '../../styles/themedStyles';
 import * as actions from '../../actions';
 import CellDialogs from './CellDialogs';
 import networkSketch from './sketches/NetworkSketch';
-import leftSide from './sketches/LeftSideSketch';
-import rightSide from './sketches/RightSideSketch';
 import globalConstants from '../constants/global';
 
 /**
@@ -28,10 +26,6 @@ class VisualWrapper extends React.Component {
     super();
     // eslint-disable-next-line new-cap
     this.networkSketch = new window.p5(networkSketch, 'networkDiv');
-    // eslint-disable-next-line new-cap
-    this.leftSide = new window.p5(leftSide, 'leftDiv');
-    // eslint-disable-next-line new-cap
-    this.rightSide = new window.p5(rightSide, 'rightDiv');
   }
 
   /**
@@ -41,8 +35,6 @@ class VisualWrapper extends React.Component {
     this.networkSketch.props = this.props;
     this.networkSketch.constants = globalConstants;
     this.networkSketch.updateMemory(false);
-    this.leftSide.update(false);
-    this.rightSide.update(false);
   }
 
   /**
@@ -60,8 +52,6 @@ class VisualWrapper extends React.Component {
       this.networkSketch.reset();
       this.props.actions.updateUI({...this.props.ui, reset: false});
     }
-    this.leftSide.update(this.props.ui.detail);
-    this.rightSide.update(this.props.ui.detail);
   }
 
   /**
@@ -70,8 +60,6 @@ class VisualWrapper extends React.Component {
    */
   componentWillUnmount() {
     this.networkSketch.remove();
-    this.leftSide.remove();
-    this.rightSide.remove();
   }
 
   /**
@@ -82,14 +70,8 @@ class VisualWrapper extends React.Component {
   render() {
     return (
       <Grid container direction="row" justify='space-between'>
-        <Grid item xs={1}>
-          <div id="leftDiv" style={{fontSize: '0'}}/>
-        </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={12}>
           <div id="networkDiv" style={{fontSize: '0'}}/>
-        </Grid>
-        <Grid item xs={1}>
-          <div id="rightDiv" style={{fontSize: '0'}}/>
         </Grid>
         <CellDialogs/>
       </Grid>
@@ -123,6 +105,7 @@ function mapStateToProps(state, ownProps) {
     textData: state.textData,
   };
 }
+
 /**
  * Maps the actions to this property.
  *

@@ -1,89 +1,72 @@
 // The globally used styles for the application
 const styles = (theme) => ({
-  networkArea: {
+  fullWidth: { // Full width for an element
     width: '100%',
   },
-  root: {
-    padding: '20px',
-    background: theme.palette.primary.dark,
-  },
-  panelWrapper: {
+  panelWrapper: { // Mainly for the control area
     height: '40vh',
-    background: theme.palette.secondary.dark,
+    background: theme.palette.secondary.light,
   },
-  smallPanelWrapper: {
-    height: '36vh',
-    background: theme.palette.secondary.dark,
+  smallPanelWrapper: { // Panels left and right of the control area
+    marginLeft: '20px',
+    marginRight: '20px',
+    height: '40vh',
   },
-  controlWrapper: {
-    margin: '15px',
-    width: '65%',
+  header: { // Header element for the AppBar
+    background: theme.palette.secondary.off,
   },
-  panel: {
-    width: '100%',
-    height: '100%',
-    background: theme.palette.primary.dark,
-  },
-  panelContent: {
-    marginLeft: '25px',
-    marginRight: '25px',
-    width: '100%',
-  },
-  header: {
-    background: theme.palette.primary.dark,
-  },
-  typoStd: {
-    color: 'white',
+  typoStd: { // The standard front used e.g. in the process panel
+    color: 'black',
     width: '100%',
     fontSize: '14px',
   },
-  typoStdBig: {
-    color: 'white',
+  typoStdBig: { // Big text, such as the epoch number
+    color: 'black',
     width: '90%',
     margin: '5px',
     fontSize: '20px',
   },
-  typoOv: {
+  typoOv: { // Overview typography
     color: theme.palette.overview.main,
     marginTop: '5px',
     fontSize: '16px',
     width: 'auto',
   },
-  typoOvOff: {
-    color: theme.palette.primary.off,
+  typoOvOff: { // Overview typography for deactivated components
+    color: theme.palette.secondary.dark,
     marginTop: '5px',
     fontSize: '16px',
     width: 'auto',
   },
-  typoOvBig: {
+  typoOvBig: { // Overview typography for big text
     color: theme.palette.overview.main,
     marginTop: '5px',
     fontSize: '24px',
   },
-  typoCv: {
+  typoCv: { // Cell view typography
     color: theme.palette.detail.main,
     marginTop: '5px',
     fontSize: '16px',
   },
-  typoCvOff: {
-    color: theme.palette.secondary.off,
+  typoCvOff: { // Cell view typography for deactivated components
+    color: theme.palette.secondary.dark,
     marginTop: '5px',
     fontSize: '16px',
   },
-  typoCvBig: {
+  typoCvBig: { // Cell view typography for big text
     color: theme.palette.detail.main,
     marginTop: '5px',
     fontSize: '24px',
   },
-  typoOvHeader: {
+  typoOvHeader: { // Header typography when in overview
     color: theme.palette.overview.main,
     fontSize: '20px',
   },
-  typoCvHeader: {
+  typoCvHeader: { // Header typography when in cell view
     color: theme.palette.detail.main,
     fontSize: '20px',
   },
-  button_cell: {
+  button_cell: { // Button in the cell view
     'margin': '10px',
     'color': 'white',
     'borderRadius': '50%',
@@ -91,49 +74,21 @@ const styles = (theme) => ({
     '&:hover': {
       'background': theme.palette.detail.dark,
     },
-  }, button_net: {
+  }, button_net: { // Button in the overview
     'margin': '10px',
     'color': 'white',
     'borderRadius': '50%',
-    'background': theme.palette.overview.light,
+    'background': theme.palette.overview.main,
     '&:hover': {
-      'background': theme.palette.overview.main,
+      'background': theme.palette.overview.dark,
     },
   },
-  iconDefault: {
-    'color': 'white',
-    'background': theme.palette.overview.light,
-  },
-  defSlider: {
+  defSlider: { // Slider styling
     width: '100%',
-    markerLabel: {
-      color: theme.palette.overview.light,
-    },
-    color: 'white',
+    color: 'black',
     marginTop: '5px',
   },
-  icon: {
-    fill: 'white',
-  },
-  formControl: {
-    marginLeft: theme.spacing(2),
-    minWidth: 120,
-    color: 'white',
-  },
-  selectEmpty: {
-    '&:before': {
-      borderColor: 'white',
-    },
-    '&:after': {
-      borderColor: 'white',
-    },
-  },
-  selectRoot: {
-    border: 1,
-    borderRadius: 3,
-    color: 'white',
-  },
-  select: {
+  select: { // Select components in the header
     'marginLeft': theme.spacing(4),
     '&:before': {
       borderColor: 'white',
@@ -148,14 +103,8 @@ const styles = (theme) => ({
     'color': 'white',
     'align': 'left',
   },
-  selectIcon: {
+  selectIcon: { // Icon in the select component
     fill: 'white',
-  },
-  headerIcon: {
-    color: 'white',
-  },
-  list: {
-    width: '250',
   },
 });
 

@@ -1,6 +1,6 @@
 // This file declares the global strings and values used in the application
 const globalENG = {
-  title: 'leaRNN',
+  title: 'exploRNN',
   strings: {
     controlsTitle: 'Controls',
     inputTitle: 'Input',
@@ -355,7 +355,7 @@ const globalENG = {
 };
 
 const globalGER = {
-  title: 'leaRNN',
+  title: 'exploRNN',
   strings: {
     controlsTitle: 'Steuerung',
     inputTitle: 'Eingabe',
@@ -376,7 +376,7 @@ const globalGER = {
         title: 'Über die Anwendung',
         description: 'Diese Anwendung ist als Projekt im Kontext einer ' +
           'Abschlussarbeit im Bachelorstudiengang Medieninformatik durch ' +
-          'Raphael Störk entstanden. Der Titel dieser Arbeit ist: leaRNN - ' +
+          'Raphael Störk entstanden. Der Titel dieser Arbeit ist: exploRNN - ' +
           'Eine Interaktive Visualisierung Rekurrenter Neuronaler Netze.',
       },
       faq: {

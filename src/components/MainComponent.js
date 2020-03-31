@@ -4,13 +4,14 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 
 import {Grid} from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 import {withStyles} from '@material-ui/core/styles';
 
 import styles from '../styles/themedStyles';
 import * as actions from '../actions';
 import Training from './training/Training';
 import VisualWrapper from './visualisation/VisualWrapper';
-import Input from '../components/controls/InputComponent';
+import BottomPanel from './controls/BottomComponent';
 import AlertSnack from './AlertSnack';
 
 /**
@@ -26,12 +27,13 @@ class Main extends React.Component {
   render() {
     return (
       <Grid container className='mainGrid' style={{height: '100%'}}>
-        <Grid item className={this.props.classes.networkArea} id='netArea'>
+        <Grid item className={this.props.classes.fullWidth} id='netArea'>
           <Training/>
           <VisualWrapper/>
         </Grid>
         <Grid item className={this.props.classes.panelWrapper}>
-          <Input/>
+          <Divider/>
+          <BottomPanel/>
         </Grid>
         <AlertSnack />
       </Grid>

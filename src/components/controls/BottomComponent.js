@@ -2,10 +2,14 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+
 import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Divider from '@material-ui/core/Divider';
+
 import * as actions from '../../actions';
 import styles from '../../styles/themedStyles';
+
 import ProcessPanel from './panels/ProcessPanel';
 import ControlPanel from './panels/ControlPanel';
 import SliderPanel from './panels/SliderPanel';
@@ -15,7 +19,7 @@ import DescriptionPanel from './panels/DescriptionPanel';
  * The current Component holding all the input elements to change the Network
  * for Training.
  */
-class Input extends React.Component {
+class BottomPanel extends React.Component {
   /**
    * The render function for this react component
    *
@@ -29,7 +33,9 @@ class Input extends React.Component {
           <DescriptionPanel/>:
           <SliderPanel/>
         }
+        <Divider orientation="vertical" flexItem />
         <ControlPanel/>
+        <Divider orientation="vertical" flexItem />
         <ProcessPanel/>
       </Grid>
     );
@@ -37,7 +43,7 @@ class Input extends React.Component {
 }
 
 // Controls state of the Application
-Input.propTypes = {
+BottomPanel.propTypes = {
   network: PropTypes.object.isRequired,
   training: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
@@ -70,5 +76,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    withStyles(styles)(Input)
+    withStyles(styles)(BottomPanel)
 );

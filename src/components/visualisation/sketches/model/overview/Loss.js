@@ -22,7 +22,7 @@ export class Loss {
    * Draw this graph
    */
   draw() {
-    if (this.s.props.training.dataTypes[0] !== 'text') {
+    if (this.s.props.training.inputType !== 'Text Data') {
       const s = this.s;
       s.noStroke();
       if (s.netAnim && s.netFrame > s.netPredFrames &&

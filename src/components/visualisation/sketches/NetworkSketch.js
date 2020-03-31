@@ -58,10 +58,11 @@ export default function(s) {
   s.setup = function() {
     const netDiv = document.getElementById('networkDiv');
     const valDiv = document.getElementById('valueDiv');
-    const visDiv = document.getElementById('visDiv');
+    const appDiv = document.getElementById('appDiv');
+    const barDiv = document.getElementById('barDiv');
     // Create and initialize the canvas with its draw params
     s.cnv = s.createCanvas(netDiv.offsetWidth,
-        visDiv.offsetHeight - valDiv.offsetHeight);
+        appDiv.offsetHeight - valDiv.offsetHeight - barDiv.offsetHeight);
     s.initialize();
     // Register listeners for this canvas on this class
     s.cnv.mouseClicked(s.click);

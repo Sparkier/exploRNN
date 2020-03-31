@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import {Grid, Paper, Typography, Link, IconButton} from '@material-ui/core';
+import {Grid, Typography, Link, IconButton} from '@material-ui/core';
 import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
 import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
@@ -88,23 +88,22 @@ class ProcessPanel extends React.Component {
   render() {
     const global = globalConstants[this.props.appState.language];
     return (
-      <Grid item xs={4} id='inppan'
+      <Grid item xs id='inppan'
         className={this.props.classes.smallPanelWrapper}>
-        <Paper className={this.props.classes.panel}>
-          <Grid container style={{height: '100%'}} direcion='column'
-            justify='space-between' alignItems="center">
-            {
-              global.strings.trainSteps.map((step) => (
-                <Grid item key={step.id}
-                  className={this.props.classes.panelContent}>
-                  <Grid item>
-                    <Typography align='left'>
-                      <Link className = {this.getClass(step.id)}
-                        href="#" onClick={(event) => this.onClick(step.id)}
-                      >
-                        {step.title}
-                      </Link>
-                      {this.props.ui.detail ?
+        <Grid container style={{height: '100%'}} direcion='column'
+          justify='space-between' alignItems="center">
+          {
+            global.strings.trainSteps.map((step) => (
+              <Grid item key={step.id}
+                className={this.props.classes.fullWidth}>
+                <Grid item>
+                  <Typography align='left'>
+                    <Link className = {this.getClass(step.id)}
+                      href="#" onClick={(event) => this.onClick(step.id)}
+                    >
+                      {step.title}
+                    </Link>
+                    {this.props.ui.detail ?
                         <IconButton
                           size="small"
                           variant="outlined"
@@ -115,36 +114,35 @@ class ProcessPanel extends React.Component {
                           <Jump style={{color: 'white'}}/>
                         </IconButton> :
                         null
-                      }
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="body1"
-                      className={this.props.classes.typoStd}
-                      align='left'
-                    >
-                      {step.description}
-                    </Typography>
-                  </Grid>
-                  <Dialog onClose={() => this.handleClose()}
-                    open={this.props.appState.inputDialog[step.id]}>
-                    <DialogTitle>
-                      {step.title}
-                    </DialogTitle>
-                    <DialogContent dividers>
-                      <Typography gutterBottom>
-                        {step.longDescription + (
+                    }
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography variant="body1"
+                    className={this.props.classes.typoStd}
+                    align='left'
+                  >
+                    {step.description}
+                  </Typography>
+                </Grid>
+                <Dialog onClose={() => this.handleClose()}
+                  open={this.props.appState.inputDialog[step.id]}>
+                  <DialogTitle>
+                    {step.title}
+                  </DialogTitle>
+                  <DialogContent dividers>
+                    <Typography gutterBottom>
+                      {step.longDescription + (
                             step.id === 0 && !this.props.ui.detail ?
                             step.note : ''
-                        )}
-                      </Typography>
-                    </DialogContent>
-                  </Dialog>
-                </Grid>
-              ))
-            }
-          </Grid>
-        </Paper>
+                      )}
+                    </Typography>
+                  </DialogContent>
+                </Dialog>
+              </Grid>
+            ))
+          }
+        </Grid>
       </Grid>
     );
   }

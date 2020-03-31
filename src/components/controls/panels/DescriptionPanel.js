@@ -3,43 +3,16 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import {Grid, Paper, Typography, Link} from '@material-ui/core';
-import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
 import globalConstants from '../../constants/global';
+import DescriptionElement from '../comps/DescriptionElement';
 
 /**
  * Descriptions at bottom of the Application, only visible in the cell view
  */
 class DescriptionPanel extends React.Component {
-  /**
-   * Is called when any of the description titles is clicked on, opens the
-   * corresponding dialog
-   *
-   * @param {number} id the id of the clicked element
-   */
-  onClick(id) {
-    const dialogs = this.props.appState.stepDialog;
-    dialogs[id] = !dialogs[id];
-    this.props.actions.updateAppState({
-      ...this.props.appState,
-      stepDialog: dialogs,
-    });
-  }
-
-  /**
-   * Handles the closing of the dialogs for this element, updates the
-   * global state accordingly
-   */
-  handleClose() {
-    const dialogs = [false, false, false, false, false, false];
-    this.props.actions.updateAppState({
-      ...this.props.appState,
-      stepDialog: dialogs,
-    });
-  }
-
   /**
    * React render function controlling the look of the
    * description panel of the Application
@@ -48,49 +21,34 @@ class DescriptionPanel extends React.Component {
    */
   render() {
     const global = globalConstants[this.props.appState.language];
+    const even = [];
+    const odd = [];
+    for (const index in global.strings.lstmSteps) {
+      if (index % 2 === 0) {
+        even.push(global.strings.lstmSteps[index]);
+      } else {
+        odd.push(global.strings.lstmSteps[index]);
+      }
+    }
     return (
       <Grid item xs={4} className={this.props.classes.smallPanelWrapper}>
-        <Paper className={this.props.classes.panel}>
-          <Grid container style={{height: '100%'}} direcion='column'
-            justify='space-between' alignItems="center">
+        <Grid container style={{height: '100%'}} direcion='column'
+          justify='space-between' alignItems="center" spacing={1}>
+          <Grid container item xs={6} style={{height: '100%'}}>
             {
-              global.strings.lstmSteps.map((step) => (
-                <Grid container item alignContent='flex-start' xs={5}
-                  key={step.id} className={this.props.classes.panelContent}>
-                  <Grid item xs={12}>
-                    <Typography align='left'>
-                      <Link className = {step.id === this.props.ui.lstmStep &&
-                        this.props.ui.state[0] ?
-                      this.props.classes.typoCv : this.props.classes.typoCvOff}
-                      href="#" onClick={(event) => this.onClick(step.id)}>
-                        {step.id + ': ' + step.title}
-                      </Link>
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body1"
-                      className=
-                        {this.props.classes.typoStd}
-                      align='left' >
-                      {step.description}
-                    </Typography>
-                  </Grid>
-                  <Dialog onClose={() => this.handleClose()}
-                    open={this.props.appState.stepDialog[step.id]}>
-                    <DialogTitle>
-                      {step.title}
-                    </DialogTitle>
-                    <DialogContent dividers>
-                      <Typography gutterBottom>
-                        {step.longDescription}
-                      </Typography>
-                    </DialogContent>
-                  </Dialog>
-                </Grid>
+              even.map((step) => (
+                <DescriptionElement key={step.id} step={step}/>
               ))
             }
           </Grid>
-        </Paper>
+          <Grid container item xs={6} style={{height: '100%'}}>
+            {
+              odd.map((step) => (
+                <DescriptionElement key={step.id} step={step}/>
+              ))
+            }
+          </Grid>
+        </Grid>
       </Grid>
     );
   }

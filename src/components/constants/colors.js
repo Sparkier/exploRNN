@@ -1,3 +1,5 @@
+import createMuiTheme from '../../theme/globalTheme';
+
 /**
  * The colors used by p5 sketches.
  *
@@ -38,19 +40,19 @@ export function getColorPalette(s) {
 export function getColors(s) {
   return {
     white: s.color(255),
-    grey: s.color('#9e9e9e'),
-    lightgrey: s.color('#eeeeee'),
-    darkgrey: s.color('#212121'),
+    grey: s.color(createMuiTheme.palette.secondary.main),
+    lightgrey: s.color(createMuiTheme.palette.secondary.light),
+    darkgrey: s.color(createMuiTheme.palette.secondary.dark),
     black: s.color(0),
-    bluegrey: s.color('#455a64'),
-    lightbluegrey: s.color('#b0bec5'),
-    darkbluegrey: s.color('#263238'),
+    bluegrey: s.color(createMuiTheme.palette.primary.main),
+    lightbluegrey: s.color(createMuiTheme.palette.primary.light),
+    darkbluegrey: s.color(createMuiTheme.palette.primary.dark),
     red: s.color(255, 50, 50),
-    cyan: s.color('#00acc1'),
-    cyanlight: s.color('#26c6da'),
-    cyandark: s.color('#00838f'),
-    orange: s.color('#fb8c00'),
-    orangelight: s.color('#ffa726'),
-    orangedark: s.color('#ef6c00'),
+    cyan: s.color(createMuiTheme.palette.overview.main),
+    cyanlight: s.color(createMuiTheme.palette.overview.main),
+    cyandark: s.color(createMuiTheme.palette.overview.main),
+    orange: s.color(createMuiTheme.palette.detail.main),
+    orangelight: s.color(createMuiTheme.palette.detail.light),
+    orangedark: s.color(createMuiTheme.palette.detail.dark),
   };
 }
