@@ -255,11 +255,10 @@ class TopBar extends React.Component {
     const {classes} = this.props;
     const global = globalConstants[this.props.appState.language];
     return (
-      <AppBar className={classes.header} id='barDiv'>
+      <AppBar className={ this.props.ui.detail ? classes.cVheader :
+        classes.oVheader} id='barDiv'>
         <Toolbar>
-          <Typography variant="h3" className = {
-            this.props.ui.detail ? classes.typoCvHeader : classes.typoOvHeader
-          }>
+          <Typography variant="h3" className = { classes.typoHeader }>
             {global.title}
           </Typography>
           <StyledSelect value={this.props.training.inputType}

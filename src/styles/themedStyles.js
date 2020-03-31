@@ -12,8 +12,11 @@ const styles = (theme) => ({
     marginRight: '20px',
     height: '40vh',
   },
-  header: { // Header element for the AppBar
-    background: theme.palette.secondary.off,
+  oVheader: { // Header element for the AppBar
+    background: theme.palette.overview.main,
+  },
+  cVheader: { // Header element for the AppBar
+    background: theme.palette.detail.main,
   },
   typoStd: { // The standard front used e.g. in the process panel
     color: 'black',
@@ -58,12 +61,8 @@ const styles = (theme) => ({
     marginTop: '5px',
     fontSize: '24px',
   },
-  typoOvHeader: { // Header typography when in overview
-    color: theme.palette.overview.main,
-    fontSize: '20px',
-  },
-  typoCvHeader: { // Header typography when in cell view
-    color: theme.palette.detail.main,
+  typoHeader: { // Header typography when in overview
+    color: 'white',
     fontSize: '20px',
   },
   button_cell: { // Button in the cell view

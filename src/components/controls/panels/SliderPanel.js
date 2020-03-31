@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 
 import {Grid, Typography, Slider, Tooltip} from '@material-ui/core';
 import {Dialog, DialogContent, DialogTitle, Link} from '@material-ui/core';
-import {grey} from '@material-ui/core/colors';
 import {withStyles} from '@material-ui/core/styles';
 
 import * as actions from '../../../actions';

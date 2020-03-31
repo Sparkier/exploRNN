@@ -31,7 +31,7 @@ class DescriptionPanel extends React.Component {
       }
     }
     return (
-      <Grid item xs={4} className={this.props.classes.smallPanelWrapper}>
+      <Grid item xs className={this.props.classes.smallPanelWrapper}>
         <Grid container style={{height: '100%'}} direcion='column'
           justify='space-between' alignItems="center" spacing={1}>
           <Grid container item xs={6} style={{height: '100%'}}>
