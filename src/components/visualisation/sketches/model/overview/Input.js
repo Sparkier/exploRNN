@@ -10,7 +10,7 @@ export class Input {
   */
   constructor(s) {
     this.s = s;
-    this.dist = 0.15 * s.inProps.height;
+    this.dist = 0.18 * s.inProps.height;
     this.buttons = [];
     this.steps = 30; // needed for the buttons' visual calculations
     this.noises = [];
@@ -41,16 +41,14 @@ export class Input {
       b.draw();
     }
     const offset = s.height * s.typography.titleOffsetRatio;
-    const titleH = s.typography.fontsize * 2;
-    s.textAlign(s.CENTER, s.CENTER);
-    s.rectMode(s.CENTER);
-    s.fill(s.palette.tooltipBG);
-    s.noStroke();
-    s.rect(s.inProps.midX, offset / 2, 0.15 * s.inProps.height, titleH, 5);
+    s.textAlign(s.LEFT, s.CENTER);
     s.textSize(s.typography.fontsize);
-    s.fill(s.palette.tooltipFG);
+    s.fill(s.colors.darkgrey);
     s.noStroke();
-    s.text(s.global.strings.inputTitle, s.inProps.midX, offset / 2);
+    s.text(s.global.strings.inputTitle,
+        s.inProps.left + 20, offset / 2);
+    s.stroke(s.colors.lightgrey);
+    s.line(s.inProps.right, 0, s.inProps.right, s.inProps.height);
   }
 
   /**
@@ -117,18 +115,31 @@ class Button {
    */
   draw() {
     const s = this.s;
-    s.fill(s.palette.contrast);
+    s.fill(s.colors.lightgrey);
     s.noStroke();
     s.strokeWeight(2);
     this.active = (s.props.training.dataTypes.includes(this.type) ||
       s.props.training.dataTypes.includes(this.textType));
     if (this.active) {
-      s.fill(s.palette.ovPrimary);
+      s.noFill();
+      if (s.netAnim && !this.s.rev) {
+        s.stroke(s.colors.overview);
+        s.drawingContext.lineDashOffset = -s.frameCount/2;
+        s.drawingContext.setLineDash([10, 10]);
+      } else {
+        s.stroke(s.colors.bluegrey);
+      }
+      s.bezier(this.x + this.size / 2.0, this.y, s.inProps.right - 20, this.y,
+          this.x + this.size / 2.0 + 20, s.inProps.height / 2.0,
+          s.inProps.right, s.inProps.height / 2.0);
+      s.noStroke();
+      s.drawingContext.setLineDash([]);
+      s.fill(s.colors.overview);
     }
     if (this.hover) {
-      s.fill(s.palette.secondaryContrast);
+      s.fill(s.colors.bluegrey);
       if (this.active) {
-        s.fill(s.palette.ovSecondary);
+        s.fill(s.colors.overviewdark);
       }
       s.cursor(s.HAND);
     }
@@ -137,14 +148,15 @@ class Button {
     const startY = this.y;
     s.noFill();
     if (this.type === 'text') {
-      s.fill(s.palette.primary);
+      s.fill(s.colors.white);
       s.textSize(30);
+      s.textAlign(s.CENTER, s.CENTER);
       s.text(this.textType, startX + this.size/2, startY);
       s.textSize(s.typography.fontsize);
     } else {
       const range = Math.PI * 2;
       const ratio = this.size / range;
-      s.stroke(s.palette.primary);
+      s.stroke(s.colors.white);
       s.beginShape();
       let noiseVal;
       for (let i = 0; i < this.steps; i++) {

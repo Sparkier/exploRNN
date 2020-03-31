@@ -1,11 +1,11 @@
 import {LSTM} from './model/cellview/LSTM';
 import {Network} from './model/overview/Network';
-import {Output} from './model/Output';
+import {NetworkPlot} from './model/overview/NetworkPlot';
 import {Input} from './model/overview/Input';
 import {Loss} from './model/overview/Loss';
 import {CellPlot} from './model/cellview/CellPlot';
 
-import {getColors, getColorPalette} from '../../constants/colors';
+import {getColors} from '../../constants/colors';
 import {getCellAnimationValues} from '../../constants/animation';
 import {getTypographyDefaults} from '../../constants/typography';
 
@@ -31,7 +31,7 @@ export default function(s) {
   s.currfps = 0;
   s.sideRatioLeft = 0.1;
   s.sideRatioLoss = 0.1;
-  s.sideRatioRight = 0.2;
+  s.sideRatioRight = 0.3;
   s.detailRatio = 0.6;
   s.ctrRatio = 0.5;
   s.globalScale = 1;
@@ -47,8 +47,6 @@ export default function(s) {
   s.typography = getTypographyDefaults();
   // the scheme colors related to the global style of the application
   s.colors = getColors(s);
-  // the color scheme for the visual component
-  s.palette = getColorPalette(s);
 
   /**
    * This function is called on the first time the parent component is
@@ -88,21 +86,21 @@ export default function(s) {
       midY: s.height/2,
       height: s.height,
     };
-    s.outProps = { // Properties for drawing the output of the network
-      left: s.width - s.sideRatioRight * s.width,
-      right: s.width,
-      midX: s.width - s.sideRatioRight * s.width + (s.sideRatioRight *
-          s.width) / 2,
-      midY: s.height/2,
-      width: s.sideRatioRight * s.width,
-      height: s.height,
-    };
     s.netProps = { // Properties for drawing the network
       left: s.inProps.right,
       right: s.inProps.right + s.width * s.ctrRatio,
       midX: s.sideWidthLeft + s.width * s.ctrRatio * 0.5,
       midY: s.height/2,
       width: s.width * s.ctrRatio,
+      height: s.height,
+    };
+    s.outProps = { // Properties for drawing the output of the network
+      left: s.netProps.right + s.width * s.sideRatioLoss,
+      right: s.width,
+      midX: s.width - s.sideRatioRight * s.width + (s.sideRatioRight *
+          s.width) / 2,
+      midY: s.height/2,
+      width: s.sideRatioRight * s.width,
       height: s.height,
     };
     s.lossProps = { // Properties for drawing the loss of the network
@@ -156,7 +154,7 @@ export default function(s) {
     s.rectMode(s.CENTER);
     s.outputPlots = [];
     for (let i = 0; i < 5; i++) {
-      s.outputPlots.push(new Output(i, s));
+      s.outputPlots.push(new NetworkPlot(i, s));
     }
     s.setupDone = true;
   };
@@ -167,7 +165,7 @@ export default function(s) {
    */
   s.draw = function() {
     // Reset the canvas
-    s.background(s.palette.bg);
+    s.background(s.colors.white);
     s.cursor(s.ARROW);
     s.fill(0);
     // Check if the networksketch was correctly initialized
@@ -364,7 +362,7 @@ export default function(s) {
    */
   s.drawInput = function() {
     s.noStroke();
-    s.fill(s.palette.bgIn);
+    s.fill(s.colors.white);
     s.rect(s.inLeft + s.sideWidthLeft / 2, s.height / 2, s.sideWidthLeft,
         s.height);
     s.input.draw();
@@ -393,7 +391,7 @@ export default function(s) {
     s.scale(s.netScale);
     s.translate(-cx, -cy);
     s.noStroke();
-    s.fill(s.palette.bgOut);
+    s.fill(s.colors.white);
     s.rect(s.outLeft + s.sideWidthRight / 2, s.height / 2, s.sideWidthRight,
         s.height);
     for (const plot of s.outputPlots) {
@@ -415,8 +413,8 @@ export default function(s) {
    * scaling of the drawing canvas to form the zoom animations
    */
   s.drawCell = function() {
-    s.palette.bgCell.setAlpha(s.cellAlpha);
-    s.fill(s.palette.bgCell);
+    s.colors.white.setAlpha(s.cellAlpha);
+    s.fill(s.colors.white);
     s.noStroke();
     s.rect(s.width/2, s.height/2, s.width, s.height);
     // Transition in and out of detail view
@@ -452,7 +450,7 @@ export default function(s) {
     s.cellAlpha = 255 * s.transition / 100;
     s.cell.draw();
     s.pop();
-    s.palette.bgCell.setAlpha(255);
+    s.colors.white.setAlpha(255);
   };
 
   /**

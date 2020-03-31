@@ -41,7 +41,7 @@ export class Network {
     const s = this.s;
     s.strokeWeight(2 * s.netScale);
     if (s.netAnim) {
-      s.stroke(s.colors.cyan);
+      s.stroke(s.colors.overview);
       s.drawingContext.lineDashOffset = this.s.rev ?
         s.frameCount/2 : -s.frameCount/2;
       s.drawingContext.setLineDash([10, 10]);
@@ -74,16 +74,13 @@ export class Network {
       l.draw();
     }
     const offset = s.height * s.typography.titleOffsetRatio;
-    const titleH = s.typography.fontsize * 2;
-    s.textAlign(s.CENTER, s.CENTER);
-    s.rectMode(s.CENTER);
-    s.fill(s.palette.tooltipBG);
-    s.noStroke();
-    s.rect(s.netProps.midX, offset / 2, 0.15 * s.netProps.height, titleH, 5);
+    s.textAlign(s.LEFT, s.CENTER);
     s.textSize(s.typography.fontsize);
-    s.fill(s.palette.tooltipFG);
+    s.fill(s.colors.darkgrey);
     s.noStroke();
-    s.text(s.global.strings.networkTitle, s.netProps.midX, offset / 2);
+    s.text(s.global.strings.networkTitle, s.netProps.left + 20, offset / 2);
+    s.stroke(s.colors.lightgrey);
+    s.line(s.netProps.right, 0, s.netProps.right, s.netProps.height);
   }
 
   /**

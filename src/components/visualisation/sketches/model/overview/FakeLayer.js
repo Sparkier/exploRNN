@@ -50,13 +50,13 @@ export class FakeLayer {
     if (this.hover) {
       s.fill(s.colors.white);
       s.textSize(this.w);
-      s.text('+', this.x, this.y);
+      s.text('+', this.x, this.y - (this.w / 20.0));
       s.cursor(s.HAND);
     } else {
       s.colors.darkbluegrey.setAlpha(alpha);
       s.fill(s.colors.darkbluegrey);
       s.textSize(this.w);
-      s.text('+', this.x, this.y);
+      s.text('+', this.x, this.y - (this.w / 20.0));
     }
     s.noStroke();
     s.textSize(s.typography.fontsize);

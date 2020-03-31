@@ -151,7 +151,7 @@ class Training extends React.Component {
   reset() {
     if (this.props.training.inputType === 'Text Data') {
       let textSample = 'data/abab.txt';
-      if (this.props.training.dataTypes[0] === 'lore') {
+      if (this.props.training.dataTypes[0] === 'lorem') {
         textSample = 'data/lipsum.txt';
       }
       fetch(textSample)

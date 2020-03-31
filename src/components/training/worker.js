@@ -25,7 +25,6 @@ export default () => {
         if (self.fitting) return;
         while (self.generating || self.initializing); // prevent inconsistencies
         self.fitting = true;
-        console.log('fit');
         self.model.model.fit(self.mem[0].in,
             self.mem[0].out, {
               epochs: e.data.params.epochs,
@@ -293,6 +292,28 @@ export default () => {
     self.chartDataInput.push();
     self.chartPredictionInput.push();
     self.testInput = testInputSequence;
+  };
+
+  /**
+   * A helper function that represents the currently chosen input function
+   *
+   * @param {number} x the current input value
+   * @param {string} type the type of function that should be applied to
+   *  the input values
+   * @return {number} y = type(x)
+   */
+  self.dataFunc = (x, type) => {
+    let y = Math.sin(x); // standard sin function
+    if (type === 'sinc') {
+      y = (Math.sin(1.5*x) + Math.sin(4.5 * x)) / 1.5; // composite sin function
+    }
+    if (type === 'saw') {
+      y = -1 + 2 * ((x % Math.PI) / Math.PI); // sawtooth function
+    }
+    if (type === 'sqr') {
+      y = Math.sin((Math.PI/2)*x) >= 0 ? 1 : -1; // squarewave
+    }
+    return y;
   };
 
   /** Text Data Functions *****************************************************/

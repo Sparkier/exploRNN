@@ -128,3 +128,7 @@ cursor: default;
     -ms-user-select: none;
     user-select: none;
 }
+
+.MuiIconButton-root.Mui-disabled {
+    background-color: #bdbdbd !important;
+}

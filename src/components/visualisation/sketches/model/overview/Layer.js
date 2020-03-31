@@ -43,7 +43,7 @@ export class Layer {
       s.noFill();
       s.stroke(s.colors.bluegrey);
       if (s.netAnim) {
-        s.stroke(s.colors.cyan);
+        s.stroke(s.colors.overview);
         s.drawingContext.lineDashOffset = this.s.rev ?
           s.frameCount/2 : -s.frameCount/2;
         s.drawingContext.setLineDash([10, 10]);
@@ -57,7 +57,7 @@ export class Layer {
         s.cursor(s.HAND);
       }
       if (this.active) {
-        s.fill(s.colors.cyan);
+        s.fill(s.colors.overview);
         w = 1.2 * this.w;
         h = 1.2 * this.h;
       }

@@ -546,12 +546,12 @@ class Connection {
     s.stroke(s.colors.grey);
     s.strokeWeight(1);
     if (this.active) {
-      s.stroke(s.colors.orange);
+      s.stroke(s.colors.detail);
       s.strokeWeight(4);
       s.drawingContext.lineDashOffset = -s.frameCount/2;
       s.drawingContext.setLineDash([10, 10]);
     } else if (s.cellAnim.back && this.negativeActivation) {
-      s.stroke(s.colors.orange);
+      s.stroke(s.colors.detail);
       s.strokeWeight(4);
       s.drawingContext.lineDashOffset = s.frameCount/2;
       s.drawingContext.setLineDash([10, 10]);
@@ -695,9 +695,9 @@ class Item {
     }
     this.s.noStroke();
     if (this.active || (s.cellAnim.back && this.negativeActivation)) {
-      s.fill(s.colors.orange);
+      s.fill(s.colors.detail);
     } else if (this.currentActivatedConnecions !== 0) {
-      s.fill(s.colors.orange);
+      s.fill(s.colors.detail);
     }
     if (this.hover &&
         !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs' ||
@@ -714,7 +714,7 @@ class Item {
       const h = 0.8 * w;
       s.noStroke();
       if (this.active || (s.cellAnim.back && this.negativeActivation)) {
-        s.fill(s.colors.orange);
+        s.fill(s.colors.detail);
       } else {
         s.fill(s.colors.darkgrey);
       }

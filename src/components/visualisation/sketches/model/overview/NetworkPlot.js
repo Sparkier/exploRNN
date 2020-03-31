@@ -2,7 +2,7 @@
  * This class represents the plots of the output side
  * of the network visualisation
  */
-export class Output {
+export class NetworkPlot {
   /**
    * The constructor function of the class plot
    *
@@ -37,18 +37,12 @@ export class Output {
     const s = this.s;
     if (this.index === 2) {
       const offset = s.height * s.typography.titleOffsetRatio;
-      const titleH = s.typography.fontsize * 2;
-      s.textAlign(s.CENTER, s.CENTER);
-      s.rectMode(s.CENTER);
-      s.fill(s.palette.tooltipBG);
-      s.noStroke();
-      const xPos = this.s.props.training.inputType === 'Text Data' ? this.cx -
-        this.halfW : this.cx;
-      s.rect(xPos, offset / 2, 0.2 * s.netProps.height, titleH, 5);
+      s.textAlign(s.LEFT, s.CENTER);
       s.textSize(s.typography.fontsize);
-      s.fill(s.palette.tooltipFG);
+      s.fill(s.colors.darkgrey);
       s.noStroke();
-      s.text(s.global.strings.predictionTitle, xPos, offset / 2);
+      s.text(s.global.strings.predictionTitle, s.outProps.left + 20,
+          offset / 2);
     }
   }
 
@@ -79,7 +73,7 @@ export class Output {
     this.vis = 255 - 255 * Math.abs(this.cy + yOff - s.outProps.midY) /
       (s.height/4);
     s.push();
-    s.translate(this.cx - this.halfW - this.plotWidth, this.cy + yOff);
+    s.translate(this.cx - this.halfW, this.cy + yOff);
     // Draw the Box
     s.textAlign(s.CENTER, s.CENTER);
     s.rectMode(s.CENTER);
@@ -147,9 +141,9 @@ export class Output {
       s.props.ui.data[this.index].prediction && (this.index > 2 ||
         (this.index === 2 && (s.plotAnim === false || (s.plotAnim === true &&
           s.plotFrame > s.plotMoveFrames))))) {
-      s.palette.ovPrimary.setAlpha(this.vis);
-      s.fill(s.palette.ovPrimary);
-      s.palette.ovPrimary.setAlpha(255);
+      s.colors.overview.setAlpha(this.vis);
+      s.fill(s.colors.overview);
+      s.colors.overview.setAlpha(255);
       for (let i = 0; i < this.out && i < showSteps - this.in; i++) {
         if (s.props.ui.data[this.index].prediction) {
           data = s.props.ui.data[this.index].prediction[i];
@@ -242,9 +236,9 @@ export class Output {
       s.endShape();
       s.strokeWeight(3 * this.scale);
       if (s.plotAnim === true && s.plotFrame > s.plotMoveFrames) {
-        s.palette.ovPrimary.setAlpha(this.vis);
-        s.stroke(s.palette.ovPrimary);
-        s.palette.ovPrimary.setAlpha(255);
+        s.colors.overview.setAlpha(this.vis);
+        s.stroke(s.colors.overview);
+        s.colors.overview.setAlpha(255);
         s.beginShape();
         for (let i = Math.round(showSteps) - this.in;
           i <= showSteps && i <= this.in;
@@ -289,9 +283,9 @@ export class Output {
       s.props.ui.data[this.index].prediction && (this.index > 2 ||
         (this.index === 2 && (s.plotAnim === false || (s.plotAnim === true &&
           s.plotFrame > s.plotMoveFrames))))) {
-      s.palette.ovPrimary.setAlpha(this.vis);
-      s.stroke(s.palette.ovPrimary);
-      s.palette.ovPrimary.setAlpha(255);
+      s.colors.overview.setAlpha(this.vis);
+      s.stroke(s.colors.overview);
+      s.colors.overview.setAlpha(255);
       s.noFill();
       s.beginShape();
       for (let i = 0; i < this.out && i < showSteps - this.in; i++) {
@@ -303,6 +297,33 @@ export class Output {
         }
       }
       s.endShape();
+    }
+    if (this.s.netFrame > this.s.netPredFrames + this.s.netLossFrames) {
+      // Draw the error bars for training
+      if (s.props.ui.data &&
+      s.props.ui.data[this.index].prediction && (this.index > 2 ||
+        (this.index === 2 && (s.plotAnim === false || (s.plotAnim === true &&
+          s.plotFrame > s.plotMoveFrames))))) {
+        s.colors.overviewlight.setAlpha(this.vis);
+        s.stroke(s.colors.overviewlight);
+        s.colors.overview.setAlpha(255);
+        for (let i = 0; i < this.out; i++) {
+          if (s.props.ui.data[this.index].prediction) {
+            const dataPred = s.props.ui.data[this.index].prediction[i];
+            const dataOut = s.props.ui.data[this.index].chartOutput[i];
+            const from = -this.halfH / 2 * dataPred;
+            const to = -this.halfH / 2 * dataOut;
+            const ratio = (this.s.netFrame - (this.s.netPredFrames +
+              this.s.netLossFrames)) / this.s.netTrainFrames;
+            s.line(
+                this.scale * (-this.halfW + ((i + this.in) * this.stepWidth)),
+                this.scale * from,
+                this.scale * (-this.halfW + ((i + this.in) * this.stepWidth)),
+                this.scale * (from + (to - from) * ratio));
+          }
+        }
+        s.noStroke();
+      }
     }
     s.pop();
   }
@@ -331,7 +352,6 @@ export class Output {
       this.stepWidth = this.plotWidth / this.total;
     }
     if (this.s.props.training.inputType === 'Text Data') {
-      this.stepWidth = 2.0 * this.plotWidth / this.total;
       this.plotText();
       this.plotHeading();
     } else {

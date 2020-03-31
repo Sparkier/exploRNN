@@ -32,7 +32,7 @@ export class CellPlot {
     let from;
     let to;
     const s = this.s;
-    if (this.s.props.training.inputType !== 'Text Data') {
+    if (this.s.props.training.inputType !== 'Text Data  ') {
       if (!s.props || !s.props.ui.data) {
         return;
       }
@@ -130,7 +130,7 @@ export class CellPlot {
         // draw current prediction with error bars
         s.strokeWeight(1);
         s.noFill();
-        s.stroke(s.colors.orangelight);
+        s.stroke(s.colors.detaillight);
         const endIndex = s.cellAnim.forward ?
         (this.in + s.cellAnim.predictionStep - 1) : this.total;
         for (let i = this.in; i <= endIndex; i++) {
@@ -176,7 +176,7 @@ export class CellPlot {
                 -this.halfH / 2 * data, 4);
           }
         }
-        s.stroke(s.colors.orange);
+        s.stroke(s.colors.detail);
         s.strokeWeight(3);
         s.noFill();
         s.beginShape();
@@ -190,7 +190,7 @@ export class CellPlot {
         // draw scanned points
         if (s.cellAnim.forward) {
           s.noStroke();
-          s.fill(s.colors.orangedark);
+          s.fill(s.colors.detaildark);
           const leftIndex = s.cellAnim.predictionStep;
           const rightIndex = s.cellAnim.predictionStep + s.cellAnim.inputStep;
           for (let i = leftIndex; i <= rightIndex; i++) {
@@ -198,7 +198,7 @@ export class CellPlot {
             if (i < this.in) {
               s.fill(s.colors.darkgrey);
             } else {
-              s.fill(s.colors.orangedark);
+              s.fill(s.colors.detaildark);
             }
             s.ellipse(-this.halfW + (i * detailStepWidth),
                 (-this.halfH / 2 * data), 6);
@@ -206,11 +206,11 @@ export class CellPlot {
           if (s.cellAnim.predictionStep > 0) {
             data = scanPlot[this.in + (s.cellAnim.predictionStep - 1)];
             if (s.cellAnim.inputStep === this.in - 1) {
-              s.fill(s.colors.orangedark);
+              s.fill(s.colors.detaildark);
               s.ellipse(-this.halfW + (endIndex * detailStepWidth),
                   (-this.halfH / 2 * data), 12);
             } else {
-              s.fill(s.colors.orange);
+              s.fill(s.colors.detail);
               s.ellipse(-this.halfW + (endIndex * detailStepWidth),
                   (-this.halfH / 2 * data), 10);
             }
@@ -225,7 +225,7 @@ export class CellPlot {
       s.text(s.global.strings.plotInput,
           -this.halfW,
           -this.halfH + this.halfH * 0.1);
-      s.fill(s.colors.orange);
+      s.fill(s.colors.detail);
       s.text(s.global.strings.plotPrediction,
           -this.halfW + this.in * this.stepWidth * 1.1,
           -this.halfH + this.halfH * 0.1);

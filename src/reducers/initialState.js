@@ -16,8 +16,8 @@ export default {
   },
   training: {
     running: false, // currently training
-    inputType: 'Text Data', // Type of input the network can handle
-    dataTypes: ['abab'], // data used for this training
+    inputType: 'Function Data', // Type of input the network can handle
+    dataTypes: ['sin'], // data used for this training
     noise: 0.0, // max noise to be added to the data
     values: 0, // how many datapoints are fed into the network
     predictions: 0, // how many values to predict, calculated by the period
