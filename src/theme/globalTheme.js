@@ -1,5 +1,5 @@
 import {createMuiTheme} from '@material-ui/core/styles';
-import {grey, orange, cyan, blueGrey} from '@material-ui/core/colors';
+import {grey, orange, blue, blueGrey} from '@material-ui/core/colors';
 
 // The color palette of the application
 export default createMuiTheme({
@@ -11,20 +11,20 @@ export default createMuiTheme({
       off: blueGrey[400],
     },
     secondary: {
-      main: grey[800],
-      dark: grey[900],
-      light: grey[700],
+      main: grey[500],
+      dark: grey[700],
+      light: grey[100],
       off: grey[700],
     },
     overview: {
-      main: cyan[600],
-      light: cyan[400],
-      dark: cyan[800],
+      main: blue[500],
+      light: blue[300],
+      dark: blue[700],
     },
     detail: {
-      main: orange[600],
-      light: orange[400],
-      dark: orange[800],
+      main: orange[500],
+      light: orange[300],
+      dark: orange[700],
     },
   },
 });
