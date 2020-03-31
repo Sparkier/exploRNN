@@ -1,6 +1,6 @@
 {
-  "short_name": "leaRNN",
-  "name": "leaRNN - A Learning Environment About Recurrent Neural Networks",
+  "short_name": "exploRNN",
+  "name": "exploRNN - Understanding Recurrent Neural Networks through Visual Exploration",
   "icons": [
     {
       "src": "favicon.ico",
