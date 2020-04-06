@@ -2,7 +2,6 @@ import {LSTM} from './model/cellview/LSTM';
 import {Network} from './model/overview/Network';
 import {NetworkPlot} from './model/overview/NetworkPlot';
 import {Input} from './model/overview/Input';
-import {Loss} from './model/overview/Loss';
 import {CellPlot} from './model/cellview/CellPlot';
 
 import {getColors} from '../../constants/colors';
@@ -134,7 +133,6 @@ export default function(s) {
     s.net = new Network(s);
     s.cell = new LSTM(s);
     s.input = new Input(s);
-    s.loss = new Loss(s);
     s.cellPlot = new CellPlot(s);
     s.pause = 0;
     s.netFrame = 0;
@@ -182,7 +180,6 @@ export default function(s) {
       s.cell.update(false);
     }
     // Draw the individual components of the network sketch
-    s.drawLoss();
     s.drawPlots();
     s.drawInput();
     s.drawNetwork();
