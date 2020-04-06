@@ -28,7 +28,7 @@ class SliderPanel extends React.Component {
       case global.sliders[0].key:
         this.props.actions.updateNetwork({
           ...this.props.network,
-          learningRate: Math.pow(10, value),
+          learningRate: (Math.pow(10, value) / 10),
         });
         break;
       case global.sliders[1].key:
@@ -80,9 +80,9 @@ class SliderPanel extends React.Component {
    * @return {string} a truncated version of x
    */
   getFormattedValue(x) {
-    const actual = Math.pow(10, x);
+    const actual = Math.pow(10, x) / 10;
     const log = Math.floor(x);
-    const sol = actual.toFixed(Math.abs(log - 1));
+    const sol = actual.toFixed(Math.abs(log - 2));
     return sol;
   }
 
@@ -139,7 +139,7 @@ class SliderPanel extends React.Component {
                   }
                   value={
                         slider.key === 0 ?
-                        Math.log10(this.props.network.learningRate, 10) :
+                        Math.log10(this.props.network.learningRate * 10):
                         (slider.key === 1 ? this.props.training.batchSize :
                           this.props.training.noise)
                   }
