@@ -83,7 +83,9 @@ const styles = (theme) => ({
     },
   },
   defSlider: { // Slider styling
-    width: '100%',
+    width: '90%',
+    marginLeft: '5%',
+    marginRight: '5%',
     color: 'black',
     marginTop: '5px',
   },

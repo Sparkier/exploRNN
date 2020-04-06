@@ -31,7 +31,7 @@ export default function(s) {
   s.sideRatioLeft = 0.1;
   s.sideRatioLoss = 0.1;
   s.sideRatioRight = 0.3;
-  s.detailRatio = 0.6;
+  s.detailRatio = 0.5;
   s.ctrRatio = 0.5;
   s.globalScale = 1;
   s.ready = false;
@@ -94,13 +94,14 @@ export default function(s) {
       height: s.height,
     };
     s.outProps = { // Properties for drawing the output of the network
-      left: s.netProps.right + s.width * s.sideRatioLoss,
+      left: s.netProps.right,
       right: s.width,
-      midX: s.width - s.sideRatioRight * s.width + (s.sideRatioRight *
-          s.width) / 2,
+      midX: s.netProps.right + (s.width - s.netProps.right) / 2,
       midY: s.height/2,
       width: s.sideRatioRight * s.width,
       height: s.height,
+      verRatio: 0.6,
+      horRatio: 0.9,
     };
     s.lossProps = { // Properties for drawing the loss of the network
       left: s.netProps.right,
@@ -128,7 +129,7 @@ export default function(s) {
       width: s.width * (1 - s.detailRatio),
       height: s.height,
       verRatio: 0.6,
-      horRatio: 0.9,
+      horRatio: 0.7,
     };
     s.net = new Network(s);
     s.cell = new LSTM(s);

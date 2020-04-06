@@ -557,7 +557,7 @@ class Connection {
       s.drawingContext.setLineDash([10, 10]);
     }
     if (this.hover) {
-      s.stroke(s.colors.lightbluegrey);
+      s.stroke(s.colors.detaillight);
       s.drawingContext.lineDashOffset = -s.frameCount/2;
       s.drawingContext.setLineDash([10, 10]);
     }
@@ -702,7 +702,7 @@ class Item {
     if (this.hover &&
         !(this.type === 'fst' || this.type === 'lst' || this.type === 'crs' ||
         this.type === 'gft' || this.type === 'glt')) {
-      s.fill(s.colors.lightbluegrey);
+      s.fill(s.colors.detaillight);
       s.cursor(s.HAND);
     }
     const layer = s.clickedBlock;
@@ -765,6 +765,14 @@ class Item {
           s.mx, s.my + s.typography.tooltipoffset
       );
     }
+    const offset = s.height * s.typography.titleOffsetRatio;
+    s.textAlign(s.LEFT, s.CENTER);
+    s.textSize(s.typography.fontsize);
+    s.fill(s.colors.darkgrey);
+    s.noStroke();
+    s.text(s.global.strings.cellTitle, s.detailProps.left + 20, offset / 2);
+    s.stroke(s.colors.lightgrey);
+    s.line(s.detailProps.right, 0, s.detailProps.right, s.detailProps.height);
   }
 
   /**

@@ -17,8 +17,8 @@ export class NetworkPlot {
     this.cx = s.outProps.midX;
     this.cy = ((index - 1) + 0.5) * (s.outProps.height / 3);
     this.scale = 1 - 0.5 * (Math.abs(s.height/2 - this.cy) / (s.height/2));
-    this.plotWidth = s.outProps.width * 0.8;
-    this.plotHeight = s.outProps.height * 0.3;
+    this.plotWidth = s.outProps.width * s.outProps.horRatio;
+    this.plotHeight = s.outProps.height * s.outProps.verRatio;
     if (!s.props) {
       return;
     }
@@ -74,14 +74,6 @@ export class NetworkPlot {
       (s.height/4);
     s.push();
     s.translate(this.cx - this.halfW, this.cy + yOff);
-    // Draw the Box
-    s.textAlign(s.CENTER, s.CENTER);
-    s.rectMode(s.CENTER);
-    s.colors.darkbluegrey.setAlpha(this.vis);
-    s.fill(s.colors.darkbluegrey);
-    s.noStroke();
-    s.colors.darkbluegrey.setAlpha(255);
-    // s.rect(-this.halfW * this.scale, 0, 0.5 * s.netProps.height, titleH, 5);
 
     // draw the scan box while animating
     if (s.plotAnim && s.plotFrame > s.plotMoveFrames &&
