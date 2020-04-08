@@ -272,16 +272,6 @@ class TopBar extends React.Component {
               ))
             }
           </StyledSelect>
-          <StyledSelect value={this.props.appState.language}
-            onChange={this.languageSelect}
-            main={false}
-          >
-            {
-              global.languages.map((x) => (
-                <MenuItem key={x.name} value={x.name}>{x.name}</MenuItem>
-              ))
-            }
-          </StyledSelect>
         </Toolbar>
       </AppBar>
     );
@@ -337,6 +327,19 @@ export default connect(mapStateToProps, mapDispatchToProps)(
               global.types.map((x) => (
                 <MenuItem key={x.name} disabled={x.disabled}
                   value={x.name}>{x.name}</MenuItem>
+              ))
+            }
+          </StyledSelect>
+*/
+
+/* If we want to be able to change the language, this needs to be added.
+          <StyledSelect value={this.props.appState.language}
+            onChange={this.languageSelect}
+            main={false}
+          >
+            {
+              global.languages.map((x) => (
+                <MenuItem key={x.name} value={x.name}>{x.name}</MenuItem>
               ))
             }
           </StyledSelect>
