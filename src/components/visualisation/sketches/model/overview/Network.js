@@ -39,6 +39,8 @@ export class Network {
    */
   draw() {
     const s = this.s;
+    s.stroke(s.colors.lightgrey);
+    s.line(s.netProps.right, 0, s.netProps.right, s.netProps.height);
     s.strokeWeight(2 * s.netScale);
     if (s.netAnim) {
       s.stroke(s.colors.overview);
@@ -79,8 +81,6 @@ export class Network {
     s.fill(s.colors.darkgrey);
     s.noStroke();
     s.text(s.global.strings.networkTitle, s.netProps.left + 20, offset / 2);
-    s.stroke(s.colors.lightgrey);
-    s.line(s.netProps.right, 0, s.netProps.right, s.netProps.height);
   }
 
   /**
