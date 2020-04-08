@@ -772,6 +772,7 @@ class Item {
     s.noStroke();
     s.text(s.global.strings.cellTitle, s.detailProps.left + 20, offset / 2);
     s.stroke(s.colors.lightgrey);
+    s.strokeWeight(2);
     s.line(s.detailProps.right, 0, s.detailProps.right, s.detailProps.height);
   }
 
