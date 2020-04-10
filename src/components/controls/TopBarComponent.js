@@ -4,9 +4,8 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 
 import {withStyles} from '@material-ui/core/styles';
-import {AppBar, Toolbar} from '@material-ui/core/';
-import {Typography} from '@material-ui/core/';
-import {MenuItem} from '@material-ui/core/';
+import {AppBar, Toolbar, Button, Typography,
+  MenuItem} from '@material-ui/core/';
 import Help from '@material-ui/icons/Help';
 
 import * as actions from '../../actions';
@@ -154,8 +153,7 @@ class TopBar extends React.Component {
   /**
    * Resets the onboarding state to get the intro again.
    *
-   * @param {object} event the event containing the information about the
-   * selected type element
+   * @param {object} event the event triggering this function
    */
   resetOnboarding = (event) => {
     Cookies.removeIntroState();
@@ -190,12 +188,13 @@ class TopBar extends React.Component {
               ))
             }
           </StyledSelect>
-          <StyledButton properties={this.props}
-            disabled = {this.props.cookiesState.intro === ''}
-            action={this.resetOnboarding}
-            icon={<Help style={{color: 'white'}} />}
-            buttonClass={this.props.classes.button_top}>
-          </StyledButton>
+          <Button variant="contained"
+            className={this.props.ui.detail ?
+              this.props.classes.text_button_cell_inverted :
+              this.props.classes.text_button_net_inverted}
+            onClick={this.resetOnboarding}>
+            Reset Intro
+          </Button>
         </Toolbar>
       </AppBar>
     );

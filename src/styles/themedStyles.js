@@ -86,6 +86,36 @@ const styles = (theme) => ({
   button_top: { // Button in the top bar
     'color': 'white',
   },
+  text_button_net: {
+    'color': 'white',
+    'margin': '10px',
+    'background': theme.palette.overview.main,
+    '&:hover': {
+      'background': theme.palette.overview.dark,
+    },
+  },
+  text_button_cell: {
+    'color': 'white',
+    'margin': '10px',
+    'background': theme.palette.detail.main,
+    '&:hover': {
+      'background': theme.palette.detail.dark,
+    },
+  },
+  text_button_net_inverted: {
+    'background': 'white',
+    'color': theme.palette.overview.main,
+    '&:hover': {
+      'background': 'lightgrey',
+    },
+  },
+  text_button_cell_inverted: {
+    'background': 'white',
+    'color': theme.palette.detail.main,
+    '&:hover': {
+      'background': 'lightgrey',
+    },
+  },
   defSlider: { // Slider styling
     width: '90%',
     marginLeft: '5%',

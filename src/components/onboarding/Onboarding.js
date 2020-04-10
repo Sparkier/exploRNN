@@ -3,28 +3,15 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 
-import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
+import {Dialog, DialogTitle} from '@material-ui/core';
 
 import * as actions from '../../actions';
-import * as Cookies from '../../helpers/Cookies';
+import WelcomeDialogComponent from './content/WelcomeDialogContent';
 
 /**
  * Onboarding is used to explain the App.
  */
 class Onboarding extends React.Component {
-  /**
-   * Handles the closing of the dialogs for this element, updates the
-   * global state accordingly
-   */
-  handleClose() {
-    if (this.props.cookiesState.intro === '') {
-      Cookies.setIntroState('overview');
-      const introState = Cookies.getIntroState();
-      this.props.actions.updateCookiesState({...this.props.cookiesState,
-        intro: introState});
-    }
-  }
-
   /**
    * Renders the Onboarding Screen inside the App.
    *
@@ -33,21 +20,21 @@ class Onboarding extends React.Component {
   render() {
     let dialogTitle = '';
     let open = false;
+    let dialogContent = '';
     if (this.props.cookiesState.intro === '') {
-      dialogTitle = 'Welcome!';
+      dialogTitle = 'Welcome to exploRNN!';
       open = this.props.ui.detail ? false : true;
+      dialogContent = <WelcomeDialogComponent/>;
     } else if (this.props.cookiesState.intro === 'detail') {
       dialogTitle = 'Cell Inspection';
       open = this.props.ui.detail ? true : false;
     }
     return (
-      <Dialog onClose={() => this.handleClose()} open={open}>
+      <Dialog open={open}>
         <DialogTitle>
           {dialogTitle}
         </DialogTitle>
-        <DialogContent>
-          blabla
-        </DialogContent>
+        {dialogContent}
       </Dialog>
     );
   }
