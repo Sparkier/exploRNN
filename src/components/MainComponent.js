@@ -7,18 +7,34 @@ import {Grid} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import {withStyles} from '@material-ui/core/styles';
 
-import styles from '../styles/themedStyles';
 import * as actions from '../actions';
+import styles from '../styles/themedStyles';
 import Training from './training/Training';
 import VisualWrapper from './visualisation/VisualWrapper';
 import BottomPanel from './controls/BottomComponent';
 import AlertSnack from './AlertSnack';
+import Onboarding from './onboarding/Onboarding';
+import * as Cookies from '../helpers/Cookies';
 
 /**
  * Main component of the Application that displays all content dependant on the
  * Controls State.
  */
 class Main extends React.Component {
+  /**
+   * Constructing the Main app Comopnent and Initializing the Tutorial State.
+   *
+   * @param {object} props how this component will be generated
+   */
+  constructor(props) {
+    super(props);
+    const introState = Cookies.getIntroState();
+    if (introState !== undefined) {
+      this.props.actions.updateCookiesState({...this.props.cookiesState,
+        intro: introState});
+    }
+  }
+
   /**
    * Render the Main Content and call other Elements.
    *
@@ -35,7 +51,8 @@ class Main extends React.Component {
           <Divider/>
           <BottomPanel/>
         </Grid>
-        <AlertSnack />
+        <AlertSnack/>
+        <Onboarding/>
       </Grid>
     );
   }
@@ -44,6 +61,8 @@ class Main extends React.Component {
 Main.propTypes = {
   network: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
+  cookiesState: PropTypes.object.isRequired,
 };
 
 /**
@@ -56,6 +75,7 @@ Main.propTypes = {
 function mapStateToProps(state, ownProps) {
   return {
     network: state.network,
+    cookiesState: state.cookiesState,
   };
 }
 

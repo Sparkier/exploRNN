@@ -13,10 +13,11 @@ import styles from '../../../styles/themedStyles';
  * @return {object} rendered styled button
  */
 function StyledButtonRaw(props) {
-  const {classes, properties, icon, action, disabled} = props;
+  const {classes, properties, icon, action, disabled, buttonClass} = props;
   return (
     <IconButton disabled={disabled} variant="outlined"
       className={
+        buttonClass !== undefined ? buttonClass :
         properties.ui.detail ? classes.button_cell : classes.button_net
       }
       onClick={action}>
@@ -31,6 +32,7 @@ StyledButtonRaw.propTypes = {
   action: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
+  buttonClass: PropTypes.string,
 };
 
 export default withStyles(styles)(StyledButtonRaw);

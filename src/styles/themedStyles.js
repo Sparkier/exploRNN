@@ -73,7 +73,8 @@ const styles = (theme) => ({
     '&:hover': {
       'background': theme.palette.detail.dark,
     },
-  }, button_net: { // Button in the overview
+  },
+  button_net: { // Button in the overview
     'margin': '10px',
     'color': 'white',
     'borderRadius': '50%',
@@ -81,6 +82,9 @@ const styles = (theme) => ({
     '&:hover': {
       'background': theme.palette.overview.dark,
     },
+  },
+  button_top: { // Button in the top bar
+    'color': 'white',
   },
   defSlider: { // Slider styling
     width: '90%',

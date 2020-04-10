@@ -2,14 +2,19 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+
 import {withStyles} from '@material-ui/core/styles';
 import {AppBar, Toolbar} from '@material-ui/core/';
 import {Typography} from '@material-ui/core/';
 import {MenuItem} from '@material-ui/core/';
+import Help from '@material-ui/icons/Help';
+
 import * as actions from '../../actions';
 import styles from '../../styles/themedStyles';
 import globalConstants from '../constants/global';
 import StyledSelect from './comps/StyledSelect';
+import StyledButton from './comps/StyledButton';
+import * as Cookies from '../../helpers/Cookies';
 
 /**
  * Bar at top of the Application, 'The Toolbar'
@@ -134,28 +139,6 @@ class TopBar extends React.Component {
   }
 
   /**
-   * Handles the opening and closing of the side drawer
-   *
-   * @param {boolean} open true, if the drawer should now be opened
-   */
-  toggleDrawer = (open) => {
-    if (open !== this.props.ui.help) {
-      this.props.actions.updateUI({...this.props.ui, help: open});
-    }
-  };
-
-  /**
-   * Handles the selection of the net type select component
-   *
-   * @param {object} event the event containing the information about the
-   * selected type element
-   */
-  typeSelect = (event) => {
-    this.props.actions.updateNetwork({...this.props.network,
-      type: event.target.value});
-  };
-
-  /**
    * Handles the selection of the input type select component
    *
    * @param {object} event the event containing the information about the
@@ -169,80 +152,15 @@ class TopBar extends React.Component {
   };
 
   /**
-   * Handles the selection of the language select component
+   * Resets the onboarding state to get the intro again.
    *
    * @param {object} event the event containing the information about the
-   * selected language
+   * selected type element
    */
-  languageSelect = (event) => {
-    this.props.actions.updateAppState({...this.props.appState,
-      language: event.target.value});
-  };
-
-  /**
-   * Helper function for toggling the side menu
-   */
-  helperMenu = () => {
-    this.toggleDrawer(!this.props.ui.help);
-  };
-
-  /**
-   * Helper method for closing the side menu
-   */
-  closeDrawer = () => {
-    this.toggleDrawer(false);
-  };
-
-  /**
-   * Is called when the user clicks on the about element in the side menu, opens
-   * a corresponding dialog
-   */
-  onClickAbout() {
-    let dialog = this.props.appState.aboutDialog;
-    dialog = !dialog;
-    this.props.actions.updateAppState({
-      ...this.props.appState,
-      aboutDialog: dialog,
-    });
-  }
-
-  /**
-   * Is called when the user clicks on the faq element in the side menu, opens
-   * a corresponding dialog
-   */
-  onClickFAQ() {
-    let dialog = this.props.appState.faqDialog;
-    dialog = !dialog;
-    this.props.actions.updateAppState({
-      ...this.props.appState,
-      faqDialog: dialog,
-    });
-  }
-
-  /**
-   * Is called when the user clicks on the impressum element in the side menu,
-   * opens a corresponding dialog
-   */
-  onClickImpressum() {
-    let dialog = this.props.appState.impressumDialog;
-    dialog = !dialog;
-    this.props.actions.updateAppState({
-      ...this.props.appState,
-      impressumDialog: dialog,
-    });
-  }
-
-  /**
-   * Handles the closing of the dialogs for this element, updates the
-   * global state accordingly
-   */
-  handleClose() {
-    this.props.actions.updateAppState({
-      ...this.props.appState,
-      aboutDialog: false,
-      faqDialog: false,
-      impressumDialog: false,
-    });
+  resetOnboarding = (event) => {
+    Cookies.removeIntroState();
+    this.props.actions.updateCookiesState({...this.props.cookiesState,
+      intro: ''});
   }
 
   /**
@@ -272,6 +190,12 @@ class TopBar extends React.Component {
               ))
             }
           </StyledSelect>
+          <StyledButton properties={this.props}
+            disabled = {this.props.cookiesState.intro === ''}
+            action={this.resetOnboarding}
+            icon={<Help style={{color: 'white'}} />}
+            buttonClass={this.props.classes.button_top}>
+          </StyledButton>
         </Toolbar>
       </AppBar>
     );
@@ -286,6 +210,7 @@ TopBar.propTypes = {
   appState: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  cookiesState: PropTypes.object.isRequired,
 };
 
 /**
@@ -301,6 +226,7 @@ function mapStateToProps(state) {
     ui: state.ui,
     appState: state.appState,
     actions: state.actions,
+    cookiesState: state.cookiesState,
   };
 }
 
@@ -317,30 +243,3 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(
     withStyles(styles)(TopBar)
 );
-
-/* If we want to be able to choose the layer Type, this needs to be added.
-          <StyledSelect value={this.props.network.type}
-            onChange={ this.typeSelect }
-            main={true}
-          >
-            {
-              global.types.map((x) => (
-                <MenuItem key={x.name} disabled={x.disabled}
-                  value={x.name}>{x.name}</MenuItem>
-              ))
-            }
-          </StyledSelect>
-*/
-
-/* If we want to be able to change the language, this needs to be added.
-          <StyledSelect value={this.props.appState.language}
-            onChange={this.languageSelect}
-            main={false}
-          >
-            {
-              global.languages.map((x) => (
-                <MenuItem key={x.name} value={x.name}>{x.name}</MenuItem>
-              ))
-            }
-          </StyledSelect>
-*/
