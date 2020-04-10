@@ -21,14 +21,14 @@ export class Input {
       this.buttons.push(new Button(s, 'text', 1, 2, this.dist, 0, 0, 'abab'));
       this.buttons.push(new Button(s, 'text', 2, 2, this.dist, 0, 0, 'lorem'));
     } else {
-      this.buttons.push(new Button(s, 'sin', 1, 4,
-          this.dist, this.steps, this.noises));
-      this.buttons.push(new Button(s, 'saw', 2, 4,
-          this.dist, this.steps, this.noises));
-      this.buttons.push(new Button(s, 'sqr', 3, 4,
-          this.dist, this.steps, this.noises));
-      this.buttons.push(new Button(s, 'sinc', 4, 4,
-          this.dist, this.steps, this.noises));
+      this.buttons.push(new Button(s, 'sin', 1, 4, this.dist, this.steps,
+          this.noises));
+      this.buttons.push(new Button(s, 'saw', 2, 4, this.dist, this.steps,
+          this.noises));
+      this.buttons.push(new Button(s, 'sqr', 3, 4, this.dist, this.steps,
+          this.noises));
+      this.buttons.push(new Button(s, 'sinc', 4, 4, this.dist, this.steps,
+          this.noises));
     }
   }
 

@@ -2,13 +2,15 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+
 import {withStyles} from '@material-ui/core/styles';
 import {Grid, Typography, Link, IconButton} from '@material-ui/core';
 import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
+import Jump from '@material-ui/icons/ArrowForward';
+
 import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
 import globalConstants from '../../constants/global';
-import Jump from '@material-ui/icons/ArrowForward';
 
 /**
  * Training Process information panel at bottom of the Application
