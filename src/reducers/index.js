@@ -6,6 +6,7 @@ import ui from './UIReducer';
 import appState from './AppStateReducer';
 import alertSnack from './AlertSnackReducer';
 import textData from './TextDataReducer';
+import cookiesState from './CookiesStateReducer';
 
 // Combine all Reducers
 export default combineReducers({
@@ -15,4 +16,5 @@ export default combineReducers({
   appState,
   alertSnack,
   textData,
+  cookiesState,
 });

@@ -78,3 +78,13 @@ export function updateAlertSnack(alertSnack) {
 export function updateTextData(textData) {
   return {type: types.UPDATE_TEXT_DATA, textData};
 }
+
+/**
+ * Updates the cookiesState values
+ *
+ * @param {object} cookiesState the object holding the new cookiesState values
+ * @return {object} a redux state update
+ */
+export function updateCookiesState(cookiesState) {
+  return {type: types.UPDATE_COOKIES_STATE, cookiesState};
+}

@@ -73,4 +73,7 @@ export default {
     message: '',
   },
   textData: {},
+  cookiesState: {
+    intro: '',
+  },
 };
