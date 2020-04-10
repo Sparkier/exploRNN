@@ -6,13 +6,11 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import {AppBar, Toolbar, Button, Typography,
   MenuItem} from '@material-ui/core/';
-import Help from '@material-ui/icons/Help';
 
 import * as actions from '../../actions';
 import styles from '../../styles/themedStyles';
 import globalConstants from '../constants/global';
 import StyledSelect from './comps/StyledSelect';
-import StyledButton from './comps/StyledButton';
 import * as Cookies from '../../helpers/Cookies';
 
 /**
