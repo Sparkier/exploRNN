@@ -6,7 +6,9 @@ import {bindActionCreators} from 'redux';
 import {Dialog, DialogTitle} from '@material-ui/core';
 
 import * as actions from '../../actions';
-import WelcomeDialogComponent from './content/WelcomeDialogContent';
+import WelcomeDialogContent from './content/WelcomeDialogContent';
+import OverviewDialogContent from './content/OverviewDialogContent';
+import CellDialogContent from './content/CellDialogContent';
 
 /**
  * Onboarding is used to explain the App.
@@ -24,10 +26,15 @@ class Onboarding extends React.Component {
     if (this.props.cookiesState.intro === '') {
       dialogTitle = 'Welcome to exploRNN!';
       open = this.props.ui.detail ? false : true;
-      dialogContent = <WelcomeDialogComponent/>;
+      dialogContent = <WelcomeDialogContent/>;
+    } else if (this.props.cookiesState.intro === 'overview') {
+      dialogTitle = 'Network Overview';
+      open = this.props.ui.detail ? false : true;
+      dialogContent = <OverviewDialogContent/>;
     } else if (this.props.cookiesState.intro === 'detail') {
       dialogTitle = 'Cell Inspection';
       open = this.props.ui.detail ? true : false;
+      dialogContent = <CellDialogContent/>;
     }
     return (
       <Dialog open={open}>

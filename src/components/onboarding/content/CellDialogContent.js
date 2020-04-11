@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 
 import {DialogContent, Grid, Typography, Button} from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import CheckIcon from '@material-ui/icons/Check';
 
 import styles from '../../../styles/themedStyles';
 import * as actions from '../../../actions';
@@ -14,7 +14,7 @@ import * as Cookies from '../../../helpers/Cookies';
 /**
  * Onboarding is used to explain the App.
  */
-class WelcomeDialogContent extends React.Component {
+class CellDialogContent extends React.Component {
   /**
    * Handles the closing of the dialogs for this element, updates the
    * global state accordingly
@@ -22,7 +22,7 @@ class WelcomeDialogContent extends React.Component {
    * @param {object} event the event triggering this function
    */
   handleNext = (event) => {
-    Cookies.setIntroState('overview');
+    Cookies.setIntroState('done');
     const introState = Cookies.getIntroState();
     this.props.actions.updateCookiesState({...this.props.cookiesState,
       intro: introState});
@@ -52,27 +52,40 @@ class WelcomeDialogContent extends React.Component {
         <Grid container directiton='column' spacing={2}>
           <Grid item>
             <Typography display='inline'>
-              This application is designed so you can experiment with, and
+              You currently see the visualization of an individual
             </Typography>
-            <Typography className={this.props.classes.typoOvHighlighted}
+            <Typography className={this.props.classes.typoCvHighlighted}
               display='inline'>
-              &nbsp;learn about recurrent neural networks&nbsp;
+              &nbsp;long-short term memory (LSTM) cell
             </Typography>
             <Typography display='inline'>
-             (RNNs).
+              . The cell is visualized on the left, while the data that is
+              processed by the network in each time-step is displayed on the
+              right.
             </Typography>
           </Grid>
           <Grid item>
             <Typography display='inline'>
-            In contrast to more classical fully connected or convolutional
-            neural networks, RNNs are designed to work with
+              You can
             </Typography>
-            <Typography className={this.props.classes.typoOvHighlighted}
+            <Typography className={this.props.classes.typoCvHighlighted}
               display='inline'>
-              &nbsp;sequential data
+              &nbsp;click individual compute units in this cell&nbsp;
             </Typography>
             <Typography display='inline'>
-              .
+              to get insight into how they work and what they do.
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography display='inline'>
+              As in the overview, you can also
+            </Typography>
+            <Typography className={this.props.classes.typoCvHighlighted}
+              display='inline'>
+              &nbsp;click all headings in this visualization&nbsp;
+            </Typography>
+            <Typography display='inline'>
+              for more information.
             </Typography>
           </Grid>
           <Grid item style={{width: '100%'}}>
@@ -90,8 +103,8 @@ class WelcomeDialogContent extends React.Component {
                     this.props.classes.text_button_cell :
                     this.props.classes.text_button_net}
                   onClick={this.handleNext}
-                  endIcon={<NavigateNextIcon/>}>
-                  Next
+                  endIcon={<CheckIcon/>}>
+                  Got it!
                 </Button>
               </Grid>
             </Grid>
@@ -103,7 +116,7 @@ class WelcomeDialogContent extends React.Component {
 }
 
 // Prop Types holding all the Preferences
-WelcomeDialogContent.propTypes = {
+CellDialogContent.propTypes = {
   cookiesState: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
@@ -135,5 +148,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    withStyles(styles)(WelcomeDialogContent)
+    withStyles(styles)(CellDialogContent)
 );

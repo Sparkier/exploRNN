@@ -65,6 +65,12 @@ const styles = (theme) => ({
     color: 'white',
     fontSize: '20px',
   },
+  typoOvHighlighted: {
+    'color': theme.palette.overview.main,
+  },
+  typoCvHighlighted: {
+    'color': theme.palette.detail.main,
+  },
   button_cell: { // Button in the cell view
     'margin': '10px',
     'color': 'white',

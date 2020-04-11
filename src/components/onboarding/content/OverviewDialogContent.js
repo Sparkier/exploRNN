@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 
 import {DialogContent, Grid, Typography, Button} from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import CheckIcon from '@material-ui/icons/Check';
 
 import styles from '../../../styles/themedStyles';
 import * as actions from '../../../actions';
@@ -14,7 +14,7 @@ import * as Cookies from '../../../helpers/Cookies';
 /**
  * Onboarding is used to explain the App.
  */
-class WelcomeDialogContent extends React.Component {
+class OverviewDialogContent extends React.Component {
   /**
    * Handles the closing of the dialogs for this element, updates the
    * global state accordingly
@@ -22,7 +22,7 @@ class WelcomeDialogContent extends React.Component {
    * @param {object} event the event triggering this function
    */
   handleNext = (event) => {
-    Cookies.setIntroState('overview');
+    Cookies.setIntroState('detail');
     const introState = Cookies.getIntroState();
     this.props.actions.updateCookiesState({...this.props.cookiesState,
       intro: introState});
@@ -52,27 +52,44 @@ class WelcomeDialogContent extends React.Component {
         <Grid container directiton='column' spacing={2}>
           <Grid item>
             <Typography display='inline'>
-              This application is designed so you can experiment with, and
+              You currently see the
             </Typography>
             <Typography className={this.props.classes.typoOvHighlighted}
               display='inline'>
-              &nbsp;learn about recurrent neural networks&nbsp;
+              &nbsp;overview of the network that you will train
             </Typography>
             <Typography display='inline'>
-             (RNNs).
+              . To the left, you see the input functions that you can use.
+              These are fed into the network visualized at the center to train
+              it.
+              You can add and remove layers from the network simply by
+              interacting with the network.
+              On the right, a test ouptut of the network is visualized.
             </Typography>
           </Grid>
           <Grid item>
             <Typography display='inline'>
-            In contrast to more classical fully connected or convolutional
-            neural networks, RNNs are designed to work with
+              Below these visualizations, you see explanations and controls for
+              training the network. Here, you can
             </Typography>
             <Typography className={this.props.classes.typoOvHighlighted}
               display='inline'>
-              &nbsp;sequential data
+               &nbsp;change parameters and control the training
             </Typography>
             <Typography display='inline'>
               .
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography display='inline'>
+              To give you even more explanations about this process, you can
+            </Typography>
+            <Typography className={this.props.classes.typoOvHighlighted}
+              display='inline'>
+              &nbsp;click all the headings in this visualization
+            </Typography>
+            <Typography display='inline'>
+              , which will give you explanations about individual components.
             </Typography>
           </Grid>
           <Grid item style={{width: '100%'}}>
@@ -90,8 +107,8 @@ class WelcomeDialogContent extends React.Component {
                     this.props.classes.text_button_cell :
                     this.props.classes.text_button_net}
                   onClick={this.handleNext}
-                  endIcon={<NavigateNextIcon/>}>
-                  Next
+                  endIcon={<CheckIcon/>}>
+                  Lets go!
                 </Button>
               </Grid>
             </Grid>
@@ -103,7 +120,7 @@ class WelcomeDialogContent extends React.Component {
 }
 
 // Prop Types holding all the Preferences
-WelcomeDialogContent.propTypes = {
+OverviewDialogContent.propTypes = {
   cookiesState: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
@@ -135,5 +152,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    withStyles(styles)(WelcomeDialogContent)
+    withStyles(styles)(OverviewDialogContent)
 );
