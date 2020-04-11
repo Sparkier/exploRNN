@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import {AppBar, Toolbar, Button, Typography,
   MenuItem} from '@material-ui/core/';
+import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 
 import * as actions from '../../actions';
 import styles from '../../styles/themedStyles';
@@ -190,7 +191,8 @@ class TopBar extends React.Component {
             className={this.props.ui.detail ?
               this.props.classes.text_button_cell_inverted :
               this.props.classes.text_button_net_inverted}
-            onClick={this.resetOnboarding}>
+            onClick={this.resetOnboarding}
+            startIcon={<RotateLeftIcon/>}>
             Reset Intro
           </Button>
         </Toolbar>
