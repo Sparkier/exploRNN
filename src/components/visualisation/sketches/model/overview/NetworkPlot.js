@@ -1,3 +1,5 @@
+import {Heading} from '../Heading';
+
 /**
  * This class represents the plots of the output side
  * of the network visualisation
@@ -28,21 +30,16 @@ export class NetworkPlot {
       this.total = s.props.training.values + s.props.training.predictions;
       this.stepWidth = this.plotWidth / this.total;
     }
+    this.heading = new Heading(this.s, this.s.outProps.left + 20,
+        this.s.height * this.s.typography.titleOffsetRatio / 2, 'prediction');
   }
 
   /**
    * Draws the heading of the output
    */
   plotHeading() {
-    const s = this.s;
     if (this.index === 2) {
-      const offset = s.height * s.typography.titleOffsetRatio;
-      s.textAlign(s.LEFT, s.CENTER);
-      s.textSize(s.typography.fontsize);
-      s.fill(s.colors.darkgrey);
-      s.noStroke();
-      s.text(s.global.strings.predictionTitle, s.outProps.left + 20,
-          offset / 2);
+      this.heading.draw(this.s.global.strings.predictionTitle);
     }
   }
 
@@ -435,5 +432,23 @@ export class NetworkPlot {
       }
       this.plotFunction();
     }
+  }
+
+  /**
+   * This function is being called by the p5 sketch if the user has moved
+   * the cursor across the canvas and then updates the network accordingly
+   *
+   * @param {number} x the x position of the mouse cursor
+   * @param {number} y the y position of the mouse cursor
+   */
+  mouseMoved(x, y) {
+    this.heading.mouseMoved(x, y);
+  }
+
+  /**
+   * This function is being called when the user clicks on the canvas
+   */
+  checkClick() {
+    this.heading.checkClick();
   }
 }

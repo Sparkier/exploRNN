@@ -137,6 +137,38 @@ const globalENG = {
           ' current cell for the next time step.',
       },
     ],
+    headings: [
+      {
+        id: 1,
+        identifier: 'input',
+        title: 'Input',
+        description: '',
+      },
+      {
+        id: 2,
+        identifier: 'network',
+        title: 'Network',
+        description: 'The network blabla',
+      },
+      {
+        id: 3,
+        identifier: 'prediction',
+        title: 'Prediction',
+        description: 'The prediction blabla',
+      },
+      {
+        id: 4,
+        identifier: 'cell',
+        title: 'LSTM Cell',
+        description: 'The cell blabla',
+      },
+      {
+        id: 5,
+        identifier: 'cellPlot',
+        title: 'Network Data',
+        description: 'The data blabla',
+      },
+    ],
     defaultDescription: '[missing description]',
     // Elements in the cell view
     lstmGates: [

@@ -1,3 +1,5 @@
+import {Heading} from '../Heading';
+
 /**
  * This class represents the Plot of the Detail View
  */
@@ -21,6 +23,8 @@ export class CellPlot {
       this.total = s.props.training.values + s.props.training.predictions;
       this.stepWidth = this.plotWidth / this.total;
     }
+    this.heading = new Heading(this.s, this.s.cellPlotProps.left + 20,
+        this.s.height * this.s.typography.titleOffsetRatio / 2, 'cellPlot');
   }
 
   /**
@@ -382,12 +386,28 @@ export class CellPlot {
     } else {
       this.drawFunctionPlot();
     }
-    const offset = s.height * s.typography.titleOffsetRatio;
-    s.textAlign(s.LEFT, s.CENTER);
-    s.textSize(s.typography.fontsize);
-    s.fill(s.colors.darkgrey);
-    s.noStroke();
-    s.text(s.global.strings.cellPlotTitle, s.cellPlotProps.left + 20,
-        offset / 2);
+    this.heading.draw(s.global.strings.cellPlotTitle);
+  }
+
+  /**
+   * A function that gets called if the user moves the mouse over the canvas
+   * and sends the trigger to all interactable items on the screen
+   *
+   * @param {number} x the x position of the mouse cursor
+   * @param {number} y the y position of the mouse cursor
+   */
+  mouseMoved(x, y) {
+    this.heading.mouseMoved(x, y);
+  }
+
+  /**
+   * This function gets called if the user has clicked on the screen, it
+   * then checks if the user has clicked on an interactable item and if so
+   * activates the according following functions
+   *
+   * @return {boolean} true, if the user has clicked on an item
+   */
+  checkClick() {
+    return this.heading.checkClick();
   }
 }

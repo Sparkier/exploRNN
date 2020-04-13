@@ -8,7 +8,8 @@ import {withStyles} from '@material-ui/core/styles';
 
 import styles from '../../styles/themedStyles';
 import * as actions from '../../actions';
-import CellDialogs from './CellDialogs';
+import CellDialogs from './dialogs/CellDialogs';
+import HeadingDialogs from './dialogs/HeadingDialogs';
 import networkSketch from './sketches/NetworkSketch';
 import globalConstants from '../constants/global';
 
@@ -74,6 +75,7 @@ class VisualWrapper extends React.Component {
           <div id="networkDiv" style={{fontSize: '0'}}/>
         </Grid>
         <CellDialogs/>
+        <HeadingDialogs/>
       </Grid>
     );
   }

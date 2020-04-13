@@ -2,24 +2,26 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import * as actions from '../../actions';
-import globalConstants from '../constants/global';
+import {Context} from 'react-mathjax2';
+
 import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
 import {Typography} from '@material-ui/core';
-import {Node, Context} from 'react-mathjax2';
+
+import * as actions from '../../../actions';
+import globalConstants from '../../constants/global';
 
 /**
  * This class is responsible for handling the dialogs corresponding to the
  * cell components in the detail view of the application
  */
-class CellDialogs extends React.Component {
+class HeadingDialogs extends React.Component {
   /**
    * Handles the closing of a dialog and updates the global state accordingly
    */
   handleClose() {
     this.props.actions.updateAppState({
       ...this.props.appState,
-      cellDialog: [false, false, false, false, false, false],
+      headingDialog: '',
     });
   }
 
@@ -34,25 +36,18 @@ class CellDialogs extends React.Component {
     return (
       <div>
         {
-          global.strings.lstmGates.map((gate) => (
+          global.strings.headings.map((heading) => (
             <Dialog onClose={() => this.handleClose()}
-              open={this.props.appState.cellDialog[gate.id]}
-              key={gate.id}>
+              open={this.props.appState.headingDialog === heading.identifier}
+              key={heading.id}>
               <DialogTitle>
-                {gate.title}
+                {heading.title}
               </DialogTitle>
               <DialogContent dividers>
                 <Typography gutterBottom>
                   <Context input='tex'>
                     <span>
-                      {gate.description}
-                      {
-                        gate.formulas.map((formula) => (
-                          <Node key={formula}>
-                            {formula}
-                          </Node>
-                        ))
-                      }
+                      {heading.description}
                     </span>
                   </Context>
                 </Typography>
@@ -65,7 +60,7 @@ class CellDialogs extends React.Component {
   }
 }
 
-CellDialogs.propTypes = {
+HeadingDialogs.propTypes = {
   network: PropTypes.object.isRequired,
   training: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
@@ -98,4 +93,4 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CellDialogs);
+export default connect(mapStateToProps, mapDispatchToProps)(HeadingDialogs);

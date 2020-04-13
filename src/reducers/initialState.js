@@ -67,6 +67,8 @@ export default {
     faqDialog: false,
     // Dialog for the imprint section in the drawer
     impressumDialog: false,
+    // Dialog for the headings of the sketch
+    headingDialog: '',
   },
   alertSnack: {
     open: false,

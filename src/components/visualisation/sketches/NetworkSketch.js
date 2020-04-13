@@ -531,10 +531,14 @@ export default function(s) {
         // Forward the mousemove events to the correct network view
         if (s.detail) {
           s.cell.mouseMoved(s.mx, s.my);
+          s.cellPlot.mouseMoved(s.mx, s.my);
         } else {
           s.net.mouseMoved(s.mx, s.my);
           if (s.input) {
             s.input.mouseMoved(s.mx, s.my);
+          }
+          for (const plot of s.outputPlots) {
+            plot.mouseMoved(s.mx, s.my);
           }
         }
       }
@@ -557,6 +561,7 @@ export default function(s) {
         // Forward the click to the correct network view
         if (s.detail) {
           s.detail = s.cell.checkClick();
+          s.detail = s.cellPlot.checkClick() || s.detail;
           if (!s.detail) {
             s.props.actions.updateUI({...s.props.ui, detail: false});
           }
@@ -564,6 +569,9 @@ export default function(s) {
           s.net.checkClick();
           s.input.checkClick();
           s.net.mouseMoved(s.mx, s.my);
+          for (const plot of s.outputPlots) {
+            plot.checkClick();
+          }
         }
       }
     }

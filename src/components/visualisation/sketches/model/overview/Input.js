@@ -1,3 +1,5 @@
+import {Heading} from '../Heading';
+
 /**
  * This class represents the visual component of the input selection for
  * the network
@@ -30,6 +32,8 @@ export class Input {
       this.buttons.push(new Button(s, 'sinc', 4, 4, this.dist, this.steps,
           this.noises));
     }
+    this.heading = new Heading(this.s, this.s.inProps.left + 20,
+        this.s.height * this.s.typography.titleOffsetRatio / 2, 'input');
   }
 
   /**
@@ -40,13 +44,7 @@ export class Input {
     for (const b of this.buttons) {
       b.draw();
     }
-    const offset = s.height * s.typography.titleOffsetRatio;
-    s.textAlign(s.LEFT, s.CENTER);
-    s.textSize(s.typography.fontsize);
-    s.fill(s.colors.darkgrey);
-    s.noStroke();
-    s.text(s.global.strings.inputTitle,
-        s.inProps.left + 20, offset / 2);
+    this.heading.draw(s.global.strings.inputTitle);
     s.stroke(s.colors.lightgrey);
     s.line(s.inProps.right, 0, s.inProps.right, s.inProps.height);
   }
@@ -58,6 +56,7 @@ export class Input {
     for (const b of this.buttons) {
       b.checkClick();
     }
+    this.heading.checkClick();
   }
 
   /**
@@ -67,6 +66,7 @@ export class Input {
    * @param {number} my the y position of the cursor
    */
   mouseMoved(mx, my) {
+    this.heading.mouseMoved(mx, my);
     for (const b of this.buttons) {
       b.mouseMoved(mx, my);
     }

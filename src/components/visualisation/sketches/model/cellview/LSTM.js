@@ -1,3 +1,4 @@
+import {Heading} from '../Heading';
 /**
  * This class represents the model for a LSTM cell in the sketch canvas
  * of the network
@@ -188,6 +189,9 @@ export class LSTM {
     this.ghostFirst.addActiveInput();
     this.recurrent.addActiveInput();
     this.forget.addActiveInput();
+
+    this.heading = new Heading(this.s, this.s.detailProps.left + 20,
+        this.s.height * this.s.typography.titleOffsetRatio / 2, 'cell');
   }
 
   /**
@@ -207,6 +211,7 @@ export class LSTM {
     for (const i of this.items) {
       i.draw();
     }
+    this.heading.draw(s.global.strings.cellTitle);
   }
 
   /**
@@ -489,6 +494,7 @@ export class LSTM {
     for (const i of this.items) {
       i.mouseMoved(x, y);
     }
+    this.heading.mouseMoved(x, y);
   }
 
   /**
@@ -510,6 +516,7 @@ export class LSTM {
     if (!ret) {
       s.clickedItem = undefined;
     }
+    ret = this.heading.checkClick() || ret;
     return ret;
   }
 }
@@ -765,12 +772,6 @@ class Item {
           s.mx, s.my + s.typography.tooltipoffset
       );
     }
-    const offset = s.height * s.typography.titleOffsetRatio;
-    s.textAlign(s.LEFT, s.CENTER);
-    s.textSize(s.typography.fontsize);
-    s.fill(s.colors.darkgrey);
-    s.noStroke();
-    s.text(s.global.strings.cellTitle, s.detailProps.left + 20, offset / 2);
     s.stroke(s.colors.lightgrey);
     s.strokeWeight(2);
     s.line(s.detailProps.right, 0, s.detailProps.right, s.detailProps.height);
