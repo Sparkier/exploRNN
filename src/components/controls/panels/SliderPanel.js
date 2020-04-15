@@ -3,14 +3,13 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 
-import {Grid, Typography, Slider, Tooltip} from '@material-ui/core';
-import {Dialog, DialogContent, DialogTitle, Link} from '@material-ui/core';
+import {Grid, Typography, Slider, Tooltip, Link} from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
 
 import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
 import globalConstants from '../../constants/global';
-
+import ComplexDialog from '../../dialogs/ComplexDialog';
 
 /**
  * Slider input panel for the training parameters at bottom of the Application
@@ -66,7 +65,7 @@ class SliderPanel extends React.Component {
    * Handles the closing of the dialogs for this element, updates the
    * global state accordingly
    */
-  handleClose() {
+  handleClose = () => {
     this.props.actions.updateAppState({
       ...this.props.appState,
       sliderDialog: [false, false, false],
@@ -120,17 +119,9 @@ class SliderPanel extends React.Component {
                     {slider.title}
                   </Link>
                 </Typography>
-                <Dialog onClose={() => this.handleClose()}
-                  open={this.props.appState.sliderDialog[slider.key]}>
-                  <DialogTitle>
-                    {slider.title}
-                  </DialogTitle>
-                  <DialogContent dividers>
-                    <Typography gutterBottom>
-                      {slider.description}
-                    </Typography>
-                  </DialogContent>
-                </Dialog>
+                <ComplexDialog closeFunction={this.handleClose}
+                  open={this.props.appState.sliderDialog[slider.key]}
+                  title={slider.title} description={slider.description} />
                 <Slider
                   className={this.props.classes.defSlider}
                   marks={slider.marks}

@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 
 import {Grid, Typography, Link} from '@material-ui/core';
-import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
 import Start from '@material-ui/icons/PlayArrow';
 import Pause from '@material-ui/icons/Pause';
 import Reset from '@material-ui/icons/Replay';
@@ -15,6 +14,7 @@ import styles from '../../../styles/themedStyles';
 import * as actions from '../../../actions';
 import globalConstants from '../../constants/global';
 import StyledButton from '../comps/StyledButton';
+import ComplexDialog from '../../dialogs/ComplexDialog';
 
 /**
  * Controls at bottom of the application, allows user to control
@@ -92,7 +92,7 @@ class ControlPanel extends React.Component {
   /**
    * Handles the closing of the epoch dialog
    */
-  handleClose() {
+  handleClose = () => {
     this.props.actions.updateAppState({
       ...this.props.appState,
       epochDialog: false,
@@ -159,17 +159,10 @@ class ControlPanel extends React.Component {
                 <Typography className={this.props.classes.typoStdBig}>
                   {this.styledEpochs()}
                 </Typography>
-                <Dialog onClose={() => this.handleClose()}
-                  open={this.props.appState.epochDialog}>
-                  <DialogTitle>
-                    {global.strings.epoch.title}
-                  </DialogTitle>
-                  <DialogContent dividers>
-                    <Typography gutterBottom>
-                      {global.strings.epoch.description}
-                    </Typography>
-                  </DialogContent>
-                </Dialog>
+                <ComplexDialog closeFunction={this.handleClose}
+                  open={this.props.appState.epochDialog}
+                  title={global.strings.epoch.title}
+                  description={global.strings.epoch.description}/>
               </Grid>
             </Grid>
           </Grid>

@@ -13,7 +13,7 @@ import Training from './training/Training';
 import VisualWrapper from './visualisation/VisualWrapper';
 import BottomPanel from './controls/BottomComponent';
 import AlertSnack from './AlertSnack';
-import Onboarding from './onboarding/Onboarding';
+import OnboardingDialog from './dialogs/OnboardingDialog';
 import * as Cookies from '../helpers/Cookies';
 
 /**
@@ -52,7 +52,7 @@ class Main extends React.Component {
           <BottomPanel/>
         </Grid>
         <AlertSnack/>
-        <Onboarding/>
+        <OnboardingDialog/>
       </Grid>
     );
   }

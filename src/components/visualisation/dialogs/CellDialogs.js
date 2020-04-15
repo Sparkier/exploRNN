@@ -2,14 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Node, Context} from 'react-mathjax2';
-
-import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
-import {Typography} from '@material-ui/core';
 
 import * as actions from '../../../actions';
 import globalConstants from '../../constants/global';
-
+import ComplexDialog from '../../dialogs/ComplexDialog';
 
 /**
  * This class is responsible for handling the dialogs corresponding to the
@@ -19,7 +15,7 @@ class CellDialogs extends React.Component {
   /**
    * Handles the closing of a dialog and updates the global state accordingly
    */
-  handleClose() {
+  handleClose = () => {
     this.props.actions.updateAppState({
       ...this.props.appState,
       cellDialog: [false, false, false, false, false, false],
@@ -38,29 +34,9 @@ class CellDialogs extends React.Component {
       <div>
         {
           global.strings.lstmGates.map((gate) => (
-            <Dialog onClose={() => this.handleClose()}
-              open={this.props.appState.cellDialog[gate.id]}
-              key={gate.id}>
-              <DialogTitle>
-                {gate.title}
-              </DialogTitle>
-              <DialogContent dividers>
-                <Typography gutterBottom>
-                  <Context input='tex'>
-                    <span>
-                      {gate.description}
-                      {
-                        gate.formulas.map((formula) => (
-                          <Node key={formula}>
-                            {formula}
-                          </Node>
-                        ))
-                      }
-                    </span>
-                  </Context>
-                </Typography>
-              </DialogContent>
-            </Dialog>
+            <ComplexDialog key={gate.id} closeFunction={this.handleClose}
+              open={this.props.appState.cellDialog[gate.id]} title={gate.title}
+              description={gate.description}/>
           ))
         }
       </div>

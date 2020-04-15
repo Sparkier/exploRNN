@@ -2,11 +2,13 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+
 import {withStyles} from '@material-ui/core/styles';
 import {Grid, Typography, Link} from '@material-ui/core';
-import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
+
 import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
+import ComplexDialog from '../../dialogs/ComplexDialog';
 
 /**
  * Description Elements at bottom of the Application in the cell view
@@ -31,7 +33,7 @@ class DescriptionElement extends React.Component {
    * Handles the closing of the dialogs for this element, updates the
    * global state accordingly
    */
-  handleClose() {
+  handleClose = () => {
     const dialogs = [false, false, false, false, false, false];
     this.props.actions.updateAppState({
       ...this.props.appState,
@@ -64,17 +66,10 @@ class DescriptionElement extends React.Component {
             {this.props.step.description}
           </Typography>
         </Grid>
-        <Dialog onClose={() => this.handleClose()}
-          open={this.props.appState.stepDialog[this.props.step.id]}>
-          <DialogTitle>
-            {this.props.step.title}
-          </DialogTitle>
-          <DialogContent dividers>
-            <Typography gutterBottom>
-              {this.props.step.longDescription}
-            </Typography>
-          </DialogContent>
-        </Dialog>
+        <ComplexDialog closeFunction={this.handleClose}
+          open={this.props.appState.stepDialog[this.props.step.id]}
+          title={this.props.step.title}
+          description={this.props.step.longDescription} />
       </Grid>
     );
   }

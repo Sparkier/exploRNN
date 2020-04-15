@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 
 import {withStyles} from '@material-ui/core/styles';
 import {Grid, Typography, Link, IconButton} from '@material-ui/core';
-import {Dialog, DialogTitle, DialogContent} from '@material-ui/core';
 import Jump from '@material-ui/icons/ArrowForward';
 
 import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
 import globalConstants from '../../constants/global';
+import ComplexDialog from '../../dialogs/ComplexDialog';
 
 /**
  * Training Process information panel at bottom of the Application
@@ -50,7 +50,7 @@ class ProcessPanel extends React.Component {
    * Handles the closing of the dialogs for this element, updates the
    * global state accordingly
    */
-  handleClose() {
+  handleClose = () => {
     const dialogs = [false, false, false];
     this.props.actions.updateAppState({
       ...this.props.appState,
@@ -103,7 +103,7 @@ class ProcessPanel extends React.Component {
                     <Link className = {this.getClass(step.id)}
                       href="#" onClick={(event) => this.onClick(step.id)}
                     >
-                      {step.title}
+                      {step.id + ': ' + step.title}
                     </Link>
                     {this.props.ui.detail ?
                         <IconButton
@@ -127,20 +127,9 @@ class ProcessPanel extends React.Component {
                     {step.description}
                   </Typography>
                 </Grid>
-                <Dialog onClose={() => this.handleClose()}
-                  open={this.props.appState.inputDialog[step.id]}>
-                  <DialogTitle>
-                    {step.title}
-                  </DialogTitle>
-                  <DialogContent dividers>
-                    <Typography gutterBottom>
-                      {step.longDescription + (
-                            step.id === 0 && !this.props.ui.detail ?
-                            step.note : ''
-                      )}
-                    </Typography>
-                  </DialogContent>
-                </Dialog>
+                <ComplexDialog closeFunction={this.handleClose}
+                  open={this.props.appState.inputDialog[step.id]}
+                  title={step.title} description={step.longDescription} />
               </Grid>
             ))
           }
