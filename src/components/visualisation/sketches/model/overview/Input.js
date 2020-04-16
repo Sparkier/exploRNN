@@ -202,27 +202,21 @@ class Button {
     let reset = false;
     if (mx > this.left && mx < this.right && my > this.top && my < this.bot) {
       const oldTypes = this.s.props.training.dataTypes;
-      let newTypes = [];
-      if (oldTypes.includes(this.type) && oldTypes.length > 1) {
-        for (const item of oldTypes) {
-          if (item !== this.type) {
-            newTypes.push(item);
-          }
-        }
-      } else if (oldTypes.includes(this.type) && oldTypes.length === 1) {
-        newTypes = oldTypes;
-      } else if (this.type === 'text' && !oldTypes.includes(this.textType)) {
+      let newTypes = oldTypes;
+      if ((this.type === 'text' && !oldTypes.includes(this.textType)) ||
+        (this.type !== 'text' && !oldTypes.includes(this.type))) {
         if (this.s.props.network.iteration === 0) {
-          newTypes = [this.textType];
+          if (this.type === 'text') {
+            newTypes = [this.textType];
+          } else {
+            newTypes = [this.type];
+          }
           reset = true;
         } else {
           this.s.props.actions.updateAlertSnack({open: true,
             message: 'This change can only be made after a Network Reset.'});
           newTypes = oldTypes;
         }
-      } else {
-        oldTypes.push(this.type);
-        newTypes = oldTypes;
       }
       this.s.props.actions.updateTraining(
           {...this.s.props.training, dataTypes: newTypes, reset: reset}
