@@ -218,9 +218,7 @@ export default () => {
     // Train data
     // How many sets to generate per function
     const partialSetSize = setSize / funcs.length;
-    for (const f of funcs) {
-      self.trainData(stepSize, partialSetSize, f, noise);
-    }
+    self.trainData(stepSize, partialSetSize, funcs, noise);
     // Test data
     self.testData(stepSize, funcs, noise);
   };
@@ -232,11 +230,11 @@ export default () => {
    * @param {number} stepSize the distance between two values in the data set
    * @param {number} partialSetSize the size of the current part of the
    * training set
-   * @param {string} func the function to be used for calculating the input
+   * @param {string} funcs the functions to be used for calculating the input
    * values
    * @param {number} noise the percentage of noise to be added to the input
    */
-  self.trainData = (stepSize, partialSetSize, func, noise) => {
+  self.trainData = (stepSize, partialSetSize, funcs, noise) => {
     const setOffsetRatio = (2 * Math.PI) / partialSetSize;
     const startOffset = 2 * Math.PI * Math.random();
     for (let i = 0; i < partialSetSize; i++) {
@@ -244,12 +242,18 @@ export default () => {
       const start = i * setOffsetRatio + startOffset;
       for (let j = 0; j < self.values; j++) {
         const noiseVal = - noise + (2 * noise * Math.random());
-        const val = self.dataFunc(start + (j * stepSize), func) + noiseVal;
+        let val = 1;
+        for (const func of funcs) {
+          val = val * self.dataFunc(start + (j * stepSize), func) + noiseVal;
+        }
         trainInputSequence.push([val]);
       }
       self.trainInputBuff.push(trainInputSequence);
       const currentOutSequence = [];
-      const val = self.dataFunc(self.values * stepSize + start, func);
+      let val = 1;
+      for (const func of funcs) {
+        val = val * self.dataFunc(self.values * stepSize + start, func);
+      }
       currentOutSequence.push(val);
       self.trainOutputBuff.push(currentOutSequence);
     }
@@ -266,8 +270,6 @@ export default () => {
    * @param {number} noise the percentage of noise to be added to the input
    */
   self.testData = (stepSize, funcs, noise) => {
-    // Choose a random function
-    const testFunc = funcs[Math.floor(Math.random() * funcs.length)];
     const testInputSequence = [];
     // Choose a random offset
     const offset = Math.random() * Math.PI;
@@ -275,7 +277,10 @@ export default () => {
     for (let j = 0; j < self.values; j++) {
       // Add noise to the input data
       const noiseVal = - noise + (2 * noise * Math.random());
-      const val = self.dataFunc(j * stepSize + offset, testFunc) + noiseVal;
+      let val = 1;
+      for (const func of funcs) {
+        val = val * self.dataFunc(j * stepSize + offset, func) + noiseVal;
+      }
       testInputSequence.push([val]);
       self.chartDataInput.push(val);
       self.chartPredictionInput.push(val);
@@ -285,7 +290,10 @@ export default () => {
     let x;
     for (let j = 0; j < self.testOutputs; j++) {
       x = (self.values + j) * stepSize;
-      const val = self.dataFunc(x + offset, testFunc);
+      let val = 1;
+      for (const func of funcs) {
+        val = val * self.dataFunc(x + offset, func);
+      }
       currentOutSequence.push(val);
       self.chartDataOutput.push(val);
     }
