@@ -72,7 +72,9 @@ export class FunctionPlot {
           s.noStroke();
           s.textAlign(s.RIGHT, s.BOTTOM);
           s.textStyle(s.BOLD);
+          s.colors.darkgrey.setAlpha(this.vis);
           s.fill(s.colors.darkgrey);
+          s.colors.darkgrey.setAlpha(255);
           s.text(this.s.global.strings.plotInput, -this.halfW - 5,
               -this.halfH / 2 * data);
           s.pop();
