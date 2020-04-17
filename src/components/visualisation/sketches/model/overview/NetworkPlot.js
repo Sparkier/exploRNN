@@ -11,14 +11,11 @@ export class NetworkPlot {
   /**
    * The constructor function of the class plot
    *
-   * @param {number} index the index of the plot, 2 being the currently used
-   * data by the network
    * @param {object} s the p5 js sketch
    */
-  constructor(index, s) {
+  constructor(s) {
     this.s = s;
-    this.index = index;
-    this.vis = 255 - Math.abs(2-index) * 130;
+    this.index = 2;
     this.cx = s.outProps.midX;
     this.cy = s.outProps.midY;
     this.scale = 1 - 0.5 * (Math.abs(s.height/2 - this.cy) / (s.height/2));
@@ -47,9 +44,7 @@ export class NetworkPlot {
    * Draws the heading of the output
    */
   plotHeading() {
-    if (this.index === 2) {
-      this.heading.draw(this.s.global.strings.predictionTitle);
-    }
+    this.heading.draw(this.s.global.strings.predictionTitle);
   }
 
   /**
@@ -76,16 +71,12 @@ export class NetworkPlot {
       this.stepWidth = this.plotWidth / this.total;
     }
     if (this.s.props.training.inputType === 'Text Data') {
-      if (this.index === 2) {
-        plotIncomingData('text', s, this.halfH);
-        this.plotHeading();
-      }
+      plotIncomingData('text', s, this.halfH);
+      this.plotHeading();
       drawTextPlot.call(this, s);
     } else {
-      if (this.index === 2) {
-        plotIncomingData('function', s, this.halfH);
-        this.plotHeading();
-      }
+      plotIncomingData('function', s, this.halfH);
+      this.plotHeading();
       drawFunctionPlot.call(this, s);
     }
   }

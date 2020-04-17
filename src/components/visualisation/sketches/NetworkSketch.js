@@ -18,7 +18,6 @@ export default function(s) {
   // the basic values needed throughout the drawing logic
   s.props = {};
   s.network = [];
-  s.outputPlots = [];
   s.lossValues = [];
   s.constants = {};
   s.scaleImage = 5;
@@ -135,6 +134,7 @@ export default function(s) {
     s.cell = new LSTM(s);
     s.input = new Input(s);
     s.cellPlot = new CellPlot(s);
+    s.outputPlot = new NetworkPlot(s);
     s.pause = 0;
     s.netFrame = 0;
     s.netAnim = false;
@@ -151,10 +151,6 @@ export default function(s) {
     s.MAX_PLOT_FRAMES = s.plotMoveFrames + s.plotScanFrames + s.plotStayFrames;
     s.imageMode(s.CENTER);
     s.rectMode(s.CENTER);
-    s.outputPlots = [];
-    for (let i = 0; i < 5; i++) {
-      s.outputPlots.push(new NetworkPlot(i, s));
-    }
     s.setupDone = true;
   };
 
@@ -392,9 +388,7 @@ export default function(s) {
     s.fill(s.colors.white);
     s.rect(s.outLeft + s.sideWidthRight / 2, s.height / 2, s.sideWidthRight,
         s.height);
-    for (const plot of s.outputPlots) {
-      plot.draw();
-    }
+    s.outputPlot.draw();
     if (s.plotAnim && s.props.training.running) {
       s.plotFrame++;
       if (s.plotFrame > s.MAX_PLOT_FRAMES) {
@@ -537,9 +531,7 @@ export default function(s) {
           if (s.input) {
             s.input.mouseMoved(s.mx, s.my);
           }
-          for (const plot of s.outputPlots) {
-            plot.mouseMoved(s.mx, s.my);
-          }
+          s.outputPlot.mouseMoved(s.mx, s.my);
         }
       }
     }
@@ -569,9 +561,7 @@ export default function(s) {
           s.net.checkClick();
           s.input.checkClick();
           s.net.mouseMoved(s.mx, s.my);
-          for (const plot of s.outputPlots) {
-            plot.checkClick();
-          }
+          s.outputPlot.checkClick();
         }
       }
     }
