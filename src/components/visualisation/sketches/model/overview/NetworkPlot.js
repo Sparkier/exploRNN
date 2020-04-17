@@ -2,6 +2,7 @@ import {Heading} from '../Heading';
 import {TextPlot} from './subplots/TextPlot';
 import {FunctionPlot} from './subplots/FunctionPlot';
 import {plotIncomingData} from './subplots/IncomingData';
+import {plotDataExplanation} from './subplots/DataExplanation';
 
 /**
  * This class represents the plots of the output side
@@ -76,10 +77,12 @@ export class NetworkPlot {
       plotIncomingData('text', s, this.halfH);
       this.plotHeading();
       this.textPlot.drawTextPlot.call(this, s);
+      plotDataExplanation('text', s, this.halfH);
     } else {
       plotIncomingData('function', s, this.halfH);
       this.plotHeading();
       this.functionPlot.drawFunctionPlot.call(this, s);
+      plotDataExplanation('function', s, this.halfH);
     }
   }
 

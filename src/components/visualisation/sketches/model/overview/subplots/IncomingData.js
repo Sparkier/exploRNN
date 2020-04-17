@@ -8,7 +8,7 @@
 export function plotIncomingData(type, s, halfH) {
   let height = halfH;
   if (type === 'text') {
-    height = 2 * s.typography.fontsize;
+    height = 3.5 * s.typography.fontsize;
   }
   const originX = s.outProps.left;
   const originY = s.outProps.midY;
