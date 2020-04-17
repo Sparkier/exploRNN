@@ -150,8 +150,9 @@ export class Layer {
       // Clicked on the cell itself
       if (this.hover_left) {
         this.s.detail = true;
+        this.s.props.actions.updateUI({...this.s.props.ui, detail: true,
+          anim: this.s.props.training.running});
         this.s.props.actions.stopTraining(this.s.props.training);
-        this.s.props.actions.updateUI({...this.s.props.ui, detail: true});
       // Clicked on cell removal icon with more than one cell
       } else if (this.s.props.network.layers > 1) {
         // Stop the training

@@ -556,6 +556,8 @@ export default function(s) {
           s.detail = s.cellPlot.checkClick() || s.detail;
           if (!s.detail) {
             s.props.actions.updateUI({...s.props.ui, detail: false});
+            s.props.actions.updateTraining({...s.props.training,
+              running: s.props.ui.anim});
           }
         } else {
           s.net.checkClick();

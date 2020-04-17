@@ -27,10 +27,8 @@ class ControlPanel extends React.Component {
    */
   toggleTraining = () => {
     if (this.props.ui.detail) {
-      this.props.actions.updateUI({
-        ...this.props.ui,
-        anim: !this.props.ui.anim,
-      });
+      this.props.actions.updateUI({...this.props.ui,
+        anim: !this.props.ui.anim});
     } else {
       this.props.actions.toggleTraining(this.props.training);
     }

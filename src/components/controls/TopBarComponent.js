@@ -42,10 +42,8 @@ class TopBar extends React.Component {
         if (!this.props.ui.detail) {
           this.props.actions.toggleTraining(this.props.training);
         } else {
-          this.props.actions.updateUI({
-            ...this.props.ui,
-            anim: !this.props.ui.anim,
-          });
+          this.props.actions.updateUI({...this.props.ui,
+            anim: !this.props.ui.anim});
         }
         break;
       case 'Enter': // 'step'
@@ -56,8 +54,7 @@ class TopBar extends React.Component {
           this.props.actions.updateUI({...this.props.ui, animStep: true});
         } else if (!this.props.training.running) {
           this.props.actions.updateTraining(
-              {...this.props.training, step: true}
-          );
+              {...this.props.training, step: true});
         }
         break;
       case 'Backspace': // 'reset'
@@ -98,8 +95,16 @@ class TopBar extends React.Component {
         break;
       // view mode (netview <-> cell view)
       case 'Tab':
-        this.props.actions.updateUI({...this.props.ui,
-          detail: !this.props.ui.detail});
+        if (!this.props.ui.detail) {
+          this.props.actions.updateUI({...this.props.ui, detail: true,
+            anim: this.props.training.running});
+          this.props.actions.stopTraining(this.props.training);
+        } else {
+          this.props.actions.updateUI({...this.props.ui,
+            detail: false});
+          this.props.actions.updateTraining({...this.props.training,
+            running: this.props.ui.anim});
+        }
         break;
       default:
         callDefault = true;
