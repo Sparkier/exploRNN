@@ -1,6 +1,6 @@
 import {Heading} from '../Heading';
-import {drawTextPlot} from './subplots/TextPlot';
-import {drawFunctionPlot} from './subplots/FunctionPlot';
+import {TextPlot} from './subplots/TextPlot';
+import {FunctionPlot} from './subplots/FunctionPlot';
 import {plotIncomingData} from './subplots/IncomingData';
 
 /**
@@ -38,6 +38,8 @@ export class NetworkPlot {
       this.heading = new Heading(this.s, this.s.outProps.left + 20,
           this.s.height * this.s.typography.titleOffsetRatio / 2, 'prediction');
     }
+    this.textPlot = new TextPlot();
+    this.functionPlot = new FunctionPlot();
   }
 
   /**
@@ -73,11 +75,11 @@ export class NetworkPlot {
     if (this.s.props.training.inputType === 'Text Data') {
       plotIncomingData('text', s, this.halfH);
       this.plotHeading();
-      drawTextPlot.call(this, s);
+      this.textPlot.drawTextPlot.call(this, s);
     } else {
       plotIncomingData('function', s, this.halfH);
       this.plotHeading();
-      drawFunctionPlot.call(this, s);
+      this.functionPlot.drawFunctionPlot.call(this, s);
     }
   }
 

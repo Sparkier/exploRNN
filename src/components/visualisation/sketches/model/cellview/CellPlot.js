@@ -1,6 +1,6 @@
 import {Heading} from '../Heading';
-import {drawTextPlot} from './subplots/TextPlot';
-import {drawFunctionPlot} from './subplots/FunctionPlot';
+import {TextPlot} from './subplots/TextPlot';
+import {FunctionPlot} from './subplots/FunctionPlot';
 
 /**
  * This class represents the Plot of the Detail View
@@ -27,6 +27,8 @@ export class CellPlot {
     }
     this.heading = new Heading(this.s, this.s.cellPlotProps.left + 20,
         this.s.height * this.s.typography.titleOffsetRatio / 2, 'cellPlot');
+    this.textPlot = new TextPlot();
+    this.functionPlot = new FunctionPlot();
   }
 
   /**
@@ -35,9 +37,9 @@ export class CellPlot {
   draw() {
     const s = this.s;
     if (this.s.props.training.inputType === 'Text Data') {
-      drawTextPlot.call(this, s);
+      this.textPlot.drawTextPlot.call(this, s);
     } else {
-      drawFunctionPlot.call(this, s);
+      this.functionPlot.drawFunctionPlot.call(this, s);
     }
     this.heading.draw(s.global.strings.cellPlotTitle);
   }
