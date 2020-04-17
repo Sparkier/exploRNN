@@ -1,5 +1,5 @@
-import {Layer} from './Layer';
-import {FakeLayer} from './FakeLayer';
+import {Layer} from './layerplots/Layer';
+import {FakeLayer} from './layerplots/FakeLayer';
 import {Heading} from '../Heading';
 
 /**

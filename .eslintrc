@@ -3,8 +3,8 @@
   "extends": ["eslint:recommended", "google", "plugin:react/recommended"],
   "plugins": ["babel"],
   "rules": {
-    "no-invalid-this": 0,
-    "babel/no-invalid-this": 1,
+    "no-invalid-this": 1,
+    "babel/no-invalid-this": 0,
     "no-warning-comments": 1
   },
   "env": {
