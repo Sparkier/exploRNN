@@ -83,44 +83,6 @@ export class FunctionPlot {
       s.vertex(-this.halfW + (this.in * this.stepWidth),
           -this.halfH / 2 * data);
       s.endShape();
-
-      // draw prediction
-      s.strokeWeight(2);
-      if (s.plotAnim === true && s.plotFrame > s.plotMoveFrames) {
-        s.colors.overview.setAlpha(this.vis);
-        s.stroke(s.colors.overview);
-        s.colors.overview.setAlpha(255);
-        s.beginShape();
-        for (let i = Math.round(showSteps) - this.in;
-          i <= showSteps && i <= this.in; i++) {
-          if (i < 0) {
-            i = 0;
-          }
-          data = s.props.ui.data[this.index].chartPrediction[i];
-          s.vertex((-this.halfW + i * this.stepWidth),
-              (-this.halfH / 2 * data));
-        }
-        if (showSteps > this.in) {
-          data = s.props.ui.data[this.index].prediction[0];
-          s.vertex( (-this.halfW + ((this.in) * this.stepWidth)),
-              (-this.halfH / 2 * data));
-        }
-        s.endShape();
-        if (showSteps >= this.in) {
-        // draw word "prediction" at last prediction pos
-          data = s.props.ui.data[this.index].prediction[Math.round(
-              showSteps) - this.in];
-          s.push();
-          s.noStroke();
-          s.textAlign(s.LEFT, s.TOP);
-          s.textStyle(s.BOLD);
-          s.fill(s.colors.overview);
-          s.text(s.global.strings.plotPrediction,
-              -this.halfW + showSteps * this.stepWidth + 5,
-              -this.halfH / 2 * data);
-          s.pop();
-        }
-      }
     }
 
     // draw the test output for validation
@@ -170,9 +132,23 @@ export class FunctionPlot {
         }
       }
       s.endShape();
+
+      // draw word "prediction" at last prediction pos
+      data = s.props.ui.data[this.index].prediction[Math.round(
+          showSteps) - this.in];
+      s.push();
+      s.noStroke();
+      s.textAlign(s.LEFT, s.TOP);
+      s.textStyle(s.BOLD);
+      s.fill(s.colors.overview);
+      s.text(s.global.strings.plotPrediction,
+          -this.halfW + showSteps * this.stepWidth,
+          -this.halfH / 2 * data);
+      s.pop();
     }
 
     // Draw the error bars for training
+    s.strokeWeight(2);
     if (this.s.netFrame > this.s.netPredFrames + this.s.netLossFrames) {
       if (s.props.ui.data &&
     s.props.ui.data[this.index].prediction && (this.index > 2 ||
