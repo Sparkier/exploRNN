@@ -17,8 +17,8 @@ const globalENG = {
     tooltipCell: 'click for detail',
     tooltipDelete: 'remove layer',
     tooltipAdd: 'add layer',
-    dataExplanation: 'We show a random element of the dataset for each epoch' +
-    '\n to illustrate the training progress.',
+    dataExplanation: 'We show a random 🎲 element of the dataset for each' +
+    'epoch\n to illustrate the training progress.',
     epoch: {
       title: 'Epochs',
       description: descriptionStrings['ENG'].epoch,
