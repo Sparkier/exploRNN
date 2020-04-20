@@ -33,8 +33,8 @@ class ControlPanel extends React.Component {
     } else {
       this.props.actions.toggleTraining(this.props.training);
       if (this.props.cookiesState.intro === 'startTraining') {
-        getNextIntroState(this.props.cookiesState.intro, this.props.cookiesState,
-            this.props.actions.updateCookiesState);
+        getNextIntroState(this.props.cookiesState.intro,
+            this.props.cookiesState, this.props.actions.updateCookiesState);
       }
     }
   }

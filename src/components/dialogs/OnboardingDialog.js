@@ -99,7 +99,8 @@ class OnboardingDialog extends React.Component {
                       </Typography>
                     </Grid>
                     {
-                      onProps.state.description.map((descriptionElement, index) => (
+                      onProps.state.description.map((descriptionElement,
+                          index) => (
                         <DescriptionElement key={index}
                           descriptionElement={descriptionElement} />
                       ))
