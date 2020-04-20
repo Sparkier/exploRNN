@@ -51,104 +51,49 @@ const descriptionsENG = {
         'text': '(RNNs).',
       },
     ],
+  ],
+  inputOnboarding: [
     [
       {
         'type': 'plain',
-        'text': 'In contrast to more classical fully connected or ' +
+        'text': 'Here, you can change which ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'function or text sample is used for training.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'In contrast to fully connected or ' +
         'convolutional neural networks, RNNs are designed to work with ',
       },
       {
         'type': 'highlighted',
-        'text': 'sequential data',
-      },
-      {
-        'type': 'plain',
-        'text': '. It is, thus, used for tasks such as translation, image ' +
-        'captioning, and next element prediction.',
+        'text': 'sequential data.',
       },
     ],
     [
       {
         'type': 'plain',
-        'text': 'In this application, we focus on ',
+        'text': 'Thus, they are used for tasks such as ',
       },
       {
         'type': 'highlighted',
-        'text': 'predicting the next element of a function or text passage.',
-      },
-      {
-        'type': 'plain',
-        'text': ' The general concepts can, however, be used for all of ' +
-        'these tasks.',
+        'text': 'translation, image captioning, and next element prediction.',
       },
     ],
   ],
-  overview: [
+  networkOnboarding: [
     [
       {
         'type': 'plain',
-        'text': 'You currently see the ',
+        'text': 'This is the network that you can train. ',
       },
       {
         'type': 'highlighted',
-        'text': 'overview of the network that you will train',
-      },
-      {
-        'type': 'plain',
-        'text': '. To the left, you see the input functions that you can use.' +
-        ' These are fed into the network visualized at the center to train it' +
-        '. You can add and remove layers from the network simply by ' +
-        'interacting with the network. On the right, a test ouptut of the ' +
-        'network is visualized.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'Below these visualizations, you see explanations and ' +
-        'controls for training the network. Here, you can ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'change parameters and control the training',
-      },
-      {
-        'type': 'plain',
-        'text': '.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'To give you even more explanations about this process, you' +
-        'can ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'click all the headings in this visualization',
-      },
-      {
-        'type': 'plain',
-        'text': ', which will give you explanations about individual ' +
-        'components.',
-      },
-    ],
-  ],
-  detail: [
-    [
-      {
-        'type': 'plain',
-        'text': 'You currently see the visualization of an individual ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'long-short term memory (LSTM) cell',
-      },
-      {
-        'type': 'plain',
-        'text': '. The cell is visualized on the left, while the data that is' +
-        ' processed by the network in each time-step is displayed on the ' +
-        'right.',
+        'text': 'Feel free to modify it.',
       },
     ],
     [
@@ -158,29 +103,179 @@ const descriptionsENG = {
       },
       {
         'type': 'highlighted',
-        'text': 'click individual compute units in this cell ',
+        'text': 'add layers by clicking between the layers ',
       },
       {
         'type': 'plain',
-        'text': 'to get insight into how they work and what they do.',
+        'text': 'and ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'remove them by hovering and clicking the red x.',
+      },
+    ],
+  ],
+  startTrainingOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'Now, lets ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'start the training by hitting the play button!',
       },
     ],
     [
       {
         'type': 'plain',
-        'text': 'As in the overview, you can also ' +
-        'can ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'click all headings in this visualization ',
-      },
-      {
-        'type': 'plain',
-        'text': 'for more information.',
+        'text': 'You can also advance individual epochs using the forward ' +
+        'button.',
       },
     ],
   ],
+  outputOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'Here, you can see how you network ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'currently performs.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'We show the prediction for a ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'random dataset exmple in each epoch.',
+      },
+    ],
+  ],
+  cellTransitionOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'Now that we have trained the network for a while, lets look ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'what happens inside an LSTM cell.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'To do this, simply ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'click on one of the layers.',
+      },
+    ],
+  ],
+  // overview: [
+  //   [
+  //     {
+  //       'type': 'plain',
+  //       'text': 'You currently see the ',
+  //     },
+  //     {
+  //       'type': 'highlighted',
+  //       'text': 'overview of the network that you will train',
+  //     },
+  //     {
+  //    'type': 'plain',
+  //    'text': '. To the left, you see the input functions that you can use.' +
+  //    ' These are fed into the network visualized at the center to train it' +
+  //    '. You can add and remove layers from the network simply by ' +
+  //    'interacting with the network. On the right, a test ouptut of the ' +
+  //    'network is visualized.',
+  //     },
+  //   ],
+  //   [
+  //     {
+  //       'type': 'plain',
+  //       'text': 'Below these visualizations, you see explanations and ' +
+  //       'controls for training the network. Here, you can ',
+  //     },
+  //     {
+  //       'type': 'highlighted',
+  //       'text': 'change parameters and control the training',
+  //     },
+  //     {
+  //       'type': 'plain',
+  //       'text': '.',
+  //     },
+  //   ],
+  //   [
+  //     {
+  //     'type': 'plain',
+  //     'text': 'To give you even more explanations about this process, you' +
+  //     'can ',
+  //     },
+  //     {
+  //       'type': 'highlighted',
+  //       'text': 'click all the headings in this visualization',
+  //     },
+  //     {
+  //       'type': 'plain',
+  //       'text': ', which will give you explanations about individual ' +
+  //       'components.',
+  //     },
+  //   ],
+  // ],
+  // detail: [
+  //   [
+  //     {
+  //       'type': 'plain',
+  //       'text': 'You currently see the visualization of an individual ',
+  //     },
+  //     {
+  //       'type': 'highlighted',
+  //       'text': 'long-short term memory (LSTM) cell',
+  //     },
+  //     {
+  //    'type': 'plain',
+  //    'text': '. The cell is visualized on the left, while the data that is' +
+  //    ' processed by the network in each time-step is displayed on the ' +
+  //    'right.',
+  //     },
+  //   ],
+  //   [
+  //     {
+  //       'type': 'plain',
+  //       'text': 'You can ',
+  //     },
+  //     {
+  //       'type': 'highlighted',
+  //       'text': 'click individual compute units in this cell ',
+  //     },
+  //     {
+  //       'type': 'plain',
+  //       'text': 'to get insight into how they work and what they do.',
+  //     },
+  //   ],
+  //   [
+  //     {
+  //       'type': 'plain',
+  //       'text': 'As in the overview, you can also ' +
+  //       'can ',
+  //     },
+  //     {
+  //       'type': 'highlighted',
+  //       'text': 'click all headings in this visualization ',
+  //     },
+  //     {
+  //       'type': 'plain',
+  //       'text': 'for more information.',
+  //     },
+  //   ],
+  // ],
   learningRate: [
     [
       {

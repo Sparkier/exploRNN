@@ -71,6 +71,12 @@ const styles = (theme) => ({
   typoCvHighlighted: {
     'color': theme.palette.detail.main,
   },
+  icon_cell: {
+    'color': theme.palette.detail.main,
+  },
+  icon_net: {
+    'color': theme.palette.overview.main,
+  },
   button_cell: { // Button in the cell view
     'margin': '10px',
     'color': 'white',

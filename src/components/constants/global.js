@@ -17,7 +17,7 @@ const globalENG = {
     tooltipCell: 'click for detail',
     tooltipDelete: 'remove layer',
     tooltipAdd: 'add layer',
-    dataExplanation: 'We show a random 🎲 element of the dataset for each' +
+    dataExplanation: 'We show a random 🎲 element of the dataset for each ' +
     'epoch\n to illustrate the training progress.',
     epoch: {
       title: 'Epochs',
@@ -32,21 +32,81 @@ const globalENG = {
           skip: 'Skip Intro',
           next: 'Next',
         },
+        arrow: 'none',
+        style: {
+          position: 'absolute',
+          top: ' 300px',
+          left: 'calc(50% - 250px)',
+        },
       },
-      overview: {
-        title: 'Network Overview',
-        description: descriptionStrings['ENG'].overview,
+      input: {
+        title: 'Training Input',
+        description: descriptionStrings['ENG'].inputOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Next',
+        },
+        arrow: 'left',
+        style: {
+          position: 'absolute',
+          top: ' 200px',
+          left: '10%',
+        },
+      },
+      network: {
+        title: 'Network',
+        description: descriptionStrings['ENG'].networkOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Next',
+        },
+        arrow: 'up',
+        style: {
+          position: 'absolute',
+          top: 'calc(100% - 40vh)',
+          left: 'calc(35% - 250px)',
+        },
+      },
+      startTraining: {
+        title: 'Start Training',
+        description: descriptionStrings['ENG'].startTrainingOnboarding,
         buttonTitles: {
           skip: 'Skip Intro',
           next: 'Lets Go!',
         },
+        arrow: 'down',
+        style: {
+          position: 'absolute',
+          bottom: '26vh',
+          left: 'calc(50% - 250px)',
+        },
       },
-      detail: {
-        title: 'Cell Inspection',
-        description: descriptionStrings['ENG'].detail,
+      output: {
+        title: 'Validation',
+        description: descriptionStrings['ENG'].outputOnboarding,
         buttonTitles: {
           skip: 'Skip Intro',
-          next: 'Got it!',
+          next: 'Ok',
+        },
+        arrow: 'right',
+        style: {
+          position: 'absolute',
+          top: '200px',
+          left: 'calc(60% - 535px)',
+        },
+      },
+      cellTransition: {
+        title: 'LSTM Cells',
+        description: descriptionStrings['ENG'].cellTransitionOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Sure!',
+        },
+        arrow: 'up',
+        style: {
+          position: 'absolute',
+          top: 'calc(100% - 40vh)',
+          left: 'calc(35% - 250px)',
         },
       },
     },

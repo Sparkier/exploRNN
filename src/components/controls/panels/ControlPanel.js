@@ -15,6 +15,7 @@ import * as actions from '../../../actions';
 import globalConstants from '../../constants/global';
 import StyledButton from '../comps/StyledButton';
 import ComplexDialog from '../../dialogs/ComplexDialog';
+import {getNextIntroState} from '../../../helpers/OnboardingState';
 
 /**
  * Controls at bottom of the application, allows user to control
@@ -31,6 +32,10 @@ class ControlPanel extends React.Component {
         anim: !this.props.ui.anim});
     } else {
       this.props.actions.toggleTraining(this.props.training);
+      if (this.props.cookiesState.intro === 'startTraining') {
+        getNextIntroState(this.props.cookiesState.intro, this.props.cookiesState,
+            this.props.actions.updateCookiesState);
+      }
     }
   }
 
@@ -178,6 +183,7 @@ ControlPanel.propTypes = {
   appState: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  cookiesState: PropTypes.object.isRequired,
 };
 
 /**
@@ -192,6 +198,7 @@ function mapStateToProps(state) {
     network: state.network,
     ui: state.ui,
     appState: state.appState,
+    cookiesState: state.cookiesState,
   };
 }
 

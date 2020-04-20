@@ -1,3 +1,5 @@
+import {getNextIntroState} from '../../../../../../helpers/OnboardingState';
+
 /**
  * This class represents a layer in the network model
  */
@@ -153,6 +155,11 @@ export class Layer {
         this.s.props.actions.updateUI({...this.s.props.ui, detail: true,
           anim: this.s.props.training.running});
         this.s.props.actions.stopTraining(this.s.props.training);
+        if (this.s.props.cookiesState.intro === 'cellTransition') {
+          getNextIntroState(this.s.props.cookiesState.intro,
+              this.s.props.cookiesState,
+              this.s.props.actions.updateCookiesState);
+        }
       // Clicked on cell removal icon with more than one cell
       } else if (this.s.props.network.layers > 1) {
         // Stop the training

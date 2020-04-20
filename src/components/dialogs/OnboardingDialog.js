@@ -3,16 +3,21 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 
-import {Dialog, DialogTitle, DialogContent, Grid,
-  Button} from '@material-ui/core';
+import {Box, Typography, Grid, Button, Paper} from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import {withStyles} from '@material-ui/core/styles';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 import styles from '../../styles/themedStyles';
 import * as actions from '../../actions';
-import globalConstants from '../constants/global';
 import DescriptionElement from './elements/DescriptionElement';
 import * as Cookies from '../../helpers/Cookies';
+import createMuiTheme from '../../theme/globalTheme';
+import {getCurrentOnboardingElementProps,
+  getNextIntroState} from '../../helpers/OnboardingState';
 
 /**
  * Onboarding is used to explain the App.
@@ -21,18 +26,6 @@ import * as Cookies from '../../helpers/Cookies';
  * @return {String} the intro state after the current one
  */
 class OnboardingDialog extends React.Component {
-  getNextIntroState = (introState) => {
-    if (introState === '' || introState === undefined) {
-      return 'overview';
-    } else if (introState === 'overview') {
-      return 'detail';
-    } else if (introState === 'detail') {
-      return 'done';
-    } else {
-      return '';
-    }
-  }
-
   /**
    * Handles the closing of the dialogs for this element, updates the
    * global state accordingly
@@ -40,11 +33,9 @@ class OnboardingDialog extends React.Component {
    * @param {object} event the event triggering this function
    */
   handleNext = (event) => {
-    let introState = Cookies.getIntroState();
-    introState = this.getNextIntroState(introState);
-    Cookies.setIntroState(introState);
-    this.props.actions.updateCookiesState({...this.props.cookiesState,
-      intro: introState});
+    const introState = Cookies.getIntroState();
+    getNextIntroState(introState, this.props.cookiesState,
+        this.props.actions.updateCookiesState);
   }
 
   /**
@@ -66,64 +57,106 @@ class OnboardingDialog extends React.Component {
    * @return {object} AlertSnack component to be rendered
    */
   render() {
-    let dialogTitle = '';
-    let open = false;
-    let description = [];
-    const constants = globalConstants[this.props.appState.language].strings;
-    let state = constants.onboarding.welcome;
-    if (this.props.cookiesState.intro === '') {
-      dialogTitle = constants.onboarding.welcome.title;
-      open = this.props.ui.detail ? false : true;
-      description = constants.onboarding.welcome.description;
-    } else if (this.props.cookiesState.intro === 'overview') {
-      dialogTitle = constants.onboarding.overview.title;
-      open = this.props.ui.detail ? false : true;
-      description = constants.onboarding.overview.description;
-      state = constants.onboarding.overview;
-    } else if (this.props.cookiesState.intro === 'detail') {
-      dialogTitle = constants.onboarding.detail.title;
-      open = this.props.ui.detail ? true : false;
-      description = constants.onboarding.detail.description;
-      state = constants.onboarding.detail;
-    }
-    return (
-      <Dialog open={open}>
-        <DialogTitle>
-          {dialogTitle}
-        </DialogTitle>
-        <DialogContent dividers>
-          <Grid container directiton='column' spacing={2}>
+    const onProps = getCurrentOnboardingElementProps(this.props.ui,
+        this.props.cookiesState, this.props.appState, this.props.training,
+        this.props.network);
+    console.log(onProps.state.arrow);
+    if (onProps.open) {
+      return (
+        <Grid container alignItems='center'
+          style={onProps.state.style}>
+          {
+            onProps.state.arrow === 'left' ?
+              <Grid item>
+                <ArrowBackIcon
+                  style={{color: this.props.ui.detail ?
+                  createMuiTheme.palette.detail.main :
+                  createMuiTheme.palette.overview.main}}
+                  fontSize="large" >
+                </ArrowBackIcon>
+              </Grid> : null
+          }
+          <Grid container item direction='column' alignItems='center'
+            style={{width: '500px'}}>
             {
-              description.map((descriptionElement, index) => (
-                <DescriptionElement key={index}
-                  descriptionElement={descriptionElement} />
-              ))
+            onProps.state.arrow === 'up' ?
+              <Grid item>
+                <ArrowUpwardIcon
+                  style={{color: this.props.ui.detail ?
+                  createMuiTheme.palette.detail.main :
+                  createMuiTheme.palette.overview.main}}
+                  fontSize="large" >
+                </ArrowUpwardIcon>
+              </Grid> : null
             }
-            <Grid item style={{width: '100%'}}>
-              <Grid container justify='flex-end'>
-                <Grid item>
-                  <Button variant="contained"
-                    className={this.props.ui.detail ?
+            <Grid item>
+              <Paper>
+                <Box p={2} style={{width: '500px'}}>
+                  <Grid container directiton='column' spacing={2}>
+                    <Grid item>
+                      <Typography variant="h5">
+                        {onProps.state.title}
+                      </Typography>
+                    </Grid>
+                    {
+                      onProps.state.description.map((descriptionElement, index) => (
+                        <DescriptionElement key={index}
+                          descriptionElement={descriptionElement} />
+                      ))
+                    }
+                    <Grid item style={{width: '100%'}}>
+                      <Grid container justify='flex-end'>
+                        <Grid item>
+                          <Button variant="contained"
+                            className={this.props.ui.detail ?
                     this.props.classes.text_button_detail :
                     this.props.classes.text_button_overview}
-                    onClick={this.handleSkip}>
-                    {state.buttonTitles.skip}
-                  </Button>
-                  <Button variant="contained"
-                    className={this.props.ui.detail ?
+                            onClick={this.handleSkip}>
+                            {onProps.state.buttonTitles.skip}
+                          </Button>
+                          <Button variant="contained"
+                            className={this.props.ui.detail ?
                     this.props.classes.text_button_cell :
                     this.props.classes.text_button_net}
-                    onClick={this.handleNext}
-                    endIcon={<NavigateNextIcon/>}>
-                    {state.buttonTitles.next}
-                  </Button>
-                </Grid>
-              </Grid>
+                            onClick={this.handleNext}
+                            endIcon={<NavigateNextIcon/>}>
+                            {onProps.state.buttonTitles.next}
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Paper>
             </Grid>
+            {
+            onProps.state.arrow === 'down' ?
+              <Grid item>
+                <ArrowDownwardIcon
+                  style={{color: this.props.ui.detail ?
+                  createMuiTheme.palette.detail.main :
+                  createMuiTheme.palette.overview.main}}
+                  fontSize="large" >
+                </ArrowDownwardIcon>
+              </Grid> : null
+            }
           </Grid>
-        </DialogContent>
-      </Dialog>
-    );
+          {
+            onProps.state.arrow === 'right' ?
+              <Grid item>
+                <ArrowForwardIcon
+                  style={{color: this.props.ui.detail ?
+                  createMuiTheme.palette.detail.main :
+                  createMuiTheme.palette.overview.main}}
+                  fontSize="large" >
+                </ArrowForwardIcon>
+              </Grid> : null
+          }
+        </Grid>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
@@ -131,6 +164,8 @@ class OnboardingDialog extends React.Component {
 OnboardingDialog.propTypes = {
   cookiesState: PropTypes.object.isRequired,
   appState: PropTypes.object.isRequired,
+  training: PropTypes.object.isRequired,
+  network: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
@@ -147,6 +182,8 @@ function mapStateToProps(state, _) {
   return {
     cookiesState: state.cookiesState,
     appState: state.appState,
+    training: state.training,
+    network: state.network,
     ui: state.ui,
   };
 }
