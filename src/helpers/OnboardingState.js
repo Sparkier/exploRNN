@@ -28,11 +28,20 @@ export function getCurrentOnboardingElementProps(uiState, cookiesState,
     open = uiState.detail ? false : true;
     state = constants.onboarding.startTraining;
   } else if (cookiesState.intro === 'output') {
-    open = uiState.detail ? false : true && trainingState.running;
+    open = uiState.detail ? false : true && (networkState.iteration > 1);
     state = constants.onboarding.output;
   } else if (cookiesState.intro === 'cellTransition') {
     open = uiState.detail ? false : true && (networkState.iteration > 9);
     state = constants.onboarding.cellTransition;
+  } else if (cookiesState.intro === 'detailOutput') {
+    open = uiState.detail ? true : false;
+    state = constants.onboarding.detailOutput;
+  } else if (cookiesState.intro === 'detailCell') {
+    open = uiState.detail ? true : false;
+    state = constants.onboarding.detailCell;
+  } else if (cookiesState.intro === 'headingExplanation') {
+    open = uiState.detail ? true : false;
+    state = constants.onboarding.headingExplanation;
   }
   return {
     open: open,
@@ -59,6 +68,12 @@ export function getNextIntroState(introState, cookiesState, action) {
     newIntroState = 'output';
   } else if (introState === 'output') {
     newIntroState = 'cellTransition';
+  } else if (introState === 'cellTransition') {
+    newIntroState = 'detailOutput';
+  } else if (introState === 'detailOutput') {
+    newIntroState = 'detailCell';
+  } else if (introState === 'detailCell') {
+    newIntroState = 'headingExplanation';
   } else {
     newIntroState = 'done';
   }

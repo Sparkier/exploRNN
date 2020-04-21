@@ -103,7 +103,7 @@ const descriptionsENG = {
       },
       {
         'type': 'highlighted',
-        'text': 'add layers by clicking between the layers ',
+        'text': 'add layers by clicking the + between the layers ',
       },
       {
         'type': 'plain',
@@ -175,6 +175,75 @@ const descriptionsENG = {
       {
         'type': 'highlighted',
         'text': 'click on one of the layers.',
+      },
+    ],
+  ],
+  detailOutputOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'Here, the training progresses in slow-motion. You can see ' +
+        'the cell build up its ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'internal memory from the input values in the grey box.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The network then makes a prediction based on this ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'internal state.',
+      },
+    ],
+  ],
+  detailCellOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'This is a LSTM cell, which is used throughout the network. ' +
+        'Here, you can look into what ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'individual components of this cell do.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'Simply click one of the compute elements, to get a ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'detailed description.',
+      },
+    ],
+  ],
+  headingExplanation: [
+    [
+      {
+        'type': 'plain',
+        'text': 'To get more information of individual components of this ' +
+        'app, ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'simply click any heading in this visualization.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'Now, have fun ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'exploring RNNs!',
       },
     ],
   ],

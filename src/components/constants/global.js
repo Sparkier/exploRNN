@@ -109,6 +109,48 @@ const globalENG = {
           left: 'calc(35% - 250px)',
         },
       },
+      detailOutput: {
+        title: 'Data Processing per Cell',
+        description: descriptionStrings['ENG'].detailOutputOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'right',
+        style: {
+          position: 'absolute',
+          top: '200px',
+          left: 'calc(50% - 535px)',
+        },
+      },
+      detailCell: {
+        title: 'Cell Components',
+        description: descriptionStrings['ENG'].detailCellOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Magnifying!',
+        },
+        arrow: 'left',
+        style: {
+          position: 'absolute',
+          top: '200px',
+          left: '50%',
+        },
+      },
+      headingExplanation: {
+        title: 'Explore',
+        description: descriptionStrings['ENG'].headingExplanation,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Explore',
+        },
+        arrow: 'none',
+        style: {
+          position: 'absolute',
+          top: ' 300px',
+          left: 'calc(50% - 250px)',
+        },
+      },
     },
     // Training steps in both views
     trainSteps: [
