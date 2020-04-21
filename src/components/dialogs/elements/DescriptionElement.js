@@ -18,8 +18,7 @@ class DescriptionElement extends React.Component {
    */
   render() {
     return (
-      <Grid item style={this.props.descriptionElement[0].type === 'formulas' ?
-        {width: '100%'} : {}}>
+      <Grid item style={{width: '100%'}}>
         {
           this.props.descriptionElement.map((descriptionItem, index) => (
             descriptionItem.type !== 'formulas' ?

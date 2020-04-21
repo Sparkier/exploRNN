@@ -28,11 +28,11 @@ const descriptionsENG = {
       },
       {
         'type': 'highlighted',
-        'text': 'each item in the dataset once ',
+        'text': 'each item in the dataset once',
       },
       {
         'type': 'plain',
-        'text': 'per epoch.',
+        'text': '.',
       },
     ],
   ],
@@ -302,16 +302,55 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'If we would try to train the network after each and ' +
-        'every input that we have in our training data the training would ' +
-        'take a very long time. To try and reduce the amount of ' +
-        'backpropagation steps in the training process the data set is ' +
-        'bundled into so called batches. Each batch contains a set amount ' +
-        'of data from the training data and only after all the data in one ' +
-        'batch is used up the network is being trained with the total error' +
-        ' of this batch. Since we then have less steps the training is done ' +
-        'more quickly, but because we only train on a total error we might ' +
-        'lose information of the individual outputs given by the net.',
+        'text': 'If we would train on every item individually, training would ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'take very long',
+      },
+      {
+        'type': 'plain',
+        'text': '. To circumvent this, we calculate the error for ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'multiple dataset items simultaneously.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'Here, you can set how many training items are ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'combined in a so-called batch',
+      },
+      {
+        'type': 'plain',
+        'text': '. Weight updates are then made based on the error for the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'whole batch.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'Larger batches ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'speed up training',
+      },
+      {
+        'type': 'plain',
+        'text': ', but can lead to ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'a loss of focus on individual training samples.',
       },
     ],
   ],
@@ -320,13 +359,49 @@ const descriptionsENG = {
       {
         'type': 'plain',
         'text': 'If we only check if the net can recreate given functions ' +
-        'we are prone to overfitting. Meaning we could not check if the ' +
-        'network can handle inputs not specifically used in the training ' +
-        'process. To give the network a more challenging task we try to ' +
-        'distort the input values to see if the network can cancel out this ' +
-        'noise. The higher this noise is the harder it is for the network ' +
-        ' to recognize the underlying function. Therefore the other values ' +
-        'need be selected more carefully.',
+        'we are prone to ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'overfitting',
+      },
+      {
+        'type': 'plain',
+        'text': '. Meaning the network only works well on the specific ' +
+        'data used in the training process.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'In real world scenarios, measurements are almost ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'never perfect',
+      },
+      {
+        'type': 'plain',
+        'text': ', and we want the network to generalize to ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'unseen data.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'To give the network a more challenging and realistic task, ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'you can distort the input values',
+      },
+      {
+        'type': 'plain',
+        'text': '. The higher this noise is the harder it is for the network ' +
+        ' to recognize the underlying function.',
       },
     ],
   ],
@@ -334,12 +409,23 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'The goal of the training process is to teach the ' +
-          'network to make as good a prediction as possible. To tell how ' +
-          'good the network currently is in its predictive abilities we ' +
-          'first need to get predictions for some inputs. The network is ' +
-          'shown these inputs and it calculates the values that it thinks ' +
-          'should come next.',
+        'text': 'To teach the network how to continue a sequence, one needs ' +
+        'to first ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'give the network data it can learn from.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The network then makes predictions based on this data, ' +
+        'suggesting how it ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'currently thinks, the sequence would continue.',
       },
     ],
   ],
@@ -347,13 +433,44 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'Since we know the continuation of the inputs we ' +
-        'used for the prediction beforehand, we can now check how far off ' +
-        'this prediction was. This is used as the error between prediciton ' +
-        'and reality to evaluate how the network has to be adjusted to ' +
-        'make better predictions the next time. In the small error ' +
-        'element you can see the error between a prediction and ' +
-        'the real values.',
+        'text': 'After a prediction is made on the training data, we can ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'calculate the prediction error.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'This is done by ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'comparing the prediction with what would actually be correct',
+      },
+      {
+        'type': 'plain',
+        'text': '. This is also referred to as comparing the prediction to ' +
+        'the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'ground truth.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'This difference is then used as the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'loss',
+      },
+      {
+        'type': 'plain',
+        'text': ', which is important for the backward step.',
       },
     ],
   ],
@@ -361,27 +478,52 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'Now comes the actual training part of the training' +
-        ' process. We now know for some inputs how well the network can ' +
-        'predict the continuation of the given functions. With this ' +
-        'knowledge we can backtrack the prediction process through the ' +
-        'cells and through the time steps. With this so called ' +
-        'backpropagation through time we can adjust the weights in the' +
-        ' cells to minimize the difference between prediction and reality.',
+        'text': 'After making predictions and calculating the loss, the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'network weights get updated.',
       },
     ],
-  ],
-  inputStep: [
     [
       {
         'type': 'plain',
-        'text': 'In this first step the cell waits for the inputs ' +
-          'to arrive. In the first time step only the outputs from the ' +
-          'previous layer will reach this input. In all later time ' +
-          'steps the recurrent output from this cell itself is also used as' +
-          ' an input for the coming calculations. With this cyclic stream of' +
-          ' information the cell can learn the dependencies between old and' +
-          ' new values.',
+        'text': 'This is done by ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'backpropagating the error through the network',
+      },
+      {
+        'type': 'plain',
+        'text': ', and for RNNs, also ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'through time.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'Here, the network learns, how weights for ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'individual layers ',
+      },
+      {
+        'type': 'plain',
+        'text': '(backpropagation through network), but also for individual ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'timesteps of the input function ',
+      },
+      {
+        'type': 'plain',
+        'text': '(backpropagation through time), should be changed to ' +
+        'the predictions.',
       },
     ],
   ],
@@ -421,17 +563,6 @@ const descriptionsENG = {
       },
     ],
   ],
-  stateStep: [
-    [
-      {
-        'type': 'plain',
-        'text': 'The cell state is now updated based on the gates ' +
-          'that determine what part of the input and what part of the cell ' +
-          'state from the previous time step should be used as the new cell ' +
-          'state.',
-      },
-    ],
-  ],
   outputStep: [
     [
       {
@@ -448,10 +579,23 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'The cell waits until it gets all data it needs as ' +
-        'input for all calculations. These inputs are the ceell output of ' +
-        'the previous time step, and the output of the cell which precedes ' +
-        'the inspected cell.',
+        'text': 'For calculating all the gates, ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'both, the current input to the cell ',
+      },
+      {
+        'type': 'plain',
+        'text': 'and ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'the activation of the previous timestep ',
+      },
+      {
+        'type': 'plain',
+        'text': 'are needed.',
       },
     ],
   ],
@@ -459,17 +603,64 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'The input gate is used as a measure for what part of ' +
-          'the input is being used for updating the cell state with new ' +
-          'information. The input gate is a filter used to calculate the new ' +
-          'cell state.',
+        'text': 'The input gate is used as a measure for ',
       },
-    ],
-    [
+      {
+        'type': 'highlighted',
+        'text': 'what part of the input is used for updating the cell state ',
+      },
+      {
+        'type': 'plain',
+        'text': 'with new information.',
+      },
       {
         'type': 'formulas',
         'formulas': [
           'i^t = sigmoid(W_{ix}x^t + W_{ia}a^{t-1} + b_i)',
+        ],
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'It is used to calculate the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'filtered input ',
+      },
+      {
+        'type': 'plain',
+        'text': 'to update the internal cell state.',
+      },
+      {
+        'type': 'formulas',
+        'formulas': [
+          '\\text{filtered_input} = i^t \\circ tanh(W_{cx}x^t + ' +
+          'W_{ca}a^{t-1} + b_c)',
+        ],
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': '',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': '',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'Symbols:',
+      },
+      {
+        'type': 'formulas',
+        'formulas': [
           'i^t: \\text{the input gate}',
           'x^t: \\text{the input from the previous cell at time step t}',
           'a^{t-1}: \\text{the activation of this cell from the previous ' +
@@ -484,21 +675,64 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'The forget gate determines what part of the ' +
-          'old cell state is relevant for future calculations and which ' +
-          'values can be forgotten. The forget gate is a filter used to ' +
-          'calculate the new cell state.',
+        'text': 'The forget gate determines ',
       },
-    ],
-    [
+      {
+        'type': 'highlighted',
+        'text': 'what part of the old cell state can be forgotten.',
+      },
       {
         'type': 'formulas',
         'formulas': [
           'f^t = sigmoid(W_{fx}x^t + W_{fa}a^{t-1} + b_f)',
+        ],
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'It is used to calculate the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'filtered state ',
+      },
+      {
+        'type': 'plain',
+        'text': 'to update the internal cell.',
+      },
+      {
+        'type': 'formulas',
+        'formulas': [
+          '\\text{filtered_state} = f^t \\circ c^{t-1}',
+        ],
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': '',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': '',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'Symbols:',
+      },
+      {
+        'type': 'formulas',
+        'formulas': [
           'f^t: \\text{the forget gate}',
           'x^t: \\text{the input from the previous cell at time step t}',
           'a^{t-1}: \\text{the activation of this cell from the previous ' +
             'time step}',
+          'c^{t-1}: \\text{the cell state from the previous time step}',
           'W: \\text{trainable weight parameters}',
           'b: \\text{trainable bias parameters}',
         ],
@@ -509,20 +743,73 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'The output gate is responsible for filtering what part ' +
-          'of the current cell state is used as the output activation of the ' +
-          'cell. Using the output gate, one can then comput the cell ' +
-          'activation, which is used as input to the next cell, as well as ' +
-          'recurrently in the same cell at the next time step. The gate ' +
-          'value and the output activation are computed as:',
+        'text': 'The output gate is responsible for filtering ',
       },
-    ],
-    [
+      {
+        'type': 'highlighted',
+        'text': 'what part of the current cell state is used as the output ' +
+        'activation ',
+      },
+      {
+        'type': 'plain',
+        'text': 'of the cell.',
+      },
       {
         'type': 'formulas',
         'formulas': [
           'o^t = sigmoid(W_{ox}x^t + W_{oa}a^{t-1} + b_o)',
+        ],
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'Using the output gate, one can then ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'compute the cell activation',
+      },
+      {
+        'type': 'plain',
+        'text': ', which is used as input to the next cell, as well as ' +
+          'recurrently in the same cell at the next time step.',
+      },
+      {
+        'type': 'formulas',
+        'formulas': [
           'a^t = o^t \\circ tanh(c^t)',
+        ],
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': '',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': '',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'Symbols:',
+      },
+      {
+        'type': 'formulas',
+        'formulas': [
+          'o^t: \\text{the output gate}',
+          'a^t: \\text{the activation of this cell for the current timestep}',
+          'x^t: \\text{the input from the previous cell at time step t}',
+          'a^{t-1}: \\text{the activation of this cell from the previous ' +
+            'time step}',
+          'c^{t}: \\text{the current cell state}',
+          'W: \\text{trainable weight parameters}',
+          'b: \\text{trainable bias parameters}',
         ],
       },
     ],
@@ -531,9 +818,23 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'To update the cell state, both, the forget gate and ' +
-        'the update gate are needed in combination with the cell input and ' +
-        'the output of the cell from the previous time step.',
+        'text': 'To update the cell state, ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'the filtered input ',
+      },
+      {
+        'type': 'plain',
+        'text': 'is combined with ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'the filtered state ',
+      },
+      {
+        'type': 'plain',
+        'text': 'of the previous time step.',
       },
     ],
   ],
@@ -541,32 +842,57 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'This is the memory cell, also called the cell state. ' +
-          'It represents an internal memory of this cell block that contains ' +
-          'relevant information about all previous time steps. When training ' +
-          'the network the error of the output is sent backwards through ' +
-          'by calculating the error gradients of all the cell components. ' +
-          'While normal RNN suffer from information losses because of the ' +
-          'many gradients decreasing the error over time the LSTM memory ' +
-          'cell overcomes this problem by sending the error with a constant ' +
-          'weight back in time. This makes the LSTM architecture capable of ' +
-          'learning long time distance dependencies.',
+        'text': 'The ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'cell state ',
+      },
+      {
+        'type': 'plain',
+        'text': 'is the heart of any LSTM cell. By having a cell state, and ' +
+        'deciding how to update it based on ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'the filtered input and previous state',
+      },
+      {
+        'type': 'plain',
+        'text': ', LSTM cells are able to ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'capture long-term dependencies.',
+      },
+      {
+        'type': 'formulas',
+        'formulas': [
+          'c^t = \\text{filtered_input} + \\text{filtered_state}',
+        ],
       },
     ],
     [
       {
+        'type': 'plain',
+        'text': '',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': '',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'Symbols:',
+      },
+      {
         'type': 'formulas',
         'formulas': [
-          'c^t = f^t \\circ c^{t-1} + i^t \\circ tanh(W_{cx}x^t + ' +
-            'W_{ca}a^{t-1} + b_c)',
-          'i^t: \\text{the input gate}',
-          'f^t: \\text{the forget gate}',
-          'c^t: \\text{the cell state}',
-          'x^t: \\text{the input from the previous cell at time step t}',
-          'a^{t-1}: \\text{the activation of this cell from the previous ' +
-            'time step}',
-          'W: \\text{trainable weight parameters}',
-          'b: \\text{trainable bias parameters}',
+          'c^t: \\text{the cell state at timestep t}',
         ],
       },
     ],
@@ -583,7 +909,7 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'The network blabla',
+        'text': 'The network recurrent connection, backprop through time',
       },
     ],
   ],
