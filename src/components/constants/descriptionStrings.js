@@ -247,116 +247,54 @@ const descriptionsENG = {
       },
     ],
   ],
-  // overview: [
-  //   [
-  //     {
-  //       'type': 'plain',
-  //       'text': 'You currently see the ',
-  //     },
-  //     {
-  //       'type': 'highlighted',
-  //       'text': 'overview of the network that you will train',
-  //     },
-  //     {
-  //    'type': 'plain',
-  //    'text': '. To the left, you see the input functions that you can use.' +
-  //    ' These are fed into the network visualized at the center to train it' +
-  //    '. You can add and remove layers from the network simply by ' +
-  //    'interacting with the network. On the right, a test ouptut of the ' +
-  //    'network is visualized.',
-  //     },
-  //   ],
-  //   [
-  //     {
-  //       'type': 'plain',
-  //       'text': 'Below these visualizations, you see explanations and ' +
-  //       'controls for training the network. Here, you can ',
-  //     },
-  //     {
-  //       'type': 'highlighted',
-  //       'text': 'change parameters and control the training',
-  //     },
-  //     {
-  //       'type': 'plain',
-  //       'text': '.',
-  //     },
-  //   ],
-  //   [
-  //     {
-  //     'type': 'plain',
-  //     'text': 'To give you even more explanations about this process, you' +
-  //     'can ',
-  //     },
-  //     {
-  //       'type': 'highlighted',
-  //       'text': 'click all the headings in this visualization',
-  //     },
-  //     {
-  //       'type': 'plain',
-  //       'text': ', which will give you explanations about individual ' +
-  //       'components.',
-  //     },
-  //   ],
-  // ],
-  // detail: [
-  //   [
-  //     {
-  //       'type': 'plain',
-  //       'text': 'You currently see the visualization of an individual ',
-  //     },
-  //     {
-  //       'type': 'highlighted',
-  //       'text': 'long-short term memory (LSTM) cell',
-  //     },
-  //     {
-  //    'type': 'plain',
-  //    'text': '. The cell is visualized on the left, while the data that is' +
-  //    ' processed by the network in each time-step is displayed on the ' +
-  //    'right.',
-  //     },
-  //   ],
-  //   [
-  //     {
-  //       'type': 'plain',
-  //       'text': 'You can ',
-  //     },
-  //     {
-  //       'type': 'highlighted',
-  //       'text': 'click individual compute units in this cell ',
-  //     },
-  //     {
-  //       'type': 'plain',
-  //       'text': 'to get insight into how they work and what they do.',
-  //     },
-  //   ],
-  //   [
-  //     {
-  //       'type': 'plain',
-  //       'text': 'As in the overview, you can also ' +
-  //       'can ',
-  //     },
-  //     {
-  //       'type': 'highlighted',
-  //       'text': 'click all headings in this visualization ',
-  //     },
-  //     {
-  //       'type': 'plain',
-  //       'text': 'for more information.',
-  //     },
-  //   ],
-  // ],
   learningRate: [
     [
       {
         'type': 'plain',
-        'text': 'The learning rate is basically a value that describes ' +
-        'the importance the network gives to the adjustments given by the ' +
-        'training process. The higher this rate is the stronger the network ' +
-        'changes its weights in the training step. The better a network is ' +
-        'at prediciting values the smaller this value can be. For this ' +
-        'application you can chose one rate value and explore how this ' +
-        'effects the training process. Note that for a change in this value' +
-        ' to be effective the network has to be regenerated first.',
+        'text': 'The learning rate specifies, ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'how much the network weights are updated.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'High learning rates mean, that the prediction error leads to ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'bigger updates, ',
+      },
+      {
+        'type': 'plain',
+        'text': 'changing the network a lot. In practice, this means, that ' +
+        'the network learns faster. However, when the learning rate is ' +
+        'too high, the network will overshoot, and ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'never get to an optimal state.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'If the learning rate is super low, the chance that the ' +
+        'network finds the optimal solution is ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'higher',
+      },
+      {
+        'type': 'plain',
+        'text': ', but it will learn much ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'slower.',
       },
     ],
   ],
