@@ -34,7 +34,7 @@ class DescriptionElement extends React.Component {
    * global state accordingly
    */
   handleClose = () => {
-    const dialogs = [false, false, false, false, false, false];
+    const dialogs = [false, false, false, false];
     this.props.actions.updateAppState({
       ...this.props.appState,
       stepDialog: dialogs,

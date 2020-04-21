@@ -181,38 +181,26 @@ const globalENG = {
     lstmSteps: [
       {
         id: 0,
-        title: 'Input',
-        description: 'The cell waits for all necessary inputs.',
-        longDescription: descriptionStrings['ENG'].inputStep,
-      },
-      {
-        id: 1,
         title: 'Layer Input',
         description: 'The inputs from this layer and the previous layer are ' +
         'combined and used in all gates and to update the memory.',
         longDescription: descriptionStrings['ENG'].layerInputStep,
       },
       {
-        id: 2,
+        id: 1,
         title: 'Gate Activation',
         description: 'The new input is processed by the input and forget gate.',
         longDescription: descriptionStrings['ENG'].gateStep,
       },
       {
-        id: 3,
+        id: 2,
         title: 'Cell Update',
         description: 'The processed values are combined to ' +
           'update the cell state.',
         longDescription: descriptionStrings['ENG'].updateStep,
       },
       {
-        id: 4,
-        title: 'Cell State',
-        description: 'The cell state is updated',
-        longDescription: descriptionStrings['ENG'].stateStep,
-      },
-      {
-        id: 5,
+        id: 3,
         title: 'Output',
         description: 'The cell state is transformed by the output gate ' +
           'before being sent to the next layer.',

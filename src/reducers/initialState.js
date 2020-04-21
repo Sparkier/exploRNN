@@ -58,7 +58,7 @@ export default {
     // Dialogs for the detail cell components
     cellDialog: [false, false, false, false, false, false],
     // Dialogs for the steps in the detail cell
-    stepDialog: [false, false, false, false, false, false],
+    stepDialog: [false, false, false, false],
     // Dialog for epochs at bottom center
     epochDialog: false,
     // Dialog for the about section in the drawer

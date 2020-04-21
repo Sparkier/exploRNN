@@ -21,33 +21,15 @@ class DescriptionPanel extends React.Component {
    */
   render() {
     const global = globalConstants[this.props.appState.language];
-    const even = [];
-    const odd = [];
-    for (const index in global.strings.lstmSteps) {
-      if (index % 2 === 0) {
-        even.push(global.strings.lstmSteps[index]);
-      } else {
-        odd.push(global.strings.lstmSteps[index]);
-      }
-    }
     return (
       <Grid item xs className={this.props.classes.smallPanelWrapper}>
         <Grid container style={{height: '100%'}} direcion='column'
           justify='space-between' alignItems="center" spacing={1}>
-          <Grid container item xs={6} style={{height: '100%'}}>
-            {
-              even.map((step) => (
-                <DescriptionElement key={step.id} step={step}/>
-              ))
-            }
-          </Grid>
-          <Grid container item xs={6} style={{height: '100%'}}>
-            {
-              odd.map((step) => (
-                <DescriptionElement key={step.id} step={step}/>
-              ))
-            }
-          </Grid>
+          {
+            global.strings.lstmSteps.map((step) => (
+              <DescriptionElement key={step.id} step={step}/>
+            ))
+          }
         </Grid>
       </Grid>
     );

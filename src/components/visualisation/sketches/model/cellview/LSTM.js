@@ -47,126 +47,63 @@ export class LSTM {
     };
 
     // creating the cell components of the lstm cell
-    this.items.push(
-        this.receive =
-          new Item(cell, 'rec', 1, 1, 2, 1, 0)
-    );
-    this.items.push(
-        this.add =
-          new Item(cell, 'add', 2, 1, 1, 2, 1)
-    );
-    this.items.push(
-        this.save =
-          new Item(cell, 'sav', 3, 1, 2, 3, 4)
-    );
-    this.items.push(
-        this.forget =
-          new Item(cell, 'los', 4, 1, 2, 2, 2)
-    );
-    this.items.push(
-        this.output =
-          new Item(cell, 'out', 5, 1, 2, 5, 3)
-    );
-    this.items.push(
-        this.cell =
-          new Item(cell, 'cel', 3, 2, 1, 4, 5)
-    );
-    this.items.push(
-        this.crossInput =
-          new Item(cell, 'crs', 2, 0.5, 1, -1)
-    );
-    this.items.push(
-        this.crossForget =
-          new Item(cell, 'crs', 4, 0.5, 1, -1)
-    );
-    this.items.push(
-        this.crossOutput =
-          new Item(cell, 'crs', 5, 0.5, 1, -1)
-    );
-    this.items.push(
-        this.crossCell =
-          new Item(cell, 'crs', 4.5, 1, 1, -1)
-    );
-    this.items.push(
-        this.ghostFirst =
-          new Item(cell, 'gft', -1, 1, 1, 0)
-    );
-    this.items.push(
-        this.ghostLast =
-          new Item(cell, 'glt', 7, 1, 1, 0)
-    );
+    this.items.push(this.receive = new Item(cell, 'rec', 1, 1, 2, 0, 0));
+    this.items.push(this.add = new Item(cell, 'add', 2, 1, 1, 2, 1));
+    this.items.push(this.save = new Item(cell, 'sav', 3, 1, 2, 2, 4));
+    this.items.push(this.forget = new Item(cell, 'los', 4, 1, 2, 1, 2));
+    this.items.push(this.output = new Item(cell, 'out', 5, 1, 2, 3, 3));
+    this.items.push(this.cell = new Item(cell, 'cel', 3, 2, 1, 2, 5));
+    this.items.push(this.crossInput = new Item(cell, 'crs', 2, 0.5, 1, -1));
+    this.items.push(this.crossForget = new Item(cell, 'crs', 4, 0.5, 1, -1));
+    this.items.push(this.crossOutput = new Item(cell, 'crs', 5, 0.5, 1, -1));
+    this.items.push(this.crossCell = new Item(cell, 'crs', 4.5, 1, 1, -1));
+    this.items.push(this.ghostFirst = new Item(cell, 'gft', -1, 1, 1, 0));
+    this.items.push(this.ghostLast = new Item(cell, 'glt', 7, 1, 1, 0));
 
     // setting up the connections between the lstm cell items
-    this.connections.push(
-        this.ghostInput =
-          new Connection([
-            {x: this.ghostFirst.x, y: this.ghostFirst.y},
-            {x: this.receive.x, y: this.receive.y}], [this.receive], s));
-    this.connections.push(
-        this.bus =
-          new Connection([
-            {x: this.receive.x, y: this.receive.y},
-            {x: this.receive.x, y: this.crossOutput.y},
-            {x: this.crossOutput.x, y: this.crossOutput.y}], [], s));
-    this.connections.push(
-        this.toInput =
-          new Connection([
-            {x: this.crossInput.x, y: this.crossInput.y},
-            {x: this.add.x, y: this.add.y}], [this.add], s));
-    this.connections.push(
-        this.toForget =
-          new Connection([
-            {x: this.crossForget.x, y: this.crossForget.y},
-            {x: this.forget.x, y: this.forget.y}], [this.forget], s));
-    this.connections.push(
-        this.toOutput =
-          new Connection([
-            {x: this.crossOutput.x, y: this.crossOutput.y},
-            {x: this.output.x, y: this.output.y}], [this.output], s));
-    this.connections.push(
-        this.addToSave =
-          new Connection([
-            {x: this.add.x, y: this.add.y},
-            {x: this.save.x, y: this.save.y}], [this.save], s));
-    this.connections.push(
-        this.forgetToSave =
-          new Connection([
-            {x: this.forget.x, y: this.forget.y},
-            {x: this.save.x, y: this.save.y}], [this.save], s));
-    this.connections.push(
-        this.saveToCell =
-          new Connection([
-            {x: this.save.x, y: this.save.y},
-            {x: this.cell.x, y: this.cell.y}], [this.cell], s));
-    this.connections.push(
-        this.cellOut =
-          new Connection([
-            {x: this.cell.x, y: this.cell.y},
-            {x: this.crossCell.x, y: this.cell.y},
-            {x: this.crossCell.x, y: this.crossCell.y}], [], s));
-    this.connections.push(
-        this.cellToForget =
-          new Connection([
-            {x: this.crossCell.x, y: this.crossCell.y},
-            {x: this.forget.x, y: this.forget.y}], [this.forget], s));
-    this.connections.push(
-        this.cellToOutput =
-          new Connection([
-            {x: this.crossCell.x, y: this.crossCell.y},
-            {x: this.output.x, y: this.output.y}], [this.output], s));
-    this.connections.push(
-        this.recurrent =
-          new Connection([
-            {x: this.output.x, y: this.output.y},
-            {x: this.output.x, y: top + 2.5 * verBuf},
-            {x: this.receive.x, y: top + 2.5 * verBuf},
-            {x: this.receive.x, y: this.receive.y}], [this.receive], s));
-
-    this.connections.push(
-        this.ghostOutput =
-          new Connection([
-            {x: this.output.x, y: this.output.y},
-            {x: this.ghostLast.x, y: this.ghostLast.y}], [this.ghostLast], s));
+    this.connections.push(this.ghostInput = new Connection([
+      {x: this.ghostFirst.x, y: this.ghostFirst.y},
+      {x: this.receive.x, y: this.receive.y}], [this.receive], s));
+    this.connections.push(this.bus = new Connection([
+      {x: this.receive.x, y: this.receive.y},
+      {x: this.receive.x, y: this.crossOutput.y},
+      {x: this.crossOutput.x, y: this.crossOutput.y}], [], s));
+    this.connections.push(this.toInput = new Connection([
+      {x: this.crossInput.x, y: this.crossInput.y},
+      {x: this.add.x, y: this.add.y}], [this.add], s));
+    this.connections.push(this.toForget = new Connection([
+      {x: this.crossForget.x, y: this.crossForget.y},
+      {x: this.forget.x, y: this.forget.y}], [this.forget], s));
+    this.connections.push(this.toOutput = new Connection([
+      {x: this.crossOutput.x, y: this.crossOutput.y},
+      {x: this.output.x, y: this.output.y}], [this.output], s));
+    this.connections.push(this.addToSave = new Connection([
+      {x: this.add.x, y: this.add.y},
+      {x: this.save.x, y: this.save.y}], [this.save], s));
+    this.connections.push(this.forgetToSave = new Connection([
+      {x: this.forget.x, y: this.forget.y},
+      {x: this.save.x, y: this.save.y}], [this.save], s));
+    this.connections.push(this.saveToCell = new Connection([
+      {x: this.save.x, y: this.save.y},
+      {x: this.cell.x, y: this.cell.y}], [this.cell], s));
+    this.connections.push(this.cellOut = new Connection([
+      {x: this.cell.x, y: this.cell.y},
+      {x: this.crossCell.x, y: this.cell.y},
+      {x: this.crossCell.x, y: this.crossCell.y}], [], s));
+    this.connections.push(this.cellToForget = new Connection([
+      {x: this.crossCell.x, y: this.crossCell.y},
+      {x: this.forget.x, y: this.forget.y}], [this.forget], s));
+    this.connections.push(this.cellToOutput = new Connection([
+      {x: this.crossCell.x, y: this.crossCell.y},
+      {x: this.output.x, y: this.output.y}], [this.output], s));
+    this.connections.push(this.recurrent = new Connection([
+      {x: this.output.x, y: this.output.y},
+      {x: this.output.x, y: top + 2.5 * verBuf},
+      {x: this.receive.x, y: top + 2.5 * verBuf},
+      {x: this.receive.x, y: this.receive.y}], [this.receive], s));
+    this.connections.push(this.ghostOutput = new Connection([
+      {x: this.output.x, y: this.output.y},
+      {x: this.ghostLast.x, y: this.ghostLast.y}], [this.ghostLast], s));
 
     // defining which items have which outgoing connections
     this.ghostFirst.connections.push(this.ghostInput);
@@ -188,7 +125,7 @@ export class LSTM {
     this.output.connections.push(this.recurrent);
     this.ghostLast.connections.push(this.ghostFirst);
 
-    // activating some items to start of the animation sequence
+    // activating some items to start off the animation sequence
     this.ghostFirst.addActiveInput();
     this.recurrent.addActiveInput();
     this.forget.addActiveInput();
@@ -218,7 +155,7 @@ export class LSTM {
   }
 
   /**
-   * This functions sends an update trigger to all items and connections
+   * This function sends an update trigger to all items and connections
    * to check if one of them needs to forward their activation
    *
    * @param {boolean} forced true, if the update should be done independently
