@@ -14,7 +14,7 @@ class DescriptionItem extends React.Component {
    */
   render() {
     return (
-      <Context input='tex'>
+      <Context input='tex' options={{displayAlign: 'left'}}>
         <span>
           {
             this.props.formulas.map((formula) => (
