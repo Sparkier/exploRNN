@@ -31,14 +31,8 @@ export class NetworkPlot {
       this.total = s.props.training.values + s.props.training.predictions;
       this.stepWidth = this.plotWidth / this.total;
     }
-    if (this.s.props.training.inputType === 'Text Data') {
-      this.heading = new Heading(this.s, this.s.outProps.left + 20,
-          this.s.height * this.s.typography.titleOffsetRatio / 2,
-          'predictionText');
-    } else {
-      this.heading = new Heading(this.s, this.s.outProps.left + 20,
-          this.s.height * this.s.typography.titleOffsetRatio / 2, 'prediction');
-    }
+    this.heading = new Heading(this.s, this.s.outProps.left + 20,
+        this.s.height * this.s.typography.titleOffsetRatio / 2, 'prediction');
     this.textPlot = new TextPlot();
     this.functionPlot = new FunctionPlot();
   }

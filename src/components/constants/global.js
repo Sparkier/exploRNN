@@ -157,23 +157,27 @@ const globalENG = {
       {
         id: 0,
         title: 'Forward',
-        description: 'A random sample input is shown to the network value by ' +
-          'value. The network than makes a predicition on how this sample ' +
-          'would continue over time.',
+        description: 'Data is shown to the network value by value to build ' +
+        'up the internal state. After a fixed number of data points has been ' +
+        'processed, the network can make a prediction on how this sample ' +
+        'would continue.',
         longDescription: descriptionStrings['ENG'].forward,
       },
       {
         id: 1,
         title: 'Validation',
-        description: 'The predicted values are compared to the target values ' +
-          'and the total loss is calculated.',
+        description: 'The predicted values are compared to the correct ' +
+        'values (ground truth) from the training dataset. The difference is ' +
+        'used to calculate the loss.',
         longDescription: descriptionStrings['ENG'].validation,
       },
       {
         id: 2,
         title: 'Backward',
-        description: 'The net is told how far off its prediction was and ' +
-          'then tries to update its inner variables.',
+        description: 'The calculated loss is backpropagated through the ' +
+        'network as well as through time (reverting the input timesteps), to ' +
+        'find out where the prediction error came from and update the ' +
+        'network variables for the next iteration.',
         longDescription: descriptionStrings['ENG'].backward,
       },
     ],
@@ -182,31 +186,37 @@ const globalENG = {
       {
         id: 0,
         title: 'Layer Input',
-        description: 'The inputs from this layer and the previous layer are ' +
-        'combined and used in all gates and to update the memory.',
+        description: 'The inputs from the previous layer is combined with ' +
+        'the output of this layer from the last time step. The layer input ' +
+        'is then used in all gates.',
         longDescription: descriptionStrings['ENG'].layerInputStep,
       },
       {
         id: 1,
         title: 'Gate Activation',
-        description: 'The new input is processed by the input and forget gate.',
+        description: 'All gates are using the layer input to determine what ' +
+        'information should be use to update the cell state with, and what ' +
+        'part of the cell state should be output from this cell.',
         longDescription: descriptionStrings['ENG'].gateStep,
       },
       {
         id: 2,
         title: 'Cell Update',
-        description: 'The processed values are combined to ' +
-          'update the cell state.',
+        description: 'The input gate filters the layer input to update the ' +
+        'cell state, whereas the forget gate determines what old cell state ' +
+        'values should be forgotten.',
         longDescription: descriptionStrings['ENG'].updateStep,
       },
       {
         id: 3,
         title: 'Output',
-        description: 'The cell state is transformed by the output gate ' +
-          'before being sent to the next layer.',
+        description: 'The cell state is filtered by the output gate to ' +
+        'compute the output activation and send it as a input to the next ' +
+        'layer.',
         longDescription: descriptionStrings['ENG'].outputStep,
       },
     ],
+    // Headings throughout the application
     headings: [
       {
         id: 1,
@@ -228,24 +238,17 @@ const globalENG = {
       },
       {
         id: 4,
-        identifier: 'predictionText',
-        title: 'Prediction',
-        description: descriptionStrings['ENG'].predictionTextHeading,
-      },
-      {
-        id: 5,
         identifier: 'cell',
         title: 'LSTM Cell',
         description: descriptionStrings['ENG'].cellHeading,
       },
       {
-        id: 6,
+        id: 5,
         identifier: 'cellPlot',
         title: 'Network Data',
         description: descriptionStrings['ENG'].cellPlotHeading,
       },
     ],
-    defaultDescription: '[missing description]',
     // Elements in the cell view
     lstmGates: [
       {

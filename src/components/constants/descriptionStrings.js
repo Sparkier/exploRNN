@@ -531,11 +531,54 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'Once all necessary input values have reached the ' +
-          'cell input these values are used to form an input for this' +
-          ' layer. This input contains information about the new time step' +
-          ' as well as information about the previous state of the ' +
-          'current cell.',
+        'text': 'To inform the gates of the cell about which information ' +
+        'is relevant to be ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'integrated into the cell state',
+      },
+      {
+        'type': 'plain',
+        'text': ', what aprt of the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'previous cell state can be forgotten',
+      },
+      {
+        'type': 'plain',
+        'text': ', and what part of the cell state is ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'output as the cell activation, ',
+      },
+      {
+        'type': 'plain',
+        'text': 'LSTM cells use both, the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'input to this cell',
+      },
+      {
+        'type': 'plain',
+        'text': ', and the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'activation of this cell from the previous time step.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'This combined input information is referred to as the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'layer input.',
       },
     ],
   ],
@@ -543,14 +586,83 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'With the layer input now sent to the gates of the' +
-          ' cell the gates can calculate filters for the input and cell ' +
-          'state. The input gate determines ' +
-          'a filter that will be used to extract the relevant new ' +
-          'information from the block input. At the same time the forget' +
-          ' gate also calculates a data filter which is used to' +
-          ' determine which values of the cell state are not relevant anymore' +
-          ' and can be forgotten.',
+        'text': 'Using the information that is combined as the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'layer input',
+      },
+      {
+        'type': 'plain',
+        'text': ', all three gates use their own weights and biases to ' +
+        'compute the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'gate activation',
+      },
+      {
+        'type': 'plain',
+        'text': ', which determines what part of information is used for ' +
+        'updating the cell state and calculating the cell activation.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'input gate',
+      },
+      {
+        'type': 'plain',
+        'text': ' filters what part of the layer input is used to ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'update the cell state',
+      },
+      {
+        'type': 'plain',
+        'text': 'with new information.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'forget gate',
+      },
+      {
+        'type': 'plain',
+        'text': ' filters what part of the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'cell state can be forgotten.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'output gate',
+      },
+      {
+        'type': 'plain',
+        'text': ' filters what part of the cell state is used to ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'compute the cell activation.',
       },
     ],
   ],
@@ -558,8 +670,59 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'With the input and forget gate having calculated' +
-          ' their filters the cell state update can now be determined.',
+        'text': 'Using the filters of the input gate and the forget gate, ' +
+        'the cell state is updated with ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'a mix of new information and information from the old cell ' +
+        'state.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'input gate',
+      },
+      {
+        'type': 'plain',
+        'text': ' is used in combination with the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'layer input',
+      },
+      {
+        'type': 'plain',
+        'text': ' to determine what new information gets added to the ' +
+        'cell state.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'forget gate',
+      },
+      {
+        'type': 'plain',
+        'text': ' is used in combination with the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'previous cell state',
+      },
+      {
+        'type': 'plain',
+        'text': ' to determine what information from the previous cell ' +
+        'state can be forgotten.',
       },
     ],
   ],
@@ -567,11 +730,53 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'Since the information in memory cell is a mix of' +
-          ' relevant information for this cell, the output gate' +
-          ' now tries to extract the valuable information that can be sent' +
-          ' to the following layer. This output is also used as input of the' +
-          ' current cell for the next time step.',
+        'text': 'Finally, the cell needs to output an ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'activation value',
+      },
+      {
+        'type': 'plain',
+        'text': ', which can be used as ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'an input to the next cell, or as a prediction output.',
+      },
+      {
+        'type': 'plain',
+        'text': 'It is also used ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'recurrently',
+      },
+      {
+        'type': 'plain',
+        'text': ' as an input to this cell for the next time step.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The activation is computed as ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'filtered information',
+      },
+      {
+        'type': 'plain',
+        'text': ' from the cell state. Here, the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'output gate',
+      },
+      {
+        'type': 'plain',
+        'text': ' is used for this filtering.',
       },
     ],
   ],
@@ -579,7 +784,7 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'For calculating all the gates, ',
+        'text': 'For informing all the gates, ',
       },
       {
         'type': 'highlighted',
@@ -901,7 +1106,104 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': '',
+        'text': 'The input to a recurrent neural network can be ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'sequential data.',
+      },
+      {
+        'type': 'plain',
+        'text': ' We use ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'periodic functions ',
+      },
+      {
+        'type': 'plain',
+        'text': 'and ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'simple text snippets ',
+      },
+      {
+        'type': 'plain',
+        'text': 'to illustrate this.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'For other tasks, such as ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'image captioning',
+      },
+      {
+        'type': 'plain',
+        'text': ', which does not include sequential input data, the network ' +
+        'only gets an input value for the first time step, and then has to ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'recurrently build a caption ',
+      },
+      {
+        'type': 'plain',
+        'text': 'by outputting one word at a time, which, again, makes it a ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'sequential task.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'This way, recurrent neural networks can be used for tasks ' +
+        'with ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'sequential input and non-sequential output (many-to-one)',
+      },
+      {
+        'type': 'plain',
+        'text': ', such as next element prediction. Tasks with ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'sequential input and sequential output (many-to-many)',
+      },
+      {
+        'type': 'plain',
+        'text': ', such as translation. As well as tasks with ',
+      },
+      {
+        'type': 'highlighted',
+        'text': ' non-sequential input and sequential output (one-to-many)',
+      },
+      {
+        'type': 'plain',
+        'text': ', such as image captioning.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'As the general concepts for these tasks does not differ, ' +
+        'we focus on ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'next element prediction',
+      },
+      {
+        'type': 'plain',
+        'text': ' in this application, which is a many-to-one task.',
       },
     ],
   ],
@@ -909,7 +1211,81 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'The network recurrent connection, backprop through time',
+        'text': 'a recurrent neural network is built up in a similar way as ' +
+        'convolutional or fully connected neural networks, where ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'multiple layers',
+      },
+      {
+        'type': 'plain',
+        'text': ' are connected to extract information from the input.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The great speciality of recurrent neural networks is, ' +
+        'that they also use ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'information from previous time steps',
+      },
+      {
+        'type': 'plain',
+        'text': ' for their predictions.',
+      },
+      {
+        'type': 'plain',
+        'text': ' This is visualized by the loops in their network glyphs.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'To achieve this, they have weights not only for how ' +
+        'information is processed throughout layers, but also for how ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'information from previous time steps',
+      },
+      {
+        'type': 'plain',
+        'text': ' is processed.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'During trianing, this means that the error is not only ' +
+        'backpropagated through the layers, but also ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'through time',
+      },
+      {
+        'type': 'plain',
+        'text': ', to update the weights responsible for determining how ' +
+        'information from previous time steps is processed.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'This can be thought of as the error ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'flowing backwards through the loops',
+      },
+      {
+        'type': 'plain',
+        'text': ' in the network, as well as through the lines connecting ' +
+        'the layers.',
       },
     ],
   ],
@@ -917,15 +1293,74 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'The prediction blabla',
+        'text': 'The prediction visualization shows how the network performs ' +
+        'on a ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'random example ',
+      },
+      {
+        'type': 'plain',
+        'text': 'from the dataset.',
       },
     ],
-  ],
-  predictionTextHeading: [
     [
       {
         'type': 'plain',
-        'text': 'The prediction blabla',
+        'text': 'The ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'grey area',
+      },
+      {
+        'type': 'plain',
+        'text': ' shows, how many previous data points the network needs for ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'building up its internal state',
+      },
+      {
+        'type': 'plain',
+        'text': '. The network will then make a prediction after these inputs' +
+        ' have been processed.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'prediction accuracy',
+      },
+      {
+        'type': 'plain',
+        'text': ' will normally get ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'worse for later predictions',
+      },
+      {
+        'type': 'plain',
+        'text': '. This comes from the fact, that the network first builds ' +
+        'its internal state from ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'training data',
+      },
+      {
+        'type': 'plain',
+        'text': ', whereas later, it needs to obtain its internal state from ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'previous predictions.',
       },
     ],
   ],
@@ -933,7 +1368,43 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'The cell blabla',
+        'text': 'A LSTM (long short-term memory) cell consists of ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'different gates',
+      },
+      {
+        'type': 'plain',
+        'text': ', that determine what information is used to update its ' +
+        'internal ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'cell state',
+      },
+      {
+        'type': 'plain',
+        'text': ', and what information within this cell state is used to ' +
+        'calculate the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'output activation.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'To learn more about the gates and memory of this cell, ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'click on one of the elements',
+      },
+      {
+        'type': 'plain',
+        'text': ' in this visualization.',
       },
     ],
   ],
@@ -941,7 +1412,49 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'The data blabla',
+        'text': 'The network first builds up its internal state, visualized ' +
+        'by the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'grey box',
+      },
+      {
+        'type': 'plain',
+        'text': ', before making a prediction.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'This prediction is then used, to ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'calculate the loss.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'To make further predictions, as when generating text or ' +
+        'continuing a function, one can feed the network ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'its own prediction values',
+      },
+      {
+        'type': 'plain',
+        'text': ', to again build up the internal state with the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'same number of time steps',
+      },
+      {
+        'type': 'plain',
+        'text': ' as at the beginning, where known datapoints were used.',
       },
     ],
   ],
