@@ -149,7 +149,7 @@ class ControlPanel extends React.Component {
                   } />
               </Grid>
             </Grid>
-            <Grid container item xs={12} justify='center'>
+            <Grid container item xs={12} alignItems='center' direction='column'>
               <Grid item>
                 <Typography>
                   <Link href={'#'} className =
@@ -159,13 +159,15 @@ class ControlPanel extends React.Component {
                     {global.strings.epoch.title}
                   </Link>
                 </Typography>
-                <Typography className={this.props.classes.typoStdBig}>
-                  {this.styledEpochs()}
-                </Typography>
                 <ComplexDialog closeFunction={this.handleClose}
                   open={this.props.appState.epochDialog}
                   title={global.strings.epoch.title}
                   description={global.strings.epoch.description}/>
+              </Grid>
+              <Grid item>
+                <Typography className={this.props.classes.typoStdBig}>
+                  {this.props.network.iteration}
+                </Typography>
               </Grid>
             </Grid>
           </Grid>
