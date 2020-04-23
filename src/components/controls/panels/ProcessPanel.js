@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import {withStyles} from '@material-ui/core/styles';
 import {Grid, Typography, Link, IconButton} from '@material-ui/core';
-import Jump from '@material-ui/icons/ArrowForward';
+import Jump from '@material-ui/icons/FastForward';
 
 import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
@@ -113,7 +113,7 @@ class ProcessPanel extends React.Component {
                           style={{marginLeft: '12px'}}
                           className={this.props.classes.button_cell}
                           onClick={(event) => this.onJump(step.id)}>
-                          <Jump style={{color: 'white'}}/>
+                          <Jump fontSize='small' style={{color: 'white'}}/>
                         </IconButton> :
                         null
                     }
