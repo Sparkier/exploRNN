@@ -51,18 +51,6 @@ const descriptionsENG = {
         'text': '(RNNs).',
       },
     ],
-  ],
-  inputOnboarding: [
-    [
-      {
-        'type': 'plain',
-        'text': 'Here, you can change which ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'function or text sample is used for training.',
-      },
-    ],
     [
       {
         'type': 'plain',
@@ -71,10 +59,8 @@ const descriptionsENG = {
       },
       {
         'type': 'highlighted',
-        'text': 'sequential data.',
+        'text': 'sequential data. ',
       },
-    ],
-    [
       {
         'type': 'plain',
         'text': 'Thus, they are used for tasks such as ',
@@ -82,6 +68,26 @@ const descriptionsENG = {
       {
         'type': 'highlighted',
         'text': 'translation, image captioning, and next element prediction.',
+      },
+    ],
+  ],
+  inputOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'In this application, you can experiment with ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'function and text data. ',
+      },
+      {
+        'type': 'plain',
+        'text': 'Here on the left, you can select which dataset you want to ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'train on.',
       },
     ],
   ],
@@ -129,8 +135,12 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'You can also advance individual epochs using the forward ' +
-        'button.',
+        'text': 'If the network is paused, you can also advance individual ' +
+        'epochs using the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'forward button',
       },
     ],
   ],
@@ -138,21 +148,23 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'Here, you can see how you network ',
+        'text': 'To show how your network ',
       },
       {
         'type': 'highlighted',
-        'text': 'currently performs.',
+        'text': 'currently performs',
       },
-    ],
-    [
       {
         'type': 'plain',
-        'text': 'We show the prediction for a ',
+        'text': ', we visualize ',
       },
       {
         'type': 'highlighted',
-        'text': 'random dataset exmple in each epoch.',
+        'text': 'the prediction for a random dataset example',
+      },
+      {
+        'type': 'plain',
+        'text': ' in each epoch.',
       },
     ],
   ],
@@ -164,17 +176,15 @@ const descriptionsENG = {
       },
       {
         'type': 'highlighted',
-        'text': 'what happens inside an LSTM cell.',
+        'text': 'into one of these layers',
       },
-    ],
-    [
       {
         'type': 'plain',
-        'text': 'To do this, simply ',
+        'text': '. Clicking on one of them will show you the workings of a ',
       },
       {
         'type': 'highlighted',
-        'text': 'click on one of the layers.',
+        'text': 'LSTM cell.',
       },
     ],
   ],
@@ -182,7 +192,7 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'Here, the training progresses in slow-motion. You can see ' +
+        'text': 'In this plot, you can can see ' +
         'the cell build up its ',
       },
       {
@@ -205,18 +215,26 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'This is a LSTM cell, which is used throughout the network. ' +
-        'Here, you can look into what ',
+        'text': 'In this, more detailed view, the training progresses in ',
       },
       {
         'type': 'highlighted',
-        'text': 'individual components of this cell do.',
+        'text': 'slow-motion.',
       },
     ],
     [
       {
         'type': 'plain',
-        'text': 'Simply click one of the compute elements, to get a ',
+        'text': 'This is a LSTM cell, which is used throughout the network. ' +
+        'To look into what ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'individual components of this cell do',
+      },
+      {
+        'type': 'plain',
+        'text': ', simply click one of the compute elements, to get a ',
       },
       {
         'type': 'highlighted',

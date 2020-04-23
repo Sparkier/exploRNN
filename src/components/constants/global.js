@@ -105,7 +105,7 @@ const globalENG = {
         arrow: 'up',
         style: {
           position: 'absolute',
-          top: 'calc(100% - 40vh)',
+          top: 'calc(100% - 45vh)',
           left: 'calc(35% - 250px)',
         },
       },
@@ -128,7 +128,7 @@ const globalENG = {
         description: descriptionStrings['ENG'].detailCellOnboarding,
         buttonTitles: {
           skip: 'Skip Intro',
-          next: 'Magnifying!',
+          next: 'Nice!',
         },
         arrow: 'left',
         style: {

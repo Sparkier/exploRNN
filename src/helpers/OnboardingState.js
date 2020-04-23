@@ -69,10 +69,10 @@ export function getNextIntroState(introState, cookiesState, action) {
   } else if (introState === 'output') {
     newIntroState = 'cellTransition';
   } else if (introState === 'cellTransition') {
-    newIntroState = 'detailOutput';
-  } else if (introState === 'detailOutput') {
     newIntroState = 'detailCell';
   } else if (introState === 'detailCell') {
+    newIntroState = 'detailOutput';
+  } else if (introState === 'detailOutput') {
     newIntroState = 'headingExplanation';
   } else {
     newIntroState = 'done';
