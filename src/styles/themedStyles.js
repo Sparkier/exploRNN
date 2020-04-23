@@ -27,7 +27,7 @@ const styles = (theme) => ({
     color: 'black',
     width: '90%',
     margin: '5px',
-    fontSize: '20px',
+    fontSize: '30px',
   },
   typoOv: { // Overview typography
     color: theme.palette.overview.main,
