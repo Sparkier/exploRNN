@@ -59,27 +59,6 @@ class ControlPanel extends React.Component {
   }
 
   /**
-   * Creates a formatted string representation of the number
-   * of epochs, always having the same amount of characters
-   *
-   * @return {string} the formatted epoch number
-   */
-  styledEpochs() {
-    let num = this.props.network.iteration;
-    let out = '';
-    let buff = 0;
-    for (let i = 0; i < 6; i++) {
-      if (i !== 0 && i % 3 === 0) {
-        out = ',' + out;
-      }
-      buff = num % 10;
-      out = buff + out;
-      num = (num - buff) / 10;
-    }
-    return out;
-  }
-
-  /**
    * Gets called if the user interacts with the epoch title and opens the
    * corresponding dialog
    */
