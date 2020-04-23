@@ -56,7 +56,7 @@ class DescriptionElement extends React.Component {
                 this.props.ui.state[0] ?
               this.props.classes.typoCv : this.props.classes.typoCvOff}
             href="#" onClick={(event) => this.onClick(this.props.step.id)}>
-              {this.props.step.id + ': ' + this.props.step.title}
+              {this.props.step.title}
             </Link>
           </Typography>
         </Grid>
