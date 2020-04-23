@@ -127,7 +127,7 @@ class DescriptionPanel extends React.Component {
                 </Grid>
                 { step.id === 0 ?
                   <Grid item container spacing={3}
-                    style={{marginTop: '5px'}}>
+                    style={{marginTop: '-5px'}}>
                     {global.strings.lstmSteps.map((elementStep) => (
                       <DescriptionElement key={elementStep.id}
                         step={elementStep}/>

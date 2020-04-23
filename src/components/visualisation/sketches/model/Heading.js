@@ -30,8 +30,9 @@ export class Heading {
    */
   draw(title) {
     const s = this.s;
+    s.push();
     s.textAlign(s.LEFT, s.CENTER);
-    s.textSize(s.typography.fontsize);
+    s.textSize(s.typography.fontsizelarge);
     s.fill(s.colors.darkgrey);
     s.noStroke();
     s.text(title, this.x, this.y);
@@ -44,6 +45,7 @@ export class Heading {
       s.line(this.x, this.y + (this.height / 2) - 2, this.x+this.width,
           this.y + (this.height / 2) - 2);
     }
+    s.pop();
   }
 
   /**

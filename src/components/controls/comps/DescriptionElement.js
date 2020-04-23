@@ -53,7 +53,7 @@ class DescriptionElement extends React.Component {
         <Typography align='left'>
           <Link className = {this.props.step.id === this.props.ui.lstmStep &&
               this.props.ui.state[0] ?
-            this.props.classes.typoCv : this.props.classes.typoCvOff}
+            this.props.classes.typoCvSmall : this.props.classes.typoCvOffSmall}
           href="#" onClick={(event) => this.onClick(this.props.step.id)}>
             {(this.props.step.id + 1) + ' ' + this.props.step.title}
           </Link>

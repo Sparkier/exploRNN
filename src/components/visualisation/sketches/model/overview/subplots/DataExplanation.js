@@ -14,6 +14,8 @@ export function plotDataExplanation(type, s, halfH) {
   s.push();
   s.textAlign(s.RIGHT, s.TOP);
   s.textSize(s.typography.fontsizesmall);
+  s.fill(s.colors.darkgrey);
+  s.noStroke();
   s.text(s.global.strings.dataExplanation, s.outProps.right - 10,
       originY + height + 10);
   s.pop();
