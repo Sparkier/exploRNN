@@ -111,7 +111,8 @@ class SliderPanel extends React.Component {
                 className={this.props.classes.fullWidth}>
                 <Typography align='left'>
                   <Link href={'#'} onClick={() => this.onClick(slider.key)}
-                    className={!this.props.ui.detail &&
+                    className={this.props.ui.detail ?
+                      this.props.classes.typoCv :
                         !this.props.training.running ?
                              this.props.classes.typoOv :
                              this.props.classes.typoOvOff
@@ -126,7 +127,7 @@ class SliderPanel extends React.Component {
                   className={this.props.classes.defSlider}
                   marks={slider.marks}
                   disabled={
-                    this.props.ui.detail || this.props.training.running
+                    this.props.training.running
                   }
                   value={
                         slider.key === 0 ?

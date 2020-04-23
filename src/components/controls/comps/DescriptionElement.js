@@ -49,23 +49,15 @@ class DescriptionElement extends React.Component {
    */
   render() {
     return (
-      <Grid container item alignContent='center'>
-        <Grid item xs={12}>
-          <Typography align='left'>
-            <Link className = {this.props.step.id === this.props.ui.lstmStep &&
-                this.props.ui.state[0] ?
-              this.props.classes.typoCv : this.props.classes.typoCvOff}
-            href="#" onClick={(event) => this.onClick(this.props.step.id)}>
-              {this.props.step.title}
-            </Link>
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="body1" className={this.props.classes.typoStd}
-            align='left' >
-            {this.props.step.description}
-          </Typography>
-        </Grid>
+      <Grid item>
+        <Typography align='left'>
+          <Link className = {this.props.step.id === this.props.ui.lstmStep &&
+              this.props.ui.state[0] ?
+            this.props.classes.typoCv : this.props.classes.typoCvOff}
+          href="#" onClick={(event) => this.onClick(this.props.step.id)}>
+            {(this.props.step.id + 1) + ' ' + this.props.step.title}
+          </Link>
+        </Typography>
         <ComplexDialog closeFunction={this.handleClose}
           open={this.props.appState.stepDialog[this.props.step.id]}
           title={this.props.step.title}

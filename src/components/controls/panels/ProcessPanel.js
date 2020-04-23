@@ -4,8 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 
 import {withStyles} from '@material-ui/core/styles';
-import {Grid, Typography, Link, IconButton} from '@material-ui/core';
-import Jump from '@material-ui/icons/FastForward';
+import {Grid, Typography, Link} from '@material-ui/core';
 
 import * as actions from '../../../actions';
 import styles from '../../../styles/themedStyles';
@@ -28,21 +27,6 @@ class ProcessPanel extends React.Component {
     this.props.actions.updateAppState({
       ...this.props.appState,
       inputDialog: dialogs,
-    });
-  }
-
-  /**
-   * Is called when the user clicks on the button beside the title of a training
-   * step, updates the currently running training process
-   *
-   * @param {number} id the id of the training step
-   */
-  onJump(id) {
-    const trigger = [false, false, false];
-    trigger[id] = true;
-    this.props.actions.updateUI({
-      ...this.props.ui,
-      trigger: trigger,
     });
   }
 
@@ -105,18 +89,6 @@ class ProcessPanel extends React.Component {
                     >
                       {step.title}
                     </Link>
-                    {this.props.ui.detail ?
-                        <IconButton
-                          size="small"
-                          variant="outlined"
-                          disabled ={this.props.ui.state[step.id]}
-                          style={{marginLeft: '12px'}}
-                          className={this.props.classes.button_cell}
-                          onClick={(event) => this.onJump(step.id)}>
-                          <Jump fontSize='small' style={{color: 'white'}}/>
-                        </IconButton> :
-                        null
-                    }
                   </Typography>
                 </Grid>
                 <Grid item>

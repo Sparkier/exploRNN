@@ -28,15 +28,14 @@ class BottomPanel extends React.Component {
   render() {
     return (
       <Grid container justify='space-evenly' alignItems='center' id='valueDiv'>
-        <ProcessPanel/>
+        { this.props.ui.detail ?
+          <DescriptionPanel/> :
+          <ProcessPanel/>
+        }
         <Divider orientation="vertical" flexItem />
         <ControlPanel/>
         <Divider orientation="vertical" flexItem />
-        {
-          this.props.ui.detail ?
-          <DescriptionPanel/>:
-          <SliderPanel/>
-        }
+        <SliderPanel/>
       </Grid>
     );
   }
