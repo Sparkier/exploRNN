@@ -60,7 +60,6 @@ class OnboardingDialog extends React.Component {
     const onProps = getCurrentOnboardingElementProps(this.props.ui,
         this.props.cookiesState, this.props.appState, this.props.training,
         this.props.network);
-    console.log(onProps.state.arrow);
     if (onProps.open) {
       return (
         <Grid container alignItems='center'

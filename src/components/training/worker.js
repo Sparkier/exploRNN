@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-globals */
 /* global tf, importScripts */
 export default () => {
@@ -168,8 +169,8 @@ export default () => {
     let prediction;
     let inputBuff;
     const newInput = [];
-    for (const step of self.testInput) {
-      newInput.push(step);
+    for (const step in self.testInput) {
+      newInput.push(self.testInput[step]);
     }
     // For a number of outputs, create predictions to draw as the network output
     for (let i = 0; i < self.testOutputs; i++) {
@@ -243,16 +244,17 @@ export default () => {
       for (let j = 0; j < self.values; j++) {
         const noiseVal = - noise + (2 * noise * Math.random());
         let val = 1;
-        for (const func of funcs) {
-          val = val * self.dataFunc(start + (j * stepSize), func) + noiseVal;
+        for (const func in funcs) {
+          val = val * self.dataFunc(start + (j * stepSize), funcs[func]) +
+          noiseVal;
         }
         trainInputSequence.push([val]);
       }
       self.trainInputBuff.push(trainInputSequence);
       const currentOutSequence = [];
       let val = 1;
-      for (const func of funcs) {
-        val = val * self.dataFunc(self.values * stepSize + start, func);
+      for (const func in funcs) {
+        val = val * self.dataFunc(self.values * stepSize + start, funcs[func]);
       }
       currentOutSequence.push(val);
       self.trainOutputBuff.push(currentOutSequence);
@@ -278,8 +280,9 @@ export default () => {
       // Add noise to the input data
       const noiseVal = - noise + (2 * noise * Math.random());
       let val = 1;
-      for (const func of funcs) {
-        val = val * self.dataFunc(j * stepSize + offset, func) + noiseVal;
+      for (const func in funcs) {
+        val = val * self.dataFunc(j * stepSize + offset, funcs[func]) +
+        noiseVal;
       }
       testInputSequence.push([val]);
       self.chartDataInput.push(val);
@@ -291,8 +294,8 @@ export default () => {
     for (let j = 0; j < self.testOutputs; j++) {
       x = (self.values + j) * stepSize;
       let val = 1;
-      for (const func of funcs) {
-        val = val * self.dataFunc(x + offset, func);
+      for (const func in funcs) {
+        val = val * self.dataFunc(x + offset, funcs[func]);
       }
       currentOutSequence.push(val);
       self.chartDataOutput.push(val);
