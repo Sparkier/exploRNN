@@ -103,7 +103,7 @@ class ProcessPanel extends React.Component {
                     <Link className = {this.getClass(step.id)}
                       href="#" onClick={(event) => this.onClick(step.id)}
                     >
-                      {step.id + ': ' + step.title}
+                      {step.title}
                     </Link>
                     {this.props.ui.detail ?
                         <IconButton
