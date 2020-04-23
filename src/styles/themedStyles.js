@@ -32,13 +32,13 @@ const styles = (theme) => ({
   typoOv: { // Overview typography
     color: theme.palette.overview.main,
     marginTop: '5px',
-    fontSize: '20px',
+    fontSize: '18px',
     width: 'auto',
   },
   typoOvOff: { // Overview typography for deactivated components
     color: theme.palette.secondary.dark,
     marginTop: '5px',
-    fontSize: '20px',
+    fontSize: '18px',
     width: 'auto',
   },
   typoOvBig: { // Overview typography for big text
@@ -49,12 +49,12 @@ const styles = (theme) => ({
   typoCv: { // Cell view typography
     color: theme.palette.detail.main,
     marginTop: '5px',
-    fontSize: '20px',
+    fontSize: '18px',
   },
   typoCvOff: { // Cell view typography for deactivated components
     color: theme.palette.secondary.dark,
     marginTop: '5px',
-    fontSize: '20px',
+    fontSize: '18px',
   },
   typoCvSmall: { // Cell view typography
     color: theme.palette.detail.main,
