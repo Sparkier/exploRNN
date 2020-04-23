@@ -8,7 +8,7 @@ const globalENG = {
     inputTitle: 'Input',
     networkTitle: 'Network',
     cellTitle: 'LSTM Cell',
-    cellPlotTitle: 'Network Output',
+    cellPlotTitle: 'Network Data',
     lossTitle: 'Error',
     predictionTitle: 'Prediction',
     plotInput: 'Input',
