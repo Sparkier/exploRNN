@@ -14,6 +14,8 @@ const globalENG = {
     tooltipAdd: 'add layer',
     dataExplanation: 'A random 🎲 element of the dataset\nis shown for each ' +
     'epoch.',
+    backpropExplanation: 'A series of predictions is shown, however,\nfor ' +
+    'backpropagation, only the first prediction is considered.',
     epoch: {
       title: 'Epochs ⓘ',
       description: descriptionStrings['ENG'].epoch,

@@ -1,6 +1,7 @@
 import {Heading} from '../Heading';
 import {TextPlot} from './subplots/TextPlot';
 import {FunctionPlot} from './subplots/FunctionPlot';
+import {plotBackpropExplanation} from './subplots/BackpropExplanation';
 
 /**
  * This class represents the Plot of the Detail View
@@ -38,8 +39,10 @@ export class CellPlot {
     const s = this.s;
     if (this.s.props.training.inputType === 'Text Data') {
       this.textPlot.drawTextPlot.call(this, s);
+      plotBackpropExplanation('text', s, this.plotHeight/2);
     } else {
       this.functionPlot.drawFunctionPlot.call(this, s);
+      plotBackpropExplanation('function', s, this.plotHeight/2);
     }
     this.heading.draw(s.global.strings.headings[4].title);
   }
