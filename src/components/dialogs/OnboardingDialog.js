@@ -89,7 +89,9 @@ class OnboardingDialog extends React.Component {
               </Grid> : null
             }
             <Grid item>
-              <Paper>
+              <Paper style={{background: this.props.ui.detail ?
+                createMuiTheme.palette.secondary.superLight :
+                createMuiTheme.palette.secondary.superLight}}>
                 <Box p={2} style={{width: '500px'}}>
                   <Grid container directiton='column' spacing={2}>
                     <Grid item>

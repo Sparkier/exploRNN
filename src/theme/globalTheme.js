@@ -14,6 +14,7 @@ export default createMuiTheme({
       main: grey[500],
       dark: grey[700],
       light: grey[100],
+      superLight: grey[50],
       off: grey[700],
     },
     overview: {
