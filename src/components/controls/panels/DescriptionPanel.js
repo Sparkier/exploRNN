@@ -97,13 +97,11 @@ class DescriptionPanel extends React.Component {
           justify='space-between' alignItems="center">
           {
             global.strings.trainSteps.map((step) => (
-              <Grid item key={step.id}
-                className={this.props.classes.fullWidth}>
+              <Grid item key={step.id} className={this.props.classes.fullWidth}>
                 <Grid item>
                   <Typography align='left'>
                     <Link className = {this.getClass(step.id)}
-                      href="#" onClick={(event) => this.onClick(step.id)}
-                    >
+                      href="#" onClick={(event) => this.onClick(step.id)}>
                       {step.title}
                     </Link>
                     <IconButton
@@ -120,8 +118,7 @@ class DescriptionPanel extends React.Component {
                 <Grid item>
                   <Typography variant="body1"
                     className={this.props.classes.typoStd}
-                    align='left'
-                  >
+                    align='left'>
                     {step.description}
                   </Typography>
                 </Grid>
@@ -136,7 +133,7 @@ class DescriptionPanel extends React.Component {
                 }
                 <ComplexDialog closeFunction={this.handleClose}
                   open={this.props.appState.inputDialog[step.id]}
-                  title={step.title} description={step.longDescription} />
+                  title={step.title} description={step.longDescription}/>
               </Grid>
             ))
           }

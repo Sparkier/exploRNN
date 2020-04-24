@@ -44,7 +44,7 @@ export class Input {
     for (const b of this.buttons) {
       b.draw();
     }
-    this.heading.draw(s.global.strings.inputTitle);
+    this.heading.draw(s.global.strings.headings[0].title);
     s.stroke(s.colors.lightgrey);
     s.line(s.inProps.right, 0, s.inProps.right, s.inProps.height);
   }

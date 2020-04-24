@@ -5,12 +5,7 @@ const globalENG = {
   title: 'exploRNN',
   strings: {
     controlsTitle: 'Controls',
-    inputTitle: 'Input',
-    networkTitle: 'Network',
-    cellTitle: 'LSTM Cell',
-    cellPlotTitle: 'Network Data',
     lossTitle: 'Error',
-    predictionTitle: 'Prediction',
     plotInput: 'Input',
     plotOutput: 'Target',
     plotPrediction: 'Prediction',
@@ -20,7 +15,7 @@ const globalENG = {
     dataExplanation: 'A random 🎲 element of the dataset\nis shown for each ' +
     'epoch.',
     epoch: {
-      title: 'Epochs',
+      title: 'Epochs ⓘ',
       description: descriptionStrings['ENG'].epoch,
     },
     // Onboarding
@@ -156,7 +151,7 @@ const globalENG = {
     trainSteps: [
       {
         id: 0,
-        title: 'Forward',
+        title: 'Forward ⓘ',
         description: 'Data is shown to the network value by value to build ' +
         'up the internal state. After a fixed number of data points has been ' +
         'processed, the network can make a prediction on how this sample ' +
@@ -165,7 +160,7 @@ const globalENG = {
       },
       {
         id: 1,
-        title: 'Validation',
+        title: 'Validation ⓘ',
         description: 'The predicted values are compared to the correct ' +
         'values (ground truth) from the training dataset. The difference is ' +
         'used to calculate the loss.',
@@ -173,7 +168,7 @@ const globalENG = {
       },
       {
         id: 2,
-        title: 'Backward',
+        title: 'Backward ⓘ',
         description: 'The calculated loss is backpropagated through the ' +
         'network as well as through time (reverting the input timesteps), to ' +
         'find out where the prediction error came from and update the ' +
@@ -185,7 +180,7 @@ const globalENG = {
     lstmSteps: [
       {
         id: 0,
-        title: 'Layer Input',
+        title: 'Layer Input ⓘ',
         description: 'The inputs from the previous layer is combined with ' +
         'the output of this layer from the last time step. The layer input ' +
         'is then used in all gates.',
@@ -193,7 +188,7 @@ const globalENG = {
       },
       {
         id: 1,
-        title: 'Gate Activation',
+        title: 'Gate Activation ⓘ',
         description: 'All gates are using the layer input to determine what ' +
         'information should be use to update the cell state with, and what ' +
         'part of the cell state should be output from this cell.',
@@ -201,7 +196,7 @@ const globalENG = {
       },
       {
         id: 2,
-        title: 'Cell Update',
+        title: 'Cell Update ⓘ',
         description: 'The input gate filters the layer input to update the ' +
         'cell state, whereas the forget gate determines what old cell state ' +
         'values should be forgotten.',
@@ -209,7 +204,7 @@ const globalENG = {
       },
       {
         id: 3,
-        title: 'Output',
+        title: 'Output ⓘ',
         description: 'The cell state is filtered by the output gate to ' +
         'compute the output activation and send it as a input to the next ' +
         'layer.',
@@ -221,31 +216,31 @@ const globalENG = {
       {
         id: 1,
         identifier: 'input',
-        title: 'Input',
+        title: 'Input ⓘ',
         description: descriptionStrings['ENG'].inputHeading,
       },
       {
         id: 2,
         identifier: 'network',
-        title: 'Network',
+        title: 'Network ⓘ',
         description: descriptionStrings['ENG'].networkHeading,
       },
       {
         id: 3,
         identifier: 'prediction',
-        title: 'Prediction',
+        title: 'Prediction ⓘ',
         description: descriptionStrings['ENG'].predictionHeading,
       },
       {
         id: 4,
         identifier: 'cell',
-        title: 'LSTM Cell',
+        title: 'LSTM Cell ⓘ',
         description: descriptionStrings['ENG'].cellHeading,
       },
       {
         id: 5,
         identifier: 'cellPlot',
-        title: 'Network Data',
+        title: 'Network Data ⓘ',
         description: descriptionStrings['ENG'].cellPlotHeading,
       },
     ],
@@ -306,7 +301,7 @@ const globalENG = {
   sliders: [
     {
       key: 0,
-      title: 'Learning Rate',
+      title: 'Learning Rate ⓘ',
       description: descriptionStrings['ENG'].learningRate,
       step: 0.01,
       min: -3,
@@ -336,7 +331,7 @@ const globalENG = {
     },
     {
       key: 1,
-      title: 'Batch Size',
+      title: 'Batch Size ⓘ',
       description: descriptionStrings['ENG'].batchSize,
       step: 1,
       min: 5,
@@ -358,7 +353,7 @@ const globalENG = {
     },
     {
       key: 2,
-      title: 'Noise',
+      title: 'Noise ⓘ',
       description: descriptionStrings['ENG'].noise,
       step: 0.01,
       min: 0.0,

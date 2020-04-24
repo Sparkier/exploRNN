@@ -78,7 +78,7 @@ export class Network {
     for (const l of this.fakeLayers) {
       l.draw();
     }
-    this.heading.draw(s.global.strings.networkTitle);
+    this.heading.draw(s.global.strings.headings[1].title);
   }
 
   /**

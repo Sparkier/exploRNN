@@ -41,7 +41,7 @@ export class NetworkPlot {
    * Draws the heading of the output
    */
   plotHeading() {
-    this.heading.draw(this.s.global.strings.predictionTitle);
+    this.heading.draw(this.s.global.strings.headings[2].title);
   }
 
   /**

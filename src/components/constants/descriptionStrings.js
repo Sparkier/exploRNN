@@ -251,7 +251,11 @@ const descriptionsENG = {
       },
       {
         'type': 'highlighted',
-        'text': 'simply click any heading in this visualization.',
+        'text': 'simply click any ⓘ',
+      },
+      {
+        'type': 'plain',
+        'text': ' in this visualization.',
       },
     ],
     [

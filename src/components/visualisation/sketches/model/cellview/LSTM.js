@@ -151,7 +151,7 @@ export class LSTM {
     for (const i of this.items) {
       i.draw();
     }
-    this.heading.draw(s.global.strings.cellTitle);
+    this.heading.draw(s.global.strings.headings[3].title);
   }
 
   /**

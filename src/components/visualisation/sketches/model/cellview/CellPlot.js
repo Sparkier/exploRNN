@@ -41,7 +41,7 @@ export class CellPlot {
     } else {
       this.functionPlot.drawFunctionPlot.call(this, s);
     }
-    this.heading.draw(s.global.strings.cellPlotTitle);
+    this.heading.draw(s.global.strings.headings[4].title);
   }
 
   /**
