@@ -39,6 +39,7 @@ export class Heading {
     this.width = s.textWidth(title);
     this.height = s.textSize(title);
     if (this.hover) {
+      s.cursor(s.HAND);
       s.noFill();
       s.stroke(s.colors.darkgrey);
       s.strokeWeight(1);
