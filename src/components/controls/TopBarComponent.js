@@ -168,8 +168,7 @@ class TopBar extends React.Component {
           </Typography>
           <StyledSelect value={this.props.training.inputType}
             onChange={ this.inputTypeSelect }
-            main={true}
-          >
+            main={true} disabled={this.props.ui.detail}>
             {
               global.inputTypes.map((x) => (
                 <MenuItem key={x.name} disabled={x.disabled}
