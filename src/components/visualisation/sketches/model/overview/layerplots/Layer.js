@@ -131,6 +131,19 @@ export class Layer {
           (x > this.x + w / 2 - this.clSize &&
           y < this.y - h / 2 + this.clSize) &&
           this.s.props.network.layers > 1);
+      // If not yet allowed to go to detail
+      const introEarly = [
+        'input',
+        'network',
+        'startTraining',
+        'output',
+        undefined,
+        '',
+      ].includes(this.s.props.cookiesState.intro);
+      if (introEarly && this.hover_left) {
+        this.hover_left = false;
+        this.hover = false;
+      }
     } else {
       this.hover = this.hover_left = this.hover_right = false;
     }
