@@ -63,32 +63,17 @@ class TopBar extends React.Component {
             {...this.props.training, reset: true}
         );
         break;
-      // input selection
-      case '1':
-        this.updateDataTypes('sin');
-        break;
-      case '2':
-        this.updateDataTypes('saw');
-        break;
-      case '3':
-        this.updateDataTypes('sqr');
-        break;
-      case '4':
-        this.updateDataTypes('sinc');
-        break;
       // network size
       case '-':
         if (!this.props.ui.detail && !this.props.training.running &&
-            this.props.network.layers > 2
-        ) {
+            this.props.network.layers > 1) {
           this.props.actions.updateNetwork({...this.props.network,
             layers: this.props.network.layers - 1});
         }
         break;
       case '+':
         if (!this.props.ui.detail && !this.props.training.running &&
-            this.props.network.layers <= 6
-        ) {
+            this.props.network.layers <= 6) {
           this.props.actions.updateNetwork({...this.props.network,
             layers: this.props.network.layers + 1});
         }
