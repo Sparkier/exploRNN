@@ -40,6 +40,7 @@ export default {
     trainingStep: 0, // Whether in forward, prediction, or backward pass (1,2,3)
     state: [true, false, false], // Cell View: Forward/Prediction/Backward pass
     trigger: [false, false, false], // Animation trigger (forw./pred./backw.)
+    detailSpeed: 1.0, // The speed at which animations in detail advance
   },
   /*
   * for dialog boolean arrays check the global constants

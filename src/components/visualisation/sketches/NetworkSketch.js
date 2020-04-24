@@ -168,9 +168,7 @@ export default function(s) {
       return;
     }
     // Calculating a pause value to control the speed of the animations
-    const timeDist = s.cellAnim.inputStep / s.props.training.values * Math.PI;
-    const pauseMult = 1 - Math.sin(timeDist);
-    s.pause = Math.round(10 * pauseMult) + 1;
+    s.pause = Math.round(10.0 / s.props.ui.detailSpeed);
     // Check if the application is in detail view and should animate
     if (s.detail && s.props.ui.anim) {
       // Forward the activation of the cell

@@ -3,10 +3,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 
-import {Grid, Typography, Link} from '@material-ui/core';
+import {Grid, Typography, Link, IconButton} from '@material-ui/core';
 import Start from '@material-ui/icons/PlayArrow';
 import Pause from '@material-ui/icons/Pause';
 import Reset from '@material-ui/icons/Replay';
+import Plus from '@material-ui/icons/Add';
+import Minus from '@material-ui/icons/Remove';
 import SkipNext from '@material-ui/icons/SkipNext';
 import {withStyles} from '@material-ui/core/styles';
 
@@ -56,6 +58,22 @@ class ControlPanel extends React.Component {
     } else {
       this.props.actions.updateTraining({...this.props.training, step: true});
     }
+  }
+
+  /**
+   * Handles speedup of the cell animation.
+   */
+  plusButtonPressed = () => {
+    const newSpeed = this.props.ui.detailSpeed * 2;
+    this.props.actions.updateUI({...this.props.ui, detailSpeed: newSpeed});
+  }
+
+  /**
+   * Handles slowdown of the cell animation.
+   */
+  minusButtonPressed = () => {
+    const newSpeed = this.props.ui.detailSpeed / 2;
+    this.props.actions.updateUI({...this.props.ui, detailSpeed: newSpeed});
   }
 
   /**
@@ -128,6 +146,37 @@ class ControlPanel extends React.Component {
                   } />
               </Grid>
             </Grid>
+            { this.props.ui.detail ?
+              <Grid container item justify='center' alignItems='center'>
+                <Grid item>
+                  <IconButton
+                    size="small"
+                    variant="outlined"
+                    disabled={this.props.ui.detailSpeed < 1}
+                    style={null}
+                    className={this.props.classes.button_cell}
+                    onClick={() => this.minusButtonPressed()}>
+                    <Minus fontSize='small' style={{color: 'white'}}/>
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <Typography className={this.props.classes.typoStd}>
+                    {this.props.ui.detailSpeed + 'x'}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <IconButton
+                    size="small"
+                    variant="outlined"
+                    disabled={this.props.ui.detailSpeed > 4}
+                    style={null}
+                    className={this.props.classes.button_cell}
+                    onClick={() => this.plusButtonPressed()}>
+                    <Plus fontSize='small' style={{color: 'white'}}/>
+                  </IconButton>
+                </Grid>
+              </Grid> : null
+            }
             <Grid container item xs={12} alignItems='center' direction='column'>
               <Grid item>
                 <Typography>
