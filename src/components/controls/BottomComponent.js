@@ -27,7 +27,8 @@ class BottomPanel extends React.Component {
    */
   render() {
     return (
-      <Grid container justify='space-evenly' alignItems='center' id='valueDiv'>
+      <Grid container justify='space-evenly' alignItems='center' id='valueDiv'
+        className='noselect'>
         { this.props.ui.detail ?
           <DescriptionPanel/> :
           <ProcessPanel/>

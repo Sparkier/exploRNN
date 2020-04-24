@@ -162,7 +162,7 @@ class TopBar extends React.Component {
     return (
       <AppBar className={ this.props.ui.detail ? classes.cVheader :
         classes.oVheader} id='barDiv'>
-        <Toolbar>
+        <Toolbar className='noselect'>
           <Typography variant="h3" className = { classes.typoHeader }>
             {global.title}
           </Typography>
