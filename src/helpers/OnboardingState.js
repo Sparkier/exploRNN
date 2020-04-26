@@ -24,6 +24,9 @@ export function getCurrentOnboardingElementProps(uiState, cookiesState,
   } else if (cookiesState.intro === 'network') {
     open = uiState.detail ? false : true;
     state = constants.onboarding.network;
+  } else if (cookiesState.intro === 'sliders') {
+    open = true;
+    state = constants.onboarding.sliders;
   } else if (cookiesState.intro === 'startTraining') {
     open = uiState.detail ? false : true;
     state = constants.onboarding.startTraining;
@@ -39,8 +42,11 @@ export function getCurrentOnboardingElementProps(uiState, cookiesState,
   } else if (cookiesState.intro === 'detailCell') {
     open = uiState.detail ? true : false;
     state = constants.onboarding.detailCell;
+  } else if (cookiesState.intro === 'detailProcess') {
+    open = true;
+    state = constants.onboarding.detailProcess;
   } else if (cookiesState.intro === 'headingExplanation') {
-    open = uiState.detail ? true : false;
+    open = true;
     state = constants.onboarding.headingExplanation;
   }
   return {
@@ -63,6 +69,8 @@ export function getNextIntroState(introState, cookiesState, action) {
   } else if (introState === 'input') {
     newIntroState = 'network';
   } else if (introState === 'network') {
+    newIntroState = 'sliders';
+  } else if (introState === 'sliders') {
     newIntroState = 'startTraining';
   } else if (introState === 'startTraining') {
     newIntroState = 'output';
@@ -73,6 +81,8 @@ export function getNextIntroState(introState, cookiesState, action) {
   } else if (introState === 'detailCell') {
     newIntroState = 'detailOutput';
   } else if (introState === 'detailOutput') {
+    newIntroState = 'detailProcess';
+  } else if (introState === 'detailProcess') {
     newIntroState = 'headingExplanation';
   } else {
     newIntroState = 'done';

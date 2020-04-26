@@ -242,6 +242,46 @@ const descriptionsENG = {
       },
     ],
   ],
+  processOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'Here, you can see the ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'processing steps',
+      },
+      {
+        'type': 'plain',
+        'text': ' of the network you are currently training.',
+      },
+    ],
+  ],
+  slidersOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'By interacting with these sliders, you can ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'change even more training parameters',
+      },
+      {
+        'type': 'plain',
+        'text': ' and see in the network overivew, how ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'the model reacts',
+      },
+      {
+        'type': 'plain',
+        'text': ' during training.',
+      },
+    ],
+  ],
   headingExplanation: [
     [
       {

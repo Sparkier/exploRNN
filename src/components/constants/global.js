@@ -134,6 +134,34 @@ const globalENG = {
           left: '50%',
         },
       },
+      detailProcess: {
+        title: 'Process',
+        description: descriptionStrings['ENG'].processOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'down',
+        style: {
+          position: 'absolute',
+          bottom: '40vh',
+          left: 'calc(21% - 250px)',
+        },
+      },
+      sliders: {
+        title: 'Sliders',
+        description: descriptionStrings['ENG'].slidersOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'down',
+        style: {
+          position: 'absolute',
+          bottom: '40vh',
+          left: 'calc(79% - 250px)',
+        },
+      },
       headingExplanation: {
         title: 'Explore',
         description: descriptionStrings['ENG'].headingExplanation,
