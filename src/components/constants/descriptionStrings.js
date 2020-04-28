@@ -140,7 +140,7 @@ const descriptionsENG = {
       },
       {
         'type': 'highlighted',
-        'text': 'forward button',
+        'text': 'forward button.',
       },
     ],
   ],
