@@ -1,0 +1,20 @@
+eslint:
+  image: pipelinecomponents/eslint:latest
+
+  script:
+    - npm i
+    - eslint --color .
+
+
+pages:
+  only:
+    refs:
+      - master
+
+  image: gitlab-mi.informatik.uni-ulm.de:4567/gitlab-pages/node-runner
+
+  script:
+    - npm install
+    - npm run build
+    - mv build ${CI_PROJECT_NAME}
+    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${CI_PROJECT_NAME} www-data@luxo.informatik.uni-ulm.de:/var/www/mi.pages/
