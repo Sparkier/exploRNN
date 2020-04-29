@@ -96,7 +96,7 @@ class SliderPanel extends React.Component {
     // Check the sliders, we cant add noise to text
     const sliders = [];
     for (const slider of global.sliders) {
-      if (slider.title !== 'Noise' ||
+      if (slider.title !== global.sliders[2].title ||
         this.props.training.inputType !== 'Text Data') {
         sliders.push(slider);
       }
