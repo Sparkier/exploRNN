@@ -8,7 +8,7 @@
 export function plotBackpropExplanation(type, s, halfH) {
   let height = halfH;
   if (type === 'text') {
-    height = 1.5 * s.typography.fontsize;
+    height = 3 * s.typography.fontsize;
   }
   const originY = s.outProps.midY;
   s.push();

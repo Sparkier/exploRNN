@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 
 import {withStyles} from '@material-ui/core/styles';
 import {AppBar, Toolbar, Button, Typography,
-  MenuItem} from '@material-ui/core/';
+  MenuItem, IconButton} from '@material-ui/core/';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 import * as actions from '../../actions';
 import styles from '../../styles/themedStyles';
@@ -176,6 +177,9 @@ class TopBar extends React.Component {
               ))
             }
           </StyledSelect>
+          <IconButton aria-label="github" style={{color: 'white'}} href="https://github.com/viscom-ulm/exploRNN">
+            <GitHubIcon/>
+          </IconButton>
           <Button variant="contained"
             className={this.props.ui.detail ?
               this.props.classes.text_button_cell_inverted :

@@ -73,7 +73,10 @@ export class TextData {
   getFromOneHot(arr) {
     if (Array.isArray(arr)) {
       const index = arr.indexOf(Math.max(...arr));
-      const char = this.getFromCharSet(index);
+      let char = this.getFromCharSet(index);
+      if (char === ' ') {
+        char = '␣';
+      }
       return char ? char : '';
     } else {
       return '';
