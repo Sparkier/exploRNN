@@ -100,7 +100,8 @@ class Training extends React.Component {
         this_.iterate(true);
       }, 100);
     }
-    if (this.props.training.reset) {
+    if (this.props.training.reset ||
+      prevProps.network.learningRate !== this.props.network.learningRate) {
       // the network/training values shall be regenerated with current values
       this.reset();
       this.props.actions.updateTraining(
