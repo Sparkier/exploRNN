@@ -27,6 +27,7 @@ export default {
     reset: false, // whether to reset the model
     step: false, // whether a training step is to be made
     workerReady: true, // the worker is ready for training commands
+    save: false, // whether the model should be saved
   },
   ui: {
     running: false, // Training running

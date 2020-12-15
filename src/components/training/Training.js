@@ -139,6 +139,10 @@ class Training extends React.Component {
           }
       );
     }
+    if (this.props.training.save) {
+      this.save();
+      this.props.actions.updateTraining({...this.props.training, save: false});
+    }
     // If in detail view, and no completed epoch, advance for one to get data
     if (this.props.ui.detail && this.props.network.iteration === 0) {
       this_.iterate(false);
@@ -318,6 +322,13 @@ class Training extends React.Component {
     });
     network = {...network, iteration: this.props.network.iteration + 1};
     this.props.actions.updateNetwork(network);
+  }
+
+  /**
+   * Downloads the current model
+   */
+  async save() {
+    this.worker.postMessage({cmd: 'save'});
   }
 
   /**

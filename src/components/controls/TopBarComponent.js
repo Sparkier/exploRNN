@@ -8,6 +8,7 @@ import {AppBar, Toolbar, Button, Typography,
   MenuItem, IconButton} from '@material-ui/core/';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 import * as actions from '../../actions';
 import styles from '../../styles/themedStyles';
@@ -151,6 +152,10 @@ class TopBar extends React.Component {
       intro: ''});
   }
 
+  saveModel = () => {
+    this.props.actions.updateTraining({...this.props.training, save: true});
+  }
+
   /**
    * React render function controlling the look of the
    * AppBar of the Application
@@ -177,7 +182,12 @@ class TopBar extends React.Component {
               ))
             }
           </StyledSelect>
-          <IconButton aria-label="github" style={{color: 'white'}} href="https://github.com/viscom-ulm/exploRNN">
+          <IconButton aria-label="github" style={{color: 'white'}}
+            onClick={this.saveModel}>
+            <GetAppIcon/>
+          </IconButton>
+          <IconButton aria-label="github" style={{color: 'white'}}
+            href="https://github.com/viscom-ulm/exploRNN">
             <GitHubIcon/>
           </IconButton>
           <Button variant="contained"
