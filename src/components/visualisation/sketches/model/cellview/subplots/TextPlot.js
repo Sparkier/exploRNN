@@ -9,7 +9,7 @@ export class TextPlot {
    */
   drawTextPlot(s) {
     let data;
-    if (!s.props || !s.props.ui.data) {
+    if (!s.props || !s.props.network.data) {
       return;
     }
     // prepare plot parameters
@@ -27,8 +27,8 @@ export class TextPlot {
     if (this.stepWidth === 2 && this.total !== 0) {
       this.stepWidth = this.plotWidth / this.total;
     }
-    const scanPlot = s.props.ui.data[this.dataIndex].chartPrediction.concat(
-        s.props.ui.data[this.dataIndex].prediction
+    const scanPlot = s.props.network.data.chartPrediction.concat(
+        s.props.network.data.prediction
     );
     s.push();
     s.translate(s.cellPlotProps.midX - this.halfW, s.cellPlotProps.midY);
@@ -46,15 +46,15 @@ export class TextPlot {
           4 * s.typography.fontsize, 10);
     }
 
-    if (s.props.ui.data &&
-        s.props.ui.data[this.dataIndex].chartPrediction &&
-        s.props.ui.data[this.dataIndex].chartOutput &&
-        s.props.ui.data[this.dataIndex].prediction) {
+    if (s.props.network.data &&
+        s.props.network.data.chartPrediction &&
+        s.props.network.data.chartOutput &&
+        s.props.network.data.prediction) {
     // draw input part of the data
       s.textSize(s.typography.fontsize);
       s.fill(s.colors.black);
       for (let i = 0; i <= this.in; i++) {
-        data = s.props.ui.data[this.dataIndex].chartPrediction[i];
+        data = s.props.network.data.chartPrediction[i];
         if (data) {
         // draw the word "input" to the left
           if (i === 0) {
@@ -80,7 +80,7 @@ export class TextPlot {
       // draw the test output part of the data
       s.fill(s.colors.grey);
       for (let i = 0; i < this.out; i++) {
-        data = s.props.ui.data[this.dataIndex].chartOutput[i];
+        data = s.props.network.data.chartOutput[i];
         if (data) {
           if (Object.prototype.hasOwnProperty.call(
               s.props.textData, 'textString')) {
@@ -108,7 +108,7 @@ export class TextPlot {
         s.fill(s.colors.darkbluegrey);
         s.textStyle(s.BOLD);
         for (let i = leftIndex; i <= rightIndex; i++) {
-          data = s.props.ui.data[this.dataIndex].chartPrediction[i];
+          data = s.props.network.data.chartPrediction[i];
           if (data) {
             if (Object.prototype.hasOwnProperty.call(
                 s.props.textData, 'textString')) {
@@ -137,8 +137,8 @@ export class TextPlot {
       s.noStroke();
       s.fill(s.colors.detail);
       // draw the predictions that thave already been made
-      if (s.props.ui.data &&
-      s.props.ui.data[this.dataIndex].chartOutput) {
+      if (s.props.network.data &&
+      s.props.network.data.chartOutput) {
         for (let i = this.in; i < endIndex; i++) {
           if (rightIndex >= i) {
             s.textStyle(s.BOLD);

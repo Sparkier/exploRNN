@@ -12,7 +12,7 @@ export class FunctionPlot {
     let truth;
     let from;
     let to;
-    if (!s.props || !s.props.ui.data) {
+    if (!s.props || !s.props.network.data) {
       return;
     }
     // prepare plot parameters
@@ -32,12 +32,11 @@ export class FunctionPlot {
     }
 
     const detailStepWidth = this.stepWidth;
-    const groundTruth = s.props.ui.data[
-        this.dataIndex].chartPrediction.concat(
-        s.props.ui.data[this.dataIndex].chartOutput
+    const groundTruth = s.props.network.data.chartPrediction.concat(
+        s.props.network.data.chartOutput
     );
-    const scanPlot = s.props.ui.data[this.dataIndex].chartPrediction.concat(
-        s.props.ui.data[this.dataIndex].prediction
+    const scanPlot = s.props.network.data.chartPrediction.concat(
+        s.props.network.data.prediction
     );
     // draw plot structure
     s.push();
@@ -75,10 +74,10 @@ export class FunctionPlot {
         -this.halfW + (this.in * this.stepWidth), this.halfH
     );
 
-    if (s.props.ui.data &&
-        s.props.ui.data[this.dataIndex].chartPrediction &&
-        s.props.ui.data[this.dataIndex].chartOutput &&
-        s.props.ui.data[this.dataIndex].prediction) {
+    if (s.props.network.data &&
+        s.props.network.data.chartPrediction &&
+        s.props.network.data.chartOutput &&
+        s.props.network.data.prediction) {
     // draw input function part
       s.beginShape();
       for (let i = 0; i <= this.in; i++) {

@@ -55,7 +55,6 @@ export default () => {
       case 'pred': // determine a prediction for the current test data
         if (self.predicting) return;
         while (self.generating || self.initializing); // prevent inconsistencies
-        console.log('predict');
         self.predicting = true;
         postMessage({cmd: 'pred', values: {
           pred: self.createPrediction(e.data.params.inputType),

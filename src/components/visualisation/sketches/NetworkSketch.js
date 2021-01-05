@@ -261,8 +261,8 @@ export default function(s) {
       s.netAnim = true;
       s.lossValues = [];
       // Get the prediction and ground truth for this training step
-      const pred = s.props.ui.data[2].prediction;
-      const out = s.props.ui.data[2].chartOutput;
+      const pred = s.props.network.data.prediction;
+      const out = s.props.network.data.chartOutput;
       // If a prediction exists, calculate the loss
       if (pred) {
         for (let i = 0; i < pred.length; i++) {

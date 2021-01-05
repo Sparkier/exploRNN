@@ -58,7 +58,7 @@ class OnboardingDialog extends React.Component {
    */
   render() {
     const onProps = getCurrentOnboardingElementProps(this.props.ui,
-        this.props.cookiesState, this.props.appState, this.props.training,
+        this.props.cookiesState, this.props.appState,
         this.props.network);
     if (onProps.open) {
       return (

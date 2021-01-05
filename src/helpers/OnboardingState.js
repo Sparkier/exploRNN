@@ -7,12 +7,11 @@ import * as Cookies from '../helpers/Cookies';
  * @param {object} uiState the state of the ui of the application
  * @param {object} cookiesState state of the cookies saved by the application
  * @param {object} appState the state of the application
- * @param {object} trainingState the state of the training process
  * @param {object} networkState the state of the network
  * @return {object} the props for the current onboarding element
  */
 export function getCurrentOnboardingElementProps(uiState, cookiesState,
-    appState, trainingState, networkState) {
+    appState, networkState) {
   let open = false;
   const constants = globalConstants[appState.language].strings;
   let state = constants.onboarding.welcome;
