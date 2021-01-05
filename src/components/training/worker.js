@@ -55,6 +55,7 @@ export default () => {
       case 'pred': // determine a prediction for the current test data
         if (self.predicting) return;
         while (self.generating || self.initializing); // prevent inconsistencies
+        console.log('predict');
         self.predicting = true;
         postMessage({cmd: 'pred', values: {
           pred: self.createPrediction(e.data.params.inputType),
@@ -63,6 +64,9 @@ export default () => {
         break;
       case 'save':
         self.model.save('http://127.0.0.1:5000/save_model');
+        break;
+      case 'setModel':
+        self.setModel(e.data.params);
         break;
       default:
     }
@@ -96,6 +100,20 @@ export default () => {
       const optimizer = tf.train.rmsprop(params.learningRate);
       self.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
     }
+  };
+
+  /**
+   * Creates the network model from a pretrained version and compiles it
+   *
+   * @param {object} params The params needed to set the model
+   */
+  self.setModel = (params) => {
+    tf.loadLayersModel(`http://127.0.0.1:5000/download/${params.model}/model.json`).then((model) => {
+      self.model = model;
+      const optimizer = tf.train.rmsprop(params.learningRate);
+      self.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
+      postMessage({cmd: 'modelSet'});
+    });
   };
 
   /**

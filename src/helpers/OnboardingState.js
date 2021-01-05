@@ -27,6 +27,9 @@ export function getCurrentOnboardingElementProps(uiState, cookiesState,
   } else if (cookiesState.intro === 'sliders') {
     open = true;
     state = constants.onboarding.sliders;
+  } else if (cookiesState.intro === 'lowLR') {
+    open = true;
+    state = constants.onboarding.lowLR;
   } else if (cookiesState.intro === 'startTraining') {
     open = uiState.detail ? false : true;
     state = constants.onboarding.startTraining;
@@ -60,18 +63,22 @@ export function getCurrentOnboardingElementProps(uiState, cookiesState,
  *
  * @param {String} introState the current state of the onboarding
  * @param {object} cookiesState the current cookiestate
- * @param {function} action the action for updating the cookiestate
+ * @param {object} actions the actions that the component can take
+ * @param {object} props the props that the component currently has
  */
-export function getNextIntroState(introState, cookiesState, action) {
+export function getNextIntroState(introState, cookiesState, actions, props) {
   let newIntroState = introState;
   if (introState === '' || introState === undefined) {
-    newIntroState = 'input';
-  } else if (introState === 'input') {
-    newIntroState = 'network';
-  } else if (introState === 'network') {
     newIntroState = 'sliders';
-  } else if (introState === 'sliders') {
+  } else if (introState === 'input') {
     newIntroState = 'startTraining';
+  } else if (introState === 'network') {
+    newIntroState = 'input';
+  } else if (introState === 'sliders') {
+    newIntroState = 'lowLR';
+    prepareLowLRState(actions, props);
+  } else if (introState === 'lowLR') {
+    newIntroState = 'network';
   } else if (introState === 'startTraining') {
     newIntroState = 'output';
   } else if (introState === 'output') {
@@ -88,5 +95,18 @@ export function getNextIntroState(introState, cookiesState, action) {
     newIntroState = 'done';
   }
   Cookies.setIntroState(newIntroState);
-  action({...cookiesState, intro: newIntroState});
+  actions.updateCookiesState({...cookiesState, intro: newIntroState});
+}
+
+/**
+ * Prepares the state for low learning rate explanation.
+ *
+ * @param {object} actions the actions that can be taken to update the state
+ * @param {object} props the props of the component to trigger this change
+ */
+function prepareLowLRState(actions, props) {
+  actions.updateTraining({...props.training, noise: 0, batchSize: 25});
+  actions.updateNetwork({...props.network, learningRate: 0.0001});
+  actions.updatePretrained({...props.pretrained, model: 'med_LR_20'});
+  actions.updateNetwork({...props.network, iteration: 20});
 }

@@ -88,3 +88,13 @@ export function updateTextData(textData) {
 export function updateCookiesState(cookiesState) {
   return {type: types.UPDATE_COOKIES_STATE, cookiesState};
 }
+
+/**
+ * Updates the internal pretrained values
+ *
+ * @param {object} pretrained the object holding the new pretrained values
+ * @return {object} a redux state update
+ */
+export function updatePretrained(pretrained) {
+  return {type: types.UPDATE_PRETRAINED, pretrained};
+}

@@ -40,7 +40,7 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'This application is designed so you can experiment with, and ',
+        'text': 'In this application you can experiment with and ',
       },
       {
         'type': 'highlighted',
@@ -55,7 +55,7 @@ const descriptionsENG = {
       {
         'type': 'plain',
         'text': 'In contrast to fully connected or ' +
-        'convolutional neural networks, RNNs are designed to work with ',
+        'convolutional neural networks, RNNs operate on ',
       },
       {
         'type': 'highlighted',
@@ -266,7 +266,31 @@ const descriptionsENG = {
       },
       {
         'type': 'highlighted',
-        'text': 'change even more training parameters',
+        'text': 'change some of the most important training parameters',
+      },
+      {
+        'type': 'plain',
+        'text': ' and see in the network overivew, how ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'the model reacts',
+      },
+      {
+        'type': 'plain',
+        'text': ' during training.',
+      },
+    ],
+  ],
+  lowLROnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'By interacting with these sliders, you can ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'change some of the most important training parameters',
       },
       {
         'type': 'plain',

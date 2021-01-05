@@ -162,6 +162,20 @@ const globalENG = {
           left: 'calc(79% - 250px)',
         },
       },
+      lowLR: {
+        title: 'Low Learning Rate',
+        description: descriptionStrings['ENG'].lowLROnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'right',
+        style: {
+          position: 'absolute',
+          bottom: '10vh',
+          right: '-21%',
+        },
+      },
       headingExplanation: {
         title: 'Explore',
         description: descriptionStrings['ENG'].headingExplanation,

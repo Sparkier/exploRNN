@@ -29,6 +29,9 @@ export default {
     workerReady: true, // the worker is ready for training commands
     save: false, // whether the model should be saved
   },
+  pretrained: {
+    model: '',
+  },
   ui: {
     running: false, // Training running
     ready: true, // At beginning of training step, ready to start training

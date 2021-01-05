@@ -74,6 +74,14 @@ class Training extends React.Component {
         network = this.addPredictionToNetwork(this.props.network, buff.pred);
         this.props.actions.updateNetwork(network);
         break;
+      case 'modelSet':
+        if (this.props.ui.detail) {
+          this.props.actions.updateUI({...this.props.ui, animStep: true});
+        } else {
+          this.props.actions.updateTraining({...this.props.training,
+            step: true});
+        }
+        break;
       default:
         break;
     }
@@ -124,7 +132,8 @@ class Training extends React.Component {
       // training shall continue for one epoch
       this.iterate(false);
       this.props.actions.updateUI(
-          {...this.props.ui, reset: true,
+          {...this.props.ui,
+            reset: true,
             ready: true,
             running: false,
             animStep: false,
@@ -147,6 +156,11 @@ class Training extends React.Component {
     // If in detail view, and no completed epoch, advance for one to get data
     if (this.props.ui.detail && this.props.network.iteration === 0) {
       this_.iterate(false);
+    }
+    if (this.props.pretrained.model !== '') {
+      this.setToModel();
+      this.props.actions.updatePretrained({...this.props.pretrained,
+        model: ''});
     }
   }
 
@@ -175,6 +189,20 @@ class Training extends React.Component {
     } else {
       this.resetModel();
     }
+  }
+
+  /**
+   * Set the model to low Learning Rate
+   */
+  setToModel() {
+    this.worker.postMessage({
+      cmd: 'setModel',
+      params: {
+        model: this.props.pretrained.model,
+        learningRate: this.props.network.learningRate,
+        training: this.props.training,
+      },
+    });
   }
 
   /**
@@ -272,6 +300,7 @@ class Training extends React.Component {
     data.pop();
     data.unshift(network.data);
     data[2] = network.data;
+    console.log(data);
     const newUI = {...oldUI, data: data};
     return newUI;
   }
@@ -347,6 +376,7 @@ Training.propTypes = {
   training: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
+  pretrained: PropTypes.object.isRequired,
 };
 
 /**
@@ -360,6 +390,7 @@ function mapStateToProps(state) {
     network: state.network,
     training: state.training,
     ui: state.ui,
+    pretrained: state.pretrained,
   };
 }
 
