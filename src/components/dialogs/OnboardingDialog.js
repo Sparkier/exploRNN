@@ -35,7 +35,7 @@ class OnboardingDialog extends React.Component {
   handleNext = (event) => {
     const introState = Cookies.getIntroState();
     getNextIntroState(introState, this.props.cookiesState,
-        this.props.actions.updateCookiesState);
+        this.props.actions, this.props);
   }
 
   /**
@@ -49,6 +49,7 @@ class OnboardingDialog extends React.Component {
     const introState = Cookies.getIntroState();
     this.props.actions.updateCookiesState({...this.props.cookiesState,
       intro: introState});
+    this.props.actions.reinitNetwork();
   }
 
   /**
@@ -58,7 +59,7 @@ class OnboardingDialog extends React.Component {
    */
   render() {
     const onProps = getCurrentOnboardingElementProps(this.props.ui,
-        this.props.cookiesState, this.props.appState, this.props.training,
+        this.props.cookiesState, this.props.appState,
         this.props.network);
     if (onProps.open) {
       return (
@@ -171,6 +172,7 @@ OnboardingDialog.propTypes = {
   ui: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  pretrained: PropTypes.object.isRequired,
 };
 
 /**
@@ -187,6 +189,7 @@ function mapStateToProps(state, _) {
     training: state.training,
     network: state.network,
     ui: state.ui,
+    pretrained: state.pretrained,
   };
 }
 

@@ -14,6 +14,8 @@ export default function uiReducer(state = initialState.ui, action) {
   switch (action.type) {
     case types.UPDATE_UI:
       return action.ui;
+    case types.REINIT:
+      return initialState.ui;
     default:
       return state;
   }

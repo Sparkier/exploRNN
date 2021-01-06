@@ -8,6 +8,7 @@ import * as actions from '../../actions';
 import worker from './worker.js';
 import TrainingWorker from './TrainingWorker';
 import {TextData} from '../../helpers/TextData';
+import * as tf from '@tensorflow/tfjs';
 
 /**
  * This class handles the generation, compilation and training of the
@@ -74,6 +75,14 @@ class Training extends React.Component {
         network = this.addPredictionToNetwork(this.props.network, buff.pred);
         this.props.actions.updateNetwork(network);
         break;
+      case 'modelSet':
+        if (this.props.ui.detail) {
+          this.props.actions.updateUI({...this.props.ui, animStep: true});
+        } else {
+          this.props.actions.updateTraining({...this.props.training,
+            step: true});
+        }
+        break;
       default:
         break;
     }
@@ -87,15 +96,10 @@ class Training extends React.Component {
    */
   componentDidUpdate(prevProps) {
     const this_ = this;
-    if (this.props.training.running !== prevProps.training.running) {
-      if (this.props.training.running) {
-        // new training phase has started
-        setTimeout(function() {
-          this_.iterate(true);
-        }, 100);
-      }
-    } else if (this.props.training.running && this.props.ui.ready) {
-      // the app is ready for a new fit call in the current training phase
+    if (this.props.training.running && (this.props.ui.ready ||
+      (this.props.training.running !== prevProps.training.running))) {
+      // the app is ready for a new fit call in the current training phase, or
+      // a new training phase has started
       setTimeout(function() {
         this_.iterate(true);
       }, 100);
@@ -108,7 +112,9 @@ class Training extends React.Component {
             workerReady: false}
       );
       this.props.actions.updateUI(
-          {...this.props.ui, reset: true,
+          {
+            ...this.props.ui,
+            reset: true,
             ready: true,
             running: false,
             animStep: false,
@@ -121,27 +127,35 @@ class Training extends React.Component {
     }
     if (this.props.training.step) {
       // training shall continue for one epoch
-      this.iterate(false);
-      this.props.actions.updateUI(
-          {...this.props.ui, reset: true,
-            ready: true,
-            running: false,
-            animStep: false,
-            netAnim: false,
-            lstmStep: 0,
-            trainingStep: 0,
-            state: [true, false, false],
-          }
-      );
-      this.props.actions.updateTraining(
-          {...this.props.training, reset: false, step: false, running: false,
-            workerReady: !this.props.ui.ready,
-          }
-      );
+      this.iterate(false).then(() => {
+        this.props.actions.updateUI(
+            {
+              ...this.props.ui,
+              reset: true,
+              ready: true,
+              running: false,
+              animStep: false,
+              netAnim: false,
+              lstmStep: 0,
+              trainingStep: 0,
+              state: [true, false, false],
+            }
+        );
+        this.props.actions.updateTraining(
+            {...this.props.training, reset: false, step: false, running: false,
+              workerReady: !this.props.ui.ready,
+            }
+        );
+      });
     }
     // If in detail view, and no completed epoch, advance for one to get data
     if (this.props.ui.detail && this.props.network.iteration === 0) {
       this_.iterate(false);
+    }
+    if (this.props.pretrained.model !== '') {
+      this.setToModel();
+      this.props.actions.updatePretrained({...this.props.pretrained,
+        model: ''});
     }
   }
 
@@ -170,6 +184,24 @@ class Training extends React.Component {
     } else {
       this.resetModel();
     }
+  }
+
+  /**
+   * Set the model to low Learning Rate
+   */
+  setToModel() {
+    const modelPath = `data/models/${this.props.pretrained.model}/model.json`;
+    tf.loadLayersModel(modelPath).then((model) => {
+      model.save('indexeddb://currentModel').then(() => {
+        this.worker.postMessage({
+          cmd: 'setModel',
+          params: {
+            learningRate: this.props.network.learningRate,
+            training: this.props.training,
+          },
+        });
+      });
+    });
   }
 
   /**
@@ -204,16 +236,14 @@ class Training extends React.Component {
         type: this.props.training.inputType,
       },
     });
-    let ui = this.props.ui;
     let network = this.props.network;
     const training = {...this.props.training, workerReady: false};
     // reset the datasets and create the new data for the upcoming training
     network = {...network, iteration: 0};
     network = this.addDataToNetwork(network, [], [], []);
     network = this.addPredictionToNetwork(network, []);
-    ui = this.addDataToUI(ui, network);
     this.props.actions.updateNetwork(network);
-    this.props.actions.updateUI(ui);
+    this.props.actions.updateUI({...this.props.ui, data: network.data});
     this.props.actions.updateTraining(training);
   }
 
@@ -255,23 +285,6 @@ class Training extends React.Component {
   }
 
   /**
-   * This funtion adds the current training values with the current prediction
-   * to the ui object, so the plots can be drawn accurately
-   *
-   * @param {object} oldUI the previous ui object from the state
-   * @param {object} network the current network object from the state
-   * @return {object} the new ui object with the updated data
-   */
-  addDataToUI(oldUI, network) {
-    const data = oldUI.data;
-    data.pop();
-    data.unshift(network.data);
-    data[2] = network.data;
-    const newUI = {...oldUI, data: data};
-    return newUI;
-  }
-
-  /**
    * This is the main function for training the neural network, the datasets
    * for the current time step are generated according to the user input
    * values, a prediction for the current input is computed and then the
@@ -282,9 +295,12 @@ class Training extends React.Component {
   async iterate(animate) {
     let network = this.props.network;
     if (this.props.ui.ready) {
-      let ui = this.props.ui;
-      ui = this.addDataToUI(ui, network);
-      this.props.actions.updateUI({...ui, ready: !animate, running: animate});
+      this.props.actions.updateUI({
+        ...this.props.ui,
+        ready: !animate,
+        running: animate,
+        data: network.data,
+      });
     } else {
       return;
     }
@@ -314,6 +330,7 @@ class Training extends React.Component {
         epochs: 1,
         batchSize: this.props.training.batchSize,
         reset: false,
+        learningRate: this.props.network.learningRate,
       },
     });
     network = {...network, iteration: this.props.network.iteration + 1};
@@ -335,6 +352,7 @@ Training.propTypes = {
   training: PropTypes.object.isRequired,
   ui: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
+  pretrained: PropTypes.object.isRequired,
 };
 
 /**
@@ -348,6 +366,7 @@ function mapStateToProps(state) {
     network: state.network,
     training: state.training,
     ui: state.ui,
+    pretrained: state.pretrained,
   };
 }
 

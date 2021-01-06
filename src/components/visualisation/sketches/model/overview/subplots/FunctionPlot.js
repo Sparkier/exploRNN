@@ -55,8 +55,7 @@ export class FunctionPlot {
     s.line(((-this.halfW) + (this.in * this.stepWidth)), -(this.halfH-20),
         (-this.halfW + (this.in * this.stepWidth)), (this.halfH-20));
 
-    if (s.props.ui.data &&
-        s.props.ui.data[this.index].chartPrediction) {
+    if (s.props.network.data && s.props.network.data.chartPrediction) {
       s.colors.darkgrey.setAlpha(this.vis);
       s.stroke(s.colors.darkgrey);
       s.colors.darkgrey.setAlpha(255);
@@ -65,7 +64,7 @@ export class FunctionPlot {
       // draw input for validation
       s.strokeWeight(2);
       for (let i = 0; i <= this.in; i++) {
-        data = s.props.ui.data[this.index].chartPrediction[i];
+        data = s.props.network.data.chartPrediction[i];
         // draw the word "input" to the left
         if (i === 0) {
           s.push();
@@ -81,7 +80,7 @@ export class FunctionPlot {
         }
         s.vertex(-this.halfW + i * this.stepWidth, -this.halfH / 2 * data);
       }
-      data = s.props.ui.data[this.index].chartOutput[0];
+      data = s.props.network.data.chartOutput[0];
       s.vertex(-this.halfW + (this.in * this.stepWidth),
           -this.halfH / 2 * data);
       s.endShape();
@@ -89,15 +88,14 @@ export class FunctionPlot {
 
     // draw the test output for validation
     s.strokeWeight(1);
-    if (s.props.ui.data &&
-    s.props.ui.data[this.index].chartOutput) {
+    if (s.props.network.data && s.props.network.data.chartOutput) {
       s.colors.grey.setAlpha(this.vis);
       s.stroke(s.colors.grey);
       s.colors.grey.setAlpha(255);
       s.noFill();
       s.beginShape();
       for (let i = 0; i < this.out; i++) {
-        data = s.props.ui.data[this.index].chartOutput[i];
+        data = s.props.network.data.chartOutput[i];
         s.vertex((-this.halfW + ((i + this.in) * this.stepWidth)),
             (-this.halfH / 2 * data));
       }
@@ -117,7 +115,7 @@ export class FunctionPlot {
 
     // draw net prediction for validation
     s.strokeWeight(3);
-    if (s.props.ui.data && s.props.ui.data[this.index].prediction &&
+    if (s.props.network.data && s.props.network.data.prediction &&
     ((s.plotAnim === false ||
       (s.plotAnim === true && s.plotFrame > s.plotMoveFrames)))) {
       s.colors.overview.setAlpha(this.vis);
@@ -126,8 +124,8 @@ export class FunctionPlot {
       s.noFill();
       s.beginShape();
       for (let i = 0; i < this.out && i < showSteps - this.in; i++) {
-        if (s.props.ui.data[this.index].prediction) {
-          data = s.props.ui.data[this.index].prediction[i];
+        if (s.props.network.data.prediction) {
+          data = s.props.network.data.prediction[i];
           s.vertex(
               (-this.halfW + ((i + this.in) * this.stepWidth)),
               (-this.halfH / 2 * data));
@@ -136,7 +134,7 @@ export class FunctionPlot {
       s.endShape();
 
       // draw word "prediction" at last prediction pos
-      data = s.props.ui.data[this.index].prediction[Math.round(
+      data = s.props.network.data.prediction[Math.round(
           showSteps) - this.in];
       s.push();
       s.noStroke();
@@ -152,17 +150,14 @@ export class FunctionPlot {
     // Draw the error bars for training
     s.strokeWeight(2);
     if (this.s.netFrame > this.s.netPredFrames + this.s.netLossFrames) {
-      if (s.props.ui.data &&
-    s.props.ui.data[this.index].prediction && (this.index > 2 ||
-      (this.index === 2 && (s.plotAnim === false || (s.plotAnim === true &&
-        s.plotFrame > s.plotMoveFrames))))) {
+      if (s.props.network.data && s.props.network.data.prediction ) {
         s.colors.overviewlight.setAlpha(this.vis);
         s.stroke(s.colors.overviewlight);
         s.colors.overview.setAlpha(255);
         for (let i = 0; i < this.out; i++) {
-          if (s.props.ui.data[this.index].prediction) {
-            const dataPred = s.props.ui.data[this.index].prediction[i];
-            const dataOut = s.props.ui.data[this.index].chartOutput[i];
+          if (s.props.network.data.prediction) {
+            const dataPred = s.props.network.data.prediction[i];
+            const dataOut = s.props.network.data.chartOutput[i];
             const from = -this.halfH / 2 * dataPred;
             const to = -this.halfH / 2 * dataOut;
             const ratio = (this.s.netFrame - (this.s.netPredFrames +

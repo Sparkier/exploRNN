@@ -28,11 +28,13 @@ export default {
     step: false, // whether a training step is to be made
     workerReady: true, // the worker is ready for training commands
   },
+  pretrained: {
+    model: '',
+  },
   ui: {
     running: false, // Training running
     ready: true, // At beginning of training step, ready to start training
     detail: false, // Currently in detail view
-    data: new Array(5).fill({}), // Data to be trained on
     netAnim: false, // Network currently animating
     anim: true, // Detail cell currently animating
     animStep: false, // Detail cell step is executed
