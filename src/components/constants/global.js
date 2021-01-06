@@ -169,11 +169,123 @@ const globalENG = {
           skip: 'Skip Intro',
           next: 'Ok',
         },
-        arrow: 'right',
+        arrow: 'down',
         style: {
           position: 'absolute',
-          bottom: '10vh',
-          right: '-21%',
+          bottom: '37vh',
+          left: 'calc(60% - 250px)',
+        },
+      },
+      highLR: {
+        title: 'High Learning Rate',
+        description: descriptionStrings['ENG'].highLROnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'down',
+        style: {
+          position: 'absolute',
+          bottom: '37vh',
+          left: 'calc(60% - 250px)',
+        },
+      },
+      medLR: {
+        title: 'Medium Learning Rate',
+        description: descriptionStrings['ENG'].medLROnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'down',
+        style: {
+          position: 'absolute',
+          bottom: '37vh',
+          left: 'calc(60% - 250px)',
+        },
+      },
+      lowBS: {
+        title: 'Low Batch Size',
+        description: descriptionStrings['ENG'].lowBSOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'down',
+        style: {
+          position: 'absolute',
+          bottom: '24vh',
+          left: 'calc(60% - 250px)',
+        },
+      },
+      highBS: {
+        title: 'High Batch Size',
+        description: descriptionStrings['ENG'].highBSOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'down',
+        style: {
+          position: 'absolute',
+          bottom: '24vh',
+          left: 'calc(60% - 250px)',
+        },
+      },
+      medBS: {
+        title: 'Medium Batch Size',
+        description: descriptionStrings['ENG'].medBSOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'down',
+        style: {
+          position: 'absolute',
+          bottom: '24vh',
+          left: 'calc(60% - 250px)',
+        },
+      },
+      noNoise: {
+        title: 'No Noise',
+        description: descriptionStrings['ENG'].noNoiseOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'down',
+        style: {
+          position: 'absolute',
+          bottom: '11vh',
+          left: 'calc(60% - 250px)',
+        },
+      },
+      medNoise: {
+        title: 'Some Noise',
+        description: descriptionStrings['ENG'].medNoiseOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'down',
+        style: {
+          position: 'absolute',
+          bottom: '11vh',
+          left: 'calc(60% - 250px)',
+        },
+      },
+      highNoise: {
+        title: 'High Noise',
+        description: descriptionStrings['ENG'].highNoiseOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'down',
+        style: {
+          position: 'absolute',
+          bottom: '11vh',
+          left: 'calc(60% - 250px)',
         },
       },
       headingExplanation: {

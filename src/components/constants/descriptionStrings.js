@@ -286,23 +286,231 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'By interacting with these sliders, you can ',
+        'text': 'When ',
       },
       {
         'type': 'highlighted',
-        'text': 'change some of the most important training parameters',
+        'text': 'the learning rate is too low',
       },
       {
         'type': 'plain',
-        'text': ' and see in the network overivew, how ',
+        'text': ', one can see that the model ',
       },
       {
         'type': 'highlighted',
-        'text': 'the model reacts',
+        'text': 'prediction is not good',
+      },
+      {
+        'type': 'plain',
+        'text': ', even after 20 epochs. Indicating a learning process that is',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'too slow',
+      },
+      {
+        'type': 'plain',
+        'text': '.',
+      },
+    ],
+  ],
+  highLROnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'By contrast, when ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'the learning rate is too high',
+      },
+      {
+        'type': 'plain',
+        'text': ', the model ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'prediction is also not good',
+      },
+      {
+        'type': 'plain',
+        'text': ' after 20 epochs, indicating ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'overshooting of optima',
       },
       {
         'type': 'plain',
         'text': ' during training.',
+      },
+    ],
+  ],
+  medLROnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'When ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'the learning rate is selected appropriately',
+      },
+      {
+        'type': 'plain',
+        'text': ', the model ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'finds an optimal solution',
+      },
+      {
+        'type': 'plain',
+        'text': ' fast, even after 10 epochs.',
+      },
+    ],
+  ],
+  lowBSOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'When ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'the batch size is low',
+      },
+      {
+        'type': 'plain',
+        'text': ', the model is ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'learning slowly',
+      },
+      {
+        'type': 'plain',
+        'text': ', not being converged even after 20 epochs.',
+      },
+    ],
+  ],
+  highBSOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'By contrast, when ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'the batch size is too high',
+      },
+      {
+        'type': 'plain',
+        'text': ', the loss is averaged over ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'too many samples',
+      },
+      {
+        'type': 'plain',
+        'text': ', thus, also not converging after 20 epochs.',
+      },
+    ],
+  ],
+  medBSOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'Again, when ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'the batch size is selected appropriately',
+      },
+      {
+        'type': 'plain',
+        'text': ', the model ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'finds an optimal solution',
+      },
+      {
+        'type': 'plain',
+        'text': ' fast, even after 10 epochs.',
+      },
+    ],
+  ],
+  noNoiseOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'Without noise in the training data, it is ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'easy for the model to learn',
+      },
+      {
+        'type': 'plain',
+        'text': '. However, this is not a very ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'realistic scenario',
+      },
+      {
+        'type': 'plain',
+        'text': ', as real-life data is often not as smooth.',
+      },
+    ],
+  ],
+  medNoiseOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'Adding noise reflects a more ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'realistic scenario',
+      },
+      {
+        'type': 'plain',
+        'text': '. As this is ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'harder to learn, it takes longer for the modele to converge',
+      },
+      {
+        'type': 'plain',
+        'text': '.',
+      },
+    ],
+  ],
+  highNoiseOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'Noise can also be ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'too much for the model to handle',
+      },
+      {
+        'type': 'plain',
+        'text': '. When the noise is too much, the model might ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'not converge at all',
+      },
+      {
+        'type': 'plain',
+        'text': '.',
       },
     ],
   ],
