@@ -8,6 +8,7 @@ import * as actions from '../../actions';
 import worker from './worker.js';
 import TrainingWorker from './TrainingWorker';
 import {TextData} from '../../helpers/TextData';
+import * as tf from '@tensorflow/tfjs';
 
 /**
  * This class handles the generation, compilation and training of the
@@ -194,13 +195,17 @@ class Training extends React.Component {
    * Set the model to low Learning Rate
    */
   setToModel() {
-    this.worker.postMessage({
-      cmd: 'setModel',
-      params: {
-        model: this.props.pretrained.model,
-        learningRate: this.props.network.learningRate,
-        training: this.props.training,
-      },
+    const modelPath = `data/models/${this.props.pretrained.model}/model.json`;
+    tf.loadLayersModel(modelPath).then((model) => {
+      model.save('indexeddb://currentModel').then(() => {
+        this.worker.postMessage({
+          cmd: 'setModel',
+          params: {
+            learningRate: this.props.network.learningRate,
+            training: this.props.training,
+          },
+        });
+      });
     });
   }
 

@@ -9,7 +9,7 @@ export default () => {
         importScripts(
             'https://cdn.jsdelivr.net/npm/setimmediate@1.0.5/setImmediate.min.js');
         importScripts(
-            'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2.7/dist/tf.min.js');
+            'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js');
         tf.setBackend('cpu');
         self.initializing = true;
         self.initialize();
@@ -61,9 +61,6 @@ export default () => {
         }});
         self.predicting = false;
         break;
-      case 'save':
-        self.model.save('http://127.0.0.1:5000/save_model');
-        break;
       case 'setModel':
         self.setModel(e.data.params);
         break;
@@ -107,7 +104,7 @@ export default () => {
    * @param {object} params The params needed to set the model
    */
   self.setModel = (params) => {
-    tf.loadLayersModel(`http://127.0.0.1:5000/download/${params.model}/model.json`).then((model) => {
+    tf.loadLayersModel('indexeddb://currentModel').then((model) => {
       self.model = model;
       const optimizer = tf.train.rmsprop(params.learningRate);
       self.model.compile({loss: 'meanSquaredError', optimizer: optimizer});

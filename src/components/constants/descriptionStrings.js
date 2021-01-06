@@ -306,7 +306,7 @@ const descriptionsENG = {
       },
       {
         'type': 'highlighted',
-        'text': 'too slow',
+        'text': ' too slow',
       },
       {
         'type': 'plain',
