@@ -8,7 +8,6 @@ import {AppBar, Toolbar, Button, Typography,
   MenuItem, IconButton} from '@material-ui/core/';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import GetAppIcon from '@material-ui/icons/GetApp';
 
 import * as actions from '../../actions';
 import styles from '../../styles/themedStyles';

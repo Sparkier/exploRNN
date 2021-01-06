@@ -124,7 +124,7 @@ export function getNextIntroState(introState, cookiesState, actions, props) {
   } else if (introState === 'medNoise') {
     newIntroState = 'highNoise';
     prepareHighNoiseState(actions, props);
-  } else if (introState === 'medBS') {
+  } else if (introState === 'highNoise') {
     newIntroState = 'network';
   } else if (introState === 'startTraining') {
     newIntroState = 'output';
