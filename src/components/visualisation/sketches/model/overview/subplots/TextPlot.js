@@ -45,13 +45,13 @@ export class TextPlot {
           4 * s.typography.fontsize, 10);
     }
     // draw input for validation
-    if (s.props.ui.data && s.props.ui.data[this.index].chartPrediction) {
+    if (s.props.network.data && s.props.network.data.chartPrediction) {
       s.textSize(s.typography.fontsize);
       s.colors.black.setAlpha(this.vis);
       s.fill(s.colors.black);
       s.colors.black.setAlpha(255);
       for (let i = 0; i <= this.in; i++) {
-        data = s.props.ui.data[this.index].chartPrediction[i];
+        data = s.props.network.data.chartPrediction[i];
         if (data) {
           // draw the word "input" to the left
           if (i === 0) {
@@ -75,13 +75,13 @@ export class TextPlot {
       }
     }
     // draw the test output for validation
-    if (s.props.ui.data &&
-      s.props.ui.data[this.index].chartOutput) {
+    if (s.props.network.data &&
+      s.props.network.data.chartOutput) {
       s.colors.grey.setAlpha(this.vis);
       s.fill(s.colors.grey);
       s.colors.grey.setAlpha(255);
       for (let i = 0; i < this.out; i++) {
-        data = s.props.ui.data[this.index].chartOutput[i];
+        data = s.props.network.data.chartOutput[i];
         if (data) {
           if (Object.prototype.hasOwnProperty.call(s.props.textData,
               'textString')) {
@@ -91,7 +91,7 @@ export class TextPlot {
           }
         }
       }
-      if (s.props.ui.data[this.index].chartOutput[0]) {
+      if (s.props.network.data.chartOutput[0]) {
         // draw word "target" to the right
         s.push();
         s.noStroke();
@@ -103,15 +103,15 @@ export class TextPlot {
       }
     }
     // draw net prediction for validation
-    if (s.props.ui.data && s.props.ui.data[this.index].prediction &&
+    if (s.props.network.data && s.props.network.data.prediction &&
       (s.plotAnim === false || (s.plotAnim === true &&
         s.plotFrame > s.plotMoveFrames))) {
       s.colors.overview.setAlpha(this.vis);
       s.fill(s.colors.overview);
       s.colors.overview.setAlpha(255);
       for (let i = 0; i < this.out && i < showSteps - this.in; i++) {
-        if (s.props.ui.data[this.index].prediction) {
-          data = s.props.ui.data[this.index].prediction[i];
+        if (s.props.network.data.prediction) {
+          data = s.props.network.data.prediction[i];
           if (data) {
             if (Object.prototype.hasOwnProperty.call(s.props.textData,
                 'textString')) {
@@ -125,7 +125,7 @@ export class TextPlot {
       s.endShape();
       s.push();
       if (showSteps - this.in > 0 &&
-          s.props.ui.data[this.index].prediction[0]) {
+          s.props.network.data.prediction[0]) {
         // draw word "prediction" at last prediction pos
         s.noStroke();
         s.textAlign(s.RIGHT, s.TOP);

@@ -16,7 +16,6 @@ export class NetworkPlot {
    */
   constructor(s) {
     this.s = s;
-    this.index = 2;
     this.cx = s.outProps.midX;
     this.cy = s.outProps.midY;
     this.scale = 1 - 0.5 * (Math.abs(s.height/2 - this.cy) / (s.height/2));

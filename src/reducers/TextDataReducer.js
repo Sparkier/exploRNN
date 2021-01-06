@@ -14,6 +14,8 @@ export default function textDataReducer(state = initialState.textData, action) {
   switch (action.type) {
     case types.UPDATE_TEXT_DATA:
       return action.textData;
+    case types.REINIT:
+      return initialState.textData;
     default:
       return state;
   }

@@ -149,6 +149,7 @@ class TopBar extends React.Component {
     Cookies.removeIntroState();
     this.props.actions.updateCookiesState({...this.props.cookiesState,
       intro: ''});
+    this.props.actions.reinitNetwork();
   }
 
   /**
@@ -177,7 +178,8 @@ class TopBar extends React.Component {
               ))
             }
           </StyledSelect>
-          <IconButton aria-label="github" style={{color: 'white'}} href="https://github.com/viscom-ulm/exploRNN">
+          <IconButton aria-label="github" style={{color: 'white'}}
+            href="https://github.com/viscom-ulm/exploRNN">
             <GitHubIcon/>
           </IconButton>
           <Button variant="contained"

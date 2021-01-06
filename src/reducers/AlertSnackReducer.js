@@ -15,6 +15,8 @@ export default function alertSnackReducer(state = initialState.alertSnack,
   switch (action.type) {
     case types.UPDATE_ALERT_SNACK:
       return action.alertSnack;
+    case types.REINIT:
+      return initialState.textData;
     default:
       return state;
   }
