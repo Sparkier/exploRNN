@@ -126,6 +126,7 @@ export function getNextIntroState(introState, cookiesState, actions, props) {
     prepareHighNoiseState(actions, props);
   } else if (introState === 'highNoise') {
     newIntroState = 'network';
+    actions.reinitNetwork();
   } else if (introState === 'startTraining') {
     newIntroState = 'output';
   } else if (introState === 'output') {
@@ -153,9 +154,9 @@ export function getNextIntroState(introState, cookiesState, actions, props) {
  */
 function prepareLowLRState(actions, props) {
   actions.updateTraining({...props.training, noise: 0, batchSize: 25});
-  actions.updateNetwork({...props.network, learningRate: 0.0001});
+  actions.updateNetwork({...props.network, iteration: 19,
+    learningRate: 0.0001});
   actions.updatePretrained({...props.pretrained, model: 'low_LR_20'});
-  actions.updateNetwork({...props.network, iteration: 19});
 }
 
 /**
@@ -166,9 +167,8 @@ function prepareLowLRState(actions, props) {
  */
 function prepareHighLRState(actions, props) {
   actions.updateTraining({...props.training, noise: 0, batchSize: 25});
-  actions.updateNetwork({...props.network, learningRate: 1});
+  actions.updateNetwork({...props.network, iteration: 19, learningRate: 1});
   actions.updatePretrained({...props.pretrained, model: 'high_LR_20'});
-  actions.updateNetwork({...props.network, iteration: 19});
 }
 
 /**
@@ -179,9 +179,8 @@ function prepareHighLRState(actions, props) {
  */
 function prepareMedLRState(actions, props) {
   actions.updateTraining({...props.training, noise: 0, batchSize: 25});
-  actions.updateNetwork({...props.network, learningRate: 0.01});
+  actions.updateNetwork({...props.network, iteration: 9, learningRate: 0.01});
   actions.updatePretrained({...props.pretrained, model: 'med_LR_10'});
-  actions.updateNetwork({...props.network, iteration: 9});
 }
 
 /**
@@ -192,10 +191,8 @@ function prepareMedLRState(actions, props) {
  */
 function prepareLowBSState(actions, props) {
   actions.updateTraining({...props.training, noise: 0, batchSize: 5});
-  actions.updateNetwork({...props.network, learningRate: 0.025});
-  actions.updateNetwork({...props.network, batchSize: 5});
+  actions.updateNetwork({...props.network, iteration: 9, learningRate: 0.025});
   actions.updatePretrained({...props.pretrained, model: 'low_BS_10'});
-  actions.updateNetwork({...props.network, iteration: 9});
 }
 
 /**
@@ -206,9 +203,8 @@ function prepareLowBSState(actions, props) {
  */
 function prepareHighBSState(actions, props) {
   actions.updateTraining({...props.training, noise: 0, batchSize: 50});
-  actions.updateNetwork({...props.network, learningRate: 0.025});
+  actions.updateNetwork({...props.network, iteration: 9, learningRate: 0.025});
   actions.updatePretrained({...props.pretrained, model: 'high_BS_10'});
-  actions.updateNetwork({...props.network, iteration: 9});
 }
 
 /**
@@ -219,9 +215,8 @@ function prepareHighBSState(actions, props) {
  */
 function prepareMedBSState(actions, props) {
   actions.updateTraining({...props.training, noise: 0, batchSize: 25});
-  actions.updateNetwork({...props.network, learningRate: 0.025});
+  actions.updateNetwork({...props.network, iteration: 9, learningRate: 0.025});
   actions.updatePretrained({...props.pretrained, model: 'med_BS_10'});
-  actions.updateNetwork({...props.network, iteration: 9});
 }
 
 /**
@@ -232,9 +227,8 @@ function prepareMedBSState(actions, props) {
  */
 function prepareNoNoiseState(actions, props) {
   actions.updateTraining({...props.training, batchSize: 25, noise: 0});
-  actions.updateNetwork({...props.network, learningRate: 0.025});
+  actions.updateNetwork({...props.network, iteration: 9, learningRate: 0.025});
   actions.updatePretrained({...props.pretrained, model: 'no_noise_10'});
-  actions.updateNetwork({...props.network, iteration: 9});
 }
 
 /**
@@ -245,9 +239,8 @@ function prepareNoNoiseState(actions, props) {
  */
 function prepareMedNoiseState(actions, props) {
   actions.updateTraining({...props.training, batchSize: 25, noise: 0.2});
-  actions.updateNetwork({...props.network, learningRate: 0.025});
+  actions.updateNetwork({...props.network, iteration: 19, learningRate: 0.025});
   actions.updatePretrained({...props.pretrained, model: 'med_noise_20'});
-  actions.updateNetwork({...props.network, iteration: 19});
 }
 
 /**
@@ -258,7 +251,6 @@ function prepareMedNoiseState(actions, props) {
  */
 function prepareHighNoiseState(actions, props) {
   actions.updateTraining({...props.training, batchSize: 25, noise: 0.4});
-  actions.updateNetwork({...props.network, learningRate: 0.025});
+  actions.updateNetwork({...props.network, iteration: 19, learningRate: 0.025});
   actions.updatePretrained({...props.pretrained, model: 'high_noise_20'});
-  actions.updateNetwork({...props.network, iteration: 19});
 }

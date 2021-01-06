@@ -104,8 +104,7 @@ class Training extends React.Component {
         this_.iterate(true);
       }, 100);
     }
-    if (this.props.training.reset ||
-      prevProps.network.learningRate !== this.props.network.learningRate) {
+    if (this.props.training.reset) {
       // the network/training values shall be regenerated with current values
       this.reset();
       this.props.actions.updateTraining(
@@ -148,10 +147,6 @@ class Training extends React.Component {
             }
         );
       });
-    }
-    if (this.props.training.save) {
-      this.save();
-      this.props.actions.updateTraining({...this.props.training, save: false});
     }
     // If in detail view, and no completed epoch, advance for one to get data
     if (this.props.ui.detail && this.props.network.iteration === 0) {
@@ -335,17 +330,11 @@ class Training extends React.Component {
         epochs: 1,
         batchSize: this.props.training.batchSize,
         reset: false,
+        learningRate: this.props.network.learningRate,
       },
     });
     network = {...network, iteration: this.props.network.iteration + 1};
     this.props.actions.updateNetwork(network);
-  }
-
-  /**
-   * Downloads the current model
-   */
-  async save() {
-    this.worker.postMessage({cmd: 'save'});
   }
 
   /**

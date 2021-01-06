@@ -26,6 +26,7 @@ export default () => {
         if (self.fitting) return;
         while (self.generating || self.initializing); // prevent inconsistencies
         self.fitting = true;
+        self.model.optimizer.learningRate = e.data.params.learningRate;
         self.model.model.fit(self.mem[0].in,
             self.mem[0].out, {
               epochs: e.data.params.epochs,
@@ -73,6 +74,7 @@ export default () => {
    */
   self.initialize = () => {
     self.model = undefined;
+    self.optimizer = undefined;
     self.mem = [];
     self.fitting = false;
     self.predicting = false;
@@ -88,13 +90,13 @@ export default () => {
     if (params.training.inputType === 'Text Data') {
       self.createComplexModel(20, self.textData.charSetSize,
           self.textData.charSetSize, params.layers, params.cells);
-      const optimizer = tf.train.rmsprop(params.learningRate);
+      self.optimizer = tf.train.rmsprop(params.learningRate);
       self.model.compile({loss: 'categoricalCrossentropy',
-        optimizer: optimizer});
+        optimizer: self.optimizer});
     } else {
       self.createComplexModel(self.values, 1, 1, params.layers, params.cells);
-      const optimizer = tf.train.rmsprop(params.learningRate);
-      self.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
+      self.optimizer = tf.train.rmsprop(params.learningRate);
+      self.model.compile({loss: 'meanSquaredError', optimizer: self.optimizer});
     }
   };
 
@@ -106,8 +108,8 @@ export default () => {
   self.setModel = (params) => {
     tf.loadLayersModel('indexeddb://currentModel').then((model) => {
       self.model = model;
-      const optimizer = tf.train.rmsprop(params.learningRate);
-      self.model.compile({loss: 'meanSquaredError', optimizer: optimizer});
+      self.optimizer = tf.train.rmsprop(params.learningRate);
+      self.model.compile({loss: 'meanSquaredError', optimizer: self.optimizer});
       postMessage({cmd: 'modelSet'});
     });
   };

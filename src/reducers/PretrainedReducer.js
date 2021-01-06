@@ -15,6 +15,8 @@ export default function pretrainedReducer(
   switch (action.type) {
     case types.UPDATE_PRETRAINED:
       return action.pretrained;
+    case types.REINIT:
+      return initialState.pretrained;
     default:
       return state;
   }

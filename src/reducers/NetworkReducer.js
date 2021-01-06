@@ -14,6 +14,8 @@ export default function networkReducer(state = initialState.network, action) {
   switch (action.type) {
     case types.UPDATE_NETWORK:
       return action.network;
+    case types.REINIT:
+      return initialState.network;
     default:
       return state;
   }

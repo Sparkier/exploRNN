@@ -49,6 +49,7 @@ class OnboardingDialog extends React.Component {
     const introState = Cookies.getIntroState();
     this.props.actions.updateCookiesState({...this.props.cookiesState,
       intro: introState});
+    this.props.actions.reinitNetwork();
   }
 
   /**

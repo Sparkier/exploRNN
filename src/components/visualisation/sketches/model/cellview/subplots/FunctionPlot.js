@@ -12,7 +12,8 @@ export class FunctionPlot {
     let truth;
     let from;
     let to;
-    if (!s.props || !s.props.network.data) {
+    if (!s.props || !s.props.network.data ||
+      !s.props.network.data.chartPrediction) {
       return;
     }
     // prepare plot parameters

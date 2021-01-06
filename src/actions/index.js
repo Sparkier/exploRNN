@@ -98,3 +98,12 @@ export function updateCookiesState(cookiesState) {
 export function updatePretrained(pretrained) {
   return {type: types.UPDATE_PRETRAINED, pretrained};
 }
+
+/**
+ * Reinitializes the network state of the application.
+ *
+ * @return {object} a redux state update
+ */
+export function reinitNetwork() {
+  return {type: types.REINIT};
+}

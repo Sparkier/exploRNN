@@ -149,6 +149,7 @@ class TopBar extends React.Component {
     Cookies.removeIntroState();
     this.props.actions.updateCookiesState({...this.props.cookiesState,
       intro: ''});
+    this.props.actions.reinitNetwork();
   }
 
   /**

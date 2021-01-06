@@ -25,6 +25,8 @@ export default function trainingReducer(
       };
     case types.UPDATE_TRAINING:
       return action.training;
+    case types.REINIT:
+      return {...initialState.training, reset: true};
     default:
       return state;
   }
