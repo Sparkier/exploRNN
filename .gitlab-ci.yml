@@ -5,7 +5,6 @@ eslint:
     - npm i
     - eslint --color .
 
-
 pages:
   only:
     refs:
