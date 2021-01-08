@@ -54,6 +54,23 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
+        'text': 'If you are new to this applicaation, you can just let this ' +
+        'intro guide you, ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'without clicking anything',
+      },
+      {
+        'type': 'plain',
+        'text': '. You will be told once the intro is over.',
+      },
+    ],
+  ],
+  contrast: [
+    [
+      {
+        'type': 'plain',
         'text': 'In contrast to fully connected or ' +
         'convolutional neural networks, RNNs operate on ',
       },
@@ -528,6 +545,20 @@ const descriptionsENG = {
       {
         'type': 'plain',
         'text': ' in this visualization.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'This is ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'the end of the tutorial',
+      },
+      {
+        'type': 'plain',
+        'text': '.',
       },
     ],
     [

@@ -36,6 +36,20 @@ const globalENG = {
           left: 'calc(50% - 250px)',
         },
       },
+      contrast: {
+        title: 'Recurrent Networks',
+        description: descriptionStrings['ENG'].contrast,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Next',
+        },
+        arrow: 'left',
+        style: {
+          position: 'absolute',
+          top: ' 200px',
+          left: '10%',
+        },
+      },
       input: {
         title: 'Training Input',
         description: descriptionStrings['ENG'].inputOnboarding,
