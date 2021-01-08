@@ -1,6 +1,8 @@
 import globalConstants from '../components/constants/global';
 import * as Cookies from '../helpers/Cookies';
 
+let timer = false;
+
 /**
  * Returns the props for the current onboarding element.
  *
@@ -17,6 +19,9 @@ export function getCurrentOnboardingElementProps(uiState, cookiesState,
   let state = constants.onboarding.welcome;
   if (cookiesState.intro === '') {
     open = uiState.detail ? false : true;
+  } else if (cookiesState.intro === 'contrast') {
+    open = (uiState.detail ? false : true) && (networkState.iteration > 9);
+    state = constants.onboarding.contrast;
   } else if (cookiesState.intro === 'input') {
     open = uiState.detail ? false : true;
     state = constants.onboarding.input;
@@ -57,22 +62,22 @@ export function getCurrentOnboardingElementProps(uiState, cookiesState,
     open = uiState.detail ? false : true;
     state = constants.onboarding.startTraining;
   } else if (cookiesState.intro === 'output') {
-    open = uiState.detail ? false : true && (networkState.iteration > 1);
+    open = uiState.detail ? false : true;
     state = constants.onboarding.output;
   } else if (cookiesState.intro === 'cellTransition') {
-    open = uiState.detail ? false : true && (networkState.iteration > 9);
+    open = (uiState.detail ? false : true) && (networkState.iteration > 19);
     state = constants.onboarding.cellTransition;
   } else if (cookiesState.intro === 'detailOutput') {
-    open = uiState.detail ? true : false;
+    open = (uiState.detail ? true : false) && timer;
     state = constants.onboarding.detailOutput;
   } else if (cookiesState.intro === 'detailCell') {
-    open = uiState.detail ? true : false;
+    open = (uiState.detail ? true : false) && timer;
     state = constants.onboarding.detailCell;
   } else if (cookiesState.intro === 'detailProcess') {
-    open = true;
+    open = true && (networkState.iteration > 1);
     state = constants.onboarding.detailProcess;
   } else if (cookiesState.intro === 'headingExplanation') {
-    open = true;
+    open = true && timer;
     state = constants.onboarding.headingExplanation;
   }
   return {
@@ -92,11 +97,13 @@ export function getCurrentOnboardingElementProps(uiState, cookiesState,
 export function getNextIntroState(introState, cookiesState, actions, props) {
   let newIntroState = introState;
   if (introState === '' || introState === undefined) {
-    newIntroState = 'sliders';
-  } else if (introState === 'input') {
-    newIntroState = 'startTraining';
-  } else if (introState === 'network') {
+    newIntroState = 'network';
+  } else if (introState === 'contrast') {
     newIntroState = 'input';
+  } else if (introState === 'input') {
+    newIntroState = 'cellTransition';
+  } else if (introState === 'network') {
+    newIntroState = 'sliders';
   } else if (introState === 'sliders') {
     newIntroState = 'lowLR';
     prepareLowLRState(actions, props);
@@ -125,20 +132,29 @@ export function getNextIntroState(introState, cookiesState, actions, props) {
     newIntroState = 'highNoise';
     prepareHighNoiseState(actions, props);
   } else if (introState === 'highNoise') {
-    newIntroState = 'network';
     actions.reinitNetwork();
+    newIntroState = 'startTraining';
   } else if (introState === 'startTraining') {
-    newIntroState = 'output';
+    actions.updateTraining({...props.training, running: true});
+    newIntroState = 'detailProcess';
   } else if (introState === 'output') {
-    newIntroState = 'cellTransition';
+    newIntroState = 'contrast';
   } else if (introState === 'cellTransition') {
+    actions.updateUI({...props.ui, detail: true, anim: props.training.running});
+    actions.stopTraining(props.training);
+    timer = false;
+    setTimeout(() => timer = true, 3000);
     newIntroState = 'detailCell';
   } else if (introState === 'detailCell') {
     newIntroState = 'detailOutput';
+    timer = false;
+    setTimeout(() => timer = true, 3000);
   } else if (introState === 'detailOutput') {
-    newIntroState = 'detailProcess';
-  } else if (introState === 'detailProcess') {
     newIntroState = 'headingExplanation';
+    timer = false;
+    setTimeout(() => timer = true, 5000);
+  } else if (introState === 'detailProcess') {
+    newIntroState = 'output';
   } else {
     newIntroState = 'done';
   }
