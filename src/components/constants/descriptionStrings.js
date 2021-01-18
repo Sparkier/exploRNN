@@ -301,6 +301,117 @@ const descriptionsENG = {
       },
     ],
   ],
+  detailCellMemoryOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'LSTM cells have a ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'Memory Component',
+      },
+      {
+        'type': 'plain',
+        'text': '. This Memory Component is used to ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'preserve information of past time steps',
+      },
+      {
+        'type': 'plain',
+        'text': ', and thus, ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'capture long-term dependencies',
+      },
+      {
+        'type': 'plain',
+        'text': '.',
+      },
+    ],
+  ],
+  detailCellGatesOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'There are three gates that interact with this memory. They ' +
+        'are called ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'Input Gate, Forget Gate, and Output Gate.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'Input Gate',
+      },
+      {
+        'type': 'plain',
+        'text': ' (left) controls what ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'new information from the input will be added to the memory',
+      },
+      {
+        'type': 'plain',
+        'text': '.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'Forget Gate',
+      },
+      {
+        'type': 'plain',
+        'text': ' (center) controls what information ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'can be removed from the memory',
+      },
+      {
+        'type': 'plain',
+        'text': '.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'Output Gate',
+      },
+      {
+        'type': 'plain',
+        'text': ' (right) controls what information is ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'used to compute the output activation',
+      },
+      {
+        'type': 'plain',
+        'text': '.',
+      },
+    ],
+  ],
   processOnboarding: [
     [
       {

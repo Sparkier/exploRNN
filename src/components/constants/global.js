@@ -148,6 +148,34 @@ const globalENG = {
           left: '50%',
         },
       },
+      detailCellMemory: {
+        title: 'Cell Memory',
+        description: descriptionStrings['ENG'].detailCellMemoryOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'left',
+        style: {
+          position: 'absolute',
+          top: '200px',
+          left: '50%',
+        },
+      },
+      detailCellGates: {
+        title: 'Cell Gates',
+        description: descriptionStrings['ENG'].detailCellGatesOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'left',
+        style: {
+          position: 'absolute',
+          top: '200px',
+          left: '50%',
+        },
+      },
       detailProcess: {
         title: 'Process',
         description: descriptionStrings['ENG'].processOnboarding,
