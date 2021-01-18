@@ -1,75 +1,34 @@
 // General Properties
 html,
 body {
-    height: 100%;
-    overflow: hidden;
-    font-family: Roboto, sans-serif;
-    color: white;
+  height: 100%;
+  overflow: hidden;
+  font-family: Roboto, sans-serif;
+  color: white;
 }
 
 // Header only Properties (For Menu Bar)
 header {
-    position: static;
-    top: 0;
-    left: 0;
-    right: 0;
-    color: white;
-    background-color: #A32638;
-    
-    .wrapper {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        margin-left: 50px;
-    }
+  position: static;
+  top: 0;
+  left: 0;
+  right: 0;
+  color: white;
+  background-color: #a32638;
 
-    .menu {
-        display: flex;
-        flex-direction: row;
-    }
-    
-    .menuitem {
-        display: flex;
-        flex-direction: row;
-        height: calc(100% - 2px);
-        padding-left: 12px;
-        padding-right: 12px;
-        margin-left: 12px;
-        font-size: large;
-        color: 'white'
-    }
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-left: 50px;
+  }
 
-    .menuitem:hover {
-        background-color: #1B80DE;
-        text-decoration: complement($color: #000000);
-        cursor: pointer;
-    }
+  .menu {
+    display: flex;
+    flex-direction: row;
+  }
 
-    div {
-        display: block;
-        color: white;
-        text-align: center;
-        line-height: 62px;
-    }
-    
-    div a:hover {
-        background-color: rgb(141, 47, 61);
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .selected {
-        border-bottom: 2px solid #ffffff;
-    }
-
-    img {
-        display: block;
-        margin: auto;
-        height: 30px;
-    }
-}
-
-.menuitem {
+  .menuitem {
     display: flex;
     flex-direction: row;
     height: calc(100% - 2px);
@@ -77,58 +36,103 @@ header {
     padding-right: 12px;
     margin-left: 12px;
     font-size: large;
-    color: 'white'
+    color: 'white';
+  }
+
+  .menuitem:hover {
+    background-color: #1b80de;
+    text-decoration: complement($color: #000000);
+    cursor: pointer;
+  }
+
+  div {
+    display: block;
+    color: white;
+    text-align: center;
+    line-height: 62px;
+  }
+
+  div a:hover {
+    background-color: rgb(141, 47, 61);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .selected {
+    border-bottom: 2px solid #ffffff;
+  }
+
+  img {
+    display: block;
+    margin: auto;
+    height: 30px;
+  }
+}
+
+.menuitem {
+  display: flex;
+  flex-direction: row;
+  height: calc(100% - 2px);
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-left: 12px;
+  font-size: large;
+  color: 'white';
 }
 
 .menuitem:hover {
-    background-color: #1B80DE;
-    text-decoration: complement($color: #000000);
-    cursor: pointer;
+  background-color: #1b80de;
+  text-decoration: complement($color: #000000);
+  cursor: pointer;
 }
 .wrap {
-    height: auto;
-    background-color: #135124;
-    overflow: hidden;
+  height: auto;
+  background-color: #135124;
+  overflow: hidden;
 }
 
 .content {
-    height: calc(100% - 60px);
-    background-color: #ffffff;
-    overflow-y: hidden;
-    overflow-x: hidden;
+  height: calc(100% - 60px);
+  background-color: #ffffff;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .full {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .mainGrid {
-    height: 100%;
+  height: 100%;
 }
 
 .sideGrid {
-    width: 20%;
+  width: 20%;
 }
 
 // Classes for Styling of individual Elements
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
 svg text {
-cursor: default;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .MuiIconButton-root.Mui-disabled {
-    background-color: #bdbdbd !important;
+  background-color: #bdbdbd !important;
+}
+
+.MathJax {
+  text-align: left !important;
 }

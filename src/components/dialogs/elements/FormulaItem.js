@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Node, Context} from 'react-mathjax2';
+import {MathComponent} from 'mathjax-react';
 
 /**
  * ComplexDialog is used to explain components of the App.
@@ -14,17 +14,13 @@ class DescriptionItem extends React.Component {
    */
   render() {
     return (
-      <Context input='tex' options={{displayAlign: 'left'}}>
-        <span>
-          {
-            this.props.formulas.map((formula) => (
-              <Node key={formula}>
-                {formula}
-              </Node>
-            ))
-          }
-        </span>
-      </Context>
+      <span>
+        {
+          this.props.formulas.map((formula) => (
+            <MathComponent key={formula} tex={formula} />
+          ))
+        }
+      </span>
     );
   }
 }
