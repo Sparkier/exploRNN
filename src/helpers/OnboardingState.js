@@ -76,6 +76,12 @@ export function getCurrentOnboardingElementProps(uiState, cookiesState,
   } else if (cookiesState.intro === 'detailCell') {
     open = (uiState.detail ? true : false) && timer;
     state = constants.onboarding.detailCell;
+  } else if (cookiesState.intro === 'detailCellMemory') {
+    open = uiState.detail ? true : false;
+    state = constants.onboarding.detailCellMemory;
+  } else if (cookiesState.intro === 'detailCellGates') {
+    open = uiState.detail ? true : false;
+    state = constants.onboarding.detailCellGates;
   } else if (cookiesState.intro === 'detailProcess') {
     open = true && (networkState.iteration > 1);
     state = constants.onboarding.detailProcess;
@@ -151,6 +157,10 @@ export function getNextIntroState(introState, cookiesState, actions, props) {
     setTimeout(() => timer = true, 3000);
     newIntroState = 'detailCell';
   } else if (introState === 'detailCell') {
+    newIntroState = 'detailCellMemory';
+  } else if (introState === 'detailCellMemory') {
+    newIntroState = 'detailCellGates';
+  } else if (introState === 'detailCellGates') {
     newIntroState = 'detailOutput';
     timer = false;
     setTimeout(() => timer = true, 30000);

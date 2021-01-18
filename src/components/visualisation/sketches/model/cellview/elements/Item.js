@@ -76,6 +76,20 @@ export class Item {
       s.fill(s.colors.detaillight);
       s.cursor(s.HAND);
     }
+    if (this.s.props.cookiesState.intro === 'detailCellMemory') {
+      if (this.type === 'cel') {
+        s.fill(s.colors.detaillight);
+      } else {
+        s.fill(s.colors.lightgrey);
+      }
+    }
+    if (this.s.props.cookiesState.intro === 'detailCellGates') {
+      if (this.type === 'los' || this.type === 'add' || this.type === 'out') {
+        s.fill(s.colors.detaillight);
+      } else {
+        s.fill(s.colors.lightgrey);
+      }
+    }
     const layer = s.clickedBlock;
     const hasPrev = layer ? (layer.i !== 1) : false;
     const hasNext = layer ? (layer.i !== layer.layers) : false;
