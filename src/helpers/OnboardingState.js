@@ -31,6 +31,9 @@ export function getCurrentOnboardingElementProps(uiState, cookiesState,
   } else if (cookiesState.intro === 'sliders') {
     open = true;
     state = constants.onboarding.sliders;
+  } else if (cookiesState.intro === 'slidersExplained') {
+    open = true;
+    state = constants.onboarding.slidersExplained;
   } else if (cookiesState.intro === 'lowLR') {
     open = true;
     state = constants.onboarding.lowLR;
@@ -65,7 +68,7 @@ export function getCurrentOnboardingElementProps(uiState, cookiesState,
     open = uiState.detail ? false : true;
     state = constants.onboarding.output;
   } else if (cookiesState.intro === 'cellTransition') {
-    open = (uiState.detail ? false : true) && (networkState.iteration > 19);
+    open = (uiState.detail ? false : true) && (networkState.iteration > 14);
     state = constants.onboarding.cellTransition;
   } else if (cookiesState.intro === 'detailOutput') {
     open = (uiState.detail ? true : false) && timer;
@@ -105,6 +108,8 @@ export function getNextIntroState(introState, cookiesState, actions, props) {
   } else if (introState === 'network') {
     newIntroState = 'sliders';
   } else if (introState === 'sliders') {
+    newIntroState = 'slidersExplained';
+  } else if (introState === 'slidersExplained') {
     newIntroState = 'lowLR';
     prepareLowLRState(actions, props);
   } else if (introState === 'lowLR') {
@@ -148,7 +153,7 @@ export function getNextIntroState(introState, cookiesState, actions, props) {
   } else if (introState === 'detailCell') {
     newIntroState = 'detailOutput';
     timer = false;
-    setTimeout(() => timer = true, 3000);
+    setTimeout(() => timer = true, 30000);
   } else if (introState === 'detailOutput') {
     newIntroState = 'headingExplanation';
     timer = false;

@@ -107,6 +107,20 @@ const descriptionsENG = {
         'text': 'train on.',
       },
     ],
+    [
+      {
+        'type': 'plain',
+        'text': 'Let us train the model some more, before ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'resuming with more explanations after epoch 15',
+      },
+      {
+        'type': 'plain',
+        'text': '.',
+      },
+    ],
   ],
   networkOnboarding: [
     [
@@ -184,6 +198,24 @@ const descriptionsENG = {
         'text': ' in each epoch.',
       },
     ],
+    [
+      {
+        'type': 'plain',
+        'text': 'This tutorial will ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'resume after epoch 10',
+      },
+      {
+        'type': 'plain',
+        'text': '. In the meantime, look at how the network predictions ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'slowly improve by training on the data.',
+      },
+    ],
   ],
   cellTransitionOnboarding: [
     [
@@ -258,6 +290,16 @@ const descriptionsENG = {
         'text': 'detailed description.',
       },
     ],
+    [
+      {
+        'type': 'plain',
+        'text': 'You will be given some time to ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'explore these elements before the tutorial continues.',
+      },
+    ],
   ],
   processOnboarding: [
     [
@@ -287,7 +329,7 @@ const descriptionsENG = {
       },
       {
         'type': 'plain',
-        'text': ' and see in the network overivew, how ',
+        'text': ' and see in the network overview, how ',
       },
       {
         'type': 'highlighted',
@@ -296,6 +338,38 @@ const descriptionsENG = {
       {
         'type': 'plain',
         'text': ' during training.',
+      },
+    ],
+  ],
+  slidersExplainedOnboarding: [
+    [
+      {
+        'type': 'plain',
+        'text': 'The learning rate specifies, ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'how much the network weights are updated.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'The batch size controls, ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'how many training examples are processed simultaneously.',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'With noise, you can more closely ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'reflect real-world data, which is often not perfectly smooth.',
       },
     ],
   ],
@@ -569,6 +643,24 @@ const descriptionsENG = {
       {
         'type': 'highlighted',
         'text': 'exploring RNNs!',
+      },
+    ],
+    [
+      {
+        'type': 'plain',
+        'text': 'Maybe you want to ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'start by exploring another data type,',
+      },
+      {
+        'type': 'plain',
+        'text': 'or train a new model ',
+      },
+      {
+        'type': 'highlighted',
+        'text': 'with different slider parameter settings.',
       },
     ],
   ],
