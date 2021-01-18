@@ -176,6 +176,20 @@ const globalENG = {
           left: 'calc(79% - 250px)',
         },
       },
+      slidersExplained: {
+        title: 'Sliders Functionality',
+        description: descriptionStrings['ENG'].slidersExplainedOnboarding,
+        buttonTitles: {
+          skip: 'Skip Intro',
+          next: 'Ok',
+        },
+        arrow: 'down',
+        style: {
+          position: 'absolute',
+          bottom: '40vh',
+          left: 'calc(79% - 250px)',
+        },
+      },
       lowLR: {
         title: 'Low Learning Rate',
         description: descriptionStrings['ENG'].lowLROnboarding,
