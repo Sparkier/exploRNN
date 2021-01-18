@@ -1,9 +1,10 @@
 ![exploRNN Teaser](explornn_teaser.png)
+
 # exploRNN: Understanding Recurrent Neural Networksthrough Visual Exploration
 
 Created by <a href="https://a13x.io" target="_blank">Alex Bäuerle</a>, <a href="https://twitter.com/RaphaelStoerk" target="_blank">Raphael Störk</a> and <a href="https://www.uni-ulm.de/in/mi/institut/mitarbeiter/tr/" target="_blank">Timo Ropinski</a>.
 
-Accessible <a href="https://mi-pages.informatik.uni-ulm.de/exploRNN" target="_blank">online</a>.
+Accessible <a href="https://mi-pages.informatik.uni-ulm.de/explornn/" target="_blank">online</a>.
 
 ## What is this?
 
@@ -16,7 +17,7 @@ It will teach you basics about RNNs, from which you get a good overview of how t
 
 ## How can I use this?
 
-Just go to our <a href="https://mi-pages.informatik.uni-ulm.de/exploRNN" target="_blank">Website</a>!
+Just go to our <a href="https://mi-pages.informatik.uni-ulm.de/explornn/" target="_blank">Website</a>!
 
 ## Acknowlegements
 
