@@ -179,7 +179,7 @@ class TopBar extends React.Component {
             }
           </StyledSelect>
           <IconButton aria-label="github" style={{color: 'white'}}
-            href="https://github.com/viscom-ulm/exploRNN">
+            href="https://github.com/sparkier/exploRNN">
             <GitHubIcon/>
           </IconButton>
           <Button variant="contained"

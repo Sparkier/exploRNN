@@ -293,7 +293,8 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'You will be given some time to ',
+        'text': 'After a short explanation of the most important elements, ' +
+        'you will be given some time to ',
       },
       {
         'type': 'highlighted',
@@ -1153,8 +1154,8 @@ const descriptionsENG = {
         'text': 'update the cell state',
       },
       {
-        'type': 'plain',
-        'text': 'with new information.',
+        'type': ' lain',
+        'text': ' with new information.',
       },
     ],
     [
@@ -1739,7 +1740,7 @@ const descriptionsENG = {
     [
       {
         'type': 'plain',
-        'text': 'a recurrent neural network is built up in a similar way as ' +
+        'text': 'A recurrent neural network is built up in a similar way as ' +
         'convolutional or fully connected neural networks, where ',
       },
       {
