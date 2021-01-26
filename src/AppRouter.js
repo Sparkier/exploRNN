@@ -16,7 +16,7 @@ class AppRouter extends React.Component {
   render() {
     return (
       <div className='wrap'>
-        <Router>
+        <Router basename="/explornn">
           <div className='full'>
             <Switch>
               <Route exact path="/" component={Main} />
