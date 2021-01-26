@@ -86,8 +86,7 @@ header {
   cursor: pointer;
 }
 .wrap {
-  height: auto;
-  background-color: #135124;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -135,4 +134,19 @@ svg text {
 
 .MathJax {
   text-align: left !important;
+}
+
+.pdfViewer {
+  width: 100%;
+  height: 100%;
+}
+
+.hideOpenButton {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  opacity: 0;
+  right: 0px;
+  top: 5px;
+  background-color: #d1d1d1;
 }

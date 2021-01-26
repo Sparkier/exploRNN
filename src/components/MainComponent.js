@@ -15,6 +15,8 @@ import BottomPanel from './controls/BottomComponent';
 import AlertSnack from './AlertSnack';
 import OnboardingDialog from './dialogs/OnboardingDialog';
 import * as Cookies from '../helpers/Cookies';
+import TopBar from './controls/TopBarComponent';
+import Toolbar from '@material-ui/core/Toolbar';
 
 /**
  * Main component of the Application that displays all content dependant on the
@@ -42,18 +44,28 @@ class Main extends React.Component {
    */
   render() {
     return (
-      <Grid container className='mainGrid' style={{height: '100%'}}>
-        <Grid item className={this.props.classes.fullWidth} id='netArea'>
-          <Training/>
-          <VisualWrapper/>
-        </Grid>
-        <Grid item className={this.props.classes.panelWrapper}>
-          <Divider/>
-          <BottomPanel/>
-        </Grid>
-        <AlertSnack/>
-        <OnboardingDialog/>
-      </Grid>
+      <div className='full'>
+        <header>
+          <TopBar/>
+        </header>
+        <div className='wrap'>
+          <Toolbar></Toolbar>
+          <div className='content' id='visDiv'>
+            <Grid container className='mainGrid' style={{height: '100%'}}>
+              <Grid item className={this.props.classes.fullWidth} id='netArea'>
+                <Training/>
+                <VisualWrapper/>
+              </Grid>
+              <Grid item className={this.props.classes.panelWrapper}>
+                <Divider/>
+                <BottomPanel/>
+              </Grid>
+              <AlertSnack/>
+              <OnboardingDialog/>
+            </Grid>
+          </div>
+        </div>
+      </div>
     );
   }
 }

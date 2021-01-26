@@ -107,3 +107,13 @@ export function updatePretrained(pretrained) {
 export function reinitNetwork() {
   return {type: types.REINIT};
 }
+
+/**
+ * Updates the value of the countdown timer.
+ *
+ * @param {number} countValue the new countdown value
+ * @return {object} a redux state update
+ */
+export function updateCountdown(countValue) {
+  return {type: types.UPDATE_COUNTDOWN, countValue};
+}

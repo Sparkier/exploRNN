@@ -1,7 +1,8 @@
 import * as React from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
-import Toolbar from '@material-ui/core/Toolbar';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Main from './components/MainComponent';
+import PDF from './components/PDFComponent';
+import StudyMain from './components/StudyMainComponent';
 
 /**
  * AppRouter Calling other Components dependant on Route.
@@ -15,14 +16,15 @@ class AppRouter extends React.Component {
   render() {
     return (
       <div className='wrap'>
-        <Toolbar/>
-        <div className='content' id='visDiv'>
-          <Router>
-            <div className='full'>
-              <Route exact={true} path="" component={Main} />
-            </div>
-          </Router>
-        </div>
+        <Router>
+          <div className='full'>
+            <Switch>
+              <Route exact path="/" component={Main} />
+              <Route exact path="/pdf" component={PDF} />
+              <Route exact path="/study" component={StudyMain} />
+            </Switch>
+          </div>
+        </Router>
       </div>
     );
   }
