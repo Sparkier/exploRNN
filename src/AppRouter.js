@@ -2,6 +2,7 @@ import * as React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Main from './components/MainComponent';
 import PDF from './components/PDFComponent';
+import StudyMain from './components/StudyMainComponent';
 
 /**
  * AppRouter Calling other Components dependant on Route.
@@ -20,6 +21,7 @@ class AppRouter extends React.Component {
             <Switch>
               <Route exact path="/" component={Main} />
               <Route exact path="/pdf" component={PDF} />
+              <Route exact path="/study" component={StudyMain} />
             </Switch>
           </div>
         </Router>

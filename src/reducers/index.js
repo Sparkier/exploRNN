@@ -8,6 +8,7 @@ import alertSnack from './AlertSnackReducer';
 import textData from './TextDataReducer';
 import cookiesState from './CookiesStateReducer';
 import pretrained from './PretrainedReducer';
+import counter from './CounterReducer';
 
 // Combine all Reducers
 export default combineReducers({
@@ -19,4 +20,5 @@ export default combineReducers({
   textData,
   cookiesState,
   pretrained,
+  counter,
 });

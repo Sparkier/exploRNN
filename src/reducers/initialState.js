@@ -81,4 +81,8 @@ export default {
   cookiesState: {
     intro: '',
   },
+  counter: {
+    countDown: 60 * 30,
+    countDownInitial: 60 * 30,
+  },
 };

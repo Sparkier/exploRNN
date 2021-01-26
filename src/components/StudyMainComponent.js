@@ -8,13 +8,14 @@ import {withStyles} from '@material-ui/core/styles';
 
 import * as actions from '../actions';
 import styles from '../styles/themedStyles';
+import Main from './MainComponent';
 
 
 /**
  * Main component of the Application that displays all content dependant on the
  * Controls State.
  */
-class PDF extends React.Component {
+class StudyMain extends React.Component {
   /**
    * Once the component mounts, start the timer.
    */
@@ -56,27 +57,21 @@ class PDF extends React.Component {
    * @return {object} - the main component to be rendered.
    */
   render() {
-    const url = 'https://docs.google.com/viewerng/viewer?url='+'https://github.com/Sparkier/exploRNN/raw/feature/pdf/learning_text.pdf'+'&embedded=true';
     let content;
     if (this.props.counter.countDown > 0) {
-      content = <iframe className='pdfViewer' src={url}></iframe>;
+      content = <Main></Main>;
     } else {
       content = <p>The study is over. Please go back to the survey tab.</p>;
     }
     return (
       <div className='full'>
-        <div className='full'>
-          {content}
-        </div>
-        <div className='hideOpenButton'>
-          &nbsp;
-        </div>
+        {content}
       </div>
     );
   }
 }
 
-PDF.propTypes = {
+StudyMain.propTypes = {
   counter: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
 };
@@ -106,6 +101,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    withStyles(styles)(PDF)
+    withStyles(styles)(StudyMain)
 );
-
