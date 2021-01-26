@@ -16,7 +16,7 @@ class PDF extends React.Component {
    * @return {object} - the main component to be rendered.
    */
   render() {
-    const url = 'https://docs.google.com/viewerng/viewer?url='+''+'&embedded=true';
+    const url = 'https://docs.google.com/viewerng/viewer?url='+'https://github.com/Sparkier/exploRNN/raw/feature/pdf/learning_text.pdf'+'&embedded=true';
     return (
       <div className='full'>
         <div className='full'>
