@@ -9,6 +9,7 @@ pages:
   only:
     refs:
       - master
+      - develop
 
   image: gitlab-mi.informatik.uni-ulm.de:4567/gitlab-pages/node-runner
 
