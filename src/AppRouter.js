@@ -5,30 +5,6 @@ import PDF from './components/PDFComponent';
 import StudyMain from './components/StudyMainComponent';
 
 /**
- * Debug Router for printing navigation actions.
- */
-class DebugRouter extends Router {
-  /**
-   * Constructing the debug router and listening to history changes.
-   *
-   * @param {*} props the props for creating the router
-   */
-  constructor(props) {
-    super(props);
-    console.log('initial history is: ', JSON.stringify(this.history, null, 2));
-    this.history.listen((location, action)=>{
-      console.log(
-          `Current URL: ${location.pathname}${location.search}${location.hash}`
-      );
-      console.log(
-          `Last navigation action: ${action}`,
-          JSON.stringify(this.history, null, 2)
-      );
-    });
-  }
-}
-
-/**
  * AppRouter Calling other Components dependant on Route.
  */
 class AppRouter extends React.Component {
@@ -40,7 +16,7 @@ class AppRouter extends React.Component {
   render() {
     return (
       <div className='wrap'>
-        <DebugRouter basename="/explornn">
+        <Router basename="/explornn">
           <div className='full'>
             <Switch>
               <Route exact path="/" component={Main} />
@@ -48,7 +24,7 @@ class AppRouter extends React.Component {
               <Route exact path="/study" component={StudyMain} />
             </Switch>
           </div>
-        </DebugRouter>
+        </Router>
       </div>
     );
   }
