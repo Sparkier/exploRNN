@@ -1,8 +1,8 @@
-import {createMuiTheme} from '@material-ui/core/styles';
+import {createTheme} from '@material-ui/core/styles';
 import {grey, orange, blue, blueGrey} from '@material-ui/core/colors';
 
 // The color palette of the application
-export default createMuiTheme({
+export default createTheme({
   palette: {
     primary: {
       main: blueGrey[800],

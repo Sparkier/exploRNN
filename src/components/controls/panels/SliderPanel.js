@@ -104,7 +104,7 @@ class SliderPanel extends React.Component {
     return (
       <Grid item xs className={this.props.classes.smallPanelWrapper}>
         <Grid container style={{height: '100%'}} direcion='column'
-          justify='space-between' alignItems="center">
+          justifyContent='space-between' alignItems="center">
           {
             sliders.map((slider) => (
               <Grid item key={slider.key}

@@ -77,7 +77,7 @@ class ProcessPanel extends React.Component {
       <Grid item xs id='inppan'
         className={this.props.classes.smallPanelWrapper}>
         <Grid container style={{height: '100%'}} direcion='column'
-          justify='space-between' alignItems="center">
+          justifyContent='space-between' alignItems="center">
           {
             global.strings.trainSteps.map((step) => (
               <Grid item key={step.id}

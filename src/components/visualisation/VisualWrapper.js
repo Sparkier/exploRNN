@@ -70,7 +70,7 @@ class VisualWrapper extends React.Component {
    */
   render() {
     return (
-      <Grid container direction="row" justify='space-between'>
+      <Grid container direction="row" justifyContent='space-between'>
         <Grid item xs={12}>
           <div id="networkDiv" style={{fontSize: '0'}}/>
         </Grid>

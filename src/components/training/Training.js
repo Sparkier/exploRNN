@@ -10,6 +10,9 @@ import TrainingWorker from './TrainingWorker';
 import {TextData} from '../../helpers/TextData';
 import * as tf from '@tensorflow/tfjs';
 
+import lipsum from './lipsum.txt';
+import abab from './abab.txt';
+
 /**
  * This class handles the generation, compilation and training of the
  * used recurrent neural network
@@ -164,9 +167,9 @@ class Training extends React.Component {
    */
   reset() {
     if (this.props.training.inputType === 'Text Data') {
-      let textSample = 'data/abab.txt';
+      let textSample = abab;
       if (this.props.training.dataTypes[0] === 'lorem') {
-        textSample = 'data/lipsum.txt';
+        textSample = lipsum;
       }
       fetch(textSample)
           .then((r) => r.text())

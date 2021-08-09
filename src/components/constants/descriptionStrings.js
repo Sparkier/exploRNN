@@ -2,1399 +2,1442 @@ const descriptionsENG = {
   epoch: [
     [
       {
-        'type': 'plain',
-        'text': 'When training a Neural Network, a lot of data used to learn ' +
-        'how to change the weights is fed into the network. This data ' +
-        'is usually ',
+        type: 'plain',
+        text:
+          'When training a Neural Network, a lot of data used to learn ' +
+          'how to change the weights is fed into the network. This data ' +
+          'is usually ',
       },
       {
-        'type': 'highlighted',
-        'text': 'fed into the network in small batches.',
+        type: 'highlighted',
+        text: 'fed into the network in small batches.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'Once all batches in the whole dataset have been processed, ' +
-        'one ',
+        type: 'plain',
+        text:
+          'Once all batches in the whole dataset have been processed, ' +
+          'one ',
       },
       {
-        'type': 'highlighted',
-        'text': 'epoch ',
+        type: 'highlighted',
+        text: 'epoch ',
       },
       {
-        'type': 'plain',
-        'text': 'is finished. This means that the network has been trained on ',
+        type: 'plain',
+        text: 'is finished. This means that the network has been trained on ',
       },
       {
-        'type': 'highlighted',
-        'text': 'each item in the dataset once',
+        type: 'highlighted',
+        text: 'each item in the dataset once',
       },
       {
-        'type': 'plain',
-        'text': '.',
+        type: 'plain',
+        text: '.',
       },
     ],
   ],
   welcome: [
     [
       {
-        'type': 'plain',
-        'text': 'In this application you can experiment with and ',
+        type: 'plain',
+        text: 'In this application you can experiment with and ',
       },
       {
-        'type': 'highlighted',
-        'text': 'learn about recurrent neural networks ',
+        type: 'highlighted',
+        text: 'learn about recurrent neural networks ',
       },
       {
-        'type': 'plain',
-        'text': '(RNNs).',
+        type: 'plain',
+        text: '(RNNs).',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'If you are new to this applicaation, you can just let this ' +
-        'intro guide you, ',
+        type: 'plain',
+        text:
+          'If you are new to this applicaation, you can just let this ' +
+          'intro guide you, ',
       },
       {
-        'type': 'highlighted',
-        'text': 'without clicking anything',
+        type: 'highlighted',
+        text: 'without clicking anything',
       },
       {
-        'type': 'plain',
-        'text': '. You will be told once the intro is over.',
+        type: 'plain',
+        text: '. You will be told once the intro is over.',
       },
     ],
   ],
   contrast: [
     [
       {
-        'type': 'plain',
-        'text': 'In contrast to fully connected or ' +
-        'convolutional neural networks, RNNs operate on ',
+        type: 'plain',
+        text:
+          'In contrast to fully connected or ' +
+          'convolutional neural networks, RNNs operate on ',
       },
       {
-        'type': 'highlighted',
-        'text': 'sequential data. ',
+        type: 'highlighted',
+        text: 'sequential data. ',
       },
       {
-        'type': 'plain',
-        'text': 'Thus, they are used for tasks such as ',
+        type: 'plain',
+        text: 'Thus, they are used for tasks such as ',
       },
       {
-        'type': 'highlighted',
-        'text': 'translation, image captioning, and next element prediction.',
+        type: 'highlighted',
+        text: 'translation, image captioning, and next element prediction.',
       },
     ],
   ],
   inputOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'In this application, you can experiment with ',
+        type: 'plain',
+        text: 'In this application, you can experiment with ',
       },
       {
-        'type': 'highlighted',
-        'text': 'function and text data. ',
+        type: 'highlighted',
+        text: 'function and text data. ',
       },
       {
-        'type': 'plain',
-        'text': 'Here on the left, you can select which dataset you want to ',
+        type: 'plain',
+        text: 'Here on the left, you can select which dataset you want to ',
       },
       {
-        'type': 'highlighted',
-        'text': 'train on.',
+        type: 'highlighted',
+        text: 'train on.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'Let us train the model some more, before ',
+        type: 'plain',
+        text: 'Let us train the model some more, before ',
       },
       {
-        'type': 'highlighted',
-        'text': 'resuming with more explanations after epoch 15',
+        type: 'highlighted',
+        text: 'resuming with more explanations after epoch 15',
       },
       {
-        'type': 'plain',
-        'text': '.',
+        type: 'plain',
+        text: '.',
       },
     ],
   ],
   networkOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'This is the network that you can train. ',
+        type: 'plain',
+        text: 'This is the network that you can train. ',
       },
       {
-        'type': 'highlighted',
-        'text': 'Feel free to modify it.',
+        type: 'highlighted',
+        text: 'Feel free to modify it.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'You can ',
+        type: 'plain',
+        text: 'You can ',
       },
       {
-        'type': 'highlighted',
-        'text': 'add layers by clicking the + between the layers ',
+        type: 'highlighted',
+        text: 'add layers by clicking the + between the layers ',
       },
       {
-        'type': 'plain',
-        'text': 'and ',
+        type: 'plain',
+        text: 'and ',
       },
       {
-        'type': 'highlighted',
-        'text': 'remove them by hovering and clicking the red x.',
+        type: 'highlighted',
+        text: 'remove them by hovering and clicking the red x.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'A large amount of layers can ',
+      },
+      {
+        type: 'highlighted',
+        text: 'fit more complex functions, ',
+      },
+      {
+        type: 'plain',
+        text: 'but also requires ',
+      },
+      {
+        type: 'highlighted',
+        text: 'more parameters ',
+      },
+      {
+        type: 'plain',
+        text: 'to be trained.',
       },
     ],
   ],
   startTrainingOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'Now, lets ',
+        type: 'plain',
+        text: 'Now, lets ',
       },
       {
-        'type': 'highlighted',
-        'text': 'start the training by hitting the play button!',
+        type: 'highlighted',
+        text: 'start the training by hitting the play button!',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'If the network is paused, you can also advance individual ' +
-        'epochs using the ',
+        type: 'plain',
+        text:
+          'If the network is paused, you can also advance individual ' +
+          'epochs using the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'forward button.',
+        type: 'highlighted',
+        text: 'forward button.',
       },
     ],
   ],
   outputOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'To show how your network ',
+        type: 'plain',
+        text: 'To show how your network ',
       },
       {
-        'type': 'highlighted',
-        'text': 'currently performs',
+        type: 'highlighted',
+        text: 'currently performs',
       },
       {
-        'type': 'plain',
-        'text': ', we visualize ',
+        type: 'plain',
+        text: ', we visualize ',
       },
       {
-        'type': 'highlighted',
-        'text': 'the prediction for a random dataset example',
+        type: 'highlighted',
+        text: 'the prediction for a random dataset example',
       },
       {
-        'type': 'plain',
-        'text': ' in each epoch.',
+        type: 'plain',
+        text: ' in each epoch.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'This tutorial will ',
+        type: 'plain',
+        text: 'This tutorial will ',
       },
       {
-        'type': 'highlighted',
-        'text': 'resume after epoch 10',
+        type: 'highlighted',
+        text: 'resume after epoch 10',
       },
       {
-        'type': 'plain',
-        'text': '. In the meantime, look at how the network predictions ',
+        type: 'plain',
+        text: '. In the meantime, look at how the network predictions ',
       },
       {
-        'type': 'highlighted',
-        'text': 'slowly improve by training on the data.',
+        type: 'highlighted',
+        text: 'slowly improve by training on the data.',
       },
     ],
   ],
   cellTransitionOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'Now that we have trained the network for a while, lets look ',
+        type: 'plain',
+        text: 'Now that we have trained the network for a while, lets look ',
       },
       {
-        'type': 'highlighted',
-        'text': 'into one of these layers',
+        type: 'highlighted',
+        text: 'into one of these layers',
       },
       {
-        'type': 'plain',
-        'text': '. Clicking on one of them will show you the workings of a ',
+        type: 'plain',
+        text: '. Clicking on one of them will show you the workings of a ',
       },
       {
-        'type': 'highlighted',
-        'text': 'LSTM cell.',
+        type: 'highlighted',
+        text: 'LSTM cell.',
       },
     ],
   ],
   detailOutputOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'In this plot, you can can see ' +
-        'the cell build up its ',
+        type: 'plain',
+        text: 'In this plot, you can can see ' + 'the cell build up its ',
       },
       {
-        'type': 'highlighted',
-        'text': 'internal memory from the input values in the grey box.',
+        type: 'highlighted',
+        text: 'internal memory from the input values in the grey box.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'The network then makes a prediction based on this ',
+        type: 'plain',
+        text: 'The network then makes a prediction based on this ',
       },
       {
-        'type': 'highlighted',
-        'text': 'internal state.',
+        type: 'highlighted',
+        text: 'internal state.',
       },
     ],
   ],
   detailCellOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'In this, more detailed view, the training progresses in ',
+        type: 'plain',
+        text: 'In this, more detailed view, the training progresses in ',
       },
       {
-        'type': 'highlighted',
-        'text': 'slow-motion.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'This is a LSTM cell, which is used throughout the network. ' +
-        'To look into what ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'individual components of this cell do',
-      },
-      {
-        'type': 'plain',
-        'text': ', simply click one of the compute elements, to get a ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'detailed description.',
+        type: 'highlighted',
+        text: 'slow-motion.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'After a short explanation of the most important elements, ' +
-        'you will be given some time to ',
+        type: 'plain',
+        text:
+          'This is a LSTM cell, which is used throughout the network. ' +
+          'To look into what ',
       },
       {
-        'type': 'highlighted',
-        'text': 'explore these elements before the tutorial continues.',
+        type: 'highlighted',
+        text: 'individual components of this cell do',
+      },
+      {
+        type: 'plain',
+        text: ', simply click one of the compute elements, to get a ',
+      },
+      {
+        type: 'highlighted',
+        text: 'detailed description.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text:
+          'After a short explanation of the most important elements, ' +
+          'you will be given some time to ',
+      },
+      {
+        type: 'highlighted',
+        text: 'explore these elements before the tutorial continues.',
       },
     ],
   ],
   detailCellMemoryOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'LSTM cells have a ',
+        type: 'plain',
+        text: 'LSTM cells have a ',
       },
       {
-        'type': 'highlighted',
-        'text': 'Memory Component',
+        type: 'highlighted',
+        text: 'Memory Component',
       },
       {
-        'type': 'plain',
-        'text': '. This Memory Component is used to ',
+        type: 'plain',
+        text: '. This Memory Component is used to ',
       },
       {
-        'type': 'highlighted',
-        'text': 'preserve information of past time steps',
+        type: 'highlighted',
+        text: 'preserve information of past time steps',
       },
       {
-        'type': 'plain',
-        'text': ', and thus, ',
+        type: 'plain',
+        text: ', and thus, ',
       },
       {
-        'type': 'highlighted',
-        'text': 'capture long-term dependencies',
+        type: 'highlighted',
+        text: 'capture long-term dependencies',
       },
       {
-        'type': 'plain',
-        'text': '.',
+        type: 'plain',
+        text: '.',
       },
     ],
   ],
   detailCellGatesOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'There are three gates that interact with this memory. They ' +
-        'are called ',
+        type: 'plain',
+        text:
+          'There are three gates that interact with this memory. They ' +
+          'are called ',
       },
       {
-        'type': 'highlighted',
-        'text': 'Input Gate, Forget Gate, and Output Gate.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'The ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'Input Gate',
-      },
-      {
-        'type': 'plain',
-        'text': ' (left) controls what ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'new information from the input will be added to the memory',
-      },
-      {
-        'type': 'plain',
-        'text': '.',
+        type: 'highlighted',
+        text: 'Input Gate, Forget Gate, and Output Gate.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'The ',
+        type: 'plain',
+        text: 'The ',
       },
       {
-        'type': 'highlighted',
-        'text': 'Forget Gate',
+        type: 'highlighted',
+        text: 'Input Gate',
       },
       {
-        'type': 'plain',
-        'text': ' (center) controls what information ',
+        type: 'plain',
+        text: ' (left) controls what ',
       },
       {
-        'type': 'highlighted',
-        'text': 'can be removed from the memory',
+        type: 'highlighted',
+        text: 'new information from the input will be added to the memory',
       },
       {
-        'type': 'plain',
-        'text': '.',
+        type: 'plain',
+        text: '.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'The ',
+        type: 'plain',
+        text: 'The ',
       },
       {
-        'type': 'highlighted',
-        'text': 'Output Gate',
+        type: 'highlighted',
+        text: 'Forget Gate',
       },
       {
-        'type': 'plain',
-        'text': ' (right) controls what information is ',
+        type: 'plain',
+        text: ' (center) controls what information ',
       },
       {
-        'type': 'highlighted',
-        'text': 'used to compute the output activation',
+        type: 'highlighted',
+        text: 'can be removed from the memory',
       },
       {
-        'type': 'plain',
-        'text': '.',
+        type: 'plain',
+        text: '.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'The ',
+      },
+      {
+        type: 'highlighted',
+        text: 'Output Gate',
+      },
+      {
+        type: 'plain',
+        text: ' (right) controls what information is ',
+      },
+      {
+        type: 'highlighted',
+        text: 'used to compute the output activation',
+      },
+      {
+        type: 'plain',
+        text: '.',
       },
     ],
   ],
   processOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'Here, you can see the ',
+        type: 'plain',
+        text: 'Here, you can see the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'processing steps',
+        type: 'highlighted',
+        text: 'processing steps',
       },
       {
-        'type': 'plain',
-        'text': ' of the network you are currently training.',
+        type: 'plain',
+        text: ' of the network you are currently training.',
       },
     ],
   ],
   slidersOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'By interacting with these sliders, you can ',
+        type: 'plain',
+        text: 'By interacting with these sliders, you can ',
       },
       {
-        'type': 'highlighted',
-        'text': 'change some of the most important training parameters',
+        type: 'highlighted',
+        text: 'change some of the most important training parameters',
       },
       {
-        'type': 'plain',
-        'text': ' and see in the network overview, how ',
+        type: 'plain',
+        text: ' and see in the network overview, how ',
       },
       {
-        'type': 'highlighted',
-        'text': 'the model reacts',
+        type: 'highlighted',
+        text: 'the model reacts',
       },
       {
-        'type': 'plain',
-        'text': ' during training.',
+        type: 'plain',
+        text: ' during training.',
       },
     ],
   ],
   slidersExplainedOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'The learning rate specifies, ',
+        type: 'plain',
+        text: 'The learning rate specifies, ',
       },
       {
-        'type': 'highlighted',
-        'text': 'how much the network weights are updated.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'The batch size controls, ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'how many training examples are processed simultaneously.',
+        type: 'highlighted',
+        text: 'how much the network weights are updated.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'With noise, you can more closely ',
+        type: 'plain',
+        text: 'The batch size controls, ',
       },
       {
-        'type': 'highlighted',
-        'text': 'reflect real-world data, which is often not perfectly smooth.',
+        type: 'highlighted',
+        text: 'how many training examples are processed simultaneously.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'With noise, you can more closely ',
+      },
+      {
+        type: 'highlighted',
+        text: 'reflect real-world data, which is often not perfectly smooth.',
       },
     ],
   ],
   lowLROnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'When ',
+        type: 'plain',
+        text: 'When ',
       },
       {
-        'type': 'highlighted',
-        'text': 'the learning rate is too low',
+        type: 'highlighted',
+        text: 'the learning rate is too low',
       },
       {
-        'type': 'plain',
-        'text': ', one can see that the model ',
+        type: 'plain',
+        text: ', one can see that the model ',
       },
       {
-        'type': 'highlighted',
-        'text': 'prediction is not good',
+        type: 'highlighted',
+        text: 'prediction is not good',
       },
       {
-        'type': 'plain',
-        'text': ', even after 20 epochs. Indicating a learning process that is',
+        type: 'plain',
+        text: ', even after 20 epochs. Indicating a learning process that is',
       },
       {
-        'type': 'highlighted',
-        'text': ' too slow',
+        type: 'highlighted',
+        text: ' too slow',
       },
       {
-        'type': 'plain',
-        'text': '.',
+        type: 'plain',
+        text: '.',
       },
     ],
   ],
   highLROnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'By contrast, when ',
+        type: 'plain',
+        text: 'By contrast, when ',
       },
       {
-        'type': 'highlighted',
-        'text': 'the learning rate is too high',
+        type: 'highlighted',
+        text: 'the learning rate is too high',
       },
       {
-        'type': 'plain',
-        'text': ', the model ',
+        type: 'plain',
+        text: ', the model ',
       },
       {
-        'type': 'highlighted',
-        'text': 'prediction is also not good',
+        type: 'highlighted',
+        text: 'prediction is also not good',
       },
       {
-        'type': 'plain',
-        'text': ' after 20 epochs, indicating ',
+        type: 'plain',
+        text: ' after 20 epochs, indicating ',
       },
       {
-        'type': 'highlighted',
-        'text': 'overshooting of optima',
+        type: 'highlighted',
+        text: 'overshooting of optima',
       },
       {
-        'type': 'plain',
-        'text': ' during training.',
+        type: 'plain',
+        text: ' during training.',
       },
     ],
   ],
   medLROnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'When ',
+        type: 'plain',
+        text: 'When ',
       },
       {
-        'type': 'highlighted',
-        'text': 'the learning rate is selected appropriately',
+        type: 'highlighted',
+        text: 'the learning rate is selected appropriately',
       },
       {
-        'type': 'plain',
-        'text': ', the model ',
+        type: 'plain',
+        text: ', the model ',
       },
       {
-        'type': 'highlighted',
-        'text': 'finds an optimal solution',
+        type: 'highlighted',
+        text: 'finds an optimal solution',
       },
       {
-        'type': 'plain',
-        'text': ' fast, even after 10 epochs.',
+        type: 'plain',
+        text: ' fast, even after 10 epochs.',
       },
     ],
   ],
   lowBSOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'When ',
+        type: 'plain',
+        text: 'When ',
       },
       {
-        'type': 'highlighted',
-        'text': 'the batch size is low',
+        type: 'highlighted',
+        text: 'the batch size is low',
       },
       {
-        'type': 'plain',
-        'text': ', the model is ',
+        type: 'plain',
+        text: ', the model is ',
       },
       {
-        'type': 'highlighted',
-        'text': 'learning slowly',
+        type: 'highlighted',
+        text: 'learning slowly',
       },
       {
-        'type': 'plain',
-        'text': ', not being converged even after 20 epochs.',
+        type: 'plain',
+        text: ', not being converged even after 20 epochs.',
       },
     ],
   ],
   highBSOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'By contrast, when ',
+        type: 'plain',
+        text: 'By contrast, when ',
       },
       {
-        'type': 'highlighted',
-        'text': 'the batch size is too high',
+        type: 'highlighted',
+        text: 'the batch size is too high',
       },
       {
-        'type': 'plain',
-        'text': ', the loss is averaged over ',
+        type: 'plain',
+        text: ', the loss is averaged over ',
       },
       {
-        'type': 'highlighted',
-        'text': 'too many samples',
+        type: 'highlighted',
+        text: 'too many samples',
       },
       {
-        'type': 'plain',
-        'text': ', thus, also not converging after 20 epochs.',
+        type: 'plain',
+        text: ', thus, also not converging after 20 epochs.',
       },
     ],
   ],
   medBSOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'Again, when ',
+        type: 'plain',
+        text: 'Again, when ',
       },
       {
-        'type': 'highlighted',
-        'text': 'the batch size is selected appropriately',
+        type: 'highlighted',
+        text: 'the batch size is selected appropriately',
       },
       {
-        'type': 'plain',
-        'text': ', the model ',
+        type: 'plain',
+        text: ', the model ',
       },
       {
-        'type': 'highlighted',
-        'text': 'finds an optimal solution',
+        type: 'highlighted',
+        text: 'finds an optimal solution',
       },
       {
-        'type': 'plain',
-        'text': ' fast, even after 10 epochs.',
+        type: 'plain',
+        text: ' fast, even after 10 epochs.',
       },
     ],
   ],
   noNoiseOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'Without noise in the training data, it is ',
+        type: 'plain',
+        text: 'Without noise in the training data, it is ',
       },
       {
-        'type': 'highlighted',
-        'text': 'easy for the model to learn',
+        type: 'highlighted',
+        text: 'easy for the model to learn',
       },
       {
-        'type': 'plain',
-        'text': '. However, this is not a very ',
+        type: 'plain',
+        text: '. However, this is not a very ',
       },
       {
-        'type': 'highlighted',
-        'text': 'realistic scenario',
+        type: 'highlighted',
+        text: 'realistic scenario',
       },
       {
-        'type': 'plain',
-        'text': ', as real-life data is often not as smooth.',
+        type: 'plain',
+        text: ', as real-life data is often not as smooth.',
       },
     ],
   ],
   medNoiseOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'Adding noise reflects a more ',
+        type: 'plain',
+        text: 'Adding noise reflects a more ',
       },
       {
-        'type': 'highlighted',
-        'text': 'realistic scenario',
+        type: 'highlighted',
+        text: 'realistic scenario',
       },
       {
-        'type': 'plain',
-        'text': '. As this is ',
+        type: 'plain',
+        text: '. As this is ',
       },
       {
-        'type': 'highlighted',
-        'text': 'harder to learn, it takes longer for the modele to converge',
+        type: 'highlighted',
+        text: 'harder to learn, it takes longer for the modele to converge',
       },
       {
-        'type': 'plain',
-        'text': '.',
+        type: 'plain',
+        text: '.',
       },
     ],
   ],
   highNoiseOnboarding: [
     [
       {
-        'type': 'plain',
-        'text': 'Noise can also be ',
+        type: 'plain',
+        text: 'Noise can also be ',
       },
       {
-        'type': 'highlighted',
-        'text': 'too much for the model to handle',
+        type: 'highlighted',
+        text: 'too much for the model to handle',
       },
       {
-        'type': 'plain',
-        'text': '. When the noise is too much, the model might ',
+        type: 'plain',
+        text: '. When the noise is too much, the model might ',
       },
       {
-        'type': 'highlighted',
-        'text': 'not converge at all',
+        type: 'highlighted',
+        text: 'not converge at all',
       },
       {
-        'type': 'plain',
-        'text': '.',
+        type: 'plain',
+        text: '.',
       },
     ],
   ],
   headingExplanation: [
     [
       {
-        'type': 'plain',
-        'text': 'To get more information of individual components of this ' +
-        'app, ',
+        type: 'plain',
+        text:
+          'To get more information of individual components of this ' + 'app, ',
       },
       {
-        'type': 'highlighted',
-        'text': 'simply click any ⓘ',
+        type: 'highlighted',
+        text: 'simply click any ⓘ',
       },
       {
-        'type': 'plain',
-        'text': ' in this visualization.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'This is ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'the end of the tutorial',
-      },
-      {
-        'type': 'plain',
-        'text': '.',
+        type: 'plain',
+        text: ' in this visualization.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'Now, have fun ',
+        type: 'plain',
+        text: 'This is ',
       },
       {
-        'type': 'highlighted',
-        'text': 'exploring RNNs!',
+        type: 'highlighted',
+        text: 'the end of the tutorial',
+      },
+      {
+        type: 'plain',
+        text: '.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'Maybe you want to ',
+        type: 'plain',
+        text: 'Now, have fun ',
       },
       {
-        'type': 'highlighted',
-        'text': 'start by exploring another data type,',
+        type: 'highlighted',
+        text: 'exploring RNNs!',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'Maybe you want to ',
       },
       {
-        'type': 'plain',
-        'text': 'or train a new model ',
+        type: 'highlighted',
+        text: 'start by exploring another data type,',
       },
       {
-        'type': 'highlighted',
-        'text': 'with different slider parameter settings.',
+        type: 'plain',
+        text: 'or train a new model ',
+      },
+      {
+        type: 'highlighted',
+        text: 'with different slider parameter settings.',
       },
     ],
   ],
   learningRate: [
     [
       {
-        'type': 'plain',
-        'text': 'The learning rate specifies, ',
+        type: 'plain',
+        text: 'The learning rate specifies, ',
       },
       {
-        'type': 'highlighted',
-        'text': 'how much the network weights are updated.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'High learning rates mean, that the prediction error leads to ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'bigger updates, ',
-      },
-      {
-        'type': 'plain',
-        'text': 'changing the network a lot. In practice, this means, that ' +
-        'the network learns faster. However, when the learning rate is ' +
-        'too high, the network will overshoot, and ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'never get to an optimal state.',
+        type: 'highlighted',
+        text: 'how much the network weights are updated.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'If the learning rate is super low, the chance that the ' +
-        'network finds the optimal solution is ',
+        type: 'plain',
+        text: 'High learning rates mean, that the prediction error leads to ',
       },
       {
-        'type': 'highlighted',
-        'text': 'higher',
+        type: 'highlighted',
+        text: 'bigger updates, ',
       },
       {
-        'type': 'plain',
-        'text': ', but it will learn much ',
+        type: 'plain',
+        text:
+          'changing the network a lot. In practice, this means, that ' +
+          'the network learns faster. However, when the learning rate is ' +
+          'too high, the network will overshoot, and ',
       },
       {
-        'type': 'highlighted',
-        'text': 'slower.',
+        type: 'highlighted',
+        text: 'never get to an optimal state.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text:
+          'If the learning rate is super low, the chance that the ' +
+          'network finds the optimal solution is ',
+      },
+      {
+        type: 'highlighted',
+        text: 'higher',
+      },
+      {
+        type: 'plain',
+        text: ', but it will learn much ',
+      },
+      {
+        type: 'highlighted',
+        text: 'slower.',
       },
     ],
   ],
   batchSize: [
     [
       {
-        'type': 'plain',
-        'text': 'If we would train on every item individually, training would ',
+        type: 'plain',
+        text: 'If we would train on every item individually, training would ',
       },
       {
-        'type': 'highlighted',
-        'text': 'take very long',
+        type: 'highlighted',
+        text: 'take very long',
       },
       {
-        'type': 'plain',
-        'text': '. To circumvent this, we calculate the error for ',
+        type: 'plain',
+        text: '. To circumvent this, we calculate the error for ',
       },
       {
-        'type': 'highlighted',
-        'text': 'multiple dataset items simultaneously.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'Here, you can set how many training items are ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'combined in a so-called batch',
-      },
-      {
-        'type': 'plain',
-        'text': '. Weight updates are then made based on the error for the ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'whole batch.',
+        type: 'highlighted',
+        text: 'multiple dataset items simultaneously.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'Larger batches ',
+        type: 'plain',
+        text: 'Here, you can set how many training items are ',
       },
       {
-        'type': 'highlighted',
-        'text': 'speed up training',
+        type: 'highlighted',
+        text: 'combined in a so-called batch',
       },
       {
-        'type': 'plain',
-        'text': ', but can lead to ',
+        type: 'plain',
+        text: '. Weight updates are then made based on the error for the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'a loss of focus on individual training samples.',
+        type: 'highlighted',
+        text: 'whole batch.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'Larger batches ',
+      },
+      {
+        type: 'highlighted',
+        text: 'speed up training',
+      },
+      {
+        type: 'plain',
+        text: ', but can lead to ',
+      },
+      {
+        type: 'highlighted',
+        text: 'a loss of focus on individual training samples.',
       },
     ],
   ],
   noise: [
     [
       {
-        'type': 'plain',
-        'text': 'If we only check if the net can recreate given functions ' +
-        'we are prone to ',
+        type: 'plain',
+        text:
+          'If we only check if the net can recreate given functions ' +
+          'we are prone to ',
       },
       {
-        'type': 'highlighted',
-        'text': 'overfitting',
+        type: 'highlighted',
+        text: 'overfitting',
       },
       {
-        'type': 'plain',
-        'text': '. Meaning the network only works well on the specific ' +
-        'data used in the training process.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'In real world scenarios, measurements are almost ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'never perfect',
-      },
-      {
-        'type': 'plain',
-        'text': ', and we want the network to generalize to ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'unseen data.',
+        type: 'plain',
+        text:
+          '. Meaning the network only works well on the specific ' +
+          'data used in the training process.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'To give the network a more challenging and realistic task, ',
+        type: 'plain',
+        text: 'In real world scenarios, measurements are almost ',
       },
       {
-        'type': 'highlighted',
-        'text': 'you can distort the input values',
+        type: 'highlighted',
+        text: 'never perfect',
       },
       {
-        'type': 'plain',
-        'text': '. The higher this noise is the harder it is for the network ' +
-        ' to recognize the underlying function.',
+        type: 'plain',
+        text: ', and we want the network to generalize to ',
+      },
+      {
+        type: 'highlighted',
+        text: 'unseen data.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'To give the network a more challenging and realistic task, ',
+      },
+      {
+        type: 'highlighted',
+        text: 'you can distort the input values',
+      },
+      {
+        type: 'plain',
+        text:
+          '. The higher this noise is the harder it is for the network ' +
+          ' to recognize the underlying function.',
       },
     ],
   ],
   forward: [
     [
       {
-        'type': 'plain',
-        'text': 'To teach the network how to continue a sequence, one needs ' +
-        'to first ',
+        type: 'plain',
+        text:
+          'To teach the network how to continue a sequence, one needs ' +
+          'to first ',
       },
       {
-        'type': 'highlighted',
-        'text': 'give the network data it can learn from.',
+        type: 'highlighted',
+        text: 'give the network data it can learn from.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'The network then makes predictions based on this data, ' +
-        'suggesting how it ',
+        type: 'plain',
+        text:
+          'The network then makes predictions based on this data, ' +
+          'suggesting how it ',
       },
       {
-        'type': 'highlighted',
-        'text': 'currently thinks, the sequence would continue.',
+        type: 'highlighted',
+        text: 'currently thinks, the sequence would continue.',
       },
     ],
   ],
   validation: [
     [
       {
-        'type': 'plain',
-        'text': 'After a prediction is made on the training data, we can ',
+        type: 'plain',
+        text: 'After a prediction is made on the training data, we can ',
       },
       {
-        'type': 'highlighted',
-        'text': 'calculate the prediction error.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'This is done by ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'comparing the prediction with what would actually be correct',
-      },
-      {
-        'type': 'plain',
-        'text': '. This is also referred to as comparing the prediction to ' +
-        'the ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'ground truth.',
+        type: 'highlighted',
+        text: 'calculate the prediction error.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'This difference is then used as the ',
+        type: 'plain',
+        text: 'This is done by ',
       },
       {
-        'type': 'highlighted',
-        'text': 'loss',
+        type: 'highlighted',
+        text: 'comparing the prediction with what would actually be correct',
       },
       {
-        'type': 'plain',
-        'text': ', which is important for the backward step.',
+        type: 'plain',
+        text:
+          '. This is also referred to as comparing the prediction to ' + 'the ',
+      },
+      {
+        type: 'highlighted',
+        text: 'ground truth.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'This difference is then used as the ',
+      },
+      {
+        type: 'highlighted',
+        text: 'loss',
+      },
+      {
+        type: 'plain',
+        text: ', which is important for the backward step.',
       },
     ],
   ],
   backward: [
     [
       {
-        'type': 'plain',
-        'text': 'After making predictions and calculating the loss, the ',
+        type: 'plain',
+        text: 'After making predictions and calculating the loss, the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'network weights get updated.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'This is done by ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'backpropagating the error through the network',
-      },
-      {
-        'type': 'plain',
-        'text': ', and for RNNs, also ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'through time.',
+        type: 'highlighted',
+        text: 'network weights get updated.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'Here, the network learns, how weights for ',
+        type: 'plain',
+        text: 'This is done by ',
       },
       {
-        'type': 'highlighted',
-        'text': 'individual layers ',
+        type: 'highlighted',
+        text: 'backpropagating the error through the network',
       },
       {
-        'type': 'plain',
-        'text': '(backpropagation through network), but also for individual ',
+        type: 'plain',
+        text: ', and for RNNs, also ',
       },
       {
-        'type': 'highlighted',
-        'text': 'timesteps of the input function ',
+        type: 'highlighted',
+        text: 'through time.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'Here, the network learns, how weights for ',
       },
       {
-        'type': 'plain',
-        'text': '(backpropagation through time), should be changed to ' +
-        'the predictions.',
+        type: 'highlighted',
+        text: 'individual layers ',
+      },
+      {
+        type: 'plain',
+        text: '(backpropagation through network), but also for individual ',
+      },
+      {
+        type: 'highlighted',
+        text: 'timesteps of the input function ',
+      },
+      {
+        type: 'plain',
+        text:
+          '(backpropagation through time), should be changed to ' +
+          'the predictions.',
       },
     ],
   ],
   layerInputStep: [
     [
       {
-        'type': 'plain',
-        'text': 'To inform the gates of the cell about which information ' +
-        'is relevant to be ',
+        type: 'plain',
+        text:
+          'To inform the gates of the cell about which information ' +
+          'is relevant to be ',
       },
       {
-        'type': 'highlighted',
-        'text': 'integrated into the cell state',
+        type: 'highlighted',
+        text: 'integrated into the cell state',
       },
       {
-        'type': 'plain',
-        'text': ', what aprt of the ',
+        type: 'plain',
+        text: ', what aprt of the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'previous cell state can be forgotten',
+        type: 'highlighted',
+        text: 'previous cell state can be forgotten',
       },
       {
-        'type': 'plain',
-        'text': ', and what part of the cell state is ',
+        type: 'plain',
+        text: ', and what part of the cell state is ',
       },
       {
-        'type': 'highlighted',
-        'text': 'output as the cell activation, ',
+        type: 'highlighted',
+        text: 'output as the cell activation, ',
       },
       {
-        'type': 'plain',
-        'text': 'LSTM cells use both, the ',
+        type: 'plain',
+        text: 'LSTM cells use both, the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'input to this cell',
+        type: 'highlighted',
+        text: 'input to this cell',
       },
       {
-        'type': 'plain',
-        'text': ', and the ',
+        type: 'plain',
+        text: ', and the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'activation of this cell from the previous time step.',
+        type: 'highlighted',
+        text: 'activation of this cell from the previous time step.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'This combined input information is referred to as the ',
+        type: 'plain',
+        text: 'This combined input information is referred to as the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'layer input.',
+        type: 'highlighted',
+        text: 'layer input.',
       },
     ],
   ],
   gateStep: [
     [
       {
-        'type': 'plain',
-        'text': 'Using the information that is combined as the ',
+        type: 'plain',
+        text: 'Using the information that is combined as the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'layer input',
+        type: 'highlighted',
+        text: 'layer input',
       },
       {
-        'type': 'plain',
-        'text': ', all three gates use their own weights and biases to ' +
-        'compute the ',
+        type: 'plain',
+        text:
+          ', all three gates use their own weights and biases to ' +
+          'compute the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'gate activation',
+        type: 'highlighted',
+        text: 'gate activation',
       },
       {
-        'type': 'plain',
-        'text': ', which determines what part of information is used for ' +
-        'updating the cell state and calculating the cell activation.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'The ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'input gate',
-      },
-      {
-        'type': 'plain',
-        'text': ' filters what part of the layer input is used to ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'update the cell state',
-      },
-      {
-        'type': ' lain',
-        'text': ' with new information.',
+        type: 'plain',
+        text:
+          ', which determines what part of information is used for ' +
+          'updating the cell state and calculating the cell activation.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'The ',
+        type: 'plain',
+        text: 'The ',
       },
       {
-        'type': 'highlighted',
-        'text': 'forget gate',
+        type: 'highlighted',
+        text: 'input gate',
       },
       {
-        'type': 'plain',
-        'text': ' filters what part of the ',
+        type: 'plain',
+        text: ' filters what part of the layer input is used to ',
       },
       {
-        'type': 'highlighted',
-        'text': 'cell state can be forgotten.',
+        type: 'highlighted',
+        text: 'update the cell state',
+      },
+      {
+        type: ' lain',
+        text: ' with new information.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'The ',
+        type: 'plain',
+        text: 'The ',
       },
       {
-        'type': 'highlighted',
-        'text': 'output gate',
+        type: 'highlighted',
+        text: 'forget gate',
       },
       {
-        'type': 'plain',
-        'text': ' filters what part of the cell state is used to ',
+        type: 'plain',
+        text: ' filters what part of the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'compute the cell activation.',
+        type: 'highlighted',
+        text: 'cell state can be forgotten.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'The ',
+      },
+      {
+        type: 'highlighted',
+        text: 'output gate',
+      },
+      {
+        type: 'plain',
+        text: ' filters what part of the cell state is used to ',
+      },
+      {
+        type: 'highlighted',
+        text: 'compute the cell activation.',
       },
     ],
   ],
   updateStep: [
     [
       {
-        'type': 'plain',
-        'text': 'Using the filters of the input gate and the forget gate, ' +
-        'the cell state is updated with ',
+        type: 'plain',
+        text:
+          'Using the filters of the input gate and the forget gate, ' +
+          'the cell state is updated with ',
       },
       {
-        'type': 'highlighted',
-        'text': 'a mix of new information and information from the old cell ' +
-        'state.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'The ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'input gate',
-      },
-      {
-        'type': 'plain',
-        'text': ' is used in combination with the ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'layer input',
-      },
-      {
-        'type': 'plain',
-        'text': ' to determine what new information gets added to the ' +
-        'cell state.',
+        type: 'highlighted',
+        text:
+          'a mix of new information and information from the old cell ' +
+          'state.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'The ',
+        type: 'plain',
+        text: 'The ',
       },
       {
-        'type': 'highlighted',
-        'text': 'forget gate',
+        type: 'highlighted',
+        text: 'input gate',
       },
       {
-        'type': 'plain',
-        'text': ' is used in combination with the ',
+        type: 'plain',
+        text: ' is used in combination with the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'previous cell state',
+        type: 'highlighted',
+        text: 'layer input',
       },
       {
-        'type': 'plain',
-        'text': ' to determine what information from the previous cell ' +
-        'state can be forgotten.',
+        type: 'plain',
+        text:
+          ' to determine what new information gets added to the ' +
+          'cell state.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'The ',
+      },
+      {
+        type: 'highlighted',
+        text: 'forget gate',
+      },
+      {
+        type: 'plain',
+        text: ' is used in combination with the ',
+      },
+      {
+        type: 'highlighted',
+        text: 'previous cell state',
+      },
+      {
+        type: 'plain',
+        text:
+          ' to determine what information from the previous cell ' +
+          'state can be forgotten.',
       },
     ],
   ],
   outputStep: [
     [
       {
-        'type': 'plain',
-        'text': 'Finally, the cell needs to output an ',
+        type: 'plain',
+        text: 'Finally, the cell needs to output an ',
       },
       {
-        'type': 'highlighted',
-        'text': 'activation value',
+        type: 'highlighted',
+        text: 'activation value',
       },
       {
-        'type': 'plain',
-        'text': ', which can be used as ',
+        type: 'plain',
+        text: ', which can be used as ',
       },
       {
-        'type': 'highlighted',
-        'text': 'an input to the next cell, or as a prediction output.',
+        type: 'highlighted',
+        text: 'an input to the next cell, or as a prediction output.',
       },
       {
-        'type': 'plain',
-        'text': 'It is also used ',
+        type: 'plain',
+        text: 'It is also used ',
       },
       {
-        'type': 'highlighted',
-        'text': 'recurrently',
+        type: 'highlighted',
+        text: 'recurrently',
       },
       {
-        'type': 'plain',
-        'text': ' as an input to this cell for the next time step.',
+        type: 'plain',
+        text: ' as an input to this cell for the next time step.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'The activation is computed as ',
+        type: 'plain',
+        text: 'The activation is computed as ',
       },
       {
-        'type': 'highlighted',
-        'text': 'filtered information',
+        type: 'highlighted',
+        text: 'filtered information',
       },
       {
-        'type': 'plain',
-        'text': ' from the cell state. Here, the ',
+        type: 'plain',
+        text: ' from the cell state. Here, the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'output gate',
+        type: 'highlighted',
+        text: 'output gate',
       },
       {
-        'type': 'plain',
-        'text': ' is used for this filtering.',
+        type: 'plain',
+        text: ' is used for this filtering.',
       },
     ],
   ],
   layerInput: [
     [
       {
-        'type': 'plain',
-        'text': 'For informing all the gates, ',
+        type: 'plain',
+        text: 'For informing all the gates, ',
       },
       {
-        'type': 'highlighted',
-        'text': 'both, the current input to the cell ',
+        type: 'highlighted',
+        text: 'both, the current input to the cell ',
       },
       {
-        'type': 'plain',
-        'text': 'and ',
+        type: 'plain',
+        text: 'and ',
       },
       {
-        'type': 'highlighted',
-        'text': 'the activation of the previous timestep ',
+        type: 'highlighted',
+        text: 'the activation of the previous timestep ',
       },
       {
-        'type': 'plain',
-        'text': 'are needed.',
+        type: 'plain',
+        text: 'are needed.',
       },
     ],
   ],
   inputGate: [
     [
       {
-        'type': 'plain',
-        'text': 'The input gate is used as a measure for ',
+        type: 'plain',
+        text: 'The input gate is used as a measure for ',
       },
       {
-        'type': 'highlighted',
-        'text': 'what part of the input is used for updating the cell state ',
+        type: 'highlighted',
+        text: 'what part of the input is used for updating the cell state ',
       },
       {
-        'type': 'plain',
-        'text': 'with new information.',
+        type: 'plain',
+        text: 'with new information.',
       },
       {
-        'type': 'formulas',
-        'formulas': [
-          'i^t = sigmoid(W_{ix}x^t + W_{ia}a^{t-1} + b_i)',
+        type: 'formulas',
+        formulas: ['i^t = sigmoid(W_{ix}x^t + W_{ia}a^{t-1} + b_i)'],
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'It is used to calculate the ',
+      },
+      {
+        type: 'highlighted',
+        text: 'filtered input ',
+      },
+      {
+        type: 'plain',
+        text: 'to update the internal cell state.',
+      },
+      {
+        type: 'formulas',
+        formulas: [
+          'f_i = i^t \\circ tanh(W_{cx}x^t + ' +
+            'W_{ca}a^{t-1} + b_c)',
         ],
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'It is used to calculate the ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'filtered input ',
-      },
-      {
-        'type': 'plain',
-        'text': 'to update the internal cell state.',
-      },
-      {
-        'type': 'formulas',
-        'formulas': [
-          '\\text{filtered_input} = i^t \\circ tanh(W_{cx}x^t + ' +
-          'W_{ca}a^{t-1} + b_c)',
-        ],
+        type: 'plain',
+        text: '',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': '',
+        type: 'plain',
+        text: '',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': '',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'Symbols:',
+        type: 'plain',
+        text: 'Symbols:',
       },
       {
-        'type': 'formulas',
-        'formulas': [
+        type: 'formulas',
+        formulas: [
+          'f_i: \\text{filtered input}',
           'i^t: \\text{the input gate}',
           'x^t: \\text{the input from the previous cell at time step t}',
           'a^{t-1}: \\text{the activation of this cell from the previous ' +
@@ -1408,60 +1451,57 @@ const descriptionsENG = {
   forgetGate: [
     [
       {
-        'type': 'plain',
-        'text': 'The forget gate determines ',
+        type: 'plain',
+        text: 'The forget gate determines ',
       },
       {
-        'type': 'highlighted',
-        'text': 'what part of the old cell state can be forgotten.',
+        type: 'highlighted',
+        text: 'what part of the old cell state can be forgotten.',
       },
       {
-        'type': 'formulas',
-        'formulas': [
-          'f^t = sigmoid(W_{fx}x^t + W_{fa}a^{t-1} + b_f)',
-        ],
+        type: 'formulas',
+        formulas: ['f^t = sigmoid(W_{fx}x^t + W_{fa}a^{t-1} + b_f)'],
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'It is used to calculate the ',
+        type: 'plain',
+        text: 'It is used to calculate the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'filtered state ',
+        type: 'highlighted',
+        text: 'filtered state ',
       },
       {
-        'type': 'plain',
-        'text': 'to update the internal cell.',
+        type: 'plain',
+        text: 'to update the internal cell.',
       },
       {
-        'type': 'formulas',
-        'formulas': [
-          '\\text{filtered_state} = f^t \\circ c^{t-1}',
-        ],
+        type: 'formulas',
+        formulas: ['f_s = f^t \\circ c^{t-1}'],
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': '',
+        type: 'plain',
+        text: '',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': '',
+        type: 'plain',
+        text: '',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'Symbols:',
+        type: 'plain',
+        text: 'Symbols:',
       },
       {
-        'type': 'formulas',
-        'formulas': [
+        type: 'formulas',
+        formulas: [
+          'f_s: \\text{filtered state}',
           'f^t: \\text{the forget gate}',
           'x^t: \\text{the input from the previous cell at time step t}',
           'a^{t-1}: \\text{the activation of this cell from the previous ' +
@@ -1476,66 +1516,64 @@ const descriptionsENG = {
   outputGate: [
     [
       {
-        'type': 'plain',
-        'text': 'The output gate is responsible for filtering ',
+        type: 'plain',
+        text: 'The output gate is responsible for filtering ',
       },
       {
-        'type': 'highlighted',
-        'text': 'what part of the current cell state is used as the output ' +
-        'activation ',
+        type: 'highlighted',
+        text:
+          'what part of the current cell state is used as the output ' +
+          'activation ',
       },
       {
-        'type': 'plain',
-        'text': 'of the cell.',
+        type: 'plain',
+        text: 'of the cell.',
       },
       {
-        'type': 'formulas',
-        'formulas': [
-          'o^t = sigmoid(W_{ox}x^t + W_{oa}a^{t-1} + b_o)',
-        ],
+        type: 'formulas',
+        formulas: ['o^t = sigmoid(W_{ox}x^t + W_{oa}a^{t-1} + b_o)'],
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'Using the output gate, one can then ',
+        type: 'plain',
+        text: 'Using the output gate, one can then ',
       },
       {
-        'type': 'highlighted',
-        'text': 'compute the cell activation',
+        type: 'highlighted',
+        text: 'compute the cell activation',
       },
       {
-        'type': 'plain',
-        'text': ', which is used as input to the next cell, as well as ' +
+        type: 'plain',
+        text:
+          ', which is used as input to the next cell, as well as ' +
           'recurrently in the same cell at the next time step.',
       },
       {
-        'type': 'formulas',
-        'formulas': [
-          'a^t = o^t \\circ tanh(c^t)',
-        ],
+        type: 'formulas',
+        formulas: ['a^t = o^t \\circ tanh(c^t)'],
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': '',
+        type: 'plain',
+        text: '',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': '',
+        type: 'plain',
+        text: '',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'Symbols:',
+        type: 'plain',
+        text: 'Symbols:',
       },
       {
-        'type': 'formulas',
-        'formulas': [
+        type: 'formulas',
+        formulas: [
           'o^t: \\text{the output gate}',
           'a^t: \\text{the activation of this cell for the current timestep}',
           'x^t: \\text{the input from the previous cell at time step t}',
@@ -1551,82 +1589,82 @@ const descriptionsENG = {
   stateUpdate: [
     [
       {
-        'type': 'plain',
-        'text': 'To update the cell state, ',
+        type: 'plain',
+        text: 'To update the cell state, ',
       },
       {
-        'type': 'highlighted',
-        'text': 'the filtered input ',
+        type: 'highlighted',
+        text: 'the filtered input ',
       },
       {
-        'type': 'plain',
-        'text': 'is combined with ',
+        type: 'plain',
+        text: 'is combined with ',
       },
       {
-        'type': 'highlighted',
-        'text': 'the filtered state ',
+        type: 'highlighted',
+        text: 'the filtered state ',
       },
       {
-        'type': 'plain',
-        'text': 'of the previous time step.',
+        type: 'plain',
+        text: 'of the previous time step.',
       },
     ],
   ],
   memoryCell: [
     [
       {
-        'type': 'plain',
-        'text': 'The ',
+        type: 'plain',
+        text: 'The ',
       },
       {
-        'type': 'highlighted',
-        'text': 'cell state ',
+        type: 'highlighted',
+        text: 'cell state ',
       },
       {
-        'type': 'plain',
-        'text': 'is the heart of any LSTM cell. By having a cell state, and ' +
-        'deciding how to update it based on ',
+        type: 'plain',
+        text:
+          'is the heart of any LSTM cell. By having a cell state, and ' +
+          'deciding how to update it based on ',
       },
       {
-        'type': 'highlighted',
-        'text': 'the filtered input and previous state',
+        type: 'highlighted',
+        text: 'the filtered input and previous state',
       },
       {
-        'type': 'plain',
-        'text': ', LSTM cells are able to ',
+        type: 'plain',
+        text: ', LSTM cells are able to ',
       },
       {
-        'type': 'highlighted',
-        'text': 'capture long-term dependencies.',
+        type: 'highlighted',
+        text: 'capture long-term dependencies.',
       },
       {
-        'type': 'formulas',
-        'formulas': [
-          'c^t = \\text{filtered_input} + \\text{filtered_state}',
-        ],
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': '',
+        type: 'formulas',
+        formulas: ['c^t = f_i + f_s'],
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': '',
+        type: 'plain',
+        text: '',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'Symbols:',
+        type: 'plain',
+        text: '',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'Symbols:',
       },
       {
-        'type': 'formulas',
-        'formulas': [
-          'c^t: \\text{the cell state at timestep t}',
+        type: 'formulas',
+        formulas: ['c^t: \\text{the cell state at timestep t}',
+          'f_i: \\text{filtered input}',
+          'f_s: \\text{filtered state}',
         ],
       },
     ],
@@ -1634,356 +1672,402 @@ const descriptionsENG = {
   inputHeading: [
     [
       {
-        'type': 'plain',
-        'text': 'The input to a recurrent neural network can be ',
+        type: 'plain',
+        text: 'The input to a recurrent neural network can be ',
       },
       {
-        'type': 'highlighted',
-        'text': 'sequential data.',
+        type: 'highlighted',
+        text: 'sequential data.',
       },
       {
-        'type': 'plain',
-        'text': ' We use ',
+        type: 'plain',
+        text: ' We use ',
       },
       {
-        'type': 'highlighted',
-        'text': 'periodic functions ',
+        type: 'highlighted',
+        text: 'periodic functions ',
       },
       {
-        'type': 'plain',
-        'text': 'and ',
+        type: 'plain',
+        text: 'and ',
       },
       {
-        'type': 'highlighted',
-        'text': 'simple text snippets ',
+        type: 'highlighted',
+        text: 'simple text snippets ',
       },
       {
-        'type': 'plain',
-        'text': 'to illustrate this.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'For other tasks, such as ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'image captioning',
-      },
-      {
-        'type': 'plain',
-        'text': ', which does not include sequential input data, the network ' +
-        'only gets an input value for the first time step, and then has to ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'recurrently build a caption ',
-      },
-      {
-        'type': 'plain',
-        'text': 'by outputting one word at a time, which, again, makes it a ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'sequential task.',
+        type: 'plain',
+        text: 'to illustrate this.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'This way, recurrent neural networks can be used for tasks ' +
-        'with ',
+        type: 'plain',
+        text: 'For other tasks, such as ',
       },
       {
-        'type': 'highlighted',
-        'text': 'sequential input and non-sequential output (many-to-one)',
+        type: 'highlighted',
+        text: 'image captioning',
       },
       {
-        'type': 'plain',
-        'text': ', such as next element prediction. Tasks with ',
+        type: 'plain',
+        text:
+          ', which does not include sequential input data, the network ' +
+          'only gets an input value for the first time step, and then has to ',
       },
       {
-        'type': 'highlighted',
-        'text': 'sequential input and sequential output (many-to-many)',
+        type: 'highlighted',
+        text: 'recurrently build a caption ',
       },
       {
-        'type': 'plain',
-        'text': ', such as translation. As well as tasks with ',
+        type: 'plain',
+        text: 'by outputting one word at a time, which, again, makes it a ',
       },
       {
-        'type': 'highlighted',
-        'text': ' non-sequential input and sequential output (one-to-many)',
-      },
-      {
-        'type': 'plain',
-        'text': ', such as image captioning.',
+        type: 'highlighted',
+        text: 'sequential task.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'As the general concepts for these tasks does not differ, ' +
-        'we focus on ',
+        type: 'plain',
+        text:
+          'This way, recurrent neural networks can be used for tasks ' +
+          'with ',
       },
       {
-        'type': 'highlighted',
-        'text': 'next element prediction',
+        type: 'highlighted',
+        text: 'sequential input and non-sequential output (many-to-one)',
       },
       {
-        'type': 'plain',
-        'text': ' in this application, which is a many-to-one task.',
+        type: 'plain',
+        text: ', such as next element prediction. Tasks with ',
+      },
+      {
+        type: 'highlighted',
+        text: 'sequential input and sequential output (many-to-many)',
+      },
+      {
+        type: 'plain',
+        text: ', such as translation. As well as tasks with ',
+      },
+      {
+        type: 'highlighted',
+        text: ' non-sequential input and sequential output (one-to-many)',
+      },
+      {
+        type: 'plain',
+        text: ', such as image captioning.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text:
+          'As the general concepts for these tasks does not differ, ' +
+          'we focus on ',
+      },
+      {
+        type: 'highlighted',
+        text: 'next element prediction',
+      },
+      {
+        type: 'plain',
+        text: ' in this application, which is a many-to-one task.',
       },
     ],
   ],
   networkHeading: [
     [
       {
-        'type': 'plain',
-        'text': 'A recurrent neural network is built up in a similar way as ' +
-        'convolutional or fully connected neural networks, where ',
+        type: 'plain',
+        text:
+          'A recurrent neural network is built up in a similar way as ' +
+          'convolutional or fully connected neural networks, where ',
       },
       {
-        'type': 'highlighted',
-        'text': 'multiple layers',
+        type: 'highlighted',
+        text: 'multiple layers',
       },
       {
-        'type': 'plain',
-        'text': ' are connected to extract information from the input.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'The great speciality of recurrent neural networks is, ' +
-        'that they also use ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'information from previous time steps',
-      },
-      {
-        'type': 'plain',
-        'text': ' for their predictions.',
-      },
-      {
-        'type': 'plain',
-        'text': ' This is visualized by the loops in their network glyphs.',
+        type: 'plain',
+        text: ' are connected to extract information from the input.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'To achieve this, they have weights not only for how ' +
-        'information is processed throughout layers, but also for how ',
+        type: 'plain',
+        text:
+          'The great speciality of recurrent neural networks is, ' +
+          'that they also use ',
       },
       {
-        'type': 'highlighted',
-        'text': 'information from previous time steps',
+        type: 'highlighted',
+        text: 'information from previous time steps',
       },
       {
-        'type': 'plain',
-        'text': ' is processed.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'During trianing, this means that the error is not only ' +
-        'backpropagated through the layers, but also ',
+        type: 'plain',
+        text: ' for their predictions.',
       },
       {
-        'type': 'highlighted',
-        'text': 'through time',
-      },
-      {
-        'type': 'plain',
-        'text': ', to update the weights responsible for determining how ' +
-        'information from previous time steps is processed.',
+        type: 'plain',
+        text: ' This is visualized by the loops in their network glyphs.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'This can be thought of as the error ',
+        type: 'plain',
+        text:
+          'To achieve this, they have weights not only for how ' +
+          'information is processed throughout layers, but also for how ',
       },
       {
-        'type': 'highlighted',
-        'text': 'flowing backwards through the loops',
+        type: 'highlighted',
+        text: 'information from previous time steps',
       },
       {
-        'type': 'plain',
-        'text': ' in the network, as well as through the lines connecting ' +
-        'the layers.',
+        type: 'plain',
+        text: ' is processed.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text:
+          'During trianing, this means that the error is not only ' +
+          'backpropagated through the layers, but also ',
+      },
+      {
+        type: 'highlighted',
+        text: 'through time',
+      },
+      {
+        type: 'plain',
+        text:
+          ', to update the weights responsible for determining how ' +
+          'information from previous time steps is processed.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'This can be thought of as the error ',
+      },
+      {
+        type: 'highlighted',
+        text: 'flowing backwards through the loops',
+      },
+      {
+        type: 'plain',
+        text:
+          ' in the network, as well as through the lines connecting ' +
+          'the layers.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'The number of layers influences a networks ',
+      },
+      {
+        type: 'highlighted',
+        text: 'learning capacity',
+      },
+      {
+        type: 'plain',
+        text: ', but more layers also mean that the network has ',
+      },
+      {
+        type: 'highlighted',
+        text: 'more parameters ',
+      },
+      {
+        type: 'plain',
+        text: 'and might be ',
+      },
+      {
+        type: 'highlighted',
+        text: 'harder to train',
+      },
+      {
+        type: 'plain',
+        text: '.',
       },
     ],
   ],
   predictionHeading: [
     [
       {
-        'type': 'plain',
-        'text': 'The prediction visualization shows how the network performs ' +
-        'on a ',
+        type: 'plain',
+        text:
+          'The prediction visualization shows how the network performs ' +
+          'on a ',
       },
       {
-        'type': 'highlighted',
-        'text': 'random example ',
+        type: 'highlighted',
+        text: 'random example ',
       },
       {
-        'type': 'plain',
-        'text': 'from the dataset.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'The ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'grey area',
-      },
-      {
-        'type': 'plain',
-        'text': ' shows, how many previous data points the network needs for ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'building up its internal state',
-      },
-      {
-        'type': 'plain',
-        'text': '. The network will then make a prediction after these inputs' +
-        ' have been processed.',
+        type: 'plain',
+        text: 'from the dataset.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'The ',
+        type: 'plain',
+        text: 'The ',
       },
       {
-        'type': 'highlighted',
-        'text': 'prediction accuracy',
+        type: 'highlighted',
+        text: 'grey area',
       },
       {
-        'type': 'plain',
-        'text': ' will normally get ',
+        type: 'plain',
+        text: ' shows, how many previous data points the network needs for ',
       },
       {
-        'type': 'highlighted',
-        'text': 'worse for later predictions',
+        type: 'highlighted',
+        text: 'building up its internal state',
       },
       {
-        'type': 'plain',
-        'text': '. This comes from the fact, that the network first builds ' +
-        'its internal state from ',
+        type: 'plain',
+        text:
+          '. The network will then make a prediction after these inputs' +
+          ' have been processed.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text: 'The ',
       },
       {
-        'type': 'highlighted',
-        'text': 'training data',
+        type: 'highlighted',
+        text: 'prediction accuracy',
       },
       {
-        'type': 'plain',
-        'text': ', whereas later, it needs to obtain its internal state from ',
+        type: 'plain',
+        text: ' will normally get ',
       },
       {
-        'type': 'highlighted',
-        'text': 'previous predictions.',
+        type: 'highlighted',
+        text: 'worse for later predictions',
+      },
+      {
+        type: 'plain',
+        text:
+          '. This comes from the fact, that the network first builds ' +
+          'its internal state from ',
+      },
+      {
+        type: 'highlighted',
+        text: 'training data',
+      },
+      {
+        type: 'plain',
+        text: ', whereas later, it needs to obtain its internal state from ',
+      },
+      {
+        type: 'highlighted',
+        text: 'previous predictions.',
       },
     ],
   ],
   cellHeading: [
     [
       {
-        'type': 'plain',
-        'text': 'A LSTM (long short-term memory) cell consists of ',
+        type: 'plain',
+        text: 'A LSTM (long short-term memory) cell consists of ',
       },
       {
-        'type': 'highlighted',
-        'text': 'different gates',
+        type: 'highlighted',
+        text: 'different gates',
       },
       {
-        'type': 'plain',
-        'text': ', that determine what information is used to update its ' +
-        'internal ',
+        type: 'plain',
+        text:
+          ', that determine what information is used to update its ' +
+          'internal ',
       },
       {
-        'type': 'highlighted',
-        'text': 'cell state',
+        type: 'highlighted',
+        text: 'cell state',
       },
       {
-        'type': 'plain',
-        'text': ', and what information within this cell state is used to ' +
-        'calculate the ',
+        type: 'plain',
+        text:
+          ', and what information within this cell state is used to ' +
+          'calculate the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'output activation.',
+        type: 'highlighted',
+        text: 'output activation.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'To learn more about the gates and memory of this cell, ',
+        type: 'plain',
+        text: 'To learn more about the gates and memory of this cell, ',
       },
       {
-        'type': 'highlighted',
-        'text': 'click on one of the elements',
+        type: 'highlighted',
+        text: 'click on one of the elements',
       },
       {
-        'type': 'plain',
-        'text': ' in this visualization.',
+        type: 'plain',
+        text: ' in this visualization.',
       },
     ],
   ],
   cellPlotHeading: [
     [
       {
-        'type': 'plain',
-        'text': 'The network first builds up its internal state, visualized ' +
-        'by the ',
+        type: 'plain',
+        text:
+          'The network first builds up its internal state, visualized ' +
+          'by the ',
       },
       {
-        'type': 'highlighted',
-        'text': 'grey box',
+        type: 'highlighted',
+        text: 'grey box',
       },
       {
-        'type': 'plain',
-        'text': ', before making a prediction.',
-      },
-    ],
-    [
-      {
-        'type': 'plain',
-        'text': 'This prediction is then used, to ',
-      },
-      {
-        'type': 'highlighted',
-        'text': 'calculate the loss.',
+        type: 'plain',
+        text: ', before making a prediction.',
       },
     ],
     [
       {
-        'type': 'plain',
-        'text': 'To make further predictions, as when generating text or ' +
-        'continuing a function, one can feed the network ',
+        type: 'plain',
+        text: 'This prediction is then used, to ',
       },
       {
-        'type': 'highlighted',
-        'text': 'its own prediction values',
+        type: 'highlighted',
+        text: 'calculate the loss.',
+      },
+    ],
+    [
+      {
+        type: 'plain',
+        text:
+          'To make further predictions, as when generating text or ' +
+          'continuing a function, one can feed the network ',
       },
       {
-        'type': 'plain',
-        'text': ', to again build up the internal state with the ',
+        type: 'highlighted',
+        text: 'its own prediction values',
       },
       {
-        'type': 'highlighted',
-        'text': 'same number of time steps',
+        type: 'plain',
+        text: ', to again build up the internal state with the ',
       },
       {
-        'type': 'plain',
-        'text': ' as at the beginning, where known datapoints were used.',
+        type: 'highlighted',
+        text: 'same number of time steps',
+      },
+      {
+        type: 'plain',
+        text: ' as at the beginning, where known datapoints were used.',
       },
     ],
   ],
