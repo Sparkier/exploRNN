@@ -110,10 +110,10 @@ class ControlPanel extends React.Component {
     const global = globalConstants[this.props.appState.language];
     return (
       <Grid className={this.props.classes.panelWrapper} item xs={2}>
-        <Grid container style={{height: '100%'}} justify='center'
+        <Grid container style={{height: '100%'}} justifyContent='center'
           alignItems='center'>
-          <Grid container justify='center'>
-            <Grid container item justify='center' alignItems='center'>
+          <Grid container justifyContent='center'>
+            <Grid container item justifyContent='center' alignItems='center'>
               <Grid item>
                 <StyledButton disabled={this.props.ui.detail ||
                       !this.props.training.workerReady}
@@ -147,7 +147,7 @@ class ControlPanel extends React.Component {
               </Grid>
             </Grid>
             { this.props.ui.detail ?
-              <Grid container item justify='center' alignItems='center'>
+              <Grid container item justifyContent='center' alignItems='center'>
                 <Grid item>
                   <IconButton
                     size="small"

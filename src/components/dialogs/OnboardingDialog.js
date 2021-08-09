@@ -15,7 +15,7 @@ import styles from '../../styles/themedStyles';
 import * as actions from '../../actions';
 import DescriptionElement from './elements/DescriptionElement';
 import * as Cookies from '../../helpers/Cookies';
-import createMuiTheme from '../../theme/globalTheme';
+import createTheme from '../../theme/globalTheme';
 import {getCurrentOnboardingElementProps,
   getNextIntroState} from '../../helpers/OnboardingState';
 
@@ -70,8 +70,8 @@ class OnboardingDialog extends React.Component {
               <Grid item>
                 <ArrowBackIcon
                   style={{color: this.props.ui.detail ?
-                  createMuiTheme.palette.detail.main :
-                  createMuiTheme.palette.overview.main}}
+                  createTheme.palette.detail.main :
+                  createTheme.palette.overview.main}}
                   fontSize="large" >
                 </ArrowBackIcon>
               </Grid> : null
@@ -83,16 +83,16 @@ class OnboardingDialog extends React.Component {
               <Grid item>
                 <ArrowUpwardIcon
                   style={{color: this.props.ui.detail ?
-                  createMuiTheme.palette.detail.main :
-                  createMuiTheme.palette.overview.main}}
+                  createTheme.palette.detail.main :
+                  createTheme.palette.overview.main}}
                   fontSize="large" >
                 </ArrowUpwardIcon>
               </Grid> : null
             }
             <Grid item>
               <Paper style={{background: this.props.ui.detail ?
-                createMuiTheme.palette.secondary.superLight :
-                createMuiTheme.palette.secondary.superLight}}>
+                createTheme.palette.secondary.superLight :
+                createTheme.palette.secondary.superLight}}>
                 <Box p={2} style={{width: '500px'}}>
                   <Grid container directiton='column' spacing={2}>
                     <Grid item>
@@ -108,7 +108,7 @@ class OnboardingDialog extends React.Component {
                       ))
                     }
                     <Grid item style={{width: '100%'}}>
-                      <Grid container justify='flex-end'>
+                      <Grid container justifyContent='flex-end'>
                         <Grid item>
                           <Button variant="contained"
                             className={this.props.ui.detail ?
@@ -137,8 +137,8 @@ class OnboardingDialog extends React.Component {
               <Grid item>
                 <ArrowDownwardIcon
                   style={{color: this.props.ui.detail ?
-                  createMuiTheme.palette.detail.main :
-                  createMuiTheme.palette.overview.main}}
+                  createTheme.palette.detail.main :
+                  createTheme.palette.overview.main}}
                   fontSize="large" >
                 </ArrowDownwardIcon>
               </Grid> : null
@@ -149,8 +149,8 @@ class OnboardingDialog extends React.Component {
               <Grid item>
                 <ArrowForwardIcon
                   style={{color: this.props.ui.detail ?
-                  createMuiTheme.palette.detail.main :
-                  createMuiTheme.palette.overview.main}}
+                  createTheme.palette.detail.main :
+                  createTheme.palette.overview.main}}
                   fontSize="large" >
                 </ArrowForwardIcon>
               </Grid> : null

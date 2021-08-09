@@ -41,6 +41,23 @@ export class Input {
    */
   draw() {
     const s = this.s;
+    if (s.props.training.inputType === 'Text Data' &&
+        this.buttons.length === 4) {
+      this.buttons = [];
+      this.buttons.push(new Button(s, 'text', 1, 2, this.dist, 0, 0, 'abab'));
+      this.buttons.push(new Button(s, 'text', 2, 2, this.dist, 0, 0, 'lorem'));
+    } else if (s.props.training.inputType === 'Function Data' &&
+               this.buttons.length === 2) {
+      this.buttons = [];
+      this.buttons.push(new Button(s, 'sin', 1, 4, this.dist, this.steps,
+          this.noises));
+      this.buttons.push(new Button(s, 'saw', 2, 4, this.dist, this.steps,
+          this.noises));
+      this.buttons.push(new Button(s, 'sqr', 3, 4, this.dist, this.steps,
+          this.noises));
+      this.buttons.push(new Button(s, 'sinc', 4, 4, this.dist, this.steps,
+          this.noises));
+    }
     for (const b of this.buttons) {
       b.draw();
     }

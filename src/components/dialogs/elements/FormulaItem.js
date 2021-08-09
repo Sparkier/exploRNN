@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {MathComponent} from 'mathjax-react';
+import 'katex/dist/katex.min.css';
+import Latex from 'react-latex-next';
 
 /**
  * ComplexDialog is used to explain components of the App.
@@ -15,11 +16,9 @@ class DescriptionItem extends React.Component {
   render() {
     return (
       <span>
-        {
-          this.props.formulas.map((formula) => (
-            <MathComponent key={formula} tex={formula} />
-          ))
-        }
+        {this.props.formulas.map((formula) => (
+          <Latex key={formula}>{`$$${formula}$$`}</Latex>
+        ))}
       </span>
     );
   }

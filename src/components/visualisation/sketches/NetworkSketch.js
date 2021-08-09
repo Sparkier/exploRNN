@@ -8,6 +8,12 @@ import {getColors} from '../../constants/colors';
 import {getCellAnimationValues} from '../../constants/animation';
 import {getTypographyDefaults} from '../../constants/typography';
 
+import outputBlack from './output_black.png';
+import inputBlack from './input_black.png';
+import saveBlack from './save_black.png';
+import delBlack from './del_black.png';
+import recBlack from './rec_black.png';
+
 /**
  * This function represents the sketch in which the network with user
  * interaction functionality is being drawn
@@ -187,12 +193,12 @@ export default function(s) {
    * images used in the sketch
    */
   s.preload = function() {
-    s.receive = s.loadImage('./data/rec_black.png');
-    s.add = s.loadImage('./data/input_black.png');
-    s.save = s.loadImage('./data/rec_black.png');
-    s.forget = s.loadImage('./data/del_black.png');
-    s.cellImage = s.loadImage('./data/save_black.png');
-    s.output = s.loadImage('./data/output_black.png');
+    s.receive = s.loadImage(recBlack);
+    s.add = s.loadImage(inputBlack);
+    s.save = s.loadImage(recBlack);
+    s.forget = s.loadImage(delBlack);
+    s.cellImage = s.loadImage(saveBlack);
+    s.output = s.loadImage(outputBlack);
   };
 
   /**
@@ -331,7 +337,7 @@ export default function(s) {
       error: false,
       back: false,
     };
-    s.initialize();
+    // s.initialize();
   };
 
   /**
@@ -346,7 +352,7 @@ export default function(s) {
     if (!s.props.ui.ready) {
       s.props.actions.updateTraining({...s.props.training, step: true});
     }
-    s.initialize();
+    // s.initialize();
   };
 
   /**
